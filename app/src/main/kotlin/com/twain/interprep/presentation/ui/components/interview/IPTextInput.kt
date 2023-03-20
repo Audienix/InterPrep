@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -49,17 +50,18 @@ fun IPTextInput(
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
-//    var text by remember { mutableStateOf(inputText) }
+
+    var hasFocus by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         modifier = modifier.onGloballyPositioned { coordinates ->
             //This value is used to assign to the DropDown the same width
             textFieldSize = coordinates.size.toSize()
-        },
+        }.onFocusChanged { hasFocus = it.hasFocus },
         value = inputText,
         onValueChange = {
             onTextUpdate(it)
-            isError = notValid(true, inputText, textInputAttributes, isError)
+            isError = notValid(true, it, textInputAttributes, isError)
         },
         interactionSource = source,
         singleLine = true,
@@ -81,7 +83,7 @@ fun IPTextInput(
                     painter = painterResource(id = R.drawable.error_icon),
                     contentDescription = "Error"
                 )
-            } else if (inputText.isNotEmpty()) {
+            } else if (inputText.isNotEmpty() && hasFocus) {
                 IconButton(
                     onClick = {
                         onTextUpdate("")
@@ -98,6 +100,7 @@ fun IPTextInput(
         },
     )
     HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
+        isError = false
         onTextUpdate(it)
     }
 }
@@ -209,6 +212,14 @@ private fun TextFormInputPreview() {
             ),
             onTextUpdate = {},
             inputText = ""
+        )
+        IPTextInput(
+            modifier = Modifier.fillMaxWidth(),
+            input = Input(
+                labelTextId = R.string.hint_label_time,
+                bottomTextId = R.string.hint_label_time_format,
+                required = false
+            )
         )
         IPDropdownMenu(
             modifier = Modifier.fillMaxWidth(),

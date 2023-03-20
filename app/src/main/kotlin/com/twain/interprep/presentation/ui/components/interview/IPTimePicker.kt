@@ -38,9 +38,9 @@ fun IPTimePicker(
         // Initial selected time value parsing
         if (selectedTimeValue.isNotEmpty()) {
             val parsedInitialTime = selectedTimeValue.split(":", " ")
-            val hourOffset = if (parsedInitialTime[2] == "AM") {
+            val hourOffset = if (isAM(parsedInitialTime[2])) {
                 0
-            } else if (parsedInitialTime[1] == "12" && parsedInitialTime[2] == "AM") {
+            } else if (parsedInitialTime[1] == "12" && isAM(parsedInitialTime[2])) {
                 -12
             } else {
                 12
@@ -78,6 +78,12 @@ fun IPTimePicker(
             }
         )
     }
+}
+
+fun isAM(timeString: String): Boolean {
+    val format = SimpleDateFormat("a", Locale.getDefault())
+    val date = format.parse(timeString)
+    return date?.hours in 0..11
 }
 
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)

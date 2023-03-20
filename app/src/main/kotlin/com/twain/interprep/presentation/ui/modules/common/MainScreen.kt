@@ -7,16 +7,23 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.navigation.BottomNavigationBar
 import com.twain.interprep.presentation.navigation.NavGraph
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    val currentScreen = navController.currentBackStackEntryAsState().value?.destination?.route
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController)
+            if (currentScreen in listOf(
+                    AppScreens.Dashboard.route,
+                    AppScreens.Notes.route,
+                    AppScreens.Resources.route
+            )) BottomNavigationBar(navController)
         },
         content = { padding ->
             Box(modifier = Modifier.padding(padding)) {

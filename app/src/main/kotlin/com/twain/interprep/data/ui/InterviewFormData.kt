@@ -2,11 +2,7 @@ package com.twain.interprep.data.ui
 
 import androidx.annotation.StringRes
 import com.twain.interprep.R
-import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.utils.DateUtils
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 object InterviewFormData {
     val textInputHorizontalList = listOf(
@@ -62,10 +58,7 @@ object InterviewFormData {
     fun getTextLabelList(interview: Interview): List<TextLabelData> {
         return listOf(
             TextLabelData(
-                R.string.hint_label_time, "".takeIf { interview.time.isEmpty() } ?: SimpleDateFormat(
-                    StringConstants.DT_FORMAT_DAY_HOUR_MIN,
-                    Locale.getDefault()
-                ).format(DateUtils.convertDateStringToDate(interview.date))
+                R.string.hint_label_time, interview.time
             ),
             TextLabelData(
                 R.string.hint_label_company, interview.company

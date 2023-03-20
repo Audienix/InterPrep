@@ -136,7 +136,8 @@ fun AddInterviewScreen(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 IPHeader(
-                    stringResource(id = R.string.add_interview_header),
+                    stringResource(id = R.string.add_interview_header.takeUnless { isEditInterview }
+                        ?: R.string.edit_interview_header),
                     MaterialTheme.colorScheme.onSurfaceVariant,
                     MaterialTheme.typography.titleMedium,
                     Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),

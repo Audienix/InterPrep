@@ -24,7 +24,6 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
@@ -32,17 +31,15 @@ import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.interview.InterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
-import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
-    quotesViewModel: QuotesViewModel = hiltViewModel(),
     interviewModel: InterviewViewModel = hiltViewModel()
 ) {
-    // TODO ask Arighna
-    quotesViewModel.insertQuotes(QuoteData.quotes)
+
     LaunchedEffect(Unit) {
         dashboardViewModel.getInterviews()
     }

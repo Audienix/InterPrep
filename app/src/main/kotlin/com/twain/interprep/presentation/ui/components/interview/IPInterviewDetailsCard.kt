@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.isPast
 import com.twain.interprep.data.ui.InterviewFormData.getTextLabelList
 import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPClickableLinkText
@@ -128,17 +129,19 @@ private fun InterviewDetailsHeader(
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center
         )
-        IconButton(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = dimensionResource(id = R.dimen.dimension_8dp)),
-            onClick = onEditClick
-        ) {
-            Icon(
-                imageVector = Icons.Default.Edit,
-                tint = Purple100,
-                contentDescription = stringResource(id = R.string.appbar_title_edit_interview)
-            )
+        if (!interview.isPast()){
+            IconButton(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = dimensionResource(id = R.dimen.dimension_8dp)),
+                onClick = onEditClick
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    tint = Purple100,
+                    contentDescription = stringResource(id = R.string.appbar_title_edit_interview)
+                )
+            }
         }
     }
 }
