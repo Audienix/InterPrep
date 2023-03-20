@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.screen.dashboard
+package com.twain.interprep.presentation.ui.modules.dashboard
 
 import androidx.lifecycle.ViewModel
 

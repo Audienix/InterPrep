@@ -1,4 +1,4 @@
-package com.twain.interprep.ui.theme
+package com.twain.interprep.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
