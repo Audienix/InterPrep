@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.screen.notes
+package com.twain.interprep.presentation.ui.modules.notes
 
 import androidx.lifecycle.ViewModel
 
