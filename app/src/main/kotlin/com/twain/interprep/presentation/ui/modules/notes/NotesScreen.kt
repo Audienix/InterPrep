@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.IPAppBar
-import com.twain.interprep.presentation.ui.components.FullScreenEmptyStateNotes
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardViewModel
 
 @Composable
@@ -23,6 +23,11 @@ fun NotesScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         IPAppBar(stringResource(id = R.string.nav_item_notes)){}
-        FullScreenEmptyStateNotes()
+        FullScreenEmptyState(
+            Modifier,
+            R.drawable.empty_state_notes,
+            stringResource(id = R.string.empty_state_title_note),
+            stringResource(id = R.string.empty_state_description_note)
+        )
     }
 }

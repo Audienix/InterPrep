@@ -1,6 +1,8 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +18,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -24,18 +30,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.getInterviewField
+import com.twain.interprep.data.model.isValid
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputHorizontalListAttributes
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputVerticalListAttributes
+import com.twain.interprep.presentation.ui.components.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.IPTextInput
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
+import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: InterviewViewModel = hiltViewModel()
 ) {
+    val showDialog = remember { mutableStateOf(false) }
+
+    // this ms controls if we should highlight any empty mandatory input field
+    // by showing an error message
+    val shouldValidate = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        viewModel.interviewData = Interview()
+    }
+    BackHandler {
+        if (viewModel.interviewData.isValid())
+            viewModel.insertInterview(viewModel.interviewData)
+
+        navController.popBackStack()
+    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -43,8 +68,11 @@ fun AddInterviewScreen(
         topBar = {
             IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
                 IconButton(onClick = {
-                    navController.navigate(AppScreens.Dashboard.route) {
-                        popUpTo(AppScreens.AddInterview.route)
+                    if (viewModel.interviewData.isValid()) {
+                        viewModel.insertInterview(viewModel.interviewData)
+                        navController.popBackStack()
+                    } else {
+                        showDialog.value = true
                     }
                 }) {
                     Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
@@ -52,6 +80,21 @@ fun AddInterviewScreen(
             }
         },
         content = { padding ->
+            if (showDialog.value) {
+                IPAlertDialog(
+                    titleResId = R.string.alert_dialog_unsaved_interview_title,
+                    contentResId = R.string.alert_dialog_unsaved_interview_text,
+                    onPositiveButtonClick = {
+                        showDialog.value = false
+                        navController.popBackStack()
+                    }, // "OK" is clicked
+                    onNegativeButtonClick = {
+                        showDialog.value = false
+                        shouldValidate.value = true
+                    } // "CANCEL" is clicked
+                )
+            }
+
             Column(
                 modifier = Modifier
                     .padding(padding)
@@ -72,20 +115,31 @@ fun AddInterviewScreen(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 ) {
-                    textInputHorizontalList.map {
+                    textTextInputHorizontalListAttributes.map { input ->
                         IPTextInput(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(1f), it
+                                .weight(1f),
+                            inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
+                            textInputAttributes = input,
+                            shouldValidate = shouldValidate.value,
+                            onTextUpdate = {
+                                viewModel.updateInterviewField(input.labelTextId, it)
+                            }
                         )
                     }
                 }
-                textInputVerticalList.map {
+                textTextInputVerticalListAttributes.map { input ->
                     IPTextInput(
-                        modifier = Modifier.fillMaxWidth(), input = it
+                        modifier = Modifier.fillMaxWidth(),
+                        inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
+                        textInputAttributes = input,
+                        shouldValidate = shouldValidate.value,
+                        onTextUpdate = {
+                            viewModel.updateInterviewField(input.labelTextId, it)
+                        }
                     )
                 }
-
             }
         }
     )

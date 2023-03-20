@@ -3,19 +3,34 @@ package com.twain.interprep.utils
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
-import com.twain.interprep.constants.StringConstants
+import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_HOUR_MIN
+import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_MM_DD_YYYY
+import java.util.Date
 import java.util.Locale
 
 class DateUtils {
-    companion object{
+    companion object {
         fun convertDateToMilliseconds(dateString: String): Long {
-            val format = SimpleDateFormat(StringConstants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+            val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
             val date = format.parse(dateString)
             return date?.time ?: 0L
         }
 
+        fun convertDateStringToDate(dateString: String): Date {
+            val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+            return format.parse(dateString)
+        }
+
+        fun convertDateTimeStringToDate(dateString: String, timeString: String): Date {
+            val format = SimpleDateFormat(
+                "$DT_FORMAT_MM_DD_YYYY $DT_FORMAT_HOUR_MIN",
+                Locale.getDefault()
+            )
+            return format.parse("$dateString $timeString")
+        }
+
         fun getCurrentDateAsString(): String {
-            val format = SimpleDateFormat(StringConstants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+            val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
             return format.format(Calendar.getInstance().time)
         }
 

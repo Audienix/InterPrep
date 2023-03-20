@@ -2,8 +2,13 @@ package com.twain.interprep.di
 
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.QuoteRepository
+import com.twain.interprep.domain.usecase.interview.DeleteAllInterviewsUseCase
+import com.twain.interprep.domain.usecase.interview.DeleteInterviewUseCase
+import com.twain.interprep.domain.usecase.interview.GetInterviewByIdUseCase
+import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InsertInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
+import com.twain.interprep.domain.usecase.interview.UpdateInterviewUseCase
 import com.twain.interprep.domain.usecase.quotes.GetQuotesUseCase
 import com.twain.interprep.domain.usecase.quotes.InsertQuotesUseCase
 import com.twain.interprep.domain.usecase.quotes.QuoteUseCase
@@ -19,7 +24,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideQuotesUseCase(quoteRepository: QuoteRepository): QuoteUseCase{
+    fun provideQuotesUseCase(quoteRepository: QuoteRepository): QuoteUseCase {
         return QuoteUseCase(
             insertQuotesUseCase = InsertQuotesUseCase(quoteRepository),
             getQuotesUseCase = GetQuotesUseCase(quoteRepository)
@@ -28,9 +33,14 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideInterviewUseCase(interviewRepository: InterviewRepository): InterviewUseCase{
+    fun provideInterviewUseCase(interviewRepository: InterviewRepository): InterviewUseCase {
         return InterviewUseCase(
-            insertInterviewUseCase = InsertInterviewUseCase(interviewRepository),
+            insertInterview = InsertInterviewUseCase(interviewRepository),
+            updateInterview = UpdateInterviewUseCase(interviewRepository),
+            getInterviews = GetInterviewsUseCase(interviewRepository),
+            getInterviewById = GetInterviewByIdUseCase(interviewRepository),
+            deleteInterview = DeleteInterviewUseCase(interviewRepository),
+            deleteAllInterviews = DeleteAllInterviewsUseCase(interviewRepository)
         )
     }
 }
