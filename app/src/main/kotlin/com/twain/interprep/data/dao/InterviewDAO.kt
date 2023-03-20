@@ -1,11 +1,9 @@
 package com.twain.interprep.data.dao
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Update
+import androidx.room.*
 import com.twain.interprep.data.model.Interview
 
+@Dao
 interface InterviewDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInterview(interview: Interview)
