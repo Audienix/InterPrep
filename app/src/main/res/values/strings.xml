@@ -3,4 +3,7 @@
     <string name="nav_item_dashboard">Dashboard</string>
     <string name="nav_item_notes">Notes</string>
     <string name="nav_item_resources">Resources</string>
+
+    <string name="appbar_title_add_interview">Add Interview</string>
+    <string name="appbar_title_edit_interview">Edit Interview</string>
 </resources>
