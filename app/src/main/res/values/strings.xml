@@ -1,53 +1,9 @@
 <resources>
     <string name="app_name">InterPrep</string>
-
     <string name="nav_item_dashboard">Dashboard</string>
     <string name="nav_item_notes">Notes</string>
     <string name="nav_item_resources">Resources</string>
 
     <string name="appbar_title_add_interview">Add Interview</string>
     <string name="appbar_title_edit_interview">Edit Interview</string>
-
-    <string name="empty_state_title_dashboard">No interview scheduled.</string>
-    <string name="empty_state_title_note">No notes captured.</string>
-    <string name="empty_state_title_resource">No resources added</string>
-
-    <string name="empty_state_description_dashboard">Add your first interview schedule by clicking ‘+’
-        button.</string>
-    <string name="empty_state_description_note">Come back after your scheduled interview to capture some quick notes.</string>
-    <string name="empty_state_description_resource">Add your first resource material by clicking ‘+’ button.</string>
-
-    <string name="heading_label_upcoming">Upcoming</string>
-    <string name="heading_label_coming_next">Coming Next</string>
-    <string name="heading_label_past">Past Interviews</string>
-
-    <string name="hint_label_date">Date</string>
-    <string name="hint_label_time">Time</string>
-    <string name="hint_label_company">Company</string>
-    <string name="hint_label_interview_type">Interview Type</string>
-    <string name="hint_label_role">Role/Position</string>
-    <string name="hint_label_round_count">Round #</string>
-    <string name="hint_label_job_post">Job Post Link</string>
-    <string name="hint_label_company_link">Company Link</string>
-    <string name="hint_label_interviewer">Interviewer</string>
-    <string name="hint_label_month_format">MM/DD/YYYY</string>
-    <string name="hint_label_time_format">HH:MM</string>
-
-    <string name="error_message_form_input">Mandatory field can\'t be empty</string>
-
-    <string name="dialog_positive_button">OK</string>
-    <string name="dialog_negative_button">CANCEL</string>
-
-    <string name="alert_dialog_unsaved_interview_title">Unsaved Interview!</string>
-    <string name="alert_dialog_unsaved_interview_text">Your interview details will not be saved as
-        you have not filled up mandatory details. Go back?</string>
-
-    <string name="date_picker_supporting_text">MM/DD/YYYY</string>
-    <string name="time_picker_supporting_text">HH:MM</string>
-
-    <string name="error_message_form_input_date">Date can\'t be empty</string>
-    <string name="error_message_form_input_time">Time can\'t be empty</string>
-    <string name="error_message_form_input_company">Company can\'t be empty</string>
-
-    <string name="add_interview_header">Add your scheduled interview details.</string>
 </resources>
