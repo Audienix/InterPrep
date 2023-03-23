@@ -20,6 +20,6 @@ fun ResourcesScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        AppBar(stringResource(id = R.string.nav_item_resources))
+        AppBar(stringResource(id = R.string.nav_item_resources)){}
     }
 }
