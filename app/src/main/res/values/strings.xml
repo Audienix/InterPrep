@@ -21,4 +21,5 @@
     <string name="heading_label_coming_next">Coming Next</string>
     <string name="heading_label_past">Past Interviews</string>
 
+    <string name="form_input_error_message">Mandatory field can\'t be empty</string>
 </resources>
