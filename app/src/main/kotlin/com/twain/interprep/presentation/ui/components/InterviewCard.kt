@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.presentation.ui.theme.Shapes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -117,7 +118,7 @@ fun InterviewCard(
             textColor = LightGray
         }
     }
-    ElevatedCard(
+    Card(
         shape = Shapes.large,
         colors = CardDefaults.cardColors(containerColor = containerColor),
         modifier = Modifier
