@@ -66,21 +66,19 @@ fun TextFormInput(
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun TextFormInputPreview() {
-    var text by remember { mutableStateOf("") }
-    var text2 by remember { mutableStateOf("") }
-    val options = listOf<String>("Recruiter", "Hiring Manager", "Technical", "Behavioral")
+    val options = listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
 
-    Column() {
+    Column {
         TextFormInput(
             modifier = Modifier.fillMaxWidth(),
-            value = text,
+            value = "",
             labelText = "Company",
             required = true,
             errorMessage = stringResource(id = R.string.form_input_error_message),
         )
         TextFormInput(
             modifier = Modifier.fillMaxWidth(),
-            value = text2,
+            value = "",
             labelText = "Name",
             required = false
         )

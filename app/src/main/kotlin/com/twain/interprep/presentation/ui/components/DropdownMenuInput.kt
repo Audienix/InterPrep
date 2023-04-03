@@ -49,7 +49,7 @@ fun DropdownMenuInput(
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun DropdownMenuInputPreview() {
-    val options = listOf<String>("Recruiter", "Hiring Manager", "Technical", "Behavioral")
+    val options = listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
 
     DropdownMenuInput(
         modifier = Modifier.fillMaxWidth(),
