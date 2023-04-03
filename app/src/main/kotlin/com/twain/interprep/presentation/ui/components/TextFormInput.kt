@@ -1,10 +1,8 @@
 package com.twain.interprep.presentation.ui.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,7 +15,7 @@ import com.twain.interprep.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormInput(
+fun TextFormInput(
     modifier: Modifier,
     value: String,
     labelText: String,
@@ -43,7 +41,6 @@ fun FormInput(
         singleLine = true,
         label = { Text(text = label) },
         isError = isError,
-        keyboardActions = KeyboardActions { validate(text) },
         supportingText = {
             if (isError) {
                 Text(
@@ -68,27 +65,26 @@ fun FormInput(
 
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
-private fun FormInputPreview() {
+private fun TextFormInputPreview() {
     var text by remember { mutableStateOf("") }
     var text2 by remember { mutableStateOf("") }
-
     val options = listOf<String>("Recruiter", "Hiring Manager", "Technical", "Behavioral")
 
     Column() {
-        FormInput(
+        TextFormInput(
             modifier = Modifier.fillMaxWidth(),
             value = text,
             labelText = "Company",
             required = true,
-            errorMessage = stringResource(id = R.string.form_input_error_message)
+            errorMessage = stringResource(id = R.string.form_input_error_message),
         )
-        FormInput(
+        TextFormInput(
             modifier = Modifier.fillMaxWidth(),
             value = text2,
             labelText = "Name",
             required = false
         )
-        DropdownMenu(
+        DropdownMenuInput(
             modifier = Modifier.fillMaxWidth(),
             options = options,
             labelText = "Interview Type"

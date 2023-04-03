@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
@@ -9,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropdownMenu(
+fun DropdownMenuInput(
     modifier: Modifier,
     options: List<String>,
     labelText: String,
@@ -22,10 +21,12 @@ fun DropdownMenu(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
-        FormInput(
-            modifier = Modifier.fillMaxWidth().menuAnchor(),
+        OutlinedTextField(
+            modifier = modifier.menuAnchor(),
+            readOnly = true,
             value = selectedOptionText,
-            labelText = labelText
+            onValueChange = {},
+            label = { Text(labelText) },
         )
         ExposedDropdownMenu(
             expanded = expanded,
@@ -43,4 +44,16 @@ fun DropdownMenu(
             }
         }
     }
+}
+
+@Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
+@Composable
+private fun DropdownMenuInputPreview() {
+    val options = listOf<String>("Recruiter", "Hiring Manager", "Technical", "Behavioral")
+
+    DropdownMenuInput(
+        modifier = Modifier.fillMaxWidth(),
+        options = options,
+        labelText = "Interview Type"
+    )
 }
