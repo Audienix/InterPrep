@@ -4,8 +4,12 @@
     <string name="nav_item_notes">Notes</string>
     <string name="nav_item_resources">Resources</string>
     <string name="dashboard_empty_title">No interview scheduled.</string>
+    <string name="dashboard_empty_note">No notes captured.</string>
+    <string name="dashboard_empty_resource">No resources added</string>
     <string name="dashboard_empty_text">Add your first interview schedule by clicking ‘+’
         button.</string>
+    <string name="dashboard_empty_note_text">Come back after your scheduled interview to capture some quick notes.</string>
+    <string name="dashboard_empty_resource_text">Add your first resource material by clicking ‘+’ button.</string>
     <string name="appbar_title_add_interview">Add Interview</string>
     <string name="appbar_title_edit_interview">Edit Interview</string>
 </resources>
