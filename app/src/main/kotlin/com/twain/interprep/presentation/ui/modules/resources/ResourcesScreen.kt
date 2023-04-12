@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.AppBar
+import com.twain.interprep.presentation.ui.components.FullScreenEmptyStateResource
 
 @Composable
 fun ResourcesScreen(
@@ -21,5 +22,6 @@ fun ResourcesScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         AppBar(stringResource(id = R.string.nav_item_resources)){}
+        FullScreenEmptyStateResource()
     }
 }
