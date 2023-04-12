@@ -58,8 +58,6 @@ val interview = Interview(
 @Composable
 @Preview
 fun UpcomingInterviewCard() {
-    calendar.set(Calendar.MONTH, Calendar.AUGUST)
-    calendar.set(Calendar.YEAR, 2022)
     InterviewCard(
         interview = interview,
         onClick = {},
@@ -70,8 +68,6 @@ fun UpcomingInterviewCard() {
 @Composable
 @Preview
 fun ComingNextInterviewCard() {
-    calendar.set(Calendar.MONTH, Calendar.AUGUST)
-    calendar.set(Calendar.YEAR, 2022)
     InterviewCard(
         interview = interview,
         onClick = {},
@@ -82,12 +78,11 @@ fun ComingNextInterviewCard() {
 @Composable
 @Preview
 fun PastInterviewCard() {
-    calendar.set(Calendar.MONTH, Calendar.AUGUST)
-    calendar.set(Calendar.YEAR, 2022)
     InterviewCard(
         interview = interview,
         onClick = {},
-        color = InterviewCardColor.PastInterviewCardColor
+        color = InterviewCardColor.PastInterviewCardColor,
+        horizontalPadding = 16.dp
     )
 }
 
@@ -96,7 +91,8 @@ fun InterviewCard(
     interview: Interview,
     onClick: () -> Unit,
     color: InterviewCardColor,
-    height: Dp = 106.dp
+    height: Dp = 106.dp,
+    horizontalPadding: Dp = 0.dp
 ) {
     val containerColor: Color
     val dateBoxColor: Color
@@ -123,6 +119,7 @@ fun InterviewCard(
         colors = CardDefaults.cardColors(containerColor = containerColor),
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = horizontalPadding)
             .clickable(onClick = onClick)
             .height(height),
     ) {
