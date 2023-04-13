@@ -11,6 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
+import com.twain.interprep.utils.validateRequiredField
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,15 +28,11 @@ fun TextFormInput(
     var text by remember { mutableStateOf(value) }
     var isError by remember { mutableStateOf(false) }
 
-    fun validate(text: String) {
-        isError = (required && text == "")
-    }
-
     OutlinedTextField(
         value = text,
         onValueChange = {
             text = it
-            validate(text)
+            if (required) isError = validateRequiredField(text)
         },
         modifier = modifier,
         singleLine = true,
