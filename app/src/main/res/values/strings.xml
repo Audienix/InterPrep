@@ -21,4 +21,10 @@
     <string name="heading_label_coming_next">Coming Next</string>
     <string name="heading_label_past">Past Interviews</string>
 
+    <string name="alert_dialog_positive_button">OK</string>
+    <string name="alert_dialog_negative_button">CANCEL</string>
+    <string name="alert_dialog_unsaved_interview_title">Unsaved Interview!</string>
+    <string name="alert_dialog_unsaved_interview_text">Your interview details will not be saved as
+        you have not filled up mandatory details. Go back?</string>
+
 </resources>
