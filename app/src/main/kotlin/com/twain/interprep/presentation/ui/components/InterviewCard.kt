@@ -30,7 +30,7 @@ import java.util.*
 val calendar: Calendar = Calendar.getInstance()
 val interview = Interview(
     interviewId = 1,
-    date = calendar,
+    date = calendar.time,
     company = "Uber",
     interviewType = "In-person",
     role = "Software Engineer",
