@@ -4,12 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.twain.interprep.helper.Constants.Companion.DB_TABLE_INTERVIEWS
-import java.util.Calendar
+import java.util.*
 
 @Entity(tableName = DB_TABLE_INTERVIEWS)
 data class Interview(
     @PrimaryKey(autoGenerate = true) val interviewId: Int,
-    val date: Calendar,
+    val date: Date,
     val company: String,
     val interviewType: String?,
     val role: String?,
@@ -27,16 +27,14 @@ enum class InterviewStatus {
     SELECTED
 }
 
-class CalendarTypeConverter {
+class DateConverter {
     @TypeConverter
-    fun fromTimestamp(value: Long): Calendar? {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = value
-        return calendar
+    fun fromTimestamp(value: Long): Date {
+        return Date(value)
     }
 
     @TypeConverter
-    fun toTimestamp(calendar: Calendar?): Long? {
-        return calendar?.timeInMillis
+    fun toTimestamp(date: Date): Long {
+        return date.time
     }
 }
