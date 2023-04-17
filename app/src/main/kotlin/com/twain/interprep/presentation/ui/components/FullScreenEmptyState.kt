@@ -32,7 +32,7 @@ fun FullScreenEmptyState(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(R.dimen.dimension_16dp),
                 Alignment.CenterVertically
@@ -40,11 +40,12 @@ fun FullScreenEmptyState(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
+                //TODO change constant height value
                 modifier = Modifier
                     .height(240.dp)
                     .width(290.dp),
                 painter = painterResource(id = imageId),
-                contentDescription = "Full Screen Empty State Image"
+                contentDescription = "No data"
             )
             Text(text = emptyStateTitle, style = MaterialTheme.typography.bodyLarge)
             Text(
@@ -62,8 +63,8 @@ fun FullScreenEmptyStateInterview() {
     FullScreenEmptyState(
         Modifier,
         R.drawable.empty_state_dashboard,
-        stringResource(id = R.string.dashboard_empty_title),
-        stringResource(id = R.string.dashboard_empty_text)
+        stringResource(id = R.string.empty_state_title_dashboard),
+        stringResource(id = R.string.empty_state_description_dashboard)
     )
 }
 
@@ -73,8 +74,8 @@ fun FullScreenEmptyStateResource() {
     FullScreenEmptyState(
         Modifier,
         R.drawable.empty_state_resource,
-        stringResource(id = R.string.dashboard_empty_resource),
-        stringResource(id = R.string.dashboard_empty_resource_text)
+        stringResource(id = R.string.empty_state_title_resource),
+        stringResource(id = R.string.empty_state_description_resource)
     )
 }
 
@@ -84,7 +85,7 @@ fun FullScreenEmptyStateNotes() {
     FullScreenEmptyState(
         Modifier,
         R.drawable.empty_state_notes,
-        stringResource(id = R.string.dashboard_empty_note),
-        stringResource(id = R.string.dashboard_empty_note_text)
+        stringResource(id = R.string.empty_state_title_note),
+        stringResource(id = R.string.empty_state_description_note)
     )
 }
