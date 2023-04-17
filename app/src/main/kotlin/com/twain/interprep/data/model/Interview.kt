@@ -2,11 +2,39 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Calendar
+import androidx.room.TypeConverter
+import com.twain.interprep.helper.Constants.Companion.DB_TABLE_INTERVIEWS
+import java.util.*
 
-@Entity
-data class Interview (
-    @PrimaryKey(autoGenerate = true)
-    var interviewId: Int = 0,
-    var interviewDateTime: Long = Calendar.getInstance().timeInMillis,
+@Entity(tableName = DB_TABLE_INTERVIEWS)
+data class Interview(
+    @PrimaryKey(autoGenerate = true) val interviewId: Int,
+    val date: Date,
+    val company: String,
+    val interviewType: String?,
+    val role: String?,
+    val roundNum: Int?,
+    val jobPostLink: String?,
+    val companyLink: String?,
+    val interviewer: String?,
+    val interviewStatus: InterviewStatus
 )
+
+enum class InterviewStatus {
+    NOUPDATE,
+    NEXTROUND,
+    REJECTED,
+    SELECTED
+}
+
+class DateConverter {
+    @TypeConverter
+    fun fromTimestamp(value: Long): Date {
+        return Date(value)
+    }
+
+    @TypeConverter
+    fun toTimestamp(date: Date): Long {
+        return date.time
+    }
+}

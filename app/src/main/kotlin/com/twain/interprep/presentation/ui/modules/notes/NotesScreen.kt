@@ -10,6 +10,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.AppBar
+import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
+import com.twain.interprep.presentation.ui.components.FullScreenEmptyStateInterview
+import com.twain.interprep.presentation.ui.components.FullScreenEmptyStateNotes
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardViewModel
 
 @Composable
@@ -22,5 +25,6 @@ fun NotesScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         AppBar(stringResource(id = R.string.nav_item_notes)){}
+        FullScreenEmptyStateNotes()
     }
 }
