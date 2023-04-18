@@ -71,7 +71,7 @@ private fun TextFormInputPreview() {
             value = "",
             labelText = "Company",
             required = true,
-            errorMessage = stringResource(id = R.string.form_input_error_message),
+            errorMessage = stringResource(id = R.string.error_message_form_input),
         )
         TextFormInput(
             modifier = Modifier.fillMaxWidth(),
