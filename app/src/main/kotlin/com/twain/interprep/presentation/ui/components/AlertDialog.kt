@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun AlertDialog(
     title: String,
-    text: String,
+    content: String,
     positiveButtonText: String = stringResource(id = R.string.alert_dialog_positive_button),
     negativeButtonText: String = stringResource(id = R.string.alert_dialog_negative_button),
     onPositiveButtonClick: () -> Unit,
@@ -24,7 +24,7 @@ fun AlertDialog(
             Text(text = title)
         },
         text = {
-            Text(text = text)
+            Text(text = content)
         },
         confirmButton = {
             TextButton(
@@ -49,7 +49,7 @@ fun AlertDialog(
 private fun AlertDialogPreview() {
     AlertDialog(
         title = stringResource(id = R.string.alert_dialog_unsaved_interview_title),
-        text = stringResource(id = R.string.alert_dialog_unsaved_interview_text),
+        content = stringResource(id = R.string.alert_dialog_unsaved_interview_text),
         onPositiveButtonClick = { /*TODO*/ },
         onNegativeButtonClick = { /*TODO*/ }
     )
