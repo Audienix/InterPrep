@@ -95,7 +95,33 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Normal
                     )
                 }
-                items(25) { PastInterviewCard() }
+                items(25) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+                        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp)),
+                    ) {
+                        TextFormInput(
+                            modifier = Modifier.fillMaxWidth(),
+                            labelText = "Company",
+                            required = true,
+                            errorMessage = stringResource(id = R.string.error_message_form_input),
+                        )
+                        TextFormInput(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = "Sarah",
+                            labelText = "Name",
+                            required = false
+                        )
+                        TextFormInput(
+                            modifier = Modifier.fillMaxWidth(),
+                            labelText = "Date",
+                            bottomText = "MM/YY",
+                            required = false
+                        )
+                    }
+                }
             }
         }
     )
