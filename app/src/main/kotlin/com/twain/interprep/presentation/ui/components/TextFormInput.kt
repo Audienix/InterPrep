@@ -1,6 +1,8 @@
 package com.twain.interprep.presentation.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -18,7 +20,7 @@ import com.twain.interprep.utils.validateRequiredField
 @Composable
 fun TextFormInput(
     modifier: Modifier,
-    value: String,
+    value: String = "",
     labelText: String,
     bottomText: String = "",
     required: Boolean = false,
@@ -41,21 +43,29 @@ fun TextFormInput(
         supportingText = {
             if (isError) {
                 Text(
-                    modifier = modifier.padding(
-                        bottom = dimensionResource(id = R.dimen.dimension_8dp)),
                     text = errorMessage,
-                    color = MaterialTheme.colorScheme.error)
+                    color = MaterialTheme.colorScheme.error,
+                )
             } else if (bottomText != "") {
-                Text(
-                    modifier = modifier.padding(
-                        bottom = dimensionResource(id = R.dimen.dimension_8dp)),
-                    text = bottomText)
+                Text(text = bottomText)
             }
         },
         trailingIcon = {
-            if (isError)
-                Icon(painter = painterResource(id = R.drawable.error_icon),
-                     contentDescription = "Error")
+            if (isError) {
+                Icon(
+                    painter = painterResource(id = R.drawable.error_icon),
+                    contentDescription = "Error"
+                )
+            } else if (text.isNotEmpty()) {
+                IconButton(
+                    onClick = { /* TODO: implement onClick for clearing text */ }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.cancel_icon),
+                        contentDescription = "Cancel"
+                    )
+                }
+            }
         },
     )
 }
@@ -65,18 +75,28 @@ fun TextFormInput(
 private fun TextFormInputPreview() {
     val options = listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp)),
+    ) {
         TextFormInput(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
             labelText = "Company",
             required = true,
             errorMessage = stringResource(id = R.string.error_message_form_input),
         )
         TextFormInput(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
+            value = "Sarah",
             labelText = "Name",
+            required = false
+        )
+        TextFormInput(
+            modifier = Modifier.fillMaxWidth(),
+            labelText = "Date",
+            bottomText = "MM/YY",
             required = false
         )
         DropdownMenuInput(
