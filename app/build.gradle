@@ -74,6 +74,9 @@ dependencies {
 
     implementation 'androidx.core:core-splashscreen:1.0.1'
 
+    //MOSHI
+    implementation("com.squareup.moshi:moshi:$moshi_version")
+
 
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
     testImplementation 'junit:junit:4.13.2'

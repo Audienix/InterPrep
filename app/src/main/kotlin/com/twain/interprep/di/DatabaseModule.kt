@@ -3,6 +3,8 @@ package com.twain.interprep.di
 import android.content.Context
 import androidx.room.Room
 import com.twain.interprep.data.dao.InterviewDAO
+import com.twain.interprep.data.dao.NoteDAO
+import com.twain.interprep.data.dao.ResourceDAO
 import com.twain.interprep.data.db.DBManager
 import dagger.Module
 import dagger.Provides
@@ -26,5 +28,17 @@ class DatabaseModule {
     @Provides
     fun provideInterviewDao(database: DBManager): InterviewDAO {
         return database.interviewDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideNoteDao(database: DBManager): NoteDAO {
+        return database.noteDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideResourceDao(database: DBManager): ResourceDAO {
+        return database.resourceDao()
     }
 }

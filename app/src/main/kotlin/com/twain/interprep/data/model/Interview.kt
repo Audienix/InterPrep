@@ -21,20 +21,8 @@ data class Interview(
 )
 
 enum class InterviewStatus {
-    NOUPDATE,
-    NEXTROUND,
+    NO_UPDATE,
+    NEXT_ROUND,
     REJECTED,
     SELECTED
-}
-
-class DateConverter {
-    @TypeConverter
-    fun fromTimestamp(value: Long): Date {
-        return Date(value)
-    }
-
-    @TypeConverter
-    fun toTimestamp(date: Date): Long {
-        return date.time
-    }
 }
