@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.twain.interprep.data.dao.InterviewDAO
 import com.twain.interprep.data.dao.NoteDAO
+import com.twain.interprep.data.dao.QuoteDAO
 import com.twain.interprep.data.dao.ResourceDAO
 import com.twain.interprep.data.db.DBManager
 import dagger.Module
@@ -41,4 +42,18 @@ class DatabaseModule {
     fun provideResourceDao(database: DBManager): ResourceDAO {
         return database.resourceDao()
     }
+
+    @Singleton
+    @Provides
+    fun provideQuoteDao(database: DBManager): QuoteDAO {
+        return database.quoteDao()
+    }
 }
+
+// Question: do we need to something like this?
+//class WordsApplication : Application() {
+//    // Using by lazy so the database and the repository are only created when they're needed
+//    // rather than when the application starts
+//    val database by lazy { WordRoomDatabase.getDatabase(this) }
+//    val repository by lazy { WordRepository(database.wordDao()) }
+//}

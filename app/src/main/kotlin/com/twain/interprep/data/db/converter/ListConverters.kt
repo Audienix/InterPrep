@@ -1,29 +1,14 @@
-package com.twain.interprep.data.db
+package com.twain.interprep.data.db.converter
 
 import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.data.model.Question
 import com.twain.interprep.data.model.ResourceLink
-import java.util.Date
 
-class Converters {
+class ListConverters {
 
     private val moshi: Moshi = Moshi.Builder().build()
-
-    @TypeConverter
-    fun fromTimestamp(value: Long) = Date(value)
-
-    @TypeConverter
-    fun toTimestamp(date: Date) = date.time
-
-    @TypeConverter
-    fun fromInterviewStatus(interviewStatus: InterviewStatus) = interviewStatus.toString()
-
-    @TypeConverter
-    fun toInterviewStatus(status: String) =  InterviewStatus.valueOf(status)
-
     @TypeConverter
     fun fromJsonToQuestionList(json: String?): List<Question>? {
         if (json == null) return null

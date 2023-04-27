@@ -2,8 +2,8 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.twain.interprep.helper.Constants
-import com.twain.interprep.helper.Constants.Companion.DB_TABLE_RESOURCES
+import com.twain.interprep.util.StringConstants
+import com.twain.interprep.util.StringConstants.Companion.DB_TABLE_RESOURCES
 
 @Entity(tableName = DB_TABLE_RESOURCES)
 data class Resource(
@@ -13,7 +13,7 @@ data class Resource(
     val links: List<ResourceLink>,
 )
 
-@Entity(tableName = Constants.DB_TABLE_RESOURCE_LINKS)
+@Entity(tableName = StringConstants.DB_TABLE_RESOURCE_LINKS)
 data class ResourceLink(
     @PrimaryKey(autoGenerate = true) val linkId: Int,
     val linkDescription: String,

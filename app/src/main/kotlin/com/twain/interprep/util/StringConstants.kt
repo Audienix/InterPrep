@@ -1,6 +1,6 @@
-package com.twain.interprep.helper
+package com.twain.interprep.util
 
-class Constants {
+class StringConstants {
     companion object {
         const val DT_FORMAT_DATE = "dd"
         const val DT_FORMAT_MONTH_YEAR = "MMM, yyyy"

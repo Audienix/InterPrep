@@ -2,8 +2,8 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.twain.interprep.helper.Constants
-import com.twain.interprep.helper.Constants.Companion.DB_TABLE_NOTES
+import com.twain.interprep.util.StringConstants
+import com.twain.interprep.util.StringConstants.Companion.DB_TABLE_NOTES
 
 @Entity(tableName = DB_TABLE_NOTES)
 data class Note(
@@ -14,7 +14,7 @@ data class Note(
     val questions: List<Question>,
 )
 
-@Entity(tableName = Constants.DB_TABLE_QUESTIONS)
+@Entity(tableName = StringConstants.DB_TABLE_QUESTIONS)
 data class Question(
     @PrimaryKey(autoGenerate = true) val questionsId: Int,
     val question: String,

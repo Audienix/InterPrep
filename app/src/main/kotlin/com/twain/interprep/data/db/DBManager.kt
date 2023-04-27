@@ -5,7 +5,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.twain.interprep.data.dao.InterviewDAO
 import com.twain.interprep.data.dao.NoteDAO
+import com.twain.interprep.data.dao.QuoteDAO
 import com.twain.interprep.data.dao.ResourceDAO
+import com.twain.interprep.data.db.converter.ListConverters
+import com.twain.interprep.data.db.converter.DateConverter
+import com.twain.interprep.data.db.converter.EnumConverter
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.Question
@@ -21,9 +25,10 @@ import com.twain.interprep.data.model.Topic
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(ListConverters::class, DateConverter::class, EnumConverter::class)
 abstract class DBManager : RoomDatabase() {
     abstract fun interviewDao(): InterviewDAO
     abstract fun noteDao(): NoteDAO
     abstract fun resourceDao(): ResourceDAO
+    abstract fun quoteDao(): QuoteDAO
 }

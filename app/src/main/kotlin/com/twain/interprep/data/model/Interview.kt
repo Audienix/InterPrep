@@ -2,8 +2,7 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.twain.interprep.helper.Constants.Companion.DB_TABLE_INTERVIEWS
+import com.twain.interprep.util.StringConstants.Companion.DB_TABLE_INTERVIEWS
 import java.util.*
 
 @Entity(tableName = DB_TABLE_INTERVIEWS)
