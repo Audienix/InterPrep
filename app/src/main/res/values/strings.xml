@@ -21,4 +21,14 @@
     <string name="heading_label_coming_next">Coming Next</string>
     <string name="heading_label_past">Past Interviews</string>
 
+    <string name="hint_label_date">Date</string>
+    <string name="hint_label_time">Time</string>
+    <string name="hint_label_company">Company</string>
+    <string name="hint_label_interview_type">Interview Type</string>
+    <string name="hint_label_role">Role/Position</string>
+    <string name="hint_label_round_count">Round #</string>
+    <string name="hint_label_job_post">Job Post Link</string>
+    <string name="hint_label_company_link">Company Link</string>
+
+    <string name="error_message_form_input">Mandatory field can\'t be empty</string>
 </resources>
