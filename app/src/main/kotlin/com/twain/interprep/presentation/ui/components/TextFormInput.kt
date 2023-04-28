@@ -24,7 +24,7 @@ fun TextFormInput(
     labelText: String,
     bottomText: String = "",
     required: Boolean = false,
-    errorMessage: String = "",
+    errorText: String = "",
 ) {
     val label = if (required) "$labelText *" else labelText
     var text by remember { mutableStateOf(value) }
@@ -43,7 +43,7 @@ fun TextFormInput(
         supportingText = {
             if (isError) {
                 Text(
-                    text = errorMessage,
+                    text = errorText,
                     color = MaterialTheme.colorScheme.error,
                 )
             } else if (bottomText != "") {
@@ -85,7 +85,7 @@ private fun TextFormInputPreview() {
             modifier = Modifier.fillMaxWidth(),
             labelText = "Company",
             required = true,
-            errorMessage = stringResource(id = R.string.error_message_form_input),
+            errorText = stringResource(id = R.string.error_message_form_input),
         )
         TextFormInput(
             modifier = Modifier.fillMaxWidth(),
