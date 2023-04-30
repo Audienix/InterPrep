@@ -3,9 +3,9 @@ package com.twain.interprep.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.twain.interprep.util.StringConstants
-import com.twain.interprep.util.StringConstants.Companion.DB_TABLE_RESOURCES
+import com.twain.interprep.util.StringConstants.Companion.DB_TABLE_RESOURCE
 
-@Entity(tableName = DB_TABLE_RESOURCES)
+@Entity(tableName = DB_TABLE_RESOURCE)
 data class Resource(
     @PrimaryKey(autoGenerate = true) val resourceId: Int,
     val topic: String,
