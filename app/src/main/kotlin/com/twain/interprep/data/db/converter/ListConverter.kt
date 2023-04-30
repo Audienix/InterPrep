@@ -5,7 +5,6 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.twain.interprep.data.model.Question
 import com.twain.interprep.data.model.ResourceLink
-import java.sql.Types
 
 class ListConverter {
 

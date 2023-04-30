@@ -26,12 +26,16 @@ import com.twain.interprep.presentation.ui.components.IPFAB
 import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.PastInterviewCard
 import com.twain.interprep.presentation.ui.components.UpcomingInterviewCard
+import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
+import com.twain.interprep.util.QuoteData
 
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel(),
+    quotesViewModel: QuotesViewModel = hiltViewModel()
 ) {
+    quotesViewModel.insertQuotes(QuoteData.quotes)
     Scaffold(
         modifier = Modifier
             .fillMaxSize()

@@ -1,4 +1,5 @@
 package com.twain.interprep.domain.usecase.interview
 
-class InterviewUseCase {
-}
+data class InterviewUseCase(
+    val insertInterviewUseCase: InsertInterviewUseCase,
+)

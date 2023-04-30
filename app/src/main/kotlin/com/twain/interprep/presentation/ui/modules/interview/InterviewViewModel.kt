@@ -4,9 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.domain.repository.InterviewRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InterviewViewModel(private val interviewRepository: InterviewRepository) : ViewModel()  {
+@HiltViewModel
+class InterviewViewModel @Inject constructor(
+    private val interviewRepository: InterviewRepository,
+) : ViewModel() {
 
 
 //    TODO: Define get()
