@@ -34,6 +34,12 @@
     <string name="hint_label_time_format">HH:MM</string>
 
     <string name="error_message_form_input">Mandatory field can\'t be empty</string>
+
+    <string name="alert_dialog_positive_button">OK</string>
+    <string name="alert_dialog_negative_button">CANCEL</string>
+    <string name="alert_dialog_unsaved_interview_title">Unsaved Interview!</string>
+    <string name="alert_dialog_unsaved_interview_text">Your interview details will not be saved as
+        you have not filled up mandatory details. Go back?</string>
     <string name="error_message_form_input_date">Date can\'t be empty</string>
     <string name="error_message_form_input_time">Time can\'t be empty</string>
     <string name="error_message_form_input_company">Company can\'t be empty</string>
