@@ -19,7 +19,7 @@ import com.twain.interprep.utils.validateRequiredField
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFormInput(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     value: String = "",
     labelText: String,
     bottomText: String = "",
