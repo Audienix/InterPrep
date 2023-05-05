@@ -4,14 +4,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-interface CoroutineContextProvider {
+interface CoroutineContextDispatcher {
     val io: CoroutineDispatcher
     val default: CoroutineDispatcher
     val main: CoroutineDispatcher
 }
 
-class CoroutineContextProviderImp @Inject constructor() : CoroutineContextProvider {
+class CoroutineContextDispatcherImp @Inject constructor() : CoroutineContextDispatcher {
     override val io = Dispatchers.IO
     override val default = Dispatchers.Default
-    override val main: CoroutineDispatcher = Dispatchers.Main
+    override val main = Dispatchers.Main
 }

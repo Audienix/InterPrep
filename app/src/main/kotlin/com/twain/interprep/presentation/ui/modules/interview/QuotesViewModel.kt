@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.twain.interprep.data.model.Quote
 import com.twain.interprep.domain.usecase.quotes.QuoteUseCase
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
-import com.twain.interprep.util.CoroutineContextProvider
+import com.twain.interprep.util.CoroutineContextDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuotesViewModel @Inject constructor(
-    contextProvider: CoroutineContextProvider,
+    contextProvider: CoroutineContextDispatcher,
     private val quoteUseCase: QuoteUseCase,
 ) : BaseViewModel(contextProvider) {
 
@@ -20,13 +20,13 @@ class QuotesViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
-    fun insertQuotes(quotes: List<Quote>) = viewModelScope.launch {
+    fun insertQuotes(quotes: List<Quote>) = launchCoroutineIO {
         viewModelScope.launch {
             quoteUseCase.insertQuotesUseCase.invoke(quotes)
         }
     }
 
-    fun getQuotes() = viewModelScope.launch {
+    fun getQuotes() = launchCoroutineIO {
         quoteUseCase.getQuotesUseCase.invoke()
     }
 }
