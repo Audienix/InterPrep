@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -29,6 +28,9 @@ import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.AppBar
 import com.twain.interprep.presentation.ui.components.Header
 import com.twain.interprep.presentation.ui.components.TextFormInput
+import com.twain.interprep.utils.AddInterviewData.Companion.inputHorizontals
+import com.twain.interprep.utils.AddInterviewData.Companion.inputVerticals
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddInterviewScreen(
@@ -55,8 +57,8 @@ fun AddInterviewScreen(
                 modifier = Modifier
                     .padding(padding)
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
+                    .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp))
             ) {
                 Header(
@@ -67,50 +69,18 @@ fun AddInterviewScreen(
                     fontWeight = FontWeight.Normal
                 )
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.dimension_8dp)
+                    )
                 ) {
-                    TextFormInput(
-                        modifier = Modifier.weight(1f),
-                        labelText = stringResource(id = R.string.hint_label_date),
-                        bottomText = stringResource(id = R.string.hint_label_month_format),
-                        required = true
-                    )
-                    TextFormInput(
-                        modifier = Modifier.weight(1f),
-                        labelText = stringResource(id = R.string.hint_label_time),
-                        bottomText = stringResource(id = R.string.hint_label_time_format),
-                        required = true
-                    )
+                    inputHorizontals.map {
+                        TextFormInput(modifier = Modifier.weight(1f), it)
+                    }
                 }
-                TextFormInput(
-                    modifier = Modifier.fillMaxWidth(),
-                    labelText = stringResource(id = R.string.hint_label_company),
-                    required = true
-                )
-                TextFormInput(
-                    modifier = Modifier.fillMaxWidth(),
-                    labelText = stringResource(id = R.string.hint_label_interview_type)
-                )
-                TextFormInput(
-                    modifier = Modifier.fillMaxWidth(),
-                    labelText = stringResource(id = R.string.hint_label_role)
-                )
-                TextFormInput(
-                    modifier = Modifier.fillMaxWidth(),
-                    labelText = stringResource(id = R.string.hint_label_round_count)
-                )
-                TextFormInput(
-                    modifier = Modifier.fillMaxWidth(),
-                    labelText = stringResource(id = R.string.hint_label_job_post)
-                )
-                TextFormInput(
-                    modifier = Modifier.fillMaxWidth(),
-                    labelText = stringResource(id = R.string.hint_label_company_link)
-                )
-                TextFormInput(
-                    modifier = Modifier.fillMaxWidth(),
-                    labelText = stringResource(id = R.string.hint_label_interviewer)
-                )
+                inputVerticals.map {
+                    TextFormInput(input = it)
+                }
+
             }
         }
     )
