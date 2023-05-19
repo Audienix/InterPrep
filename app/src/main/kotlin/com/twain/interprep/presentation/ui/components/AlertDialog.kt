@@ -12,8 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 fun AlertDialog(
     title: String,
     content: String,
-    positiveButtonText: String = stringResource(id = R.string.alert_dialog_positive_button),
-    negativeButtonText: String = stringResource(id = R.string.alert_dialog_negative_button),
+    positiveButtonText: String = stringResource(id = R.string.dialog_positive_button),
+    negativeButtonText: String = stringResource(id = R.string.dialog_negative_button),
     onPositiveButtonClick: () -> Unit,
     onNegativeButtonClick: () -> Unit,
     onDismiss: () -> Unit = { }
