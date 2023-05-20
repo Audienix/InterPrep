@@ -16,7 +16,6 @@ import com.twain.interprep.R
 import com.twain.interprep.utils.Input
 import com.twain.interprep.utils.validateRequiredField
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFormInput(
     modifier: Modifier = Modifier,
