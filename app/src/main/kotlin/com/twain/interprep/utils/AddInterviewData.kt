@@ -5,21 +5,26 @@ import com.twain.interprep.R
 
 class AddInterviewData {
     companion object {
-        val inputHorizontals =  listOf(
+        val inputHorizontals = listOf(
             Input(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
-                required = true
+                required = true,
+                errorTextId = R.string.error_message_form_input_date
             ),
             Input(
                 labelTextId = R.string.hint_label_time,
                 bottomTextId = R.string.hint_label_time_format,
-                required = true
+                required = true,
+                errorTextId = R.string.error_message_form_input_time
             )
         )
 
         val inputVerticals = listOf(
-            Input(labelTextId = R.string.hint_label_company, required = true),
+            Input(
+                labelTextId = R.string.hint_label_company, required = true,
+                errorTextId = R.string.error_message_form_input_company
+            ),
             Input(labelTextId = R.string.hint_label_interview_type),
             Input(labelTextId = R.string.hint_label_role),
             Input(labelTextId = R.string.hint_label_job_post),

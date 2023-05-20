@@ -16,16 +16,15 @@ import com.twain.interprep.R
 import com.twain.interprep.utils.Input
 import com.twain.interprep.utils.validateRequiredField
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFormInput(
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    modifier: Modifier = Modifier,
     input: Input,
 ) {
     val labelText = stringResource(id = input.labelTextId)
-    val bottomText = input.bottomTextId?.let { stringResource(id = it) }?: ""
-    val errorText = input.errorTextId?.let { stringResource(id = it) }?: ""
+    val bottomText = input.bottomTextId?.let { stringResource(id = it) } ?: ""
+    val errorText = input.errorTextId?.let { stringResource(id = it) } ?: ""
 
     val label = if (input.required) "$labelText *" else labelText
     var text by remember { mutableStateOf(input.value) }
@@ -59,7 +58,10 @@ fun TextFormInput(
                 )
             } else if (text.isNotEmpty()) {
                 IconButton(
-                    onClick = { /* TODO: implement onClick for clearing text */ }
+                    onClick = {
+                        text = ""
+                        if (input.required) isError = validateRequiredField(text)
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.cancel_icon),
@@ -83,6 +85,7 @@ private fun TextFormInputPreview() {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp)),
     ) {
         TextFormInput(
+            modifier = Modifier.fillMaxWidth(),
             input = Input(
                 labelTextId = R.string.hint_label_company,
                 required = true,
@@ -90,6 +93,7 @@ private fun TextFormInputPreview() {
             )
         )
         TextFormInput(
+            modifier = Modifier.fillMaxWidth(),
             input = Input(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,

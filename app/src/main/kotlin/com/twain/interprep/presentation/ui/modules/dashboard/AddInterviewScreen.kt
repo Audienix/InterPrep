@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -74,11 +75,17 @@ fun AddInterviewScreen(
                     )
                 ) {
                     inputHorizontals.map {
-                        TextFormInput(modifier = Modifier.weight(1f), it)
+                        TextFormInput(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f), it
+                        )
                     }
                 }
                 inputVerticals.map {
-                    TextFormInput(input = it)
+                    TextFormInput(
+                        modifier = Modifier.fillMaxWidth(), input = it
+                    )
                 }
 
             }

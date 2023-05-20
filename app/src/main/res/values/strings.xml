@@ -34,6 +34,9 @@
     <string name="hint_label_time_format">HH:MM</string>
 
     <string name="error_message_form_input">Mandatory field can\'t be empty</string>
+    <string name="error_message_form_input_date">Date can\'t be empty</string>
+    <string name="error_message_form_input_time">Time can\'t be empty</string>
+    <string name="error_message_form_input_company">Company can\'t be empty</string>
 
     <string name="add_interview_header">Add your scheduled interview details.</string>
 </resources>
