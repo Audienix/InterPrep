@@ -29,6 +29,14 @@
     <string name="hint_label_round_count">Round #</string>
     <string name="hint_label_job_post">Job Post Link</string>
     <string name="hint_label_company_link">Company Link</string>
+    <string name="hint_label_interviewer">Interviewer</string>
+    <string name="hint_label_month_format">MM/DD/YYYY</string>
+    <string name="hint_label_time_format">HH:MM</string>
 
     <string name="error_message_form_input">Mandatory field can\'t be empty</string>
+    <string name="error_message_form_input_date">Date can\'t be empty</string>
+    <string name="error_message_form_input_time">Time can\'t be empty</string>
+    <string name="error_message_form_input_company">Company can\'t be empty</string>
+
+    <string name="add_interview_header">Add your scheduled interview details.</string>
 </resources>
