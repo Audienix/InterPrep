@@ -1,10 +1,12 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,9 +20,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.*
+import com.twain.interprep.presentation.ui.components.AppBar
+import com.twain.interprep.presentation.ui.components.ComingNextInterviewCard
+import com.twain.interprep.presentation.ui.components.FAB
+import com.twain.interprep.presentation.ui.components.Header
+import com.twain.interprep.presentation.ui.components.PastInterviewCard
+import com.twain.interprep.presentation.ui.components.UpcomingInterviewCard
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     navController: NavHostController,

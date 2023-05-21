@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,10 +28,9 @@ import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.AppBar
 import com.twain.interprep.presentation.ui.components.Header
 import com.twain.interprep.presentation.ui.components.TextFormInput
-import com.twain.interprep.utils.AddInterviewData.Companion.inputHorizontals
-import com.twain.interprep.utils.AddInterviewData.Companion.inputVerticals
+import com.twain.interprep.utils.AddInterviewData.Companion.textInputHorizontalList
+import com.twain.interprep.utils.AddInterviewData.Companion.textInputVerticalList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
@@ -60,12 +58,12 @@ fun AddInterviewScreen(
                     .fillMaxSize()
                     .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
                     .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp))
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Header(
                     stringResource(id = R.string.add_interview_header),
                     MaterialTheme.colorScheme.onSurfaceVariant,
-                    MaterialTheme.typography.titleSmall,
+                    MaterialTheme.typography.titleMedium,
                     Modifier.padding(top = dimensionResource(id = R.dimen.dimension_16dp)),
                     fontWeight = FontWeight.Normal
                 )
@@ -74,7 +72,7 @@ fun AddInterviewScreen(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 ) {
-                    inputHorizontals.map {
+                    textInputHorizontalList.map {
                         TextFormInput(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -82,7 +80,7 @@ fun AddInterviewScreen(
                         )
                     }
                 }
-                inputVerticals.map {
+                textInputVerticalList.map {
                     TextFormInput(
                         modifier = Modifier.fillMaxWidth(), input = it
                     )

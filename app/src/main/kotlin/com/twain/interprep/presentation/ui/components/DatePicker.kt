@@ -1,8 +1,7 @@
 package com.twain.interprep.presentation.ui.components
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.clickable
+import android.icu.text.SimpleDateFormat
+import android.icu.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -25,56 +23,52 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
+import com.twain.interprep.helper.Constants
+import com.twain.interprep.utils.DateUtils.Companion.convertDateToMilliseconds
+import com.twain.interprep.utils.DateUtils.Companion.getCurrentDateAsString
+import java.util.Date
+import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePicker(
     modifier: Modifier,
-    value: String = ""
+    selectedDateValue: String = "",
+    onDatePickerDismiss: (selectedDate: String) -> Unit,
 ) {
     // Date Formatter
-    val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+    // val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+    val formatter = SimpleDateFormat(Constants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("UTC")
 
-    val openDatePicker = remember { mutableStateOf(false) }
-    var selectedDate by remember { mutableStateOf(value) }
+    var openDatePicker by remember { mutableStateOf(true) }
+    var selectedDate by remember { mutableStateOf(selectedDateValue) }
 
-    OutlinedTextField(
-        modifier = modifier
-            .clickable { openDatePicker.value = true },
-        value = selectedDate,
-        onValueChange = { },
-        readOnly = true,
-        label = { Text(stringResource(id = R.string.hint_label_date) + " *") },
-        enabled = false,
-        supportingText = { Text(stringResource(id = R.string.date_picker_supporting_text)) }
-    )
-
-    if (openDatePicker.value) {
+    if (openDatePicker) {
         val datePickerState = rememberDatePickerState(
-            /* TODO: implement SelectedDates when it gets added to Material 3 */
+            convertDateToMilliseconds(selectedDateValue.ifEmpty { getCurrentDateAsString()})
         )
 
         DatePickerDialog(
-            onDismissRequest = { openDatePicker.value = false },
+            modifier = modifier,
+            onDismissRequest = { openDatePicker = false },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        openDatePicker.value = false
-                        selectedDate = Instant.ofEpochMilli(datePickerState.selectedDateMillis!!)
-                            .atOffset(ZoneOffset.UTC).toLocalDate().format(formatter)
+                        openDatePicker = false
+//                        selectedDate = Instant.ofEpochMilli(datePickerState.selectedDateMillis!!)
+//                            .atOffset(ZoneOffset.UTC).toLocalDate().format(formatter)
+                        val rawDate = datePickerState.selectedDateMillis?.let { Date(it) }
+                        if (rawDate != null)
+                            selectedDate = formatter.format(rawDate)
+                        onDatePickerDismiss(selectedDate)
                     },
                 ) {
                     Text(stringResource(id = R.string.dialog_positive_button))
                 }
             },
             dismissButton = {
-                TextButton(
-                    onClick = { openDatePicker.value = false }
-                ) {
+                TextButton(onClick = { openDatePicker = false }) {
                     Text(stringResource(id = R.string.dialog_negative_button))
                 }
             }
@@ -84,7 +78,6 @@ fun DatePicker(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun DatePickerPreview() {
@@ -94,6 +87,6 @@ private fun DatePickerPreview() {
             .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp)),
     ) {
-        DatePicker(modifier = Modifier.fillMaxWidth())
+        DatePicker(modifier = Modifier.fillMaxWidth(), onDatePickerDismiss = {})
     }
 }

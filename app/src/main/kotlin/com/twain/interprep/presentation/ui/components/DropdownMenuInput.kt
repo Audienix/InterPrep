@@ -23,7 +23,7 @@ fun DropdownMenuInput(
     ) {
         OutlinedTextField(
             modifier = modifier.menuAnchor(),
-            readOnly = true,
+            readOnly = false,
             value = selectedOptionText,
             onValueChange = {},
             label = { Text(labelText) },

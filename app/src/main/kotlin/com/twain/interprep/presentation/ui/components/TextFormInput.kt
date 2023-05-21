@@ -1,19 +1,32 @@
 package com.twain.interprep.presentation.ui.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.utils.Input
+import com.twain.interprep.utils.TextInputType
 import com.twain.interprep.utils.validateRequiredField
 
 @Composable
@@ -24,18 +37,20 @@ fun TextFormInput(
     val labelText = stringResource(id = input.labelTextId)
     val bottomText = input.bottomTextId?.let { stringResource(id = it) } ?: ""
     val errorText = input.errorTextId?.let { stringResource(id = it) } ?: ""
-
     val label = if (input.required) "$labelText *" else labelText
+
     var text by remember { mutableStateOf(input.value) }
     var isError by remember { mutableStateOf(false) }
+    val source = remember { MutableInteractionSource() }
 
     OutlinedTextField(
+        modifier = modifier,
         value = text,
         onValueChange = {
             text = it
             if (input.required) isError = validateRequiredField(text)
         },
-        modifier = modifier,
+        interactionSource = source,
         singleLine = true,
         label = { Text(text = label) },
         isError = isError,
@@ -70,6 +85,30 @@ fun TextFormInput(
             }
         },
     )
+    HandleComponentInteraction(source, input, modifier, text) { text = it }
+}
+
+@Composable
+private fun HandleComponentInteraction(
+    source: MutableInteractionSource,
+    input: Input,
+    modifier: Modifier,
+    fieldText:String,
+    onTextUpdate: (text: String) -> Unit
+) {
+    val pressedState = source.interactions.collectAsState(
+        initial = PressInteraction.Cancel(PressInteraction.Press(Offset.Zero))
+    )
+    if (pressedState.value is PressInteraction.Release) {
+        when (input.inputType) {
+            TextInputType.DATE -> DatePicker(
+                modifier = modifier,
+                selectedDateValue = fieldText,
+                onDatePickerDismiss = { onTextUpdate(it) })
+
+            else -> {}
+        }
+    }
 }
 
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
