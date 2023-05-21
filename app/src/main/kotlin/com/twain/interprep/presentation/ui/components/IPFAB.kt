@@ -11,7 +11,7 @@ import androidx.compose.ui.res.dimensionResource
 import com.twain.interprep.R
 
 @Composable
-fun FAB(onFABClick: () -> Unit) {
+fun IPFAB(onFABClick: () -> Unit) {
     FloatingActionButton(
         onClick = onFABClick,
         containerColor = MaterialTheme.colorScheme.primaryContainer,

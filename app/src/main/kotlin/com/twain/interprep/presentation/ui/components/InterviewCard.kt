@@ -19,27 +19,13 @@ import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
-import com.twain.interprep.helper.Constants.Companion.DATE_TIME_FORMAT_AM_PM
-import com.twain.interprep.helper.Constants.Companion.DATE_TIME_FORMAT_DATE
-import com.twain.interprep.helper.Constants.Companion.DATE_TIME_FORMAT_DAY_HOUR_MIN
-import com.twain.interprep.helper.Constants.Companion.DATE_TIME_FORMAT_MONTH_YEAR
+import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_AM_PM
+import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_DATE
+import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_DAY_HOUR_MIN
+import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_MONTH_YEAR
 import com.twain.interprep.presentation.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.*
-
-val calendar: Calendar = Calendar.getInstance()
-val interview = Interview(
-    interviewId = 1,
-    date = calendar.time,
-    company = "Uber",
-    interviewType = "In-person",
-    role = "Software Engineer",
-    roundNum = 2,
-    jobPostLink = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=3512066424",
-    companyLink = "https://www.uber.com/ca/en/ride/",
-    interviewer = "John Smith",
-    interviewStatus = InterviewStatus.NEXTROUND
-)
 
 @Composable
 fun InterviewCard(
@@ -56,11 +42,13 @@ fun InterviewCard(
             dateBoxColor = BackgroundDarkPurple
             textColor = BackgroundDarkPurple
         }
+
         is InterviewCardColor.ComingNextInterviewColor -> {
             containerColor = BackgroundLightGreen
             dateBoxColor = BackgroundDarkGreen
             textColor = BackgroundDarkGreen
         }
+
         is InterviewCardColor.PastInterviewCardColor -> {
             containerColor = BackgroundLightGray
             dateBoxColor = BackgroundDarkGray
@@ -96,7 +84,7 @@ fun InterviewCard(
                 ) {
                     Text(
                         text = SimpleDateFormat(
-                            DATE_TIME_FORMAT_DATE,
+                            DT_FORMAT_DATE,
                             Locale.getDefault()
                         ).format(interview.date.time),
                         color = Color.White,
@@ -104,7 +92,7 @@ fun InterviewCard(
                     )
                     Text(
                         text = SimpleDateFormat(
-                            DATE_TIME_FORMAT_MONTH_YEAR,
+                            DT_FORMAT_MONTH_YEAR,
                             Locale.getDefault()
                         ).format(interview.date.time).uppercase()
                             .replace(".", ""),
@@ -121,11 +109,11 @@ fun InterviewCard(
             ) {
                 Text(
                     text = SimpleDateFormat(
-                        DATE_TIME_FORMAT_DAY_HOUR_MIN,
+                        DT_FORMAT_DAY_HOUR_MIN,
                         Locale.getDefault()
                     ).format(interview.date.time)
                         .replace(".", "") + " "
-                            + SimpleDateFormat(DATE_TIME_FORMAT_AM_PM, Locale.getDefault()).format(
+                            + SimpleDateFormat(DT_FORMAT_AM_PM, Locale.getDefault()).format(
                         interview.date.time
                     )
                         .uppercase()
@@ -149,6 +137,20 @@ fun InterviewCard(
         }
     }
 }
+
+val calendar: Calendar = Calendar.getInstance()
+val interview = Interview(
+    interviewId = 1,
+    date = calendar.time,
+    company = "Uber",
+    interviewType = "In-person",
+    role = "Software Engineer",
+    roundNum = 2,
+    jobPostLink = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=3512066424",
+    companyLink = "https://www.uber.com/ca/en/ride/",
+    interviewer = "John Smith",
+    interviewStatus = InterviewStatus.NEXTROUND
+)
 
 @Composable
 @Preview
