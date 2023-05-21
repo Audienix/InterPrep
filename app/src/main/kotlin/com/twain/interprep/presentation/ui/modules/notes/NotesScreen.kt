@@ -9,9 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.twain.interprep.R
-import com.twain.interprep.presentation.ui.components.AppBar
-import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
-import com.twain.interprep.presentation.ui.components.FullScreenEmptyStateInterview
+import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.FullScreenEmptyStateNotes
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardViewModel
 
@@ -24,7 +22,7 @@ fun NotesScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        AppBar(stringResource(id = R.string.nav_item_notes)){}
+        IPAppBar(stringResource(id = R.string.nav_item_notes)){}
         FullScreenEmptyStateNotes()
     }
 }
