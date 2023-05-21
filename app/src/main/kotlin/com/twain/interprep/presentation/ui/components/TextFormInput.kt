@@ -85,7 +85,10 @@ fun TextFormInput(
             }
         },
     )
-    HandleComponentInteraction(source, input, modifier, text) { text = it }
+    HandleComponentInteraction(source, input, modifier, text) {
+        text = it
+        if (input.required) isError = validateRequiredField(text)
+    }
 }
 
 @Composable
@@ -104,7 +107,8 @@ private fun HandleComponentInteraction(
             TextInputType.DATE -> DatePicker(
                 modifier = modifier,
                 selectedDateValue = fieldText,
-                onDatePickerDismiss = { onTextUpdate(it) })
+                onDatePickerDismiss = { onTextUpdate(it) },
+            )
 
             else -> {}
         }

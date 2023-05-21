@@ -64,7 +64,7 @@ fun AddInterviewScreen(
                     stringResource(id = R.string.add_interview_header),
                     MaterialTheme.colorScheme.onSurfaceVariant,
                     MaterialTheme.typography.titleMedium,
-                    Modifier.padding(top = dimensionResource(id = R.dimen.dimension_16dp)),
+                    Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
                     fontWeight = FontWeight.Normal
                 )
                 Row(
