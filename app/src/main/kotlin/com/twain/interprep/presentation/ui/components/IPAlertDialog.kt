@@ -9,7 +9,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun AlertDialog(
+fun IPAlertDialog(
     title: String,
     content: String,
     positiveButtonText: String = stringResource(id = R.string.dialog_positive_button),
@@ -47,7 +47,7 @@ fun AlertDialog(
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun AlertDialogPreview() {
-    AlertDialog(
+    IPAlertDialog(
         title = stringResource(id = R.string.alert_dialog_unsaved_interview_title),
         content = stringResource(id = R.string.alert_dialog_unsaved_interview_text),
         onPositiveButtonClick = { /*TODO*/ },

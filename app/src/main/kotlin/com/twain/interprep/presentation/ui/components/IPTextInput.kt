@@ -20,17 +20,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.utils.Input
 import com.twain.interprep.utils.TextInputType
 import com.twain.interprep.utils.validateRequiredField
 
 @Composable
-fun TextFormInput(
+fun IPTextInput(
     modifier: Modifier = Modifier,
     input: Input,
 ) {
@@ -42,9 +45,13 @@ fun TextFormInput(
     var text by remember { mutableStateOf(input.value) }
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     OutlinedTextField(
-        modifier = modifier,
+        modifier = modifier.onGloballyPositioned { coordinates ->
+            //This value is used to assign to the DropDown the same width
+            textFieldSize = coordinates.size.toSize()
+        },
         value = text,
         onValueChange = {
             text = it
@@ -85,7 +92,7 @@ fun TextFormInput(
             }
         },
     )
-    HandleComponentInteraction(source, input, modifier, text) {
+    HandleComponentInteraction(source, input, modifier, text, textFieldSize) {
         text = it
         if (input.required) isError = validateRequiredField(text)
     }
@@ -96,7 +103,8 @@ private fun HandleComponentInteraction(
     source: MutableInteractionSource,
     input: Input,
     modifier: Modifier,
-    fieldText:String,
+    fieldText: String,
+    textFieldSize: Size,
     onTextUpdate: (text: String) -> Unit
 ) {
     val pressedState = source.interactions.collectAsState(
@@ -104,11 +112,31 @@ private fun HandleComponentInteraction(
     )
     if (pressedState.value is PressInteraction.Release) {
         when (input.inputType) {
-            TextInputType.DATE -> DatePicker(
-                modifier = modifier,
+            TextInputType.DATE -> IPDatePicker(
                 selectedDateValue = fieldText,
                 onDatePickerDismiss = { onTextUpdate(it) },
             )
+
+            TextInputType.DROPDOWN -> {
+                var dropdownOptions = emptyList<String>()
+                if (input.labelTextId == R.string.hint_label_interview_type)
+                    dropdownOptions =
+                        listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
+                else if (input.labelTextId == R.string.hint_label_role)
+                    dropdownOptions = listOf(
+                        "Software Engineer",
+                        "Sr. Software Engineer",
+                        "Staff Engineer",
+                        "Engineering Manager"
+                    )
+
+                IPDropdownMenu(
+                    modifier = modifier.fillMaxWidth(),
+                    options = dropdownOptions,
+                    textFieldSize = textFieldSize,
+                    onDropdownDismiss = { onTextUpdate(it) }
+                )
+            }
 
             else -> {}
         }
@@ -126,7 +154,7 @@ private fun TextFormInputPreview() {
             .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp)),
     ) {
-        TextFormInput(
+        IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
                 labelTextId = R.string.hint_label_company,
@@ -134,7 +162,7 @@ private fun TextFormInputPreview() {
                 errorTextId = R.string.error_message_form_input
             )
         )
-        TextFormInput(
+        IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
                 labelTextId = R.string.hint_label_date,
@@ -142,10 +170,11 @@ private fun TextFormInputPreview() {
                 required = false
             )
         )
-        DropdownMenuInput(
+        IPDropdownMenu(
             modifier = Modifier.fillMaxWidth(),
             options = options,
-            labelText = "Interview Type"
+            textFieldSize = Size.Zero,
+            onDropdownDismiss = {}
         )
     }
 }

@@ -14,21 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 
 @Composable
-@Preview
-fun PreviewHeader() {
-    Header(
-        text = "Coming Next",
-        textColor = Black,
-        textStyle = MaterialTheme.typography.bodySmall,
-        modifier = Modifier.padding(
-            dimensionResource(id = R.dimen.dimension_16dp)
-        ),
-        fontWeight = FontWeight.Bold
-    )
-}
-
-@Composable
-fun Header(
+fun IPHeader(
     text: String,
     textColor: Color = Black,
     textStyle: TextStyle,
@@ -41,5 +27,18 @@ fun Header(
         style = textStyle,
         modifier = modifier,
         fontWeight = fontWeight
+    )
+}
+@Composable
+@Preview
+fun PreviewHeader() {
+    IPHeader(
+        text = "Coming Next",
+        textColor = Black,
+        textStyle = MaterialTheme.typography.bodySmall,
+        modifier = Modifier.padding(
+            dimensionResource(id = R.dimen.dimension_16dp)
+        ),
+        fontWeight = FontWeight.Bold
     )
 }

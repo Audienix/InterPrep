@@ -27,20 +27,6 @@ import com.twain.interprep.presentation.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-val calendar: Calendar = Calendar.getInstance()
-val interview = Interview(
-    interviewId = 1,
-    date = calendar.time,
-    company = "Uber",
-    interviewType = "In-person",
-    role = "Software Engineer",
-    roundNum = 2,
-    jobPostLink = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=3512066424",
-    companyLink = "https://www.uber.com/ca/en/ride/",
-    interviewer = "John Smith",
-    interviewStatus = InterviewStatus.NEXTROUND
-)
-
 @Composable
 fun InterviewCard(
     interview: Interview,
@@ -56,11 +42,13 @@ fun InterviewCard(
             dateBoxColor = BackgroundDarkPurple
             textColor = BackgroundDarkPurple
         }
+
         is InterviewCardColor.ComingNextInterviewColor -> {
             containerColor = BackgroundLightGreen
             dateBoxColor = BackgroundDarkGreen
             textColor = BackgroundDarkGreen
         }
+
         is InterviewCardColor.PastInterviewCardColor -> {
             containerColor = BackgroundLightGray
             dateBoxColor = BackgroundDarkGray
@@ -149,6 +137,20 @@ fun InterviewCard(
         }
     }
 }
+
+val calendar: Calendar = Calendar.getInstance()
+val interview = Interview(
+    interviewId = 1,
+    date = calendar.time,
+    company = "Uber",
+    interviewType = "In-person",
+    role = "Software Engineer",
+    roundNum = 2,
+    jobPostLink = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=3512066424",
+    companyLink = "https://www.uber.com/ca/en/ride/",
+    interviewer = "John Smith",
+    interviewStatus = InterviewStatus.NEXTROUND
+)
 
 @Composable
 @Preview

@@ -7,10 +7,10 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String, navIcon: @Composable () -> Unit) {
+fun IPAppBar(title: String, navIcon: @Composable () -> Unit) {
     TopAppBar(
         title = { Text(text = title, color = Color.White, fontSize = 22.sp) },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = Color.White,
         ),

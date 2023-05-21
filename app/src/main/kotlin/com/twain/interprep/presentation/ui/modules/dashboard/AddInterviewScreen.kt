@@ -25,9 +25,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.AppBar
-import com.twain.interprep.presentation.ui.components.Header
-import com.twain.interprep.presentation.ui.components.TextFormInput
+import com.twain.interprep.presentation.ui.components.IPAppBar
+import com.twain.interprep.presentation.ui.components.IPHeader
+import com.twain.interprep.presentation.ui.components.IPTextInput
 import com.twain.interprep.utils.AddInterviewData.Companion.textInputHorizontalList
 import com.twain.interprep.utils.AddInterviewData.Companion.textInputVerticalList
 
@@ -41,7 +41,7 @@ fun AddInterviewScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         topBar = {
-            AppBar(stringResource(id = R.string.appbar_title_add_interview)) {
+            IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
                 IconButton(onClick = {
                     navController.navigate(AppScreens.Dashboard.route) {
                         popUpTo(AppScreens.AddInterview.route)
@@ -60,7 +60,7 @@ fun AddInterviewScreen(
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Header(
+                IPHeader(
                     stringResource(id = R.string.add_interview_header),
                     MaterialTheme.colorScheme.onSurfaceVariant,
                     MaterialTheme.typography.titleMedium,
@@ -73,7 +73,7 @@ fun AddInterviewScreen(
                     )
                 ) {
                     textInputHorizontalList.map {
-                        TextFormInput(
+                        IPTextInput(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f), it
@@ -81,7 +81,7 @@ fun AddInterviewScreen(
                     }
                 }
                 textInputVerticalList.map {
-                    TextFormInput(
+                    IPTextInput(
                         modifier = Modifier.fillMaxWidth(), input = it
                     )
                 }

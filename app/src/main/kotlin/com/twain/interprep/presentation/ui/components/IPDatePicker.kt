@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.ui.components
 
 import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,8 +35,8 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePicker(
-    modifier: Modifier,
+fun IPDatePicker(
+    modifier: Modifier = Modifier,
     selectedDateValue: String = "",
     onDatePickerDismiss: (selectedDate: String) -> Unit
 ) {
@@ -78,12 +77,16 @@ fun DatePicker(
                 }
             }
         ) {
-            DatePicker(state = datePickerState, dateValidator = { utcDateInMills ->
-                isValidDate(utcDateInMills)
-            }, colors = DatePickerDefaults.colors(
-                selectedDayContainerColor = Purple200,
-                selectedDayContentColor = Color.Black
-            ))
+            DatePicker(
+                state = datePickerState,
+                dateValidator = { utcDateInMills ->
+                    isValidDate(utcDateInMills)
+                },
+                colors = DatePickerDefaults.colors(
+                    selectedDayContainerColor = Purple200,
+                    selectedDayContentColor = Color.Black
+                )
+            )
         }
     }
 }
@@ -97,6 +100,6 @@ private fun DatePickerPreview() {
             .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp)),
     ) {
-        DatePicker(modifier = Modifier.fillMaxWidth(), onDatePickerDismiss = {})
+        IPDatePicker(modifier = Modifier.fillMaxWidth(), onDatePickerDismiss = {})
     }
 }

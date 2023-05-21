@@ -20,10 +20,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.AppBar
+import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.ComingNextInterviewCard
-import com.twain.interprep.presentation.ui.components.FAB
-import com.twain.interprep.presentation.ui.components.Header
+import com.twain.interprep.presentation.ui.components.IPFAB
+import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.PastInterviewCard
 import com.twain.interprep.presentation.ui.components.UpcomingInterviewCard
 
@@ -36,10 +36,10 @@ fun DashboardScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
-        topBar = { AppBar(stringResource(id = R.string.nav_item_dashboard)) {} },
+        topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) {} },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            FAB {
+            IPFAB {
                 navController.navigate(AppScreens.AddInterview.route) {
                     popUpTo(AppScreens.Dashboard.route)
                 }
@@ -52,7 +52,7 @@ fun DashboardScreen(
             ) {
                 item {
                     Column {
-                        Header(
+                        IPHeader(
                             text = stringResource(id = R.string.heading_label_upcoming),
                             textStyle = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.padding(
@@ -72,7 +72,7 @@ fun DashboardScreen(
                 }
                 item {
                     Column {
-                        Header(
+                        IPHeader(
                             text = stringResource(id = R.string.heading_label_coming_next),
                             textStyle = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.padding(
@@ -90,7 +90,7 @@ fun DashboardScreen(
                     }
                 }
                 item {
-                    Header(
+                    IPHeader(
                         text = stringResource(id = R.string.heading_label_past),
                         textStyle = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(
