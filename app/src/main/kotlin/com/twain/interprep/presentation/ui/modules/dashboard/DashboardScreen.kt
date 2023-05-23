@@ -27,7 +27,7 @@ import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.PastInterviewCard
 import com.twain.interprep.presentation.ui.components.UpcomingInterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
-import com.twain.interprep.util.QuoteData
+import com.twain.interprep.data.ui.QuoteData
 
 @Composable
 fun DashboardScreen(

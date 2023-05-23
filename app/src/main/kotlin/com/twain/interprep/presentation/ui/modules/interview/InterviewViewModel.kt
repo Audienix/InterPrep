@@ -3,7 +3,7 @@ package com.twain.interprep.presentation.ui.modules.interview
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
-import com.twain.interprep.util.CoroutineContextDispatcher
+import com.twain.interprep.helper.CoroutineContextDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject

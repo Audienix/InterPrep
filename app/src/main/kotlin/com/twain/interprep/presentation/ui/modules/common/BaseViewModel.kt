@@ -2,7 +2,7 @@ package com.twain.interprep.presentation.ui.modules.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.twain.interprep.util.CoroutineContextDispatcher
+import com.twain.interprep.helper.CoroutineContextDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

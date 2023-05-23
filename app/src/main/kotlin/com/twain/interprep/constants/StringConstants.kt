@@ -1,4 +1,4 @@
-package com.twain.interprep.util
+package com.twain.interprep.constants
 
 class StringConstants {
     companion object {

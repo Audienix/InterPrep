@@ -1,21 +1,21 @@
 package com.twain.interprep.utils
 
 import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
-import com.twain.interprep.helper.Constants
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
+import com.twain.interprep.constants.StringConstants
 import java.util.Locale
 
 class DateUtils {
     companion object{
         fun convertDateToMilliseconds(dateString: String): Long {
-            val format = SimpleDateFormat(Constants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+            val format = SimpleDateFormat(StringConstants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
             val date = format.parse(dateString)
             return date?.time ?: 0L
         }
 
         fun getCurrentDateAsString(): String {
-            val format = SimpleDateFormat(Constants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+            val format = SimpleDateFormat(StringConstants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
             return format.format(Calendar.getInstance().time)
         }
 

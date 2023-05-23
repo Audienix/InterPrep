@@ -1,4 +1,4 @@
-package com.twain.interprep.utils
+package com.twain.interprep.data.ui
 
 import androidx.annotation.StringRes
 import com.twain.interprep.R

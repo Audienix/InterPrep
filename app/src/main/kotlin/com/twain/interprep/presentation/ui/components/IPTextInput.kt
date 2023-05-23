@@ -28,8 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
-import com.twain.interprep.utils.Input
-import com.twain.interprep.utils.TextInputType
+import com.twain.interprep.data.ui.Input
+import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.utils.validateRequiredField
 
 @Composable

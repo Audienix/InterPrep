@@ -2,8 +2,8 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.twain.interprep.util.StringConstants
-import com.twain.interprep.util.StringConstants.Companion.DB_TABLE_NOTE
+import com.twain.interprep.constants.StringConstants
+import com.twain.interprep.constants.StringConstants.Companion.DB_TABLE_NOTE
 
 @Entity(tableName = DB_TABLE_NOTE)
 data class Note(

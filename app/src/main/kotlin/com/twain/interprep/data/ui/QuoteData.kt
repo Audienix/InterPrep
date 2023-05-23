@@ -1,4 +1,4 @@
-package com.twain.interprep.util
+package com.twain.interprep.data.ui
 
 import com.twain.interprep.data.model.Quote
 

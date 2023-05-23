@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.twain.interprep.data.model.Quote
 import com.twain.interprep.domain.usecase.quotes.QuoteUseCase
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
-import com.twain.interprep.util.CoroutineContextDispatcher
+import com.twain.interprep.helper.CoroutineContextDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

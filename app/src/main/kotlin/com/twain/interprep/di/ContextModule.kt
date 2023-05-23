@@ -2,8 +2,8 @@ package com.twain.interprep.di
 
 import android.app.Application
 import android.content.Context
-import com.twain.interprep.util.CoroutineContextDispatcher
-import com.twain.interprep.util.CoroutineContextDispatcherImp
+import com.twain.interprep.helper.CoroutineContextDispatcher
+import com.twain.interprep.helper.CoroutineContextDispatcherImp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -2,7 +2,7 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.twain.interprep.util.StringConstants.Companion.DB_TABLE_QUOTE
+import com.twain.interprep.constants.StringConstants.Companion.DB_TABLE_QUOTE
 
 @Entity(tableName = DB_TABLE_QUOTE)
 data class Quote(
