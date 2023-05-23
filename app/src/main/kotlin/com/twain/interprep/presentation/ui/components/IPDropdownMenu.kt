@@ -15,9 +15,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.theme.Purple100
 
 @Composable
 fun IPDropdownMenu(
@@ -35,7 +34,7 @@ fun IPDropdownMenu(
             onDismissRequest = { expanded = false },
             modifier = modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
-                .background(colorResource(id = R.color.purple_100))
+                .background(color = Purple100)
         ) {
             options.forEach { label ->
                 DropdownMenuItem(
