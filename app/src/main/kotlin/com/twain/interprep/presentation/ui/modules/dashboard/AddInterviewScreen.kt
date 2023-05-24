@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -30,11 +31,13 @@ import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.IPTextInput
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
+import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: InterviewViewModel = hiltViewModel()
 ) {
     Scaffold(
         modifier = Modifier

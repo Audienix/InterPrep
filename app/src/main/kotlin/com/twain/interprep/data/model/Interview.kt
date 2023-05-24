@@ -10,13 +10,13 @@ data class Interview(
     @PrimaryKey(autoGenerate = true) val interviewId: Int,
     val date: Date,
     val company: String,
-    val interviewType: String?,
-    val role: String?,
-    val roundNum: Int?,
-    val jobPostLink: String?,
-    val companyLink: String?,
-    val interviewer: String?,
-    val interviewStatus: InterviewStatus
+    val interviewType: String? = "",
+    val role: String? = "",
+    val roundNum: Int? = null,
+    val jobPostLink: String? = "",
+    val companyLink: String? = "",
+    val interviewer: String? = "",
+    val interviewStatus: InterviewStatus = InterviewStatus.NO_UPDATE
 )
 
 enum class InterviewStatus {
