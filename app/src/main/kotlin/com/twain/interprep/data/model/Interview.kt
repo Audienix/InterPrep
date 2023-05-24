@@ -2,11 +2,10 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.twain.interprep.helper.Constants.Companion.DB_TABLE_INTERVIEWS
+import com.twain.interprep.constants.StringConstants.Companion.DB_TABLE_INTERVIEW
 import java.util.*
 
-@Entity(tableName = DB_TABLE_INTERVIEWS)
+@Entity(tableName = DB_TABLE_INTERVIEW)
 data class Interview(
     @PrimaryKey(autoGenerate = true) val interviewId: Int,
     val date: Date,
@@ -21,20 +20,8 @@ data class Interview(
 )
 
 enum class InterviewStatus {
-    NOUPDATE,
-    NEXTROUND,
+    NO_UPDATE,
+    NEXT_ROUND,
     REJECTED,
     SELECTED
-}
-
-class DateConverter {
-    @TypeConverter
-    fun fromTimestamp(value: Long): Date {
-        return Date(value)
-    }
-
-    @TypeConverter
-    fun toTimestamp(date: Date): Long {
-        return date.time
-    }
 }

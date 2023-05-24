@@ -2,11 +2,6 @@ package com.twain.interprep.presentation.ui.components
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -21,11 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
-import com.twain.interprep.helper.Constants
+import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.presentation.ui.theme.Purple200
 import com.twain.interprep.utils.DateUtils.Companion.convertDateToMilliseconds
 import com.twain.interprep.utils.DateUtils.Companion.getCurrentDateAsString
@@ -42,7 +36,7 @@ fun IPDatePicker(
 ) {
     // Date Formatter
     // val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-    val formatter = SimpleDateFormat(Constants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+    val formatter = SimpleDateFormat(StringConstants.DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
     formatter.timeZone = TimeZone.getTimeZone("UTC")
 
     var openDatePicker by remember { mutableStateOf(true) }
@@ -94,12 +88,5 @@ fun IPDatePicker(
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun DatePickerPreview() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_16dp)),
-    ) {
-        IPDatePicker(modifier = Modifier.fillMaxWidth(), onDatePickerDismiss = {})
-    }
+    IPDatePicker(onDatePickerDismiss = {})
 }

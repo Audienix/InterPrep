@@ -19,13 +19,27 @@ import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
-import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_AM_PM
-import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_DATE
-import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_DAY_HOUR_MIN
-import com.twain.interprep.helper.Constants.Companion.DT_FORMAT_MONTH_YEAR
+import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_AM_PM
+import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DATE
+import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DAY_HOUR_MIN
+import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_MONTH_YEAR
 import com.twain.interprep.presentation.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.*
+
+val calendar: Calendar = Calendar.getInstance()
+val interview = Interview(
+    interviewId = 1,
+    date = calendar.time,
+    company = "Uber",
+    interviewType = "In-person",
+    role = "Software Engineer",
+    roundNum = 2,
+    jobPostLink = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=3512066424",
+    companyLink = "https://www.uber.com/ca/en/ride/",
+    interviewer = "John Smith",
+    interviewStatus = InterviewStatus.NEXT_ROUND
+)
 
 @Composable
 fun InterviewCard(
@@ -137,20 +151,6 @@ fun InterviewCard(
         }
     }
 }
-
-val calendar: Calendar = Calendar.getInstance()
-val interview = Interview(
-    interviewId = 1,
-    date = calendar.time,
-    company = "Uber",
-    interviewType = "In-person",
-    role = "Software Engineer",
-    roundNum = 2,
-    jobPostLink = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=3512066424",
-    companyLink = "https://www.uber.com/ca/en/ride/",
-    interviewer = "John Smith",
-    interviewStatus = InterviewStatus.NEXTROUND
-)
 
 @Composable
 @Preview
