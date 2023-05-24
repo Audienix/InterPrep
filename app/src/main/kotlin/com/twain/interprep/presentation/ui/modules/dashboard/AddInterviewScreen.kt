@@ -28,8 +28,8 @@ import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.IPTextInput
-import com.twain.interprep.utils.AddInterviewData.Companion.textInputHorizontalList
-import com.twain.interprep.utils.AddInterviewData.Companion.textInputVerticalList
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
 
 @Composable
 fun AddInterviewScreen(
