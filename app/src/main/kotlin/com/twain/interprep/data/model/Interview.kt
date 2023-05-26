@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity(tableName = DB_TABLE_INTERVIEW)
 data class Interview(
-    @PrimaryKey(autoGenerate = true) val interviewId: Int,
+    @PrimaryKey(autoGenerate = true) val interviewId: Int = 0,
     val date: Date,
     val company: String,
     val interviewType: String? = "",

@@ -2,17 +2,18 @@ package com.twain.interprep.domain.usecase.interview
 
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.domain.repository.InterviewRepository
+import com.twain.interprep.util.InterviewsData
 import kotlinx.coroutines.flow.transform
 import java.util.Calendar
 import java.util.Date
 
 class GetInterviewsUseCase(private val interviewRepository: InterviewRepository) {
-    private val dashBoardInterviews =
-        DashBoardInterviews(mutableListOf(), mutableListOf(), mutableListOf())
 
-    operator fun invoke() {
+    operator fun invoke() =
         interviewRepository.getInterviews().transform { interviews ->
-            interviews.onEach { interview ->
+            val dashBoardInterviews =
+                DashBoardInterviews(mutableListOf(), mutableListOf(), mutableListOf())
+            InterviewsData.interviews.onEach { interview ->
                 if (interview.date.before(Date())) {
                     dashBoardInterviews.pastInterviews.add(interview)
                 } else if (isSameWeekAsCurrentDate(interview.date)) {
@@ -23,7 +24,7 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
             }
             emit(dashBoardInterviews)
         }
-    }
+
 
     private fun isSameWeekAsCurrentDate(date: Date): Boolean {
         val current = Calendar.getInstance()

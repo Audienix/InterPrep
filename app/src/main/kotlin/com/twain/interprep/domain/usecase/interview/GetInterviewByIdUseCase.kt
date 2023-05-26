@@ -8,3 +8,4 @@ class GetInterviewByIdUseCase(private val interviewRepository: InterviewReposito
         interviewRepository.getInterviewById(id)
     }
 }
+

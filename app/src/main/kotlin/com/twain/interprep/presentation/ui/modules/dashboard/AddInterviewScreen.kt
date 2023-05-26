@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.IPHeader
@@ -32,6 +33,7 @@ import com.twain.interprep.presentation.ui.components.IPTextInput
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +48,16 @@ fun AddInterviewScreen(
         topBar = {
             IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
                 IconButton(onClick = {
+
+                    viewModel.insertInterview(
+                        Interview(
+                            date = Date(),
+                            company = "Wattpad"
+                        )
+                    )
+
                     navController.navigate(AppScreens.Dashboard.route) {
+                        // TODO fix
                         popUpTo(AppScreens.AddInterview.route)
                     }
                 }) {
