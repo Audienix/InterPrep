@@ -2,7 +2,6 @@ package com.twain.interprep.domain.usecase.interview
 
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.domain.repository.InterviewRepository
-import com.twain.interprep.util.InterviewsData
 import kotlinx.coroutines.flow.transform
 import java.util.Calendar
 import java.util.Date
