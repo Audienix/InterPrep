@@ -13,7 +13,9 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
         interviewRepository.getInterviews().transform { interviews ->
             val dashBoardInterviews =
                 DashBoardInterviews(mutableListOf(), mutableListOf(), mutableListOf())
-            InterviewsData.interviews.onEach { interview ->
+            // To test is function, change the following line to
+            // InterviewsData.interviews.onEach
+            interviews.onEach { interview ->
                 if (interview.date.before(Date())) {
                     dashBoardInterviews.pastInterviews.add(interview)
                 } else if (isSameWeekAsCurrentDate(interview.date)) {
