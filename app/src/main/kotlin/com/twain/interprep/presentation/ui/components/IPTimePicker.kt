@@ -22,8 +22,7 @@ fun IPTimePicker(
     onTimePickerDismiss: (selectedTime: String) -> Unit
 ) {
 
-    // Date Formatter
-    // val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+    // Time Formatter
     val formatter = SimpleDateFormat(StringConstants.DT_FORMAT_DAY_HOUR_MIN, Locale.getDefault())
     formatter.timeZone = TimeZone.getTimeZone("UTC")
 

@@ -78,11 +78,3 @@ fun IPTimePickerDialog(
         }
     }
 }
-
-@Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
-@Composable
-private fun TimePickerDialogPreview() {
-    IPTimePickerDialog(onCancel = {}, onConfirm = {}, content = {
-        /* TODO: add TimePicker in content */
-    })
-}
