@@ -6,21 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
-import com.twain.interprep.presentation.NavGraph
-import com.twain.interprep.ui.theme.InterPrepTheme
+import com.twain.interprep.presentation.navigation.NavGraph
+import com.twain.interprep.presentation.ui.modules.common.MainScreen
+import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private lateinit var navController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             InterPrepTheme {
@@ -29,24 +27,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting()
-                    navController = rememberNavController()
+                    val navController = rememberNavController()
                     NavGraph(navController = navController)
+                    MainScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting() {
-    Text(text = "Sara & Yanling \n Together will make this app amazing")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    InterPrepTheme {
-        Greeting()
     }
 }

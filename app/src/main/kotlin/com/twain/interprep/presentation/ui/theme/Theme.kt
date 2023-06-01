@@ -1,4 +1,4 @@
-package com.twain.interprep.ui.theme
+package com.twain.interprep.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 private val DarkColorPalette = darkColorScheme(
     primary = Purple200,
     onPrimary = Purple700,
-    secondary = Teal200
+    secondary = Purple500
 )
 
 private val LightColorPalette = lightColorScheme(
     primary = Purple500,
     onPrimary = Purple700,
-    secondary = Teal200
+    secondary = Purple500
 
     /* Other default colors to override
     background = Color.White,
