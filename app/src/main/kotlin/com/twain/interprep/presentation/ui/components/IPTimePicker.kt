@@ -40,18 +40,18 @@ fun IPTimePicker(
         // TODO: SimpleDateFormat is deprecated so it cannot be used to parse the selectedTimeValue
         // TODO: java.time.LocalTime cannot be used because of a higher API version minimum
         // Initial selected time value parsing
-        if (selectedTimeValue.isNotEmpty()) {
-            val parsedInitialTime = selectedTimeValue.split(":", " ")
-            val hourOffset = if (parsedInitialTime[2] == "AM") {
-                0
-            } else if (parsedInitialTime[1] == "12" && parsedInitialTime[2] == "AM") {
-                -12
-            } else {
-                12
-            }
-            initialHour = parsedInitialTime[1].toInt() + hourOffset
-            initialMinute = parsedInitialTime[2].toInt()
-        }
+//        if (selectedTimeValue.isNotEmpty()) {
+//            val parsedInitialTime = selectedTimeValue.split(":", " ")
+//            val hourOffset = if (parsedInitialTime[2] == "AM") {
+//                0
+//            } else if (parsedInitialTime[1] == "12" && parsedInitialTime[2] == "AM") {
+//                -12
+//            } else {
+//                12
+//            }
+//            initialHour = parsedInitialTime[1].toInt() + hourOffset
+//            initialMinute = parsedInitialTime[2].toInt()
+//        }
 
         val timePickerState = rememberTimePickerState(
             initialHour = initialHour,
