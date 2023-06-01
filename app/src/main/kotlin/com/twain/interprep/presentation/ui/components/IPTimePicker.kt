@@ -3,15 +3,18 @@ package com.twain.interprep.presentation.ui.components
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TimeInput
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.constants.StringConstants
+import com.twain.interprep.presentation.ui.theme.*
 import java.util.Calendar
 import java.util.Locale
 
@@ -30,7 +33,30 @@ fun IPTimePicker(
     var selectedTime by remember { mutableStateOf(selectedTimeValue) }
 
     if (openTimePicker) {
-        val timePickerState = rememberTimePickerState()
+
+        var initialHour = 0
+        var initialMinute = 0
+
+        // TODO: SimpleDateFormat is deprecated so it cannot be used to parse the selectedTimeValue
+        // TODO: java.time.LocalTime cannot be used because of a higher API version minimum
+        // Initial selected time value parsing
+        if (selectedTimeValue.isNotEmpty()) {
+            val parsedInitialTime = selectedTimeValue.split(":", " ")
+            val hourOffset = if (parsedInitialTime[2] == "AM") {
+                0
+            } else if (parsedInitialTime[1] == "12" && parsedInitialTime[2] == "AM") {
+                -12
+            } else {
+                12
+            }
+            initialHour = parsedInitialTime[1].toInt() + hourOffset
+            initialMinute = parsedInitialTime[2].toInt()
+        }
+
+        val timePickerState = rememberTimePickerState(
+            initialHour = initialHour,
+            initialMinute = initialMinute,
+        )
 
         IPTimePickerDialog(
             onCancel = { openTimePicker = false },
@@ -44,8 +70,13 @@ fun IPTimePicker(
                 onTimePickerDismiss(selectedTime)
             },
             content = {
-                TimeInput(
-                    state = timePickerState
+                TimePicker(
+                    state = timePickerState,
+                    colors = TimePickerDefaults.colors(
+                        // TODO: containerColor is not being updated as defined below
+                        clockDialSelectedContentColor = Color.White,
+                        containerColor = BackgroundLightGray,
+                    )
                 )
             }
         )

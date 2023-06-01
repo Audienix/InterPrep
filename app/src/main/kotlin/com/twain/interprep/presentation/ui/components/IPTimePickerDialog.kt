@@ -42,10 +42,6 @@ fun IPTimePickerDialog(
             modifier = Modifier
                 .width(IntrinsicSize.Min)
                 .height(IntrinsicSize.Min)
-                .background(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surface
-                ),
         ) {
             toggle()
             Column(
