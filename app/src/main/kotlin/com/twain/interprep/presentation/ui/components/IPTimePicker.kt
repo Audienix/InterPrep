@@ -23,7 +23,7 @@ fun IPTimePicker(
 ) {
 
     // Time Formatter
-    val formatter = SimpleDateFormat(StringConstants.DT_FORMAT_DAY_HOUR_MIN, Locale.getDefault())
+    val formatter = SimpleDateFormat(StringConstants.DT_FORMAT_HOUR_MIN, Locale.getDefault())
     formatter.timeZone = TimeZone.getTimeZone("UTC")
 
     var openTimePicker by remember { mutableStateOf(true) }
@@ -35,7 +35,8 @@ fun IPTimePicker(
         IPTimePickerDialog(
             onCancel = { openTimePicker = false },
             onConfirm = {
-                val cal = Calendar.getInstance()
+                openTimePicker = false
+                val cal = Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC"), Locale.getDefault())
                 cal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
                 cal.set(Calendar.MINUTE, timePickerState.minute)
                 cal.isLenient = false
