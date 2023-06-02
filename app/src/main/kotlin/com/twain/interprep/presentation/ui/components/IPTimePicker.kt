@@ -24,7 +24,6 @@ fun IPTimePicker(
     selectedTimeValue: String = "",
     onTimePickerDismiss: (selectedTime: String) -> Unit
 ) {
-
     // Time Formatter
     val formatter = SimpleDateFormat(StringConstants.DT_FORMAT_HOUR_MIN, Locale.getDefault())
     formatter.timeZone = TimeZone.getTimeZone("UTC")
@@ -33,25 +32,22 @@ fun IPTimePicker(
     var selectedTime by remember { mutableStateOf(selectedTimeValue) }
 
     if (openTimePicker) {
-
         var initialHour = 0
         var initialMinute = 0
 
-        // TODO: SimpleDateFormat is deprecated so it cannot be used to parse the selectedTimeValue
-        // TODO: java.time.LocalTime cannot be used because of a higher API version minimum
         // Initial selected time value parsing
-//        if (selectedTimeValue.isNotEmpty()) {
-//            val parsedInitialTime = selectedTimeValue.split(":", " ")
-//            val hourOffset = if (parsedInitialTime[2] == "AM") {
-//                0
-//            } else if (parsedInitialTime[1] == "12" && parsedInitialTime[2] == "AM") {
-//                -12
-//            } else {
-//                12
-//            }
-//            initialHour = parsedInitialTime[1].toInt() + hourOffset
-//            initialMinute = parsedInitialTime[2].toInt()
-//        }
+        if (selectedTimeValue.isNotEmpty()) {
+            val parsedInitialTime = selectedTimeValue.split(":", " ")
+            val hourOffset = if (parsedInitialTime[2] == "AM") {
+                0
+            } else if (parsedInitialTime[1] == "12" && parsedInitialTime[2] == "AM") {
+                -12
+            } else {
+                12
+            }
+            initialHour = parsedInitialTime[0].toInt() + hourOffset
+            initialMinute = parsedInitialTime[1].toInt()
+        }
 
         val timePickerState = rememberTimePickerState(
             initialHour = initialHour,
@@ -73,9 +69,10 @@ fun IPTimePicker(
                 TimePicker(
                     state = timePickerState,
                     colors = TimePickerDefaults.colors(
-                        // TODO: containerColor is not being updated as defined below
                         clockDialSelectedContentColor = Color.White,
-                        containerColor = BackgroundLightGray,
+                        clockDialColor = BackgroundLightPurple,
+                        timeSelectorSelectedContainerColor = BackgroundSurface,
+                        timeSelectorUnselectedContainerColor = Color.Transparent
                     )
                 )
             }

@@ -5,6 +5,4 @@
     <dimen name="dimension_12dp">12dp</dimen>
     <dimen name="dimension_16dp">16dp</dimen>
     <dimen name="dimension_24dp">24dp</dimen>
-    <dimen name="dimension_40dp">40dp</dimen>
-
 </resources>

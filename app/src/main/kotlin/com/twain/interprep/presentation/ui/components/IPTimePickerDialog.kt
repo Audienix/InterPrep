@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -37,7 +36,7 @@ fun IPTimePickerDialog(
         ),
     ) {
         Surface(
-            shape = MaterialTheme.shapes.extraLarge,
+            shape = MaterialTheme.shapes.large,
             tonalElevation = dimensionResource(id = R.dimen.dimension_8dp),
             modifier = Modifier
                 .width(IntrinsicSize.Min)
@@ -50,15 +49,14 @@ fun IPTimePickerDialog(
             ) {
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = dimensionResource(id = R.dimen.dimension_24dp)),
+                        .fillMaxWidth(),
                     text = title,
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_16dp)))
                 content()
                 Row(
                     modifier = Modifier
-                        .height(dimensionResource(id = R.dimen.dimension_40dp))
                         .fillMaxWidth()
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
