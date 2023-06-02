@@ -117,6 +117,11 @@ private fun HandleComponentInteraction(
                 onDatePickerDismiss = { onTextUpdate(it) },
             )
 
+            TextInputType.TIME -> IPTimePicker(
+                selectedTimeValue = fieldText,
+                onTimePickerDismiss = { onTextUpdate(it) }
+            )
+
             TextInputType.DROPDOWN -> {
                 var dropdownOptions = emptyList<String>()
                 if (input.labelTextId == R.string.hint_label_interview_type)
@@ -167,6 +172,14 @@ private fun TextFormInputPreview() {
             input = Input(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
+                required = false
+            )
+        )
+        IPTextInput(
+            modifier = Modifier.fillMaxWidth(),
+            input = Input(
+                labelTextId = R.string.hint_label_time,
+                bottomTextId = R.string.hint_label_time_format,
                 required = false
             )
         )
