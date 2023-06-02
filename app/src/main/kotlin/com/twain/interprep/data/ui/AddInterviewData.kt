@@ -37,6 +37,10 @@ class AddInterviewData {
                 inputType = TextInputType.DROPDOWN
             ),
             Input(
+                labelTextId = R.string.hint_label_round_count,
+                inputType = TextInputType.TEXT
+            ),
+            Input(
                 labelTextId = R.string.hint_label_job_post,
                 inputType = TextInputType.TEXT
             ),
