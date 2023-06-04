@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.interview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,10 +24,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DATE
 import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DAY
 import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_MONTH_YEAR
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkGray
@@ -46,8 +49,9 @@ import java.util.Locale
 @Composable
 fun InterviewCard(
     interview: Interview,
-    onClick: () -> Unit,
-    color: InterviewCardColor
+    color: InterviewCardColor,
+    navController: NavHostController,
+    onClick: () -> Unit
 ) {
     val containerColor: Color
     val dateBoxColor: Color
@@ -78,7 +82,11 @@ fun InterviewCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.dimension_8dp))
-            .clickable(onClick = onClick)
+            .clickable(onClick = {
+                navController.navigate(AppScreens.InterviewDetails.route) {
+                    popUpTo(AppScreens.Dashboard.route)
+                }
+            })
             .height(106.dp), //TODO change constant height value
     ) {
         Row(
@@ -171,16 +179,6 @@ fun formatRoundNumAndInterviewType(interview: Interview): String{
     return formattedRoundNum + formattedInterviewType
 }
 
-@Composable
-@Preview
-fun UpcomingInterviewCard() {
-    InterviewCard(
-        interview = interviewMockData,
-        onClick = {},
-        color = InterviewCardColor.UpcomingInterviewCardColor
-    )
-}
-
 val interviewMockData = Interview(
     interviewId = 1,
     date = "07/07/2023",
@@ -197,10 +195,22 @@ val interviewMockData = Interview(
 
 @Composable
 @Preview
+fun UpcomingInterviewCard() {
+    InterviewCard(
+        interview = interviewMockData,
+        onClick = {},
+        navController = rememberNavController(),
+        color = InterviewCardColor.UpcomingInterviewCardColor
+    )
+}
+
+@Composable
+@Preview
 fun ComingNextInterviewCard() {
     InterviewCard(
         interview = interviewMockData,
         onClick = {},
+        navController = rememberNavController(),
         color = InterviewCardColor.ComingNextInterviewColor
     )
 }
@@ -211,6 +221,7 @@ fun PastInterviewCard() {
     InterviewCard(
         interview = interviewMockData,
         onClick = {},
+        navController = rememberNavController(),
         color = InterviewCardColor.PastInterviewCardColor
     )
 }

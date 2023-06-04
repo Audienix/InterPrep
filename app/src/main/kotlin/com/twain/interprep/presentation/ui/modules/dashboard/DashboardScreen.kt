@@ -24,13 +24,10 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
-import com.twain.interprep.presentation.ui.components.IPAppBar
-import com.twain.interprep.presentation.ui.components.IPFAB
-import com.twain.interprep.presentation.ui.components.IPHeader
-import com.twain.interprep.presentation.ui.components.InterviewCard
-import com.twain.interprep.presentation.ui.components.InterviewCardColor
-import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
+import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPFAB
+import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.interview.PastInterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 
 @Composable

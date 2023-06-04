@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.twain.interprep.R
-import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
-import com.twain.interprep.presentation.ui.components.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 
 @Composable
 fun ResourcesScreen(

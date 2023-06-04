@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable

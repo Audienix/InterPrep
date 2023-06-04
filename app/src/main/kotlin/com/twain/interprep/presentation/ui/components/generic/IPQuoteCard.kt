@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +33,6 @@ fun IPQuoteCard(modifier: Modifier = Modifier, quote: Quote) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(dimensionResource(id = R.dimen.dimension_4dp)),
-        colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         shape = Shapes.extraSmall,
     ) {

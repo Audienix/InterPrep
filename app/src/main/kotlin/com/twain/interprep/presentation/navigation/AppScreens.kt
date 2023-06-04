@@ -5,4 +5,5 @@ sealed class AppScreens(val route: String) {
     object Notes : AppScreens("notes_screen")
     object Resources : AppScreens("resources_screen")
     object AddInterview : AppScreens("add_interview_screen")
+    object InterviewDetails : AppScreens("interview_details_screen")
 }

@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.twain.interprep.presentation.ui.modules.dashboard.AddInterviewScreen
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardScreen
+import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 
@@ -13,7 +14,7 @@ import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 fun NavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = AppScreens.Dashboard.route) {
         composable(AppScreens.Dashboard.route) {
-            DashboardScreen(navController)
+            DashboardScreen(navController = navController)
         }
         composable(AppScreens.Notes.route) {
             NotesScreen()
@@ -22,7 +23,10 @@ fun NavGraph(navController: NavHostController) {
             ResourcesScreen()
         }
         composable(AppScreens.AddInterview.route) {
-            AddInterviewScreen(navController)
+            AddInterviewScreen(navController = navController)
+        }
+        composable(AppScreens.InterviewDetails.route){
+            InterviewDetailsScreen(navController = navController)
         }
     }
 }

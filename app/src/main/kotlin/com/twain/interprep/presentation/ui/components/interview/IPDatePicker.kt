@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.interview
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
@@ -62,12 +62,12 @@ fun IPDatePicker(
                         onDatePickerDismiss(selectedDate)
                     },
                 ) {
-                    Text(stringResource(id = R.string.dialog_positive_button))
+                    Text(stringResource(id = android.R.string.ok))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { openDatePicker = false }) {
-                    Text(stringResource(id = R.string.dialog_negative_button))
+                    Text(stringResource(id = android.R.string.cancel))
                 }
             }
         ) {

@@ -19,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,15 +29,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.interview.IPTextInput
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
 import com.twain.interprep.data.model.isValid
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputHorizontalListAttributes
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputVerticalListAttributes
-import com.twain.interprep.presentation.ui.components.IPAlertDialog
-import com.twain.interprep.presentation.ui.components.IPAppBar
-import com.twain.interprep.presentation.ui.components.IPHeader
-import com.twain.interprep.presentation.ui.components.IPTextInput
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 
 @Composable
