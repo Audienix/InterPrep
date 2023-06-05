@@ -2,10 +2,14 @@ package com.twain.interprep.data.ui
 
 import androidx.annotation.StringRes
 import com.twain.interprep.R
+import com.twain.interprep.constants.StringConstants
+import com.twain.interprep.data.model.Interview
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class AddInterviewData {
+class InterviewFormData {
     companion object {
-        val textTextInputHorizontalListAttributes = listOf(
+        val textInputHorizontalList = listOf(
             TextInputAttributes(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
@@ -22,7 +26,7 @@ class AddInterviewData {
             )
         )
 
-        val textTextInputVerticalListAttributes = listOf(
+        val textInputVerticalList = listOf(
             TextInputAttributes(
                 labelTextId = R.string.hint_label_company,
                 required = true,
@@ -54,6 +58,38 @@ class AddInterviewData {
                 inputType = TextInputType.TEXT
             )
         )
+
+        fun getTextLabelList(interview: Interview): List<TextLabelData> {
+            return listOf(
+                TextLabelData(
+                    R.string.hint_label_time, SimpleDateFormat(
+                        StringConstants.DT_FORMAT_DAY_HOUR_MIN,
+                        Locale.getDefault()
+                    ).format(interview.date)
+                ),
+                TextLabelData(
+                    R.string.hint_label_company, interview.company
+                ),
+                TextLabelData(
+                    R.string.hint_label_interview_type, interview.interviewType.toString()
+                ),
+                TextLabelData(
+                    R.string.hint_label_role, interview.role.toString(),
+                ),
+                TextLabelData(
+                    R.string.hint_label_round_count, interview.roundNum.toString()
+                ),
+                TextLabelData(
+                    R.string.hint_label_job_post, interview.jobPostLink.toString()
+                ),
+                TextLabelData(
+                    R.string.hint_label_company_link, interview.companyLink.toString()
+                ),
+                TextLabelData(
+                    R.string.hint_label_interviewer, interview.interviewer.toString()
+                )
+            )
+        }
     }
 }
 
@@ -71,3 +107,8 @@ enum class TextInputType {
     TIME,
     DROPDOWN
 }
+
+data class TextLabelData(
+    @StringRes val labelTextId: Int,
+    val labelValue: String = ""
+)

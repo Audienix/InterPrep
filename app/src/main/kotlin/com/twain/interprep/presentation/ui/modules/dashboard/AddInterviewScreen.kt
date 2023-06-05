@@ -2,7 +2,6 @@ package com.twain.interprep.presentation.ui.modules.dashboard
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,8 +34,8 @@ import com.twain.interprep.presentation.ui.components.interview.IPTextInput
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
 import com.twain.interprep.data.model.isValid
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputHorizontalListAttributes
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputVerticalListAttributes
+import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputHorizontalListAttributes
+import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputVerticalListAttributes
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 
 @Composable
