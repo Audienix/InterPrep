@@ -25,10 +25,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.QuoteData
+import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
-import com.twain.interprep.presentation.ui.components.interview.interview
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardViewModel
 
 @Composable
@@ -59,7 +59,7 @@ fun InterviewDetailsScreen(
             ) {
                 IPQuoteCard(quote = QuoteData.quotes[0])
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
-                IPInterviewDetailsCard(interview = interview)
+                IPInterviewDetailsCard(interview = interviewMockData)
             }
         }
     )

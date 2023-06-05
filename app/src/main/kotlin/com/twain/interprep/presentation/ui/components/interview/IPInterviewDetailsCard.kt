@@ -31,6 +31,8 @@ import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.ui.InterviewFormData.Companion.getTextLabelList
+import com.twain.interprep.data.ui.interviewMockData
+import com.twain.interprep.presentation.ui.components.generic.IPClickableLinkText
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundSurface
 import com.twain.interprep.presentation.ui.theme.Purple100
@@ -78,7 +80,7 @@ private fun InterviewDetailsList(interview: Interview) {
                 color = TextPrimary,
                 style = MaterialTheme.typography.bodyLarge,
             )
-            Text(
+            IPClickableLinkText(
                 modifier = Modifier
                     .padding(
                         end = dimensionResource(id = R.dimen.dimension_8dp),
@@ -138,6 +140,6 @@ private fun InterviewDetailsHeader(interview: Interview) {
 @Preview
 @Composable
 fun InterviewDetailsCardPreview() {
-    IPInterviewDetailsCard(interview = interview)
+    IPInterviewDetailsCard(interview = interviewMockData)
 }
 
