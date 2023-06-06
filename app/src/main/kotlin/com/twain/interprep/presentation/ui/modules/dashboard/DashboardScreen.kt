@@ -21,8 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
+import com.twain.interprep.data.ui.interviewMockData
+import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
