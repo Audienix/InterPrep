@@ -127,7 +127,7 @@ fun InterviewCard(
                         Locale.getDefault()
                     ).format(interview.date.time)
                         .replace(".", "") + " "
-                            + SimpleDateFormat(DT_FORMAT_AM_PM, Locale.getDefault()).format(
+                        + SimpleDateFormat(DT_FORMAT_AM_PM, Locale.getDefault()).format(
                         interview.date.time
                     )
                         .uppercase()
@@ -141,7 +141,7 @@ fun InterviewCard(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "#${interview.roundNum.toString()} - ${interview.role}",
+                    text = "#${if (interview.roundNum == -1) "N/A" else interview.roundNum} - ${interview.role}",
                     color = textColor,
                     style = MaterialTheme.typography.bodyMedium,
                     overflow = TextOverflow.Ellipsis,

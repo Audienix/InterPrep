@@ -69,61 +69,75 @@ fun DashboardScreen(
                     val interviews = viewModel.interviews as ViewResult.Loaded
                     item {
                         Column {
-                            IPHeader(
-                                text = stringResource(id = R.string.heading_label_upcoming),
-                                textStyle = MaterialTheme.typography.titleLarge,
-                                modifier = Modifier.padding(
-                                    start = dimensionResource(id = R.dimen.dimension_8dp),
-                                    end = dimensionResource(id = R.dimen.dimension_8dp),
-                                    top = dimensionResource(id = R.dimen.dimension_8dp)
-                                ),
-                                fontWeight = FontWeight.Normal
-                            )
-                            LazyRow(
-                                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                items(interviews.data.upcomingInterviews) { interview ->
-                                    InterviewCard(interview = interview, onClick = { /*TODO*/ }, color = InterviewCardColor.UpcomingInterviewCardColor)
+                            if (interviews.data.upcomingInterviews.isNotEmpty()) {
+                                IPHeader(
+                                    text = stringResource(id = R.string.heading_label_upcoming),
+                                    textStyle = MaterialTheme.typography.titleLarge,
+                                    modifier = Modifier.padding(
+                                        start = dimensionResource(id = R.dimen.dimension_8dp),
+                                        end = dimensionResource(id = R.dimen.dimension_8dp),
+                                        top = dimensionResource(id = R.dimen.dimension_8dp)
+                                    ),
+                                    fontWeight = FontWeight.Normal
+                                )
+                                LazyRow(
+                                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    items(interviews.data.upcomingInterviews) { interview ->
+                                        InterviewCard(interview = interview, onClick = { /*TODO*/ }, color = InterviewCardColor.UpcomingInterviewCardColor)
+                                    }
                                 }
                             }
                         }
                     }
-                    item {
-                        Column {
-                            IPHeader(
-                                text = stringResource(id = R.string.heading_label_coming_next),
-                                textStyle = MaterialTheme.typography.titleLarge,
-                                modifier = Modifier.padding(
-                                    start = dimensionResource(id = R.dimen.dimension_8dp),
-                                    end = dimensionResource(id = R.dimen.dimension_8dp),
-                                    top = dimensionResource(id = R.dimen.dimension_8dp)
-                                ),
-                                fontWeight = FontWeight.Normal
-                            )
-                            LazyRow(
-                                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp))
-                            ) {
-                                items(interviews.data.comingNextInterviews) { interview ->
-                                    InterviewCard(interview = interview, onClick = { /*TODO*/ }, color = InterviewCardColor.ComingNextInterviewColor)
+                    if (interviews.data.comingNextInterviews.isNotEmpty()) {
+                        item {
+                            Column {
+                                IPHeader(
+                                    text = stringResource(id = R.string.heading_label_coming_next),
+                                    textStyle = MaterialTheme.typography.titleLarge,
+                                    modifier = Modifier.padding(
+                                        start = dimensionResource(id = R.dimen.dimension_8dp),
+                                        end = dimensionResource(id = R.dimen.dimension_8dp),
+                                        top = dimensionResource(id = R.dimen.dimension_8dp)
+                                    ),
+                                    fontWeight = FontWeight.Normal
+                                )
+                                LazyRow(
+                                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp))
+                                ) {
+                                    items(interviews.data.comingNextInterviews) { interview ->
+                                        InterviewCard(
+                                            interview = interview,
+                                            onClick = { /*TODO*/ },
+                                            color = InterviewCardColor.ComingNextInterviewColor
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
-                    item {
-                        IPHeader(
-                            text = stringResource(id = R.string.heading_label_past),
-                            textStyle = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(
-                                start = dimensionResource(id = R.dimen.dimension_8dp),
-                                top = dimensionResource(id = R.dimen.dimension_8dp),
-                                end = dimensionResource(id = R.dimen.dimension_8dp),
-                            ),
-                            fontWeight = FontWeight.Normal
-                        )
-                    }
-                    items(interviews.data.pastInterviews) { interview ->
-                        InterviewCard(interview = interview, onClick = { /*TODO*/ }, color = InterviewCardColor.PastInterviewCardColor)
+                    if (interviews.data.pastInterviews.isNotEmpty()) {
+                        item {
+                            IPHeader(
+                                text = stringResource(id = R.string.heading_label_past),
+                                textStyle = MaterialTheme.typography.titleLarge,
+                                modifier = Modifier.padding(
+                                    start = dimensionResource(id = R.dimen.dimension_8dp),
+                                    top = dimensionResource(id = R.dimen.dimension_8dp),
+                                    end = dimensionResource(id = R.dimen.dimension_8dp),
+                                ),
+                                fontWeight = FontWeight.Normal
+                            )
+                        }
+                        items(interviews.data.pastInterviews) { interview ->
+                            InterviewCard(
+                                interview = interview,
+                                onClick = { /*TODO*/ },
+                                color = InterviewCardColor.PastInterviewCardColor
+                            )
+                        }
                     }
                 }
             }

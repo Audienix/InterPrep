@@ -10,12 +10,12 @@ data class Interview(
     @PrimaryKey(autoGenerate = true) val interviewId: Int = 0,
     val date: Date,
     val company: String,
-    val interviewType: String? = "",
-    val role: String? = "",
-    val roundNum: Int? = null,
-    val jobPostLink: String? = "",
-    val companyLink: String? = "",
-    val interviewer: String? = "",
+    val interviewType: String = "",
+    val role: String = "N/A",
+    val roundNum: Int = -1,
+    val jobPostLink: String = "",
+    val companyLink: String = "",
+    val interviewer: String = "",
     val interviewStatus: InterviewStatus = InterviewStatus.NO_UPDATE
 )
 

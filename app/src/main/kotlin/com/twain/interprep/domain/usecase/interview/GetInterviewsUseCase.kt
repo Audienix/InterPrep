@@ -5,6 +5,7 @@ import com.twain.interprep.domain.repository.InterviewRepository
 import kotlinx.coroutines.flow.transform
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class GetInterviewsUseCase(private val interviewRepository: InterviewRepository) {
 
@@ -15,7 +16,7 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
             interviews.onEach { interview ->
                 if (interview.date.before(Date())) {
                     dashBoardInterviews.pastInterviews.add(interview)
-                } else if (isSameWeekAsCurrentDate(interview.date)) {
+                } else if (isInterviewDateInSameWeek(interview.date)) {
                     dashBoardInterviews.upcomingInterviews.add(interview)
                 } else {
                     dashBoardInterviews.comingNextInterviews.add(interview)
@@ -25,18 +26,18 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
         }
 
 
-    private fun isSameWeekAsCurrentDate(date: Date): Boolean {
-        val current = Calendar.getInstance()
-        val comparedCalendar = Calendar.getInstance()
+    private fun isInterviewDateInSameWeek(date: Date): Boolean {
+        val currentDateTime = Calendar.getInstance(Locale.getDefault())
+        val interviewDateTime = Calendar.getInstance(Locale.getDefault())
 
-        current.time = Date()
-        comparedCalendar.time = date
+        currentDateTime.time = Date()
+        interviewDateTime.time = date
 
-        val currentWeek = current.get(Calendar.WEEK_OF_YEAR)
-        val comparedWeek = comparedCalendar.get(Calendar.WEEK_OF_YEAR)
+        val currentWeek = currentDateTime.get(Calendar.WEEK_OF_YEAR)
+        val comparedWeek = interviewDateTime.get(Calendar.WEEK_OF_YEAR)
 
-        val currentYear = current.get(Calendar.YEAR)
-        val comparedYear = comparedCalendar.get(Calendar.YEAR)
+        val currentYear = currentDateTime.get(Calendar.YEAR)
+        val comparedYear = interviewDateTime.get(Calendar.YEAR)
 
         return currentWeek == comparedWeek && currentYear == comparedYear
     }

@@ -65,8 +65,8 @@ data class OnEditInterview(
     val dateHM: String = "",
     val company: String = "",
     val interviewType: String = "",
-    val role: String = "",
-    val roundNum: Int? = null,
+    val role: String = "N/A",
+    val roundNum: Int = -1,
     val jobPostLink: String = "",
     val companyLink: String = "",
     val interviewer: String = "",
@@ -96,7 +96,7 @@ fun OnEditInterview.getInterviewField(label: InterviewLabel) = when (label) {
     InterviewLabel.COMPANY -> company
     InterviewLabel.INTERVIEW_TYPE -> interviewType
     InterviewLabel.ROLE -> role
-    InterviewLabel.ROUND -> roundNum?.toString().orEmpty()
+    InterviewLabel.ROUND -> roundNum.toString()
     InterviewLabel.JOB_POST -> jobPostLink
     InterviewLabel.COMPANY_LINK -> companyLink
     InterviewLabel.INTERVIEWER -> interviewer
