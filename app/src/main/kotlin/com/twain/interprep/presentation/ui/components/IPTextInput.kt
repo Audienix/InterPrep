@@ -29,20 +29,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.Input
+import com.twain.interprep.data.ui.InterviewLabel
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.utils.validateRequiredField
 
 @Composable
 fun IPTextInput(
     modifier: Modifier = Modifier,
+    text: String,
     input: Input,
+    onTextUpdate: (text: String) -> Unit
 ) {
-    val labelText = stringResource(id = input.labelTextId)
+    val labelText = stringResource(id = input.labelTextId())
     val bottomText = input.bottomTextId?.let { stringResource(id = it) } ?: ""
     val errorText = input.errorTextId?.let { stringResource(id = it) } ?: ""
     val label = if (input.required) "$labelText *" else labelText
 
-    var text by remember { mutableStateOf(input.value) }
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
@@ -54,7 +56,7 @@ fun IPTextInput(
         },
         value = text,
         onValueChange = {
-            text = it
+            onTextUpdate(it)
             if (input.required) isError = validateRequiredField(text)
         },
         interactionSource = source,
@@ -80,7 +82,7 @@ fun IPTextInput(
             } else if (text.isNotEmpty()) {
                 IconButton(
                     onClick = {
-                        text = ""
+//                        text = ""
                         if (input.required) isError = validateRequiredField(text)
                     }
                 ) {
@@ -93,7 +95,7 @@ fun IPTextInput(
         },
     )
     HandleComponentInteraction(source, input, modifier, text, textFieldSize) {
-        text = it
+        onTextUpdate(it)
         if (input.required) isError = validateRequiredField(text)
     }
 }
@@ -124,10 +126,10 @@ private fun HandleComponentInteraction(
 
             TextInputType.DROPDOWN -> {
                 var dropdownOptions = emptyList<String>()
-                if (input.labelTextId == R.string.hint_label_interview_type)
+                if (input.interviewLabel == InterviewLabel.INTERVIEW_TYPE)
                     dropdownOptions =
                         listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
-                else if (input.labelTextId == R.string.hint_label_role)
+                else if (input.interviewLabel == InterviewLabel.ROLE)
                     dropdownOptions = listOf(
                         "Software Engineer",
                         "Sr. Software Engineer",
@@ -162,26 +164,32 @@ private fun TextFormInputPreview() {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
-                labelTextId = R.string.hint_label_company,
+                interviewLabel = InterviewLabel.COMPANY,
                 required = true,
                 errorTextId = R.string.error_message_form_input
-            )
+            ),
+            text = "",
+            onTextUpdate = {}
         )
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
-                labelTextId = R.string.hint_label_date,
+                interviewLabel = InterviewLabel.DATE,
                 bottomTextId = R.string.hint_label_month_format,
                 required = false
-            )
+            ),
+            text = "",
+            onTextUpdate = {}
         )
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
-                labelTextId = R.string.hint_label_time,
+                interviewLabel = InterviewLabel.TIME,
                 bottomTextId = R.string.hint_label_time_format,
                 required = false
-            )
+            ),
+            onTextUpdate = {},
+            text = ""
         )
         IPDropdownMenu(
             modifier = Modifier.fillMaxWidth(),

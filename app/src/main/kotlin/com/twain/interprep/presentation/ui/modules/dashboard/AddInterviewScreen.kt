@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,12 +12,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -25,22 +26,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
+import com.twain.interprep.data.ui.OnEditInterview
+import com.twain.interprep.data.ui.getInterviewField
+import com.twain.interprep.data.ui.toDatabaseModel
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.IPTextInput
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
-import java.util.Date
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
     viewModel: InterviewViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.onEditInterview = OnEditInterview()
+    }
+    BackHandler {
+        viewModel.onEditInterview = OnEditInterview()
+    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -49,12 +56,7 @@ fun AddInterviewScreen(
             IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
                 IconButton(onClick = {
 
-                    viewModel.insertInterview(
-                        Interview(
-                            date = Date(),
-                            company = "Wattpad"
-                        )
-                    )
+                    viewModel.insertInterview(viewModel.onEditInterview.toDatabaseModel())
 
                     navController.navigate(AppScreens.Dashboard.route) {
                         // TODO fix
@@ -86,17 +88,27 @@ fun AddInterviewScreen(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 ) {
-                    textInputHorizontalList.map {
+                    textInputHorizontalList.map { input ->
                         IPTextInput(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(1f), it
+                                .weight(1f),
+                            text = viewModel.onEditInterview.getInterviewField(input.interviewLabel),
+                            input = input,
+                            onTextUpdate = {
+                                viewModel.updateInterviewField(input.interviewLabel, it)
+                            }
                         )
                     }
                 }
-                textInputVerticalList.map {
+                textInputVerticalList.map { input ->
                     IPTextInput(
-                        modifier = Modifier.fillMaxWidth(), input = it
+                        modifier = Modifier.fillMaxWidth(),
+                        text = viewModel.onEditInterview.getInterviewField(input.interviewLabel),
+                        input = input,
+                        onTextUpdate = {
+                            viewModel.updateInterviewField(input.interviewLabel, it)
+                        }
                     )
                 }
 
