@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -24,18 +26,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.getInterviewField
+import com.twain.interprep.data.model.isValid
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputHorizontalListAttributes
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputVerticalListAttributes
 import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.IPTextInput
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
+import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: InterviewViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.interviewData = Interview()
+    }
+    BackHandler {
+        if (viewModel.interviewData.isValid())
+            viewModel.insertInterview(viewModel.interviewData)
+
+        navController.popBackStack()
+    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -43,9 +57,10 @@ fun AddInterviewScreen(
         topBar = {
             IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
                 IconButton(onClick = {
-                    navController.navigate(AppScreens.Dashboard.route) {
-                        popUpTo(AppScreens.AddInterview.route)
-                    }
+                    if (viewModel.interviewData.isValid())
+                        viewModel.insertInterview(viewModel.interviewData)
+
+                    navController.popBackStack()
                 }) {
                     Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                 }
@@ -72,20 +87,29 @@ fun AddInterviewScreen(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 ) {
-                    textInputHorizontalList.map {
+                    textTextInputHorizontalListAttributes.map { input ->
                         IPTextInput(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(1f), it
+                                .weight(1f),
+                            inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
+                            textInputAttributes = input,
+                            onTextUpdate = {
+                                viewModel.updateInterviewField(input.labelTextId, it)
+                            }
                         )
                     }
                 }
-                textInputVerticalList.map {
+                textTextInputVerticalListAttributes.map { input ->
                     IPTextInput(
-                        modifier = Modifier.fillMaxWidth(), input = it
+                        modifier = Modifier.fillMaxWidth(),
+                        inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
+                        textInputAttributes = input,
+                        onTextUpdate = {
+                            viewModel.updateInterviewField(input.labelTextId, it)
+                        }
                     )
                 }
-
             }
         }
     )
