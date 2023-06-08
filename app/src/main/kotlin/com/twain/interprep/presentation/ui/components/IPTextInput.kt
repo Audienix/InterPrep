@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.Input
-import com.twain.interprep.data.ui.InterviewLabel
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.utils.validateRequiredField
 
@@ -40,7 +39,7 @@ fun IPTextInput(
     input: Input,
     onTextUpdate: (text: String) -> Unit
 ) {
-    val labelText = stringResource(id = input.labelTextId())
+    val labelText = stringResource(id = input.labelTextId)
     val bottomText = input.bottomTextId?.let { stringResource(id = it) } ?: ""
     val errorText = input.errorTextId?.let { stringResource(id = it) } ?: ""
     val label = if (input.required) "$labelText *" else labelText
@@ -96,7 +95,7 @@ fun IPTextInput(
     )
     HandleComponentInteraction(source, input, modifier, text, textFieldSize) {
         onTextUpdate(it)
-        if (input.required) isError = validateRequiredField(text)
+        if (input.required) isError = validateRequiredField(it)
     }
 }
 
@@ -126,10 +125,10 @@ private fun HandleComponentInteraction(
 
             TextInputType.DROPDOWN -> {
                 var dropdownOptions = emptyList<String>()
-                if (input.interviewLabel == InterviewLabel.INTERVIEW_TYPE)
+                if (input.labelTextId == R.string.hint_label_interview_type)
                     dropdownOptions =
                         listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
-                else if (input.interviewLabel == InterviewLabel.ROLE)
+                else if (input.labelTextId == R.string.hint_label_role)
                     dropdownOptions = listOf(
                         "Software Engineer",
                         "Sr. Software Engineer",
@@ -164,7 +163,7 @@ private fun TextFormInputPreview() {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
-                interviewLabel = InterviewLabel.COMPANY,
+                labelTextId = R.string.hint_label_company,
                 required = true,
                 errorTextId = R.string.error_message_form_input
             ),
@@ -174,7 +173,7 @@ private fun TextFormInputPreview() {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
-                interviewLabel = InterviewLabel.DATE,
+                labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
                 required = false
             ),
@@ -184,7 +183,7 @@ private fun TextFormInputPreview() {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             input = Input(
-                interviewLabel = InterviewLabel.TIME,
+                labelTextId = R.string.hint_label_time,
                 bottomTextId = R.string.hint_label_time_format,
                 required = false
             ),

@@ -2,6 +2,7 @@ package com.twain.interprep.domain.usecase.interview
 
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.domain.repository.InterviewRepository
+import com.twain.interprep.utils.DateUtils
 import kotlinx.coroutines.flow.transform
 import java.util.Calendar
 import java.util.Date
@@ -12,11 +13,19 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
     operator fun invoke() =
         interviewRepository.getInterviews().transform { interviews ->
             val dashBoardInterviews =
-                DashBoardInterviews(mutableListOf(), mutableListOf(), mutableListOf())
+                DashBoardInterviews(
+                    isEmptyInterviewList = true,
+                    upcomingInterviews = mutableListOf(),
+                    comingNextInterviews = mutableListOf(),
+                    pastInterviews = mutableListOf()
+                )
+            if (interviews.isNotEmpty()) dashBoardInterviews.isEmptyInterviewList = false
             interviews.onEach { interview ->
-                if (interview.date.before(Date())) {
+                val date = DateUtils.convertStringToDate(interview.date)
+
+                if (date.before(Date())) {
                     dashBoardInterviews.pastInterviews.add(interview)
-                } else if (isInterviewDateInSameWeek(interview.date)) {
+                } else if (isInterviewDateInSameWeek(date)) {
                     dashBoardInterviews.upcomingInterviews.add(interview)
                 } else {
                     dashBoardInterviews.comingNextInterviews.add(interview)
@@ -43,6 +52,7 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
     }
 
     data class DashBoardInterviews(
+        var isEmptyInterviewList: Boolean,
         val upcomingInterviews: MutableList<Interview>,
         val comingNextInterviews: MutableList<Interview>,
         val pastInterviews: MutableList<Interview>

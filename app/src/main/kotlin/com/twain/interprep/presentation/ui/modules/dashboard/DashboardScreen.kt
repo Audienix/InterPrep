@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,18 +22,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.IPAppBar
-import com.twain.interprep.presentation.ui.components.ComingNextInterviewCard
 import com.twain.interprep.presentation.ui.components.IPFAB
 import com.twain.interprep.presentation.ui.components.IPHeader
-import com.twain.interprep.presentation.ui.components.PastInterviewCard
-import com.twain.interprep.presentation.ui.components.UpcomingInterviewCard
-import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
-import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.ui.components.InterviewCard
 import com.twain.interprep.presentation.ui.components.InterviewCardColor
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
+import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 
 @Composable
 fun DashboardScreen(
@@ -44,7 +41,7 @@ fun DashboardScreen(
 ) {
     // TODO ask Arighna
     quotesViewModel.insertQuotes(QuoteData.quotes)
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         viewModel.getInterviews()
     }
     Scaffold(
@@ -61,15 +58,27 @@ fun DashboardScreen(
             }
         },
         content = { padding ->
-            LazyColumn(
-                modifier = Modifier.padding(padding),
-                contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp))
-            ) {
-                if (viewModel.interviews is ViewResult.Loaded){
-                    val interviews = viewModel.interviews as ViewResult.Loaded
-                    item {
-                        Column {
-                            if (interviews.data.upcomingInterviews.isNotEmpty()) {
+            if (viewModel.interviews is ViewResult.Loaded) {
+                val interviews = viewModel.interviews as ViewResult.Loaded
+                if (interviews.data.isEmptyInterviewList)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )  {
+                        FullScreenEmptyState(
+                            Modifier,
+                            R.drawable.empty_state_dashboard,
+                            stringResource(id = R.string.empty_state_title_dashboard),
+                            stringResource(id = R.string.empty_state_description_dashboard)
+                        )
+                    }
+                LazyColumn(
+                    modifier = Modifier.padding(padding),
+                    contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp))
+                ) {
+                    if (interviews.data.upcomingInterviews.isNotEmpty()) {
+                        item {
+                            Column {
                                 IPHeader(
                                     text = stringResource(id = R.string.heading_label_upcoming),
                                     textStyle = MaterialTheme.typography.titleLarge,
@@ -85,7 +94,11 @@ fun DashboardScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     items(interviews.data.upcomingInterviews) { interview ->
-                                        InterviewCard(interview = interview, onClick = { /*TODO*/ }, color = InterviewCardColor.UpcomingInterviewCardColor)
+                                        InterviewCard(
+                                            interview = interview,
+                                            onClick = { /*TODO*/ },
+                                            color = InterviewCardColor.UpcomingInterviewCardColor
+                                        )
                                     }
                                 }
                             }

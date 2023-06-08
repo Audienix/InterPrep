@@ -1,13 +1,12 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.data.ui.InterviewLabel
-import com.twain.interprep.data.ui.OnEditInterview
-import com.twain.interprep.data.ui.isValid
 import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
@@ -30,61 +29,61 @@ class InterviewViewModel @Inject constructor(
     mutableStateOf(ViewResult.UnInitialized)
         private set
 
-    var onEditInterview: OnEditInterview by mutableStateOf(OnEditInterview())
+    var interviewData: Interview by mutableStateOf(Interview())
 
-    fun updateInterviewField(label: InterviewLabel, value: String) {
-        when (label) {
-            InterviewLabel.DATE -> {
-                onEditInterview = onEditInterview.copy(
-                    dateYMD = value
+    fun updateInterviewField(@StringRes labelTextId: Int, value: String) {
+        when (labelTextId) {
+            R.string.hint_label_date -> {
+                interviewData = interviewData.copy(
+                    date = value
                 )
             }
 
-            InterviewLabel.TIME -> {
-                onEditInterview = onEditInterview.copy(
-                    dateHM = value
+            R.string.hint_label_time -> {
+                interviewData = interviewData.copy(
+                    time = value
                 )
             }
 
-            InterviewLabel.COMPANY -> {
-                onEditInterview = onEditInterview.copy(
+            R.string.hint_label_company-> {
+                interviewData = interviewData.copy(
                     company = value
                 )
             }
 
-            InterviewLabel.INTERVIEW_TYPE -> {
-                onEditInterview = onEditInterview.copy(
+            R.string.hint_label_interview_type -> {
+                interviewData = interviewData.copy(
                     interviewType = value
                 )
             }
 
-            InterviewLabel.ROLE -> {
-                onEditInterview = onEditInterview.copy(
+            R.string.hint_label_role -> {
+                interviewData = interviewData.copy(
                     role = value
                 )
             }
 
-            InterviewLabel.ROUND -> {
+            R.string.hint_label_round_count -> {
                 // TODO think a better way to check
-                onEditInterview = onEditInterview.copy(
-                    roundNum = value.toIntOrNull() ?: -1
+                interviewData = interviewData.copy(
+                    roundNum = value
                 )
             }
 
-            InterviewLabel.JOB_POST -> {
-                onEditInterview = onEditInterview.copy(
+            R.string.hint_label_job_post -> {
+                interviewData = interviewData.copy(
                     jobPostLink = value
                 )
             }
 
-            InterviewLabel.COMPANY_LINK -> {
-                onEditInterview = onEditInterview.copy(
+            R.string.hint_label_company_link -> {
+                interviewData = interviewData.copy(
                     companyLink = value
                 )
             }
 
-            InterviewLabel.INTERVIEWER -> {
-                onEditInterview = onEditInterview.copy(
+            R.string.hint_label_interviewer -> {
+                interviewData = interviewData.copy(
                     interviewer = value
                 )
             }
@@ -92,7 +91,7 @@ class InterviewViewModel @Inject constructor(
     }
 
     fun insertInterview(interview: Interview) = launchCoroutineIO {
-        if (onEditInterview.isValid()) interviewUseCase.insertInterview(interview)
+        interviewUseCase.insertInterview(interview)
     }
 
     fun deleteInterview(interview: Interview) = launchCoroutineIO {

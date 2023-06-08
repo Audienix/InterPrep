@@ -26,12 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.getInterviewField
+import com.twain.interprep.data.model.isValid
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
 import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
-import com.twain.interprep.data.ui.OnEditInterview
-import com.twain.interprep.data.ui.getInterviewField
-import com.twain.interprep.data.ui.toDatabaseModel
-import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.IPTextInput
@@ -43,10 +42,13 @@ fun AddInterviewScreen(
     viewModel: InterviewViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.onEditInterview = OnEditInterview()
+        viewModel.interviewData = Interview()
     }
     BackHandler {
-        viewModel.onEditInterview = OnEditInterview()
+        if (viewModel.interviewData.isValid())
+            viewModel.insertInterview(viewModel.interviewData)
+
+        navController.popBackStack()
     }
     Scaffold(
         modifier = Modifier
@@ -55,13 +57,10 @@ fun AddInterviewScreen(
         topBar = {
             IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
                 IconButton(onClick = {
+                    if (viewModel.interviewData.isValid())
+                        viewModel.insertInterview(viewModel.interviewData)
 
-                    viewModel.insertInterview(viewModel.onEditInterview.toDatabaseModel())
-
-                    navController.navigate(AppScreens.Dashboard.route) {
-                        // TODO fix
-                        popUpTo(AppScreens.AddInterview.route)
-                    }
+                    navController.popBackStack()
                 }) {
                     Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                 }
@@ -93,10 +92,10 @@ fun AddInterviewScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f),
-                            text = viewModel.onEditInterview.getInterviewField(input.interviewLabel),
+                            text = viewModel.interviewData.getInterviewField(input.labelTextId),
                             input = input,
                             onTextUpdate = {
-                                viewModel.updateInterviewField(input.interviewLabel, it)
+                                viewModel.updateInterviewField(input.labelTextId, it)
                             }
                         )
                     }
@@ -104,10 +103,10 @@ fun AddInterviewScreen(
                 textInputVerticalList.map { input ->
                     IPTextInput(
                         modifier = Modifier.fillMaxWidth(),
-                        text = viewModel.onEditInterview.getInterviewField(input.interviewLabel),
+                        text = viewModel.interviewData.getInterviewField(input.labelTextId),
                         input = input,
                         onTextUpdate = {
-                            viewModel.updateInterviewField(input.interviewLabel, it)
+                            viewModel.updateInterviewField(input.labelTextId, it)
                         }
                     )
                 }

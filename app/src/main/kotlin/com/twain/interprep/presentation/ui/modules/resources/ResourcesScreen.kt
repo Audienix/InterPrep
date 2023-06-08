@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.IPAppBar
-import com.twain.interprep.presentation.ui.components.FullScreenEmptyStateResource
 
 @Composable
 fun ResourcesScreen(
@@ -22,6 +22,11 @@ fun ResourcesScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         IPAppBar(stringResource(id = R.string.nav_item_resources)){}
-        FullScreenEmptyStateResource()
+        FullScreenEmptyState(
+            Modifier,
+            R.drawable.empty_state_resource,
+            stringResource(id = R.string.empty_state_title_resource),
+            stringResource(id = R.string.empty_state_description_resource)
+        )
     }
 }
