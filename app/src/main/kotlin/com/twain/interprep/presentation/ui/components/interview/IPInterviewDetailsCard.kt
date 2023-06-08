@@ -37,6 +37,7 @@ import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundSurface
 import com.twain.interprep.presentation.ui.theme.Purple100
 import com.twain.interprep.presentation.ui.theme.TextPrimary
+import com.twain.interprep.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -117,7 +118,7 @@ private fun InterviewDetailsHeader(interview: Interview) {
             text = SimpleDateFormat(
                 StringConstants.DT_FORMAT_DD_MMMM_YYYY,
                 Locale.getDefault()
-            ).format(interview.date),
+            ).format(DateUtils.convertStringToDate(interview.date)),
             color = Purple100,
             fontSize = MaterialTheme.typography.headlineSmall.fontSize,
             fontWeight = FontWeight.Normal,

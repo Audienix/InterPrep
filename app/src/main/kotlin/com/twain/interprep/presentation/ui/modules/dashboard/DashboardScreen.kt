@@ -4,10 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -21,14 +21,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.data.ui.QuoteData
-import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
-import com.twain.interprep.presentation.ui.components.interview.PastInterviewCard
+import com.twain.interprep.presentation.ui.components.interview.InterviewCard
+import com.twain.interprep.presentation.ui.components.interview.InterviewCardColor
+import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 
 @Composable
@@ -93,10 +95,11 @@ fun DashboardScreen(
                                     modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    items(interviews.data.upcomingInterviews) { interview ->
+                                    items(interviews.data.upcomingInterviews) {interview ->
                                         InterviewCard(
                                             interview = interview,
                                             onClick = { /*TODO*/ },
+                                            navController = navController,
                                             color = InterviewCardColor.UpcomingInterviewCardColor
                                         )
                                     }
@@ -124,6 +127,7 @@ fun DashboardScreen(
                                         InterviewCard(
                                             interview = interview,
                                             onClick = { /*TODO*/ },
+                                            navController = navController,
                                             color = InterviewCardColor.ComingNextInterviewColor
                                         )
                                     }
@@ -148,6 +152,7 @@ fun DashboardScreen(
                             InterviewCard(
                                 interview = interview,
                                 onClick = { /*TODO*/ },
+                                navController = navController,
                                 color = InterviewCardColor.PastInterviewCardColor
                             )
                         }

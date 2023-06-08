@@ -2,16 +2,15 @@ package com.twain.interprep.data.ui
 
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
-import java.util.Calendar
 
-val calendar: Calendar = Calendar.getInstance()
 val interviewMockData = Interview(
     interviewId = 1,
-    date = calendar.time,
+    date = "07/07/2023",
+    time = "07:23",
     company = "Uber",
     interviewType = "In-person",
     role = "Software Engineer",
-    roundNum = 2,
+    roundNum = "2",
     jobPostLink = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=3512066424",
     companyLink = "https://www.uber.com/ca/en/ride/",
     interviewer = "John Smith",

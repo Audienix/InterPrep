@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -65,28 +66,28 @@ class InterviewFormData {
                     R.string.hint_label_time, SimpleDateFormat(
                         StringConstants.DT_FORMAT_DAY_HOUR_MIN,
                         Locale.getDefault()
-                    ).format(interview.date)
+                    ).format(DateUtils.convertStringToDate(interview.date))
                 ),
                 TextLabelData(
                     R.string.hint_label_company, interview.company
                 ),
                 TextLabelData(
-                    R.string.hint_label_interview_type, interview.interviewType.toString()
+                    R.string.hint_label_interview_type, interview.interviewType
                 ),
                 TextLabelData(
-                    R.string.hint_label_role, interview.role.toString(),
+                    R.string.hint_label_role, interview.role,
                 ),
                 TextLabelData(
-                    R.string.hint_label_round_count, interview.roundNum.toString()
+                    R.string.hint_label_round_count, interview.roundNum
                 ),
                 TextLabelData(
-                    R.string.hint_label_job_post, interview.jobPostLink.toString()
+                    R.string.hint_label_job_post, interview.jobPostLink
                 ),
                 TextLabelData(
-                    R.string.hint_label_company_link, interview.companyLink.toString()
+                    R.string.hint_label_company_link, interview.companyLink
                 ),
                 TextLabelData(
-                    R.string.hint_label_interviewer, interview.interviewer.toString()
+                    R.string.hint_label_interviewer, interview.interviewer
                 )
             )
         }

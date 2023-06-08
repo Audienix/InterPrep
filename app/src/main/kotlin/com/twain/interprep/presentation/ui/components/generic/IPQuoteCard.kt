@@ -22,17 +22,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Quote
 import com.twain.interprep.data.ui.QuoteData
+import com.twain.interprep.presentation.ui.components.interview.InterviewCardColor
+import com.twain.interprep.presentation.ui.theme.BackgroundLightGray
+import com.twain.interprep.presentation.ui.theme.BackgroundLightGreen
+import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
-fun IPQuoteCard(modifier: Modifier = Modifier, quote: Quote) {
+fun IPQuoteCard(modifier: Modifier = Modifier, color: InterviewCardColor, quote: Quote) {
+    val containerColor: Color = when (color) {
+        is InterviewCardColor.UpcomingInterviewCardColor -> {
+            BackgroundLightPurple
+        }
+
+        is InterviewCardColor.ComingNextInterviewColor -> {
+            BackgroundLightGreen
+        }
+
+        is InterviewCardColor.PastInterviewCardColor -> {
+            BackgroundLightGray
+        }
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
         shape = Shapes.extraSmall,
     ) {
         Column(
@@ -65,5 +82,5 @@ fun IPQuoteCard(modifier: Modifier = Modifier, quote: Quote) {
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun QuoteCardPreview() {
-    IPQuoteCard(quote = QuoteData.quotes[0])
+    IPQuoteCard(quote = QuoteData.quotes[0], color = InterviewCardColor.UpcomingInterviewCardColor)
 }

@@ -29,6 +29,7 @@ import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
+import com.twain.interprep.presentation.ui.components.interview.InterviewCardColor
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardViewModel
 
 @Composable
@@ -57,7 +58,7 @@ fun InterviewDetailsScreen(
                     .padding(dimensionResource(id = R.dimen.dimension_4dp))
                     .verticalScroll(rememberScrollState()),
             ) {
-                IPQuoteCard(quote = QuoteData.quotes[0])
+                IPQuoteCard(quote = QuoteData.quotes[0], color = InterviewCardColor.UpcomingInterviewCardColor)
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
                 IPInterviewDetailsCard(interview = interviewMockData)
             }
