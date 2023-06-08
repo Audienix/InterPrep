@@ -28,24 +28,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
-import com.twain.interprep.data.ui.Input
+import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.utils.validateRequiredField
 
 @Composable
 fun IPTextInput(
     modifier: Modifier = Modifier,
-    input: Input,
+    inputText: String,
+    textInputAttributes: TextInputAttributes,
+    onTextUpdate: (text: String) -> Unit
 ) {
-    val labelText = stringResource(id = input.labelTextId)
-    val bottomText = input.bottomTextId?.let { stringResource(id = it) } ?: ""
-    val errorText = input.errorTextId?.let { stringResource(id = it) } ?: ""
-    val label = if (input.required) "$labelText *" else labelText
+    val labelText = stringResource(id = textInputAttributes.labelTextId)
+    val bottomText = textInputAttributes.bottomTextId?.let { stringResource(id = it) } ?: ""
+    val errorText = textInputAttributes.errorTextId?.let { stringResource(id = it) } ?: ""
+    val label = if (textInputAttributes.required) "$labelText *" else labelText
 
-    var text by remember { mutableStateOf(input.value) }
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
+    var text by remember { mutableStateOf(inputText) }
 
     OutlinedTextField(
         modifier = modifier.onGloballyPositioned { coordinates ->
@@ -55,7 +57,8 @@ fun IPTextInput(
         value = text,
         onValueChange = {
             text = it
-            if (input.required) isError = validateRequiredField(text)
+            onTextUpdate(it)
+            if (textInputAttributes.required) isError = validateRequiredField(text)
         },
         interactionSource = source,
         singleLine = true,
@@ -81,7 +84,7 @@ fun IPTextInput(
                 IconButton(
                     onClick = {
                         text = ""
-                        if (input.required) isError = validateRequiredField(text)
+                        if (textInputAttributes.required) isError = validateRequiredField(text)
                     }
                 ) {
                     Icon(
@@ -92,16 +95,17 @@ fun IPTextInput(
             }
         },
     )
-    HandleComponentInteraction(source, input, modifier, text, textFieldSize) {
+    HandleComponentInteraction(source, textInputAttributes, modifier, text, textFieldSize) {
         text = it
-        if (input.required) isError = validateRequiredField(text)
+        onTextUpdate(it)
+        if (textInputAttributes.required) isError = validateRequiredField(it)
     }
 }
 
 @Composable
 private fun HandleComponentInteraction(
     source: MutableInteractionSource,
-    input: Input,
+    textInputAttributes: TextInputAttributes,
     modifier: Modifier,
     fieldText: String,
     textFieldSize: Size,
@@ -111,7 +115,7 @@ private fun HandleComponentInteraction(
         initial = PressInteraction.Cancel(PressInteraction.Press(Offset.Zero))
     )
     if (pressedState.value is PressInteraction.Release) {
-        when (input.inputType) {
+        when (textInputAttributes.inputType) {
             TextInputType.DATE -> IPDatePicker(
                 selectedDateValue = fieldText,
                 onDatePickerDismiss = { onTextUpdate(it) },
@@ -124,10 +128,10 @@ private fun HandleComponentInteraction(
 
             TextInputType.DROPDOWN -> {
                 var dropdownOptions = emptyList<String>()
-                if (input.labelTextId == R.string.hint_label_interview_type)
+                if (textInputAttributes.labelTextId == R.string.hint_label_interview_type)
                     dropdownOptions =
                         listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
-                else if (input.labelTextId == R.string.hint_label_role)
+                else if (textInputAttributes.labelTextId == R.string.hint_label_role)
                     dropdownOptions = listOf(
                         "Software Engineer",
                         "Sr. Software Engineer",
@@ -161,27 +165,33 @@ private fun TextFormInputPreview() {
     ) {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
-            input = Input(
+            textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_company,
                 required = true,
                 errorTextId = R.string.error_message_form_input
-            )
+            ),
+            inputText = "",
+            onTextUpdate = {}
         )
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
-            input = Input(
+            textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
                 required = false
-            )
+            ),
+            inputText = "",
+            onTextUpdate = {}
         )
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
-            input = Input(
+            textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_time,
                 bottomTextId = R.string.hint_label_time_format,
                 required = false
-            )
+            ),
+            onTextUpdate = {},
+            inputText = ""
         )
         IPDropdownMenu(
             modifier = Modifier.fillMaxWidth(),

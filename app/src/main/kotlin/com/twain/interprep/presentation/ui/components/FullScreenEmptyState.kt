@@ -57,6 +57,7 @@ fun FullScreenEmptyState(
             Text(
                 text = emptyStateText,
                 style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             )
         }
