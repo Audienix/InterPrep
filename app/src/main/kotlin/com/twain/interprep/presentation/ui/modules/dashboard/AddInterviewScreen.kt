@@ -29,8 +29,8 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
 import com.twain.interprep.data.model.isValid
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputHorizontalList
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textInputVerticalList
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputHorizontalListAttributes
+import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputVerticalListAttributes
 import com.twain.interprep.presentation.ui.components.IPAppBar
 import com.twain.interprep.presentation.ui.components.IPHeader
 import com.twain.interprep.presentation.ui.components.IPTextInput
@@ -87,30 +87,29 @@ fun AddInterviewScreen(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 ) {
-                    textInputHorizontalList.map { input ->
+                    textTextInputHorizontalListAttributes.map { input ->
                         IPTextInput(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f),
-                            text = viewModel.interviewData.getInterviewField(input.labelTextId),
-                            input = input,
+                            inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
+                            textInputAttributes = input,
                             onTextUpdate = {
                                 viewModel.updateInterviewField(input.labelTextId, it)
                             }
                         )
                     }
                 }
-                textInputVerticalList.map { input ->
+                textTextInputVerticalListAttributes.map { input ->
                     IPTextInput(
                         modifier = Modifier.fillMaxWidth(),
-                        text = viewModel.interviewData.getInterviewField(input.labelTextId),
-                        input = input,
+                        inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
+                        textInputAttributes = input,
                         onTextUpdate = {
                             viewModel.updateInterviewField(input.labelTextId, it)
                         }
                     )
                 }
-
             }
         }
     )
