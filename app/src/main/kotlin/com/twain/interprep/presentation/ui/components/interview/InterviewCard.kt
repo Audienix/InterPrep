@@ -83,6 +83,7 @@ fun InterviewCard(
             .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.dimension_8dp))
             .clickable(onClick = {
+                onClick()
                 navController.navigate(AppScreens.InterviewDetails.route) {
                     popUpTo(AppScreens.Dashboard.route)
                 }

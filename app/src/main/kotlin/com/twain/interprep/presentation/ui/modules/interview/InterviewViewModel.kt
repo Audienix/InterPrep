@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.data.model.isValid
 import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
@@ -30,6 +31,8 @@ class InterviewViewModel @Inject constructor(
     var interviews: ViewResult<GetInterviewsUseCase.DashBoardInterviews> by
     mutableStateOf(ViewResult.UnInitialized)
         private set
+
+    var isEditInterview = false
 
     var interviewData: Interview by mutableStateOf(Interview())
 
@@ -116,5 +119,23 @@ class InterviewViewModel @Inject constructor(
 
     fun deleteAllInterview() = launchCoroutineIO {
         interviewUseCase.deleteAllInterviews()
+    }
+
+
+    fun onEditInterviewClick(interview: Interview){
+        isEditInterview = true
+        interviewData = interview
+    }
+
+    fun onSaveInterview(){
+        if (interviewData.isValid()) {
+            if (isEditInterview) {
+                updateInterview(interviewData)
+            } else {
+                insertInterview(interviewData)
+            }
+        }
+
+        isEditInterview = false
     }
 }

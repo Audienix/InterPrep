@@ -42,7 +42,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun IPInterviewDetailsCard(modifier: Modifier = Modifier, interview: Interview) {
+fun IPInterviewDetailsCard(modifier: Modifier = Modifier, interview: Interview, onEditClick: () -> Unit) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -54,7 +54,7 @@ fun IPInterviewDetailsCard(modifier: Modifier = Modifier, interview: Interview) 
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
     ) {
-        InterviewDetailsHeader(interview)
+        InterviewDetailsHeader(interview, onEditClick)
         InterviewDetailsList(interview)
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
     }
@@ -106,7 +106,7 @@ private fun InterviewDetailsList(interview: Interview) {
 }
 
 @Composable
-private fun InterviewDetailsHeader(interview: Interview) {
+private fun InterviewDetailsHeader(interview: Interview, onEditClick: () -> Unit) {
     Box(
         modifier = Modifier
             .background(BackgroundDarkPurple),
@@ -128,7 +128,7 @@ private fun InterviewDetailsHeader(interview: Interview) {
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = dimensionResource(id = R.dimen.dimension_8dp)),
-            onClick = { /*TODO*/ }) {
+            onClick = onEditClick) {
             Icon(
                 imageVector = Icons.Default.Edit,
                 tint = Purple100,
@@ -141,6 +141,6 @@ private fun InterviewDetailsHeader(interview: Interview) {
 @Preview
 @Composable
 fun InterviewDetailsCardPreview() {
-    IPInterviewDetailsCard(interview = interviewMockData)
+    IPInterviewDetailsCard(interview = interviewMockData, onEditClick = {})
 }
 

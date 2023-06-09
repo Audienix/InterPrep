@@ -95,10 +95,11 @@ fun DashboardScreen(
                                     modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    items(interviews.data.upcomingInterviews) {interview ->
+                                    items(interviews.data.upcomingInterviews) {
+                                            interview ->
                                         InterviewCard(
                                             interview = interview,
-                                            onClick = { /*TODO*/ },
+                                            onClick = { viewModel.interviewData = interview },
                                             navController = navController,
                                             color = InterviewCardColor.UpcomingInterviewCardColor
                                         )
@@ -126,7 +127,7 @@ fun DashboardScreen(
                                     items(interviews.data.comingNextInterviews) { interview ->
                                         InterviewCard(
                                             interview = interview,
-                                            onClick = { /*TODO*/ },
+                                            onClick = { viewModel.interviewData = interview },
                                             navController = navController,
                                             color = InterviewCardColor.ComingNextInterviewColor
                                         )
@@ -151,7 +152,7 @@ fun DashboardScreen(
                         items(interviews.data.pastInterviews) { interview ->
                             InterviewCard(
                                 interview = interview,
-                                onClick = { /*TODO*/ },
+                                onClick = { viewModel.onEditInterviewClick(interview) },
                                 navController = navController,
                                 color = InterviewCardColor.PastInterviewCardColor
                             )

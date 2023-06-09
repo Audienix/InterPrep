@@ -18,8 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -54,7 +52,8 @@ fun AddInterviewScreen(
     }
     BackHandler {
         if (viewModel.interviewData.isValid())
-            viewModel.insertInterview(viewModel.interviewData)
+//            viewModel.insertInterview(viewModel.interviewData)
+            viewModel.onSaveInterview()
 
         navController.popBackStack()
     }
@@ -66,7 +65,8 @@ fun AddInterviewScreen(
             IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
                 IconButton(onClick = {
                     if (viewModel.interviewData.isValid()) {
-                        viewModel.insertInterview(viewModel.interviewData)
+//                        viewModel.insertInterview(viewModel.interviewData)
+                        viewModel.onSaveInterview()
                         navController.popBackStack()
                     } else {
                         showDialog.value = true
