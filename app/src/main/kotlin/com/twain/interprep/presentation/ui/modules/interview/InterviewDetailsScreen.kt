@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,11 +42,19 @@ fun InterviewDetailsScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         topBar = {
-            IPAppBar(stringResource(id = R.string.appbar_title_interview_details)) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+            IPAppBar(
+                title = stringResource(id = R.string.appbar_title_interview_details),
+                navIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                    }
+                }
+            ) {
+                // TODO Maybe make delete icon generic?
+                IconButton(onClick = viewModel::onDeleteInterview) {
+                    Icon(painterResource(id = R.drawable.delete_icon), null, tint = Color.White)
                 }
             }
         },
@@ -60,6 +69,7 @@ fun InterviewDetailsScreen(
                 IPQuoteCard(quote = QuoteData.quotes[0], color = InterviewCardColor.UpcomingInterviewCardColor)
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
                 IPInterviewDetailsCard(interview = viewModel.interviewData, onEditClick = {
+                    viewModel.isEditInterview = true
                     navController.navigate(AppScreens.AddInterview.route)
                 })
             }

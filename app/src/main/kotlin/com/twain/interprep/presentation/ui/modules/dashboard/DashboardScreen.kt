@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
@@ -48,10 +49,11 @@ fun DashboardScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
-        topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) {} },
+        topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             IPFAB {
+                viewModel.interviewData = Interview()
                 navController.navigate(AppScreens.AddInterview.route) {
                     popUpTo(AppScreens.Dashboard.route)
                 }
@@ -152,7 +154,7 @@ fun DashboardScreen(
                         items(interviews.data.pastInterviews) { interview ->
                             InterviewCard(
                                 interview = interview,
-                                onClick = { viewModel.onEditInterviewClick(interview) },
+                                onClick = { viewModel.interviewData = interview },
                                 navController = navController,
                                 color = InterviewCardColor.PastInterviewCardColor
                             )

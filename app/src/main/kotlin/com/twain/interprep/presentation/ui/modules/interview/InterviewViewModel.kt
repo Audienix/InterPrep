@@ -122,10 +122,6 @@ class InterviewViewModel @Inject constructor(
     }
 
 
-    fun onEditInterviewClick(interview: Interview){
-        isEditInterview = true
-        interviewData = interview
-    }
 
     fun onSaveInterview(){
         if (interviewData.isValid()) {
@@ -137,5 +133,9 @@ class InterviewViewModel @Inject constructor(
         }
 
         isEditInterview = false
+    }
+
+    fun onDeleteInterview(){
+
     }
 }

@@ -21,7 +21,7 @@ fun ResourcesScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        IPAppBar(stringResource(id = R.string.nav_item_resources)){}
+        IPAppBar(stringResource(id = R.string.nav_item_resources))
         FullScreenEmptyState(
             Modifier,
             R.drawable.empty_state_resource,
