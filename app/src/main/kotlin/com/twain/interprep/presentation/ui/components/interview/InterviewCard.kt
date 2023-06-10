@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,7 +61,13 @@ fun InterviewCard(
             .padding(dimensionResource(id = R.dimen.dimension_8dp))
             .clickable(onClick = {
                 onClick()
-                navController.navigate(AppScreens.InterviewDetails.route) {
+                navController.navigate(
+                    AppScreens.InterviewDetails.withArgs(
+                        interview.interviewId,
+                        dashboardInterviewType.cardBackgroundColor.toArgb(),
+                        dashboardInterviewType.cardContentColor.toArgb()
+                    )
+                ) {
                     popUpTo(AppScreens.Dashboard.route)
                 }
             })

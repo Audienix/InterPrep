@@ -24,18 +24,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
-import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
+import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
+import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 
 @Composable
 fun InterviewDetailsScreen(
     navController: NavHostController,
-    viewModel: InterviewViewModel = hiltViewModel()
+    viewModel: InterviewViewModel = hiltViewModel(),
+    interviewId: Int?,
+    primaryColor: Color,
+    secondaryColor: Color
 ) {
     Scaffold(
         modifier = Modifier
@@ -65,13 +69,16 @@ fun InterviewDetailsScreen(
             ) {
                 IPQuoteCard(
                     quote = QuoteData.quotes[0],
-                    dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
+                    backgroundColor = primaryColor
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
-                IPInterviewDetailsCard(interview = viewModel.interviewData, onEditClick = {
-                    viewModel.isEditInterview = true
-                    navController.navigate(AppScreens.AddInterview.route)
-                })
+                IPInterviewDetailsCard(
+                    interview = viewModel.interviewData,
+                    headerColor = secondaryColor,
+                    onEditClick = {
+                        viewModel.isEditInterview = true
+                        navController.navigate(AppScreens.AddInterview.route)
+                    })
             }
         }
     )
@@ -80,5 +87,10 @@ fun InterviewDetailsScreen(
 @Preview
 @Composable
 fun InterviewDetailsScreenPreview() {
-    InterviewDetailsScreen(navController = rememberNavController())
+    InterviewDetailsScreen(
+        navController = rememberNavController(),
+        interviewId = 1,
+        primaryColor = BackgroundLightPurple,
+        secondaryColor = BackgroundDarkPurple
+    )
 }

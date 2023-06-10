@@ -47,6 +47,7 @@ import java.util.Locale
 fun IPInterviewDetailsCard(
     modifier: Modifier = Modifier,
     interview: Interview,
+    headerColor: Color,
     onEditClick: () -> Unit
 ) {
     Card(
@@ -60,7 +61,7 @@ fun IPInterviewDetailsCard(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
     ) {
-        InterviewDetailsHeader(interview, onEditClick)
+        InterviewDetailsHeader(interview, onEditClick, headerColor)
         InterviewDetailsList(interview)
     }
 }
@@ -84,9 +85,10 @@ private fun InterviewDetailsList(interview: Interview) {
             )
             IPClickableLinkText(
                 modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.dimension_8dp)
+                    .padding(
+                        dimensionResource(id = R.dimen.dimension_8dp)
                     ),
-                text = textLabelData.labelValue.ifEmpty { "N/A" } ,
+                text = textLabelData.labelValue.ifEmpty { "N/A" },
                 color = TextPrimary,
                 style = MaterialTheme.typography.bodyLarge
             )
@@ -103,10 +105,14 @@ private fun InterviewDetailsList(interview: Interview) {
 }
 
 @Composable
-private fun InterviewDetailsHeader(interview: Interview, onEditClick: () -> Unit) {
+private fun InterviewDetailsHeader(
+    interview: Interview,
+    onEditClick: () -> Unit,
+    headerColor: Color
+) {
     Box(
         modifier = Modifier
-            .background(BackgroundDarkPurple),
+            .background(headerColor),
     ) {
         Text(
             modifier = Modifier
@@ -139,6 +145,9 @@ private fun InterviewDetailsHeader(interview: Interview, onEditClick: () -> Unit
 @Preview
 @Composable
 fun InterviewDetailsCardPreview() {
-    IPInterviewDetailsCard(interview = interviewMockData, onEditClick = {})
+    IPInterviewDetailsCard(
+        interview = interviewMockData,
+        headerColor = BackgroundDarkPurple,
+        onEditClick = {})
 }
 

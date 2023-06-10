@@ -14,14 +14,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
-import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Quote
 import com.twain.interprep.data.ui.QuoteData
+import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
@@ -29,14 +30,14 @@ import com.twain.interprep.presentation.ui.theme.TextSecondary
 @Composable
 fun IPQuoteCard(
     modifier: Modifier = Modifier,
-    dashboardInterviewType: DashboardInterviewType,
+    backgroundColor: Color,
     quote: Quote
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        colors = CardDefaults.cardColors(containerColor = dashboardInterviewType.cardBackgroundColor),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
         shape = Shapes.extraSmall,
     ) {
         Column(
@@ -71,6 +72,6 @@ fun IPQuoteCard(
 private fun QuoteCardPreview() {
     IPQuoteCard(
         quote = QuoteData.quotes[0],
-        dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
+        backgroundColor = BackgroundLightPurple
     )
 }
