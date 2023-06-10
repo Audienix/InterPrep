@@ -18,19 +18,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
-import com.twain.interprep.presentation.ui.components.interview.InterviewCardColor
 
 @Composable
 fun InterviewDetailsScreen(
@@ -52,10 +52,7 @@ fun InterviewDetailsScreen(
                     }
                 }
             ) {
-                // TODO Maybe make delete icon generic?
-                IconButton(onClick = viewModel::onDeleteInterview) {
-                    Icon(painterResource(id = R.drawable.delete_icon), null, tint = Color.White)
-                }
+                DeleteIcon { viewModel.onDeleteInterview() }
             }
         },
         content = { padding ->
@@ -66,7 +63,10 @@ fun InterviewDetailsScreen(
                     .padding(dimensionResource(id = R.dimen.dimension_4dp))
                     .verticalScroll(rememberScrollState()),
             ) {
-                IPQuoteCard(quote = QuoteData.quotes[0], color = InterviewCardColor.UpcomingInterviewCardColor)
+                IPQuoteCard(
+                    quote = QuoteData.quotes[0],
+                    dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
+                )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
                 IPInterviewDetailsCard(interview = viewModel.interviewData, onEditClick = {
                     viewModel.isEditInterview = true
@@ -79,6 +79,6 @@ fun InterviewDetailsScreen(
 
 @Preview
 @Composable
-fun InterviewDetailsScreenPreview(){
-    InterviewDetailsScreen(navController = rememberNavController() )
+fun InterviewDetailsScreenPreview() {
+    InterviewDetailsScreen(navController = rememberNavController())
 }

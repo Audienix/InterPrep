@@ -2,11 +2,12 @@ package com.twain.interprep.presentation.ui.components.interview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -37,12 +38,17 @@ import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundSurface
 import com.twain.interprep.presentation.ui.theme.Purple100
 import com.twain.interprep.presentation.ui.theme.TextPrimary
+import com.twain.interprep.presentation.ui.theme.TextSecondary
 import com.twain.interprep.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun IPInterviewDetailsCard(modifier: Modifier = Modifier, interview: Interview, onEditClick: () -> Unit) {
+fun IPInterviewDetailsCard(
+    modifier: Modifier = Modifier,
+    interview: Interview,
+    onEditClick: () -> Unit
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -56,7 +62,6 @@ fun IPInterviewDetailsCard(modifier: Modifier = Modifier, interview: Interview, 
     ) {
         InterviewDetailsHeader(interview, onEditClick)
         InterviewDetailsList(interview)
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
     }
 }
 
@@ -65,33 +70,25 @@ private fun InterviewDetailsList(interview: Interview) {
     val labelList = getTextLabelList(interview)
     labelList.forEachIndexed { index, textLabelData ->
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
-        Row(
+        Column(
             modifier = Modifier
+                .wrapContentHeight()
                 .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp))
         ) {
             Text(
                 modifier = Modifier
-                    .padding(
-                        start = dimensionResource(id = R.dimen.dimension_8dp),
-                        top = dimensionResource(id = R.dimen.dimension_8dp),
-                        bottom = dimensionResource(id = R.dimen.dimension_8dp)
-                    )
-                    .weight(1.2f),
+                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
                 text = stringResource(id = textLabelData.labelTextId),
-                color = TextPrimary,
-                style = MaterialTheme.typography.bodyLarge,
+                color = TextSecondary,
+                style = MaterialTheme.typography.bodyMedium,
             )
             IPClickableLinkText(
                 modifier = Modifier
-                    .padding(
-                        end = dimensionResource(id = R.dimen.dimension_8dp),
-                        top = dimensionResource(id = R.dimen.dimension_8dp),
-                        bottom = dimensionResource(id = R.dimen.dimension_8dp)
-                    )
-                    .weight(2f),
-                text = textLabelData.labelValue,
+                    .padding(dimensionResource(id = R.dimen.dimension_8dp)
+                    ),
+                text = textLabelData.labelValue.ifEmpty { "N/A" } ,
                 color = TextPrimary,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyLarge
             )
         }
         if (index < labelList.lastIndex)
@@ -128,7 +125,8 @@ private fun InterviewDetailsHeader(interview: Interview, onEditClick: () -> Unit
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = dimensionResource(id = R.dimen.dimension_8dp)),
-            onClick = onEditClick) {
+            onClick = onEditClick
+        ) {
             Icon(
                 imageVector = Icons.Default.Edit,
                 tint = Purple100,

@@ -7,10 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.twain.interprep.R
+import com.twain.interprep.data.model.DashBoardInterviews
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.model.isValid
-import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -28,7 +28,7 @@ class InterviewViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
-    var interviews: ViewResult<GetInterviewsUseCase.DashBoardInterviews> by
+    var interviews: ViewResult<DashBoardInterviews> by
     mutableStateOf(ViewResult.UnInitialized)
         private set
 
@@ -95,7 +95,7 @@ class InterviewViewModel @Inject constructor(
         }
     }
 
-    fun insertInterview(interview: Interview) = launchCoroutineIO {
+    private fun insertInterview(interview: Interview) = launchCoroutineIO {
         interviewUseCase.insertInterview(interview)
     }
 
@@ -103,7 +103,7 @@ class InterviewViewModel @Inject constructor(
         interviewUseCase.deleteInterview(interview)
     }
 
-    fun updateInterview(interview: Interview) = launchCoroutineIO {
+    private fun updateInterview(interview: Interview) = launchCoroutineIO {
         interviewUseCase.updateInterview(interview)
     }
 
@@ -136,6 +136,5 @@ class InterviewViewModel @Inject constructor(
     }
 
     fun onDeleteInterview(){
-
     }
 }

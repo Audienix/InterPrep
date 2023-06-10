@@ -21,20 +21,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.getInterviewField
-import com.twain.interprep.data.model.isValid
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.interview.IPTextInput
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputHorizontalListAttributes
 import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputVerticalListAttributes
+import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 
 @Composable
@@ -63,19 +62,27 @@ fun AddInterviewScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         topBar = {
-            IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
-                IconButton(onClick = {
-                    if (viewModel.interviewData.isValid()) {
+            IPAppBar(
+                title = stringResource(id = R.string.appbar_title_add_interview),
+                navIcon = {
+                    IconButton(onClick = {
+                        if (viewModel.interviewData.isValid()) {
 //                        viewModel.insertInterview(viewModel.interviewData)
-                        viewModel.onSaveInterview()
-                        navController.popBackStack()
-                    } else {
-                        showDialog.value = true
+                            viewModel.onSaveInterview()
+                            navController.popBackStack()
+                        } else {
+                            showDialog.value = true
+                        }
+                    }) {
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                     }
-                }) {
-                    Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                },
+                actions = {
+                    if (viewModel.isEditInterview) {
+                        DeleteIcon { viewModel.onDeleteInterview() }
+                    }
                 }
-            }
+            )
         },
         content = { padding ->
             if (showDialog.value) {

@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,15 +31,10 @@ import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DATE
 import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DAY
 import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_MONTH_YEAR
-import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkGray
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkGreen
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightGray
-import com.twain.interprep.presentation.ui.theme.BackgroundLightGreen
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
@@ -49,38 +45,18 @@ import java.util.Locale
 @Composable
 fun InterviewCard(
     interview: Interview,
-    color: InterviewCardColor,
+    dashboardInterviewType: DashboardInterviewType,
     navController: NavHostController,
     onClick: () -> Unit
 ) {
-    val containerColor: Color
-    val dateBoxColor: Color
-    val textColor: Color
-    when (color) {
-        is InterviewCardColor.UpcomingInterviewCardColor -> {
-            containerColor = BackgroundLightPurple
-            dateBoxColor = BackgroundDarkPurple
-            textColor = BackgroundDarkPurple
-        }
-
-        is InterviewCardColor.ComingNextInterviewColor -> {
-            containerColor = BackgroundLightGreen
-            dateBoxColor = BackgroundDarkGreen
-            textColor = BackgroundDarkGreen
-        }
-
-        is InterviewCardColor.PastInterviewCardColor -> {
-            containerColor = BackgroundLightGray
-            dateBoxColor = BackgroundDarkGray
-            textColor = BackgroundDarkGray
-        }
-    }
+    val configuration = LocalConfiguration.current
+    val cardWidth = configuration.screenWidthDp.dp * dashboardInterviewType.cardWidthFactor
     ElevatedCard(
         shape = Shapes.medium,
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
+        colors = CardDefaults.cardColors(containerColor = dashboardInterviewType.cardBackgroundColor),
         modifier = Modifier
-            .fillMaxWidth()
+            .width(cardWidth)
             .padding(dimensionResource(id = R.dimen.dimension_8dp))
             .clickable(onClick = {
                 onClick()
@@ -101,7 +77,7 @@ fun InterviewCard(
                 modifier = Modifier
                     .size(80.dp)
                     .clip(Shapes.medium)
-                    .background(dateBoxColor),
+                    .background(dashboardInterviewType.cardContentColor),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -201,7 +177,7 @@ fun UpcomingInterviewCard() {
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
-        color = InterviewCardColor.UpcomingInterviewCardColor
+        dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
     )
 }
 
@@ -212,7 +188,7 @@ fun ComingNextInterviewCard() {
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
-        color = InterviewCardColor.ComingNextInterviewColor
+        dashboardInterviewType = DashboardInterviewType.NextInterview()
     )
 }
 
@@ -223,12 +199,6 @@ fun PastInterviewCard() {
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
-        color = InterviewCardColor.PastInterviewCardColor
+        dashboardInterviewType = DashboardInterviewType.PastInterview()
     )
-}
-
-sealed class InterviewCardColor {
-    object UpcomingInterviewCardColor : InterviewCardColor()
-    object ComingNextInterviewColor : InterviewCardColor()
-    object PastInterviewCardColor : InterviewCardColor()
 }

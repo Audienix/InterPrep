@@ -14,42 +14,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
+import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Quote
 import com.twain.interprep.data.ui.QuoteData
-import com.twain.interprep.presentation.ui.components.interview.InterviewCardColor
-import com.twain.interprep.presentation.ui.theme.BackgroundLightGray
-import com.twain.interprep.presentation.ui.theme.BackgroundLightGreen
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
-fun IPQuoteCard(modifier: Modifier = Modifier, color: InterviewCardColor, quote: Quote) {
-    val containerColor: Color = when (color) {
-        is InterviewCardColor.UpcomingInterviewCardColor -> {
-            BackgroundLightPurple
-        }
-
-        is InterviewCardColor.ComingNextInterviewColor -> {
-            BackgroundLightGreen
-        }
-
-        is InterviewCardColor.PastInterviewCardColor -> {
-            BackgroundLightGray
-        }
-    }
+fun IPQuoteCard(
+    modifier: Modifier = Modifier,
+    dashboardInterviewType: DashboardInterviewType,
+    quote: Quote
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
+        colors = CardDefaults.cardColors(containerColor = dashboardInterviewType.cardBackgroundColor),
         shape = Shapes.extraSmall,
     ) {
         Column(
@@ -82,5 +69,8 @@ fun IPQuoteCard(modifier: Modifier = Modifier, color: InterviewCardColor, quote:
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun QuoteCardPreview() {
-    IPQuoteCard(quote = QuoteData.quotes[0], color = InterviewCardColor.UpcomingInterviewCardColor)
+    IPQuoteCard(
+        quote = QuoteData.quotes[0],
+        dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
+    )
 }

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
@@ -30,7 +31,6 @@ import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.interview.InterviewCard
-import com.twain.interprep.presentation.ui.components.interview.InterviewCardColor
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 
@@ -97,13 +97,12 @@ fun DashboardScreen(
                                     modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    items(interviews.data.upcomingInterviews) {
-                                            interview ->
+                                    items(interviews.data.upcomingInterviews) { interview ->
                                         InterviewCard(
                                             interview = interview,
                                             onClick = { viewModel.interviewData = interview },
                                             navController = navController,
-                                            color = InterviewCardColor.UpcomingInterviewCardColor
+                                            dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
                                         )
                                     }
                                 }
@@ -131,7 +130,7 @@ fun DashboardScreen(
                                             interview = interview,
                                             onClick = { viewModel.interviewData = interview },
                                             navController = navController,
-                                            color = InterviewCardColor.ComingNextInterviewColor
+                                            dashboardInterviewType = DashboardInterviewType.NextInterview()
                                         )
                                     }
                                 }
@@ -156,7 +155,7 @@ fun DashboardScreen(
                                 interview = interview,
                                 onClick = { viewModel.interviewData = interview },
                                 navController = navController,
-                                color = InterviewCardColor.PastInterviewCardColor
+                                dashboardInterviewType = DashboardInterviewType.PastInterview()
                             )
                         }
                     }
