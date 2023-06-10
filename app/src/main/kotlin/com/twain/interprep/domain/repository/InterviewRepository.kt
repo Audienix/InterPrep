@@ -9,9 +9,9 @@ interface InterviewRepository {
 
     suspend fun updateInterview(interview: Interview)
 
-    fun getInterviews(): Flow<List<Interview>>
+    suspend fun getInterviews(): Flow<List<Interview>>
 
-    suspend fun getInterviewById(id: Int): Interview?
+    suspend fun getInterviewById(id: Int): Flow<Interview>
 
     suspend fun deleteInterview(interview: Interview)
 

@@ -4,10 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -37,13 +37,14 @@ import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
-    viewModel: InterviewViewModel = hiltViewModel(),
-    quotesViewModel: QuotesViewModel = hiltViewModel()
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    quotesViewModel: QuotesViewModel = hiltViewModel(),
+    interviewModel:InterviewViewModel = hiltViewModel()
 ) {
     // TODO ask Arighna
     quotesViewModel.insertQuotes(QuoteData.quotes)
     LaunchedEffect(Unit) {
-        viewModel.getInterviews()
+        dashboardViewModel.getInterviews()
     }
     Scaffold(
         modifier = Modifier
@@ -53,15 +54,18 @@ fun DashboardScreen(
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             IPFAB {
-                viewModel.interviewData = Interview()
+                interviewModel.interviewData = Interview()
                 navController.navigate(AppScreens.AddInterview.route) {
                     popUpTo(AppScreens.Dashboard.route)
                 }
             }
         },
         content = { padding ->
-            if (viewModel.interviews is ViewResult.Loaded) {
-                val interviews = viewModel.interviews as ViewResult.Loaded
+            if (dashboardViewModel.interviews is ViewResult.Loaded) {
+                val interviews = dashboardViewModel.interviews as ViewResult.Loaded
+                if (interviews.data.isEmptyInterviewList)
+            if (dashboardViewModel.interviews is ViewResult.Loaded) {
+                val interviews = dashboardViewModel.interviews as ViewResult.Loaded
                 if (interviews.data.isEmptyInterviewList) {
                     Column(
                         modifier = Modifier
@@ -74,8 +78,6 @@ fun DashboardScreen(
                             stringResource(id = R.string.empty_state_description_dashboard)
                         )
                     }
-                }
-
                 LazyColumn(
                     modifier = Modifier.padding(padding),
                     contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp))
@@ -100,7 +102,7 @@ fun DashboardScreen(
                                     items(interviews.data.upcomingInterviews) { interview ->
                                         InterviewCard(
                                             interview = interview,
-                                            onClick = { viewModel.interviewData = interview },
+                                            onClick = { interviewModel.interviewData = interview },
                                             navController = navController,
                                             dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
                                         )
@@ -128,7 +130,7 @@ fun DashboardScreen(
                                     items(interviews.data.comingNextInterviews) { interview ->
                                         InterviewCard(
                                             interview = interview,
-                                            onClick = { viewModel.interviewData = interview },
+                                            onClick = { interviewModel.interviewData = interview },
                                             navController = navController,
                                             dashboardInterviewType = DashboardInterviewType.NextInterview()
                                         )
@@ -153,7 +155,7 @@ fun DashboardScreen(
                         items(interviews.data.pastInterviews) { interview ->
                             InterviewCard(
                                 interview = interview,
-                                onClick = { viewModel.interviewData = interview },
+                                onClick = { interviewModel.interviewData = interview },
                                 navController = navController,
                                 dashboardInterviewType = DashboardInterviewType.PastInterview()
                             )

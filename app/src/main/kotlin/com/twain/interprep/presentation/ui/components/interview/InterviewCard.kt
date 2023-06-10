@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
-import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DATE
-import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_DAY
-import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_MONTH_YEAR
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_DATE
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_DAY
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_MONTH_YEAR
 import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus

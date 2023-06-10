@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.transform
 
 class GetInterviewsUseCase(private val interviewRepository: InterviewRepository) {
 
-    operator fun invoke() =
+    suspend operator fun invoke() =
         interviewRepository.getInterviews().transform { interviews ->
             val dashBoardInterviews =
                 DashBoardInterviews(

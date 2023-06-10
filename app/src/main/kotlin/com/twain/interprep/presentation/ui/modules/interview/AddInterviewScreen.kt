@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.modules.dashboard
+package com.twain.interprep.presentation.ui.modules.interview
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -27,15 +27,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.getInterviewField
+import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.interview.IPTextInput
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputHorizontalListAttributes
 import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputVerticalListAttributes
-import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
-import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
-
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,

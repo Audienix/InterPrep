@@ -15,6 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -24,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
@@ -41,6 +43,9 @@ fun InterviewDetailsScreen(
     primaryColor: Color,
     secondaryColor: Color
 ) {
+    LaunchedEffect(Unit) {
+        interviewId?.let { viewModel.getInterviewById(id = it) }
+    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -72,13 +77,16 @@ fun InterviewDetailsScreen(
                     backgroundColor = primaryColor
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
-                IPInterviewDetailsCard(
-                    interview = viewModel.interviewData,
-                    headerColor = secondaryColor,
-                    onEditClick = {
-                        viewModel.isEditInterview = true
-                        navController.navigate(AppScreens.AddInterview.route)
-                    })
+                if (viewModel.interviewDetails is ViewResult.Loaded) {
+                    val interview = viewModel.interviewDetails as ViewResult.Loaded
+                    IPInterviewDetailsCard(
+                        interview = interview.data,
+                        headerColor = secondaryColor,
+                        onEditClick = {
+                            viewModel.isEditInterview = true
+                            navController.navigate(AppScreens.AddInterview.route)
+                        })
+                }
             }
         }
     )

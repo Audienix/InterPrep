@@ -5,7 +5,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.twain.interprep.R
-import com.twain.interprep.constants.StringConstants.Companion.DB_TABLE_INTERVIEW
+import com.twain.interprep.constants.NumberConstants.CARD_FULL_WIDTH_FACTOR
+import com.twain.interprep.constants.NumberConstants.CARD_PARTIAL_WIDTH_FACTOR
+import com.twain.interprep.constants.StringConstants.DB_TABLE_INTERVIEW
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkGray
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkGreen
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
@@ -48,13 +50,13 @@ sealed class DashboardInterviewType(
     val cardWidthFactor: Float
 ) {
     class UpcomingInterview :
-        DashboardInterviewType(BackgroundLightPurple, BackgroundDarkPurple, 0.8f)
+        DashboardInterviewType(BackgroundLightPurple, BackgroundDarkPurple, CARD_PARTIAL_WIDTH_FACTOR)
 
     class NextInterview :
-        DashboardInterviewType(BackgroundLightGreen, BackgroundDarkGreen, 0.8f)
+        DashboardInterviewType(BackgroundLightGreen, BackgroundDarkGreen, CARD_PARTIAL_WIDTH_FACTOR)
 
     class PastInterview :
-        DashboardInterviewType(BackgroundLightGray, BackgroundDarkGray, 1f)
+        DashboardInterviewType(BackgroundLightGray, BackgroundDarkGray, CARD_FULL_WIDTH_FACTOR)
 }
 
 fun Interview.isValid() = listOf(date, time, company).none { it.isEmpty() }

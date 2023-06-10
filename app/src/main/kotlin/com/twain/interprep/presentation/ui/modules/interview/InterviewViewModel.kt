@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.twain.interprep.R
-import com.twain.interprep.data.model.DashBoardInterviews
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.model.isValid
@@ -28,14 +27,10 @@ class InterviewViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
-    var interviews: ViewResult<DashBoardInterviews> by
-    mutableStateOf(ViewResult.UnInitialized)
-        private set
-
     var isEditInterview = false
-
     var interviewData: Interview by mutableStateOf(Interview())
-
+    var interviewDetails: ViewResult<Interview> by mutableStateOf(ViewResult.UnInitialized)
+        private set
     fun updateInterviewField(@StringRes labelTextId: Int, value: String) {
         when (labelTextId) {
             R.string.hint_label_date -> {
@@ -107,21 +102,15 @@ class InterviewViewModel @Inject constructor(
         interviewUseCase.updateInterview(interview)
     }
 
-    fun getInterviews() = launchCoroutineIO {
-        interviewUseCase.getInterviews().collect {
-            interviews = ViewResult.Loaded(it)
-        }
-    }
-
     fun getInterviewById(id: Int) = launchCoroutineIO {
-        interviewUseCase.getInterviewById(id)
+        interviewUseCase.getInterviewById(id).collect{interview ->
+            interview.let { interviewDetails = ViewResult.Loaded(it) }
+        }
     }
 
     fun deleteAllInterview() = launchCoroutineIO {
         interviewUseCase.deleteAllInterviews()
     }
-
-
 
     fun onSaveInterview(){
         if (interviewData.isValid()) {

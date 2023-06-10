@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.ui.InterviewFormData.Companion.getTextLabelList
+import com.twain.interprep.data.ui.InterviewFormData.getTextLabelList
 import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPClickableLinkText
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
