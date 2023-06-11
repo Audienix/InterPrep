@@ -60,11 +60,11 @@ fun DashboardScreen(
         content = { padding ->
             if (viewModel.interviews is ViewResult.Loaded) {
                 val interviews = viewModel.interviews as ViewResult.Loaded
-                if (interviews.data.isEmptyInterviewList)
+                if (interviews.data.isEmptyInterviewList) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                    )  {
+                    ) {
                         FullScreenEmptyState(
                             Modifier,
                             R.drawable.empty_state_dashboard,
@@ -72,6 +72,8 @@ fun DashboardScreen(
                             stringResource(id = R.string.empty_state_description_dashboard)
                         )
                     }
+                }
+
                 LazyColumn(
                     modifier = Modifier.padding(padding),
                     contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp))
