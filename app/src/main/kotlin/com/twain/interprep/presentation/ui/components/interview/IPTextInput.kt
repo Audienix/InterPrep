@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.interview
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -87,7 +89,7 @@ fun IPTextInput(
                     }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.cancel_icon),
+                       imageVector = Icons.Default.Close,
                         contentDescription = "Cancel"
                     )
                 }

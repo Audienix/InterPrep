@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +50,7 @@ fun FullScreenEmptyState(
             )
             Text(
                 text = emptyStateTitle,
-                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )

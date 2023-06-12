@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
@@ -13,8 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 fun IPAlertDialog(
     @StringRes titleResId: Int,
     @StringRes contentResId: Int,
-    positiveButtonText: String = stringResource(id = R.string.dialog_positive_button),
-    negativeButtonText: String = stringResource(id = R.string.dialog_negative_button),
+    positiveButtonText: String = stringResource(id = android.R.string.ok),
+    negativeButtonText: String = stringResource(id = android.R.string.cancel),
     onPositiveButtonClick: () -> Unit,
     onNegativeButtonClick: () -> Unit,
     onDismiss: () -> Unit = { }

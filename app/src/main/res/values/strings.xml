@@ -7,6 +7,7 @@
 
     <string name="appbar_title_add_interview">Add Interview</string>
     <string name="appbar_title_edit_interview">Edit Interview</string>
+    <string name="appbar_title_interview_details">Interview Details</string>
 
     <string name="empty_state_title_dashboard">No interview scheduled.</string>
     <string name="empty_state_title_note">No notes captured.</string>
@@ -35,12 +36,12 @@
 
     <string name="error_message_form_input">Mandatory field can\'t be empty</string>
 
-    <string name="dialog_positive_button">OK</string>
-    <string name="dialog_negative_button">CANCEL</string>
-
     <string name="alert_dialog_unsaved_interview_title">Unsaved Interview!</string>
     <string name="alert_dialog_unsaved_interview_text">Your interview details will not be saved as
         you have not filled up mandatory details. Go back?</string>
+
+    <string name="alert_dialog_delete_interview_title">Delete Interview?</string>
+    <string name="alert_dialog_delete_interview_text">You are about to delete a scheduled interview details which can not be retrieved after deletion. Proceed?</string>
 
     <string name="date_picker_supporting_text">MM/DD/YYYY</string>
     <string name="time_picker_supporting_text">HH:MM AM/PM</string>
