@@ -3,6 +3,7 @@ package com.twain.interprep.utils
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_HOUR_MIN
 import com.twain.interprep.constants.StringConstants.Companion.DT_FORMAT_MM_DD_YYYY
 import java.util.Date
 import java.util.Locale
@@ -15,9 +16,17 @@ class DateUtils {
             return date?.time ?: 0L
         }
 
-        fun convertStringToDate(dateString: String): Date {
+        fun convertDateStringToDate(dateString: String): Date {
             val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
             return format.parse(dateString)
+        }
+
+        fun convertDateTimeStringToDate(dateString: String, timeString: String): Date {
+            val format = SimpleDateFormat(
+                "$DT_FORMAT_MM_DD_YYYY $DT_FORMAT_HOUR_MIN",
+                Locale.getDefault()
+            )
+            return format.parse("$dateString $timeString")
         }
 
         fun getCurrentDateAsString(): String {

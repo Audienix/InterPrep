@@ -30,12 +30,12 @@ import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
-import com.twain.interprep.utils.validateRequiredField
 
 @Composable
 fun IPTextInput(
     modifier: Modifier = Modifier,
     inputText: String,
+    shouldValidate: Boolean = false,
     textInputAttributes: TextInputAttributes,
     onTextUpdate: (text: String) -> Unit
 ) {
@@ -47,25 +47,24 @@ fun IPTextInput(
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
-    var text by remember { mutableStateOf(inputText) }
+//    var text by remember { mutableStateOf(inputText) }
 
     OutlinedTextField(
         modifier = modifier.onGloballyPositioned { coordinates ->
             //This value is used to assign to the DropDown the same width
             textFieldSize = coordinates.size.toSize()
         },
-        value = text,
+        value = inputText,
         onValueChange = {
-            text = it
             onTextUpdate(it)
-            if (textInputAttributes.required) isError = validateRequiredField(text)
+            isError = notValid(true, inputText, textInputAttributes, isError)
         },
         interactionSource = source,
         singleLine = true,
         label = { Text(text = label) },
-        isError = isError,
+        isError = notValid(shouldValidate, inputText, textInputAttributes, isError),
         supportingText = {
-            if (isError) {
+            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Text(
                     text = errorText,
                     color = MaterialTheme.colorScheme.error,
@@ -75,16 +74,16 @@ fun IPTextInput(
             }
         },
         trailingIcon = {
-            if (isError) {
+            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Icon(
                     painter = painterResource(id = R.drawable.error_icon),
                     contentDescription = "Error"
                 )
-            } else if (text.isNotEmpty()) {
+            } else if (inputText.isNotEmpty()) {
                 IconButton(
                     onClick = {
-                        text = ""
-                        if (textInputAttributes.required) isError = validateRequiredField(text)
+                        onTextUpdate("")
+                        isError = notValid(true, "", textInputAttributes, isError)
                     }
                 ) {
                     Icon(
@@ -93,12 +92,11 @@ fun IPTextInput(
                     )
                 }
             }
+
         },
     )
-    HandleComponentInteraction(source, textInputAttributes, modifier, text, textFieldSize) {
-        text = it
+    HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
         onTextUpdate(it)
-        if (textInputAttributes.required) isError = validateRequiredField(it)
     }
 }
 
@@ -152,6 +150,23 @@ private fun HandleComponentInteraction(
     }
 }
 
+/**
+ * When shouldValidate is false, we don't need to validate the input text since user hasn't
+ * edit the input yet.
+ */
+fun notValid(
+    shouldValidate: Boolean,
+    text: String,
+    attributes: TextInputAttributes,
+    isError: Boolean
+): Boolean {
+    return if (shouldValidate) {
+        attributes.required && text.trim().isEmpty()
+    } else {
+        isError
+    }
+}
+
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun TextFormInputPreview() {
@@ -201,3 +216,4 @@ private fun TextFormInputPreview() {
         )
     }
 }
+
