@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -24,10 +23,8 @@ class InterviewViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
-    var isEditInterview = false
     var interviewData: Interview by mutableStateOf(Interview())
-    var interviewDetails: ViewResult<Interview> by mutableStateOf(ViewResult.UnInitialized)
-        private set
+
     fun updateInterviewField(@StringRes labelTextId: Int, value: String) {
         when (labelTextId) {
             R.string.hint_label_date -> {
@@ -92,7 +89,7 @@ class InterviewViewModel @Inject constructor(
     }
 
     fun deleteInterview(interview: Interview) = launchCoroutineIO {
-        interviewUseCase.deleteInterview(interview)
+        interviewUseCase.deleteInterview(interview.copy())
     }
 
     private fun updateInterview(interview: Interview) = launchCoroutineIO {
@@ -101,7 +98,7 @@ class InterviewViewModel @Inject constructor(
 
     fun getInterviewById(id: Int) = launchCoroutineIO {
         interviewUseCase.getInterviewById(id).collect{interview ->
-            interview.let { interviewDetails = ViewResult.Loaded(it) }
+            interview.let { interviewData = it }
         }
     }
 
@@ -109,7 +106,7 @@ class InterviewViewModel @Inject constructor(
         interviewUseCase.deleteAllInterviews()
     }
 
-    fun onSaveInterview(){
+    fun onSaveInterview(isEditInterview: Boolean){
 //        if (interviewData.isValid()) {
             if (isEditInterview) {
                 updateInterview(interviewData)
@@ -118,9 +115,5 @@ class InterviewViewModel @Inject constructor(
             }
 //        }
 
-        isEditInterview = false
-    }
-
-    fun onDeleteInterview(){
     }
 }

@@ -114,14 +114,15 @@ private fun InterviewDetailsHeader(
         modifier = Modifier
             .background(headerColor),
     ) {
+        val text = "".takeIf { interview.date.isEmpty() } ?: SimpleDateFormat(
+            StringConstants.DT_FORMAT_DD_MMMM_YYYY,
+            Locale.getDefault()
+        ).format(DateUtils.convertDateStringToDate(interview.date))
         Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(id = R.dimen.dimension_8dp)),
-            text = SimpleDateFormat(
-                StringConstants.DT_FORMAT_DD_MMMM_YYYY,
-                Locale.getDefault()
-            ).format(DateUtils.convertDateStringToDate(interview.date)),
+            text = text,
             color = Purple100,
             fontSize = MaterialTheme.typography.headlineSmall.fontSize,
             fontWeight = FontWeight.Normal,

@@ -26,8 +26,13 @@ fun NavGraph(navController: NavHostController) {
         composable(AppScreens.Resources.route) {
             ResourcesScreen()
         }
-        composable(AppScreens.AddInterview.route) {
-            AddInterviewScreen(navController = navController)
+        composable(route = "${AppScreens.AddInterview.route}/{interviewId}", arguments = listOf(
+            navArgument("interviewId") {
+                type = NavType.IntType
+            }
+        )) { entry ->
+            val interviewId = entry.arguments?.getInt("interviewId")
+            AddInterviewScreen(navController = navController, interviewId = interviewId ?: 0)
         }
         composable(
             route = "${AppScreens.InterviewDetails.route}/{interviewId}/{primaryColor}/{secondaryColor}",

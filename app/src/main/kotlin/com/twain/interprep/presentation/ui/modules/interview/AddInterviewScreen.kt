@@ -18,8 +18,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -37,14 +39,20 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.isValid
 import com.twain.interprep.data.ui.InterviewFormData.textInputHorizontalList
 import com.twain.interprep.data.ui.InterviewFormData.textInputVerticalList
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
-    viewModel: InterviewViewModel = hiltViewModel()
+    viewModel: InterviewViewModel = hiltViewModel(),
+    interviewId: Int
 ) {
+
+    val isEditInterview = interviewId != 0
     val showDialog = remember { mutableStateOf(false) }
+    
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     // this ms controls if we should highlight any empty mandatory input field
     // by showing an error message
@@ -52,10 +60,13 @@ fun AddInterviewScreen(
 
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
+        if (isEditInterview) {
+            viewModel.getInterviewById(interviewId)
+        }
     }
     BackHandler {
         if (viewModel.interviewData.isValid()) {
-            viewModel.onSaveInterview()
+            viewModel.onSaveInterview(isEditInterview)
             navController.popBackStack()
         } else {
             showDialog.value = true
@@ -67,11 +78,11 @@ fun AddInterviewScreen(
             .background(MaterialTheme.colorScheme.background),
         topBar = {
             IPAppBar(
-                title = stringResource(id = R.string.appbar_title_add_interview),
+                title = stringResource(id = R.string.appbar_title_edit_interview.takeIf { isEditInterview } ?: R.string.appbar_title_add_interview),
                 navIcon = {
                     IconButton(onClick = {
                         if (viewModel.interviewData.isValid()) {
-                            viewModel.onSaveInterview()
+                            viewModel.onSaveInterview(isEditInterview)
                             navController.popBackStack()
                         } else {
                             showDialog.value = true
@@ -81,9 +92,7 @@ fun AddInterviewScreen(
                     }
                 },
                 actions = {
-                    if (viewModel.isEditInterview) {
-                        DeleteIcon { viewModel.onDeleteInterview() }
-                    }
+                    if (isEditInterview) DeleteIcon { showDeleteDialog = true }
                 }
             )
         },
@@ -99,6 +108,21 @@ fun AddInterviewScreen(
                     onNegativeButtonClick = {
                         showDialog.value = false
                         shouldValidate.value = true
+                    } // "CANCEL" is clicked
+                )
+            }
+
+            if (showDeleteDialog){
+                IPAlertDialog(
+                    titleResId = R.string.alert_dialog_delete_interview_title,
+                    contentResId = R.string.alert_dialog_delete_interview_text,
+                    onPositiveButtonClick = {
+                        showDeleteDialog = false
+                        navController.popBackStack(AppScreens.Dashboard.route, false)
+                        viewModel.deleteInterview(viewModel.interviewData)
+                    }, // "OK" is clicked
+                    onNegativeButtonClick = {
+                        showDeleteDialog= false
                     } // "CANCEL" is clicked
                 )
             }
@@ -152,3 +176,4 @@ fun AddInterviewScreen(
         }
     )
 }
+

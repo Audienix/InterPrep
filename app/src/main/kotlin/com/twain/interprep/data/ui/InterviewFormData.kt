@@ -62,7 +62,7 @@ object InterviewFormData {
     fun getTextLabelList(interview: Interview): List<TextLabelData> {
         return listOf(
             TextLabelData(
-                R.string.hint_label_time, SimpleDateFormat(
+                R.string.hint_label_time, "".takeIf { interview.time.isEmpty() } ?: SimpleDateFormat(
                     StringConstants.DT_FORMAT_DAY_HOUR_MIN,
                     Locale.getDefault()
                 ).format(DateUtils.convertDateStringToDate(interview.date))

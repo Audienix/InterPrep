@@ -16,6 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -25,10 +29,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
-import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
+import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
@@ -44,8 +49,11 @@ fun InterviewDetailsScreen(
     secondaryColor: Color
 ) {
     LaunchedEffect(Unit) {
+        viewModel.interviewData = Interview()
         interviewId?.let { viewModel.getInterviewById(id = it) }
     }
+
+    var showDeleteDialog by remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -61,10 +69,27 @@ fun InterviewDetailsScreen(
                     }
                 }
             ) {
-                DeleteIcon { viewModel.onDeleteInterview() }
+                DeleteIcon { showDeleteDialog = true }
             }
         },
         content = { padding ->
+
+
+            if (showDeleteDialog){
+                IPAlertDialog(
+                    titleResId = R.string.alert_dialog_delete_interview_title,
+                    contentResId = R.string.alert_dialog_delete_interview_text,
+                    onPositiveButtonClick = {
+                        showDeleteDialog = false
+                        viewModel.deleteInterview(viewModel.interviewData)
+                        navController.popBackStack()
+
+                    }, // "OK" is clicked
+                    onNegativeButtonClick = {
+                        showDeleteDialog= false
+                    } // "CANCEL" is clicked
+                )
+            }
             Column(
                 modifier = Modifier
                     .padding(padding)
@@ -77,17 +102,15 @@ fun InterviewDetailsScreen(
                     backgroundColor = primaryColor
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
-                if (viewModel.interviewDetails is ViewResult.Loaded) {
-                    val interview = viewModel.interviewDetails as ViewResult.Loaded
                     IPInterviewDetailsCard(
-                        interview = interview.data,
+                        interview = viewModel.interviewData,
                         headerColor = secondaryColor,
                         onEditClick = {
-                            viewModel.isEditInterview = true
-                            navController.navigate(AppScreens.AddInterview.route)
+                            interviewId?.let {
+                                navController.navigate(AppScreens.AddInterview.withArgs(it))
+                            }
                         })
                 }
-            }
         }
     )
 }

@@ -55,7 +55,7 @@ fun DashboardScreen(
         floatingActionButton = {
             IPFAB {
                 interviewModel.interviewData = Interview()
-                navController.navigate(AppScreens.AddInterview.route) {
+                navController.navigate(AppScreens.AddInterview.withArgs(0)) {
                     popUpTo(AppScreens.Dashboard.route)
                 }
             }
