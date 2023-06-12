@@ -65,7 +65,7 @@ object InterviewFormData {
                 R.string.hint_label_time, SimpleDateFormat(
                     StringConstants.DT_FORMAT_DAY_HOUR_MIN,
                     Locale.getDefault()
-                ).format(DateUtils.convertStringToDate(interview.date))
+                ).format(DateUtils.convertDateStringToDate(interview.date))
             ),
             TextLabelData(
                 R.string.hint_label_company, interview.company

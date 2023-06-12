@@ -18,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -32,8 +34,11 @@ import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.interview.IPTextInput
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputHorizontalListAttributes
-import com.twain.interprep.data.ui.InterviewFormData.Companion.textTextInputVerticalListAttributes
+import com.twain.interprep.data.model.isValid
+import com.twain.interprep.data.ui.InterviewFormData.textInputHorizontalList
+import com.twain.interprep.data.ui.InterviewFormData.textInputVerticalList
+import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
+
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
@@ -49,11 +54,12 @@ fun AddInterviewScreen(
         viewModel.interviewData = Interview()
     }
     BackHandler {
-        if (viewModel.interviewData.isValid())
-//            viewModel.insertInterview(viewModel.interviewData)
+        if (viewModel.interviewData.isValid()) {
             viewModel.onSaveInterview()
-
-        navController.popBackStack()
+            navController.popBackStack()
+        } else {
+            showDialog.value = true
+        }
     }
     Scaffold(
         modifier = Modifier
@@ -65,7 +71,6 @@ fun AddInterviewScreen(
                 navIcon = {
                     IconButton(onClick = {
                         if (viewModel.interviewData.isValid()) {
-//                        viewModel.insertInterview(viewModel.interviewData)
                             viewModel.onSaveInterview()
                             navController.popBackStack()
                         } else {
@@ -118,7 +123,7 @@ fun AddInterviewScreen(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 ) {
-                    textTextInputHorizontalListAttributes.map { input ->
+                    textInputHorizontalList.map { input ->
                         IPTextInput(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -132,7 +137,7 @@ fun AddInterviewScreen(
                         )
                     }
                 }
-                textTextInputVerticalListAttributes.map { input ->
+                textInputVerticalList.map { input ->
                     IPTextInput(
                         modifier = Modifier.fillMaxWidth(),
                         inputText = viewModel.interviewData.getInterviewField(input.labelTextId),

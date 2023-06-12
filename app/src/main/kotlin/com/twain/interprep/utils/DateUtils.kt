@@ -3,6 +3,7 @@ package com.twain.interprep.utils
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
 import java.util.Date
 import java.util.Locale

@@ -1,15 +1,12 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
 import androidx.annotation.StringRes
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.data.model.isValid
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -113,13 +110,13 @@ class InterviewViewModel @Inject constructor(
     }
 
     fun onSaveInterview(){
-        if (interviewData.isValid()) {
+//        if (interviewData.isValid()) {
             if (isEditInterview) {
                 updateInterview(interviewData)
             } else {
                 insertInterview(interviewData)
             }
-        }
+//        }
 
         isEditInterview = false
     }

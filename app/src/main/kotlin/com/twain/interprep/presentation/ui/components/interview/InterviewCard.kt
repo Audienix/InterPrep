@@ -133,7 +133,7 @@ fun InterviewCard(
                 )
                 Text(
                     text = formatRoundNumAndInterviewType(interview),
-                    color = textColor,
+                    color = dashboardInterviewType.cardContentColor,
                     style = MaterialTheme.typography.bodyMedium,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
@@ -142,16 +142,19 @@ fun InterviewCard(
         }
     }
 }
+
 /**
  * Format the roundNum and interviewType of the given interview so that when roundNum is empty,
- * only interviewType is shown which might be empty and when interviewType is empty, only
- * roundNum is shown which might be empty. The result can only be one of the following
+ * only interviewType is shown and when interviewType is empty, only roundNum is shown and if
+ * both are empty show "N/A".
+ * The result can only be one of the following
+ * "N/A"
  * "#${interview.roundNum}" or "${interview.interviewType}"
  * or "#${interview.roundNum} - ${interview.interviewType}".
  *
  * @return the formatted string
  */
-fun formatRoundNumAndInterviewType(interview: Interview): String{
+fun formatRoundNumAndInterviewType(interview: Interview): String {
     val formattedRoundNum =
         if (interview.roundNum.isNotEmpty())
             "#${interview.roundNum} "
@@ -160,7 +163,9 @@ fun formatRoundNumAndInterviewType(interview: Interview): String{
         if (interview.roundNum.isNotEmpty() && interview.interviewType.isNotEmpty())
             "- ${interview.interviewType}"
         else interview.interviewType
-    return formattedRoundNum + formattedInterviewType
+    return if (formattedRoundNum.isEmpty() && formattedInterviewType.isEmpty()) "N/A"
+    else
+        formattedRoundNum + formattedInterviewType
 }
 
 val interviewMockData = Interview(

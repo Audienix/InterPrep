@@ -50,7 +50,11 @@ sealed class DashboardInterviewType(
     val cardWidthFactor: Float
 ) {
     class UpcomingInterview :
-        DashboardInterviewType(BackgroundLightPurple, BackgroundDarkPurple, CARD_PARTIAL_WIDTH_FACTOR)
+        DashboardInterviewType(
+            BackgroundLightPurple,
+            BackgroundDarkPurple,
+            CARD_PARTIAL_WIDTH_FACTOR
+        )
 
     class NextInterview :
         DashboardInterviewType(BackgroundLightGreen, BackgroundDarkGreen, CARD_PARTIAL_WIDTH_FACTOR)

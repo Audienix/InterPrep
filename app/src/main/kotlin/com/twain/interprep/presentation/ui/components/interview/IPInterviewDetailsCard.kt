@@ -121,7 +121,7 @@ private fun InterviewDetailsHeader(
             text = SimpleDateFormat(
                 StringConstants.DT_FORMAT_DD_MMMM_YYYY,
                 Locale.getDefault()
-            ).format(DateUtils.convertStringToDate(interview.date)),
+            ).format(DateUtils.convertDateStringToDate(interview.date)),
             color = Purple100,
             fontSize = MaterialTheme.typography.headlineSmall.fontSize,
             fontWeight = FontWeight.Normal,
