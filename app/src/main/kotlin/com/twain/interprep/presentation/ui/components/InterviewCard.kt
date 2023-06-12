@@ -86,7 +86,7 @@ fun InterviewCard(
                 .fillMaxSize()
                 .padding(dimensionResource(id = R.dimen.dimension_16dp))
         ) {
-            val date = DateUtils.convertStringToDate(interview.date)
+            val date = DateUtils.convertDateStringToDate(interview.date)
             Box(
                 //TODO change constant size value
                 modifier = Modifier
@@ -139,11 +139,8 @@ fun InterviewCard(
                     color = TextPrimary,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                var roundRoleText = "N/A"
-                if(interview.roundNum.isNotEmpty() && interview.role.isNotEmpty())
-                    roundRoleText = "#${interview.roundNum} - ${interview.role}"
                 Text(
-                    text = roundRoleText,
+                    text = formatRoundNumAndInterviewType(interview),
                     color = textColor,
                     style = MaterialTheme.typography.bodyMedium,
                     overflow = TextOverflow.Ellipsis,
@@ -152,6 +149,26 @@ fun InterviewCard(
             }
         }
     }
+}
+/**
+ * Format the roundNum and interviewType of the given interview so that when roundNum is empty,
+ * only interviewType is shown which might be empty and when interviewType is empty, only
+ * roundNum is shown which might be empty. The result can only be one of the following
+ * "#${interview.roundNum}" or "${interview.interviewType}"
+ * or "#${interview.roundNum} - ${interview.interviewType}".
+ *
+ * @return the formatted string
+ */
+fun formatRoundNumAndInterviewType(interview: Interview): String{
+    val formattedRoundNum =
+        if (interview.roundNum.isNotEmpty())
+            "#${interview.roundNum} "
+        else ""
+    val formattedInterviewType =
+        if (interview.roundNum.isNotEmpty() && interview.interviewType.isNotEmpty())
+            "- ${interview.interviewType}"
+        else interview.interviewType
+    return formattedRoundNum + formattedInterviewType
 }
 
 @Composable

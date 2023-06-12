@@ -73,9 +73,9 @@ fun IPDatePicker(
         ) {
             DatePicker(
                 state = datePickerState,
-                dateValidator = { utcDateInMills ->
-                    isValidDate(utcDateInMills)
-                },
+//                dateValidator = { utcDateInMills ->
+//                    isValidDate(utcDateInMills)
+//                },
                 colors = DatePickerDefaults.colors(
                     selectedDayContainerColor = Purple200,
                     selectedDayContentColor = Color.Black
