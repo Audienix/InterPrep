@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.interview
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.presentation.ui.theme.Purple200
-import com.twain.interprep.utils.DateUtils.Companion.convertDateToMilliseconds
-import com.twain.interprep.utils.DateUtils.Companion.getCurrentDateAsString
-import com.twain.interprep.utils.DateUtils.Companion.isValidDate
+import com.twain.interprep.utils.DateUtils.convertDateToMilliseconds
+import com.twain.interprep.utils.DateUtils.getCurrentDateAsString
+import com.twain.interprep.utils.DateUtils.isValidDate
 import java.util.Date
 import java.util.Locale
 
@@ -62,12 +62,12 @@ fun IPDatePicker(
                         onDatePickerDismiss(selectedDate)
                     },
                 ) {
-                    Text(stringResource(id = R.string.dialog_positive_button))
+                    Text(stringResource(id = android.R.string.ok))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { openDatePicker = false }) {
-                    Text(stringResource(id = R.string.dialog_negative_button))
+                    Text(stringResource(id = android.R.string.cancel))
                 }
             }
         ) {

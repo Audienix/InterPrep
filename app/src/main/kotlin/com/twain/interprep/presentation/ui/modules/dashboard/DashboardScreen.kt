@@ -21,46 +21,50 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.DashboardInterviewType
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.FullScreenEmptyState
-import com.twain.interprep.presentation.ui.components.IPAppBar
-import com.twain.interprep.presentation.ui.components.IPFAB
-import com.twain.interprep.presentation.ui.components.IPHeader
-import com.twain.interprep.presentation.ui.components.InterviewCard
-import com.twain.interprep.presentation.ui.components.InterviewCardColor
+import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
+import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPFAB
+import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.interview.InterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
-    viewModel: InterviewViewModel = hiltViewModel(),
-    quotesViewModel: QuotesViewModel = hiltViewModel()
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    quotesViewModel: QuotesViewModel = hiltViewModel(),
+    interviewModel: InterviewViewModel = hiltViewModel()
 ) {
     // TODO ask Arighna
     quotesViewModel.insertQuotes(QuoteData.quotes)
     LaunchedEffect(Unit) {
-        viewModel.getInterviews()
+        dashboardViewModel.getInterviews()
     }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
-        topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) {} },
+        topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             IPFAB {
-                navController.navigate(AppScreens.AddInterview.route) {
+                interviewModel.interviewData = Interview()
+                navController.navigate(AppScreens.AddInterview.withArgs(0)) {
                     popUpTo(AppScreens.Dashboard.route)
                 }
             }
         },
         content = { padding ->
-            if (viewModel.interviews is ViewResult.Loaded) {
-                val interviews = viewModel.interviews as ViewResult.Loaded
-                if (interviews.data.isEmptyInterviewList) {
+            if (dashboardViewModel.interviews is ViewResult.Loaded) {
+                val interviews = dashboardViewModel.interviews as ViewResult.Loaded
+                //Show Empty State for no data
+                if (interviews.data.isEmptyInterviewList)
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -72,86 +76,102 @@ fun DashboardScreen(
                             stringResource(id = R.string.empty_state_description_dashboard)
                         )
                     }
-                }
 
-                LazyColumn(
-                    modifier = Modifier.padding(padding),
-                    contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp))
-                ) {
-                    if (interviews.data.upcomingInterviews.isNotEmpty()) {
-                        item {
-                            Column {
-                                IPHeader(
-                                    text = stringResource(id = R.string.heading_label_upcoming),
-                                    textStyle = MaterialTheme.typography.titleLarge,
-                                    modifier = Modifier.padding(
-                                        start = dimensionResource(id = R.dimen.dimension_8dp),
-                                        end = dimensionResource(id = R.dimen.dimension_8dp),
-                                        top = dimensionResource(id = R.dimen.dimension_8dp)
-                                    ),
-                                    fontWeight = FontWeight.Normal
-                                )
-                                LazyRow(
-                                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    items(interviews.data.upcomingInterviews) { interview ->
-                                        InterviewCard(
-                                            interview = interview,
-                                            onClick = { /*TODO*/ },
-                                            color = InterviewCardColor.UpcomingInterviewCardColor
-                                        )
+                if (dashboardViewModel.interviews is ViewResult.Loaded) {
+                    LazyColumn(
+                        modifier = Modifier.padding(padding),
+                        contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp))
+                    ) {
+                        if (interviews.data.upcomingInterviews.isNotEmpty()) {
+                            item {
+                                Column {
+                                    IPHeader(
+                                        text = stringResource(id = R.string.heading_label_upcoming),
+                                        textStyle = MaterialTheme.typography.titleLarge,
+                                        modifier = Modifier.padding(
+                                            start = dimensionResource(id = R.dimen.dimension_8dp),
+                                            end = dimensionResource(id = R.dimen.dimension_8dp),
+                                            top = dimensionResource(id = R.dimen.dimension_8dp)
+                                        ),
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                    LazyRow(
+                                        modifier = Modifier.padding(
+                                            bottom = dimensionResource(
+                                                id = R.dimen.dimension_8dp
+                                            )
+                                        ),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        items(interviews.data.upcomingInterviews) { interview ->
+                                            InterviewCard(
+                                                interview = interview,
+                                                onClick = {
+                                                    interviewModel.interviewData = interview
+                                                },
+                                                navController = navController,
+                                                dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    if (interviews.data.comingNextInterviews.isNotEmpty()) {
-                        item {
-                            Column {
-                                IPHeader(
-                                    text = stringResource(id = R.string.heading_label_coming_next),
-                                    textStyle = MaterialTheme.typography.titleLarge,
-                                    modifier = Modifier.padding(
-                                        start = dimensionResource(id = R.dimen.dimension_8dp),
-                                        end = dimensionResource(id = R.dimen.dimension_8dp),
-                                        top = dimensionResource(id = R.dimen.dimension_8dp)
-                                    ),
-                                    fontWeight = FontWeight.Normal
-                                )
-                                LazyRow(
-                                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp))
-                                ) {
-                                    items(interviews.data.comingNextInterviews) { interview ->
-                                        InterviewCard(
-                                            interview = interview,
-                                            onClick = { /*TODO*/ },
-                                            color = InterviewCardColor.ComingNextInterviewColor
+                        if (interviews.data.comingNextInterviews.isNotEmpty()) {
+                            item {
+                                Column {
+                                    IPHeader(
+                                        text = stringResource(id = R.string.heading_label_coming_next),
+                                        textStyle = MaterialTheme.typography.titleLarge,
+                                        modifier = Modifier.padding(
+                                            start = dimensionResource(id = R.dimen.dimension_8dp),
+                                            end = dimensionResource(id = R.dimen.dimension_8dp),
+                                            top = dimensionResource(id = R.dimen.dimension_8dp)
+                                        ),
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                    LazyRow(
+                                        modifier = Modifier.padding(
+                                            bottom = dimensionResource(
+                                                id = R.dimen.dimension_8dp
+                                            )
                                         )
+                                    ) {
+                                        items(interviews.data.comingNextInterviews) { interview ->
+                                            InterviewCard(
+                                                interview = interview,
+                                                onClick = {
+                                                    interviewModel.interviewData = interview
+                                                },
+                                                navController = navController,
+                                                dashboardInterviewType = DashboardInterviewType.NextInterview()
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    if (interviews.data.pastInterviews.isNotEmpty()) {
-                        item {
-                            IPHeader(
-                                text = stringResource(id = R.string.heading_label_past),
-                                textStyle = MaterialTheme.typography.titleLarge,
-                                modifier = Modifier.padding(
-                                    start = dimensionResource(id = R.dimen.dimension_8dp),
-                                    top = dimensionResource(id = R.dimen.dimension_8dp),
-                                    end = dimensionResource(id = R.dimen.dimension_8dp),
-                                ),
-                                fontWeight = FontWeight.Normal
-                            )
-                        }
-                        items(interviews.data.pastInterviews) { interview ->
-                            InterviewCard(
-                                interview = interview,
-                                onClick = { /*TODO*/ },
-                                color = InterviewCardColor.PastInterviewCardColor
-                            )
+                        if (interviews.data.pastInterviews.isNotEmpty()) {
+                            item {
+                                IPHeader(
+                                    text = stringResource(id = R.string.heading_label_past),
+                                    textStyle = MaterialTheme.typography.titleLarge,
+                                    modifier = Modifier.padding(
+                                        start = dimensionResource(id = R.dimen.dimension_8dp),
+                                        top = dimensionResource(id = R.dimen.dimension_8dp),
+                                        end = dimensionResource(id = R.dimen.dimension_8dp),
+                                    ),
+                                    fontWeight = FontWeight.Normal
+                                )
+                            }
+                            items(interviews.data.pastInterviews) { interview ->
+                                InterviewCard(
+                                    interview = interview,
+                                    onClick = { interviewModel.interviewData = interview },
+                                    navController = navController,
+                                    dashboardInterviewType = DashboardInterviewType.PastInterview()
+                                )
+                            }
                         }
                     }
                 }

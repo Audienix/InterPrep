@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.interview
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -62,10 +62,10 @@ fun IPTimePickerDialog(
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(
                         onClick = onCancel
-                    ) { Text(stringResource(id = R.string.dialog_negative_button)) }
+                    ) { Text(stringResource(id = android.R.string.cancel)) }
                     TextButton(
                         onClick = onConfirm
-                    ) { Text(stringResource(id = R.string.dialog_positive_button)) }
+                    ) { Text(stringResource(id = android.R.string.ok)) }
                 }
             }
         }

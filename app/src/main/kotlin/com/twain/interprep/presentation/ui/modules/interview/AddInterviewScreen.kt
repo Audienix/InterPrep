@@ -1,8 +1,7 @@
-package com.twain.interprep.presentation.ui.modules.dashboard
+package com.twain.interprep.presentation.ui.modules.interview
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,9 +18,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -30,23 +30,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
+import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
+import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.interview.IPTextInput
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.isValid
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputHorizontalListAttributes
-import com.twain.interprep.data.ui.AddInterviewData.Companion.textTextInputVerticalListAttributes
-import com.twain.interprep.presentation.ui.components.IPAlertDialog
-import com.twain.interprep.presentation.ui.components.IPAppBar
-import com.twain.interprep.presentation.ui.components.IPHeader
-import com.twain.interprep.presentation.ui.components.IPTextInput
-import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
+import com.twain.interprep.data.ui.InterviewFormData.textInputHorizontalList
+import com.twain.interprep.data.ui.InterviewFormData.textInputVerticalList
+import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 
 @Composable
 fun AddInterviewScreen(
     navController: NavHostController,
-    viewModel: InterviewViewModel = hiltViewModel()
+    viewModel: InterviewViewModel = hiltViewModel(),
+    interviewId: Int
 ) {
+
+    val isEditInterview = interviewId != 0
     val showDialog = remember { mutableStateOf(false) }
+    
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     // this ms controls if we should highlight any empty mandatory input field
     // by showing an error message
@@ -54,30 +60,41 @@ fun AddInterviewScreen(
 
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
+        if (isEditInterview) {
+            viewModel.getInterviewById(interviewId)
+        }
     }
     BackHandler {
-        if (viewModel.interviewData.isValid())
-            viewModel.insertInterview(viewModel.interviewData)
-
-        navController.popBackStack()
+        if (viewModel.interviewData.isValid()) {
+            viewModel.onSaveInterview(isEditInterview)
+            navController.popBackStack()
+        } else {
+            showDialog.value = true
+        }
     }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         topBar = {
-            IPAppBar(stringResource(id = R.string.appbar_title_add_interview)) {
-                IconButton(onClick = {
-                    if (viewModel.interviewData.isValid()) {
-                        viewModel.insertInterview(viewModel.interviewData)
-                        navController.popBackStack()
-                    } else {
-                        showDialog.value = true
+            IPAppBar(
+                title = stringResource(id = R.string.appbar_title_edit_interview.takeIf { isEditInterview } ?: R.string.appbar_title_add_interview),
+                navIcon = {
+                    IconButton(onClick = {
+                        if (viewModel.interviewData.isValid()) {
+                            viewModel.onSaveInterview(isEditInterview)
+                            navController.popBackStack()
+                        } else {
+                            showDialog.value = true
+                        }
+                    }) {
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                     }
-                }) {
-                    Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                },
+                actions = {
+                    if (isEditInterview) DeleteIcon { showDeleteDialog = true }
                 }
-            }
+            )
         },
         content = { padding ->
             if (showDialog.value) {
@@ -91,6 +108,21 @@ fun AddInterviewScreen(
                     onNegativeButtonClick = {
                         showDialog.value = false
                         shouldValidate.value = true
+                    } // "CANCEL" is clicked
+                )
+            }
+
+            if (showDeleteDialog){
+                IPAlertDialog(
+                    titleResId = R.string.alert_dialog_delete_interview_title,
+                    contentResId = R.string.alert_dialog_delete_interview_text,
+                    onPositiveButtonClick = {
+                        showDeleteDialog = false
+                        navController.popBackStack(AppScreens.Dashboard.route, false)
+                        viewModel.deleteInterview(viewModel.interviewData)
+                    }, // "OK" is clicked
+                    onNegativeButtonClick = {
+                        showDeleteDialog= false
                     } // "CANCEL" is clicked
                 )
             }
@@ -115,7 +147,7 @@ fun AddInterviewScreen(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 ) {
-                    textTextInputHorizontalListAttributes.map { input ->
+                    textInputHorizontalList.map { input ->
                         IPTextInput(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -129,7 +161,7 @@ fun AddInterviewScreen(
                         )
                     }
                 }
-                textTextInputVerticalListAttributes.map { input ->
+                textInputVerticalList.map { input ->
                     IPTextInput(
                         modifier = Modifier.fillMaxWidth(),
                         inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
@@ -144,3 +176,4 @@ fun AddInterviewScreen(
         }
     )
 }
+

@@ -2,7 +2,7 @@ package com.twain.interprep.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.twain.interprep.constants.StringConstants.Companion.DB_TABLE_SUBTOPICS
+import com.twain.interprep.constants.StringConstants.DB_TABLE_SUBTOPICS
 
 @Entity(tableName = DB_TABLE_SUBTOPICS)
 data class Subtopic(

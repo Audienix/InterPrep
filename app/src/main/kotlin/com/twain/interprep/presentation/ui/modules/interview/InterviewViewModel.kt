@@ -1,15 +1,11 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
 import androidx.annotation.StringRes
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -26,10 +22,6 @@ class InterviewViewModel @Inject constructor(
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
 //        val message = ExceptionHandler.parse(exception)
     }
-
-    var interviews: ViewResult<GetInterviewsUseCase.DashBoardInterviews> by
-    mutableStateOf(ViewResult.UnInitialized)
-        private set
 
     var interviewData: Interview by mutableStateOf(Interview())
 
@@ -92,29 +84,36 @@ class InterviewViewModel @Inject constructor(
         }
     }
 
-    fun insertInterview(interview: Interview) = launchCoroutineIO {
+    private fun insertInterview(interview: Interview) = launchCoroutineIO {
         interviewUseCase.insertInterview(interview)
     }
 
     fun deleteInterview(interview: Interview) = launchCoroutineIO {
-        interviewUseCase.deleteInterview(interview)
+        interviewUseCase.deleteInterview(interview.copy())
     }
 
-    fun updateInterview(interview: Interview) = launchCoroutineIO {
+    private fun updateInterview(interview: Interview) = launchCoroutineIO {
         interviewUseCase.updateInterview(interview)
     }
 
-    fun getInterviews() = launchCoroutineIO {
-        interviewUseCase.getInterviews().collect {
-            interviews = ViewResult.Loaded(it)
-        }
-    }
-
     fun getInterviewById(id: Int) = launchCoroutineIO {
-        interviewUseCase.getInterviewById(id)
+        interviewUseCase.getInterviewById(id).collect{interview ->
+            interview.let { interviewData = it }
+        }
     }
 
     fun deleteAllInterview() = launchCoroutineIO {
         interviewUseCase.deleteAllInterviews()
+    }
+
+    fun onSaveInterview(isEditInterview: Boolean){
+//        if (interviewData.isValid()) {
+            if (isEditInterview) {
+                updateInterview(interviewData)
+            } else {
+                insertInterview(interviewData)
+            }
+//        }
+
     }
 }

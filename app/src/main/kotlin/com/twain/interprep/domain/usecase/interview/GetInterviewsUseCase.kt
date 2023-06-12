@@ -1,6 +1,6 @@
 package com.twain.interprep.domain.usecase.interview
 
-import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.DashBoardInterviews
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.utils.DateUtils
 import java.util.Calendar
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.transform
 
 class GetInterviewsUseCase(private val interviewRepository: InterviewRepository) {
 
-    operator fun invoke() =
+    suspend operator fun invoke() =
         interviewRepository.getInterviews().transform { interviews ->
             val dashBoardInterviews =
                 DashBoardInterviews(
@@ -49,11 +49,4 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
         val nextMonday = Date(monday.time + 7 * 24 * 60 * 60 * 1000)
         return date.after(monday) && date.before(nextMonday)
     }
-
-    data class DashBoardInterviews(
-        var isEmptyInterviewList: Boolean,
-        val upcomingInterviews: MutableList<Interview>,
-        val comingNextInterviews: MutableList<Interview>,
-        val pastInterviews: MutableList<Interview>
-    )
 }

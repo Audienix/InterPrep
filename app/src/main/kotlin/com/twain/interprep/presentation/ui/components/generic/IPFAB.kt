@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons

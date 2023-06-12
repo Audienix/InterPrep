@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.interview
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
