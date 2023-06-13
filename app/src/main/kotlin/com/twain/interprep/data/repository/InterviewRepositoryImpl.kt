@@ -8,8 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : InterviewRepository {
 
-    val allInterviews: Flow<List<Interview>> = interviewDao.getAllInterviews()
-
     @WorkerThread
     override suspend fun insertInterview(interview: Interview) {
         interviewDao.insertInterview(interview)
@@ -21,10 +19,11 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
     }
 
     @WorkerThread
-    override fun getInterviews(): Flow<List<Interview>> = interviewDao.getAllInterviews()
+    override suspend fun getInterviews(): Flow<List<Interview>> = interviewDao.getAllInterviews()
 
     @WorkerThread
-    override suspend fun getInterviewById(id: Int): Interview? = interviewDao.getInterview(id = id)
+    override suspend fun getInterviewById(id: Int): Flow<Interview> =
+        interviewDao.getInterview(id = id)
 
     @WorkerThread
     override suspend fun deleteInterview(interview: Interview) {

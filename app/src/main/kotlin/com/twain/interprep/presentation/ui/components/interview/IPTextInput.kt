@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components
+package com.twain.interprep.presentation.ui.components.interview
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,41 +30,43 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
-import com.twain.interprep.data.ui.Input
+import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
-import com.twain.interprep.utils.validateRequiredField
 
 @Composable
 fun IPTextInput(
     modifier: Modifier = Modifier,
-    input: Input,
+    inputText: String,
+    shouldValidate: Boolean = false,
+    textInputAttributes: TextInputAttributes,
+    onTextUpdate: (text: String) -> Unit
 ) {
-    val labelText = stringResource(id = input.labelTextId)
-    val bottomText = input.bottomTextId?.let { stringResource(id = it) } ?: ""
-    val errorText = input.errorTextId?.let { stringResource(id = it) } ?: ""
-    val label = if (input.required) "$labelText *" else labelText
+    val labelText = stringResource(id = textInputAttributes.labelTextId)
+    val bottomText = textInputAttributes.bottomTextId?.let { stringResource(id = it) } ?: ""
+    val errorText = textInputAttributes.errorTextId?.let { stringResource(id = it) } ?: ""
+    val label = if (textInputAttributes.required) "$labelText *" else labelText
 
-    var text by remember { mutableStateOf(input.value) }
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
+//    var text by remember { mutableStateOf(inputText) }
 
     OutlinedTextField(
         modifier = modifier.onGloballyPositioned { coordinates ->
             //This value is used to assign to the DropDown the same width
             textFieldSize = coordinates.size.toSize()
         },
-        value = text,
+        value = inputText,
         onValueChange = {
-            text = it
-            if (input.required) isError = validateRequiredField(text)
+            onTextUpdate(it)
+            isError = notValid(true, inputText, textInputAttributes, isError)
         },
         interactionSource = source,
         singleLine = true,
         label = { Text(text = label) },
-        isError = isError,
+        isError = notValid(shouldValidate, inputText, textInputAttributes, isError),
         supportingText = {
-            if (isError) {
+            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Text(
                     text = errorText,
                     color = MaterialTheme.colorScheme.error,
@@ -72,36 +76,36 @@ fun IPTextInput(
             }
         },
         trailingIcon = {
-            if (isError) {
+            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Icon(
                     painter = painterResource(id = R.drawable.error_icon),
                     contentDescription = "Error"
                 )
-            } else if (text.isNotEmpty()) {
+            } else if (inputText.isNotEmpty()) {
                 IconButton(
                     onClick = {
-                        text = ""
-                        if (input.required) isError = validateRequiredField(text)
+                        onTextUpdate("")
+                        isError = notValid(true, "", textInputAttributes, isError)
                     }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.cancel_icon),
+                       imageVector = Icons.Default.Close,
                         contentDescription = "Cancel"
                     )
                 }
             }
+
         },
     )
-    HandleComponentInteraction(source, input, modifier, text, textFieldSize) {
-        text = it
-        if (input.required) isError = validateRequiredField(text)
+    HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
+        onTextUpdate(it)
     }
 }
 
 @Composable
 private fun HandleComponentInteraction(
     source: MutableInteractionSource,
-    input: Input,
+    textInputAttributes: TextInputAttributes,
     modifier: Modifier,
     fieldText: String,
     textFieldSize: Size,
@@ -111,18 +115,23 @@ private fun HandleComponentInteraction(
         initial = PressInteraction.Cancel(PressInteraction.Press(Offset.Zero))
     )
     if (pressedState.value is PressInteraction.Release) {
-        when (input.inputType) {
+        when (textInputAttributes.inputType) {
             TextInputType.DATE -> IPDatePicker(
                 selectedDateValue = fieldText,
                 onDatePickerDismiss = { onTextUpdate(it) },
             )
 
+            TextInputType.TIME -> IPTimePicker(
+                selectedTimeValue = fieldText,
+                onTimePickerDismiss = { onTextUpdate(it) }
+            )
+
             TextInputType.DROPDOWN -> {
                 var dropdownOptions = emptyList<String>()
-                if (input.labelTextId == R.string.hint_label_interview_type)
+                if (textInputAttributes.labelTextId == R.string.hint_label_interview_type)
                     dropdownOptions =
                         listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
-                else if (input.labelTextId == R.string.hint_label_role)
+                else if (textInputAttributes.labelTextId == R.string.hint_label_role)
                     dropdownOptions = listOf(
                         "Software Engineer",
                         "Sr. Software Engineer",
@@ -143,6 +152,23 @@ private fun HandleComponentInteraction(
     }
 }
 
+/**
+ * When shouldValidate is false, we don't need to validate the input text since user hasn't
+ * edit the input yet.
+ */
+fun notValid(
+    shouldValidate: Boolean,
+    text: String,
+    attributes: TextInputAttributes,
+    isError: Boolean
+): Boolean {
+    return if (shouldValidate) {
+        attributes.required && text.trim().isEmpty()
+    } else {
+        isError
+    }
+}
+
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun TextFormInputPreview() {
@@ -156,19 +182,33 @@ private fun TextFormInputPreview() {
     ) {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
-            input = Input(
+            textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_company,
                 required = true,
                 errorTextId = R.string.error_message_form_input
-            )
+            ),
+            inputText = "",
+            onTextUpdate = {}
         )
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
-            input = Input(
+            textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
                 required = false
-            )
+            ),
+            inputText = "",
+            onTextUpdate = {}
+        )
+        IPTextInput(
+            modifier = Modifier.fillMaxWidth(),
+            textInputAttributes = TextInputAttributes(
+                labelTextId = R.string.hint_label_time,
+                bottomTextId = R.string.hint_label_time_format,
+                required = false
+            ),
+            onTextUpdate = {},
+            inputText = ""
         )
         IPDropdownMenu(
             modifier = Modifier.fillMaxWidth(),
@@ -178,3 +218,4 @@ private fun TextFormInputPreview() {
         )
     }
 }
+
