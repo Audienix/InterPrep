@@ -59,7 +59,7 @@ fun IPTextInput(
         value = inputText,
         onValueChange = {
             onTextUpdate(it)
-            isError = notValid(true, inputText, textInputAttributes, isError)
+            isError = notValid(true, it, textInputAttributes, isError)
         },
         interactionSource = source,
         singleLine = true,
@@ -98,6 +98,7 @@ fun IPTextInput(
         },
     )
     HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
+        isError = false
         onTextUpdate(it)
     }
 }
