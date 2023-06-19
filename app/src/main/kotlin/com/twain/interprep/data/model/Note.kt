@@ -9,15 +9,15 @@ import com.twain.interprep.constants.StringConstants.DB_TABLE_NOTE
 data class Note(
     @PrimaryKey(autoGenerate = true) val noteId: Int = 0,
     val interviewId: Int,
-    val interviewSegment: String,
-    val topic: String?,
-    val questions: List<Question>,
+    val interviewSegment: String = "",
+    val topic: String = "",
+    val questions: List<String> = listOf(""),
 )
 
 @Entity(tableName = StringConstants.DB_TABLE_QUESTION)
 data class Question(
-    @PrimaryKey(autoGenerate = true) val questionsId: Int,
-    val question: String,
+    @PrimaryKey(autoGenerate = true) val questionsId: Int = 0,
+    val question: String = "",
 )
 
 

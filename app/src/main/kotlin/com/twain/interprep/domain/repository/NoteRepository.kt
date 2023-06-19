@@ -6,5 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
 
-    suspend fun getInterviewWithNotes(): Flow<List<Pair<Interview, List<Note>>>>
+    suspend fun getAllInterviewWithNotes(): Flow<List<Pair<Interview, List<Note>>>>
+
+    suspend fun getInterviewByIdWithNotes(interviewId: Int): Flow<Pair<Interview, List<Note>>>
+
+    suspend fun insertNote(note: Note): Int
+
+    suspend fun updateNote(note: Note)
 }
