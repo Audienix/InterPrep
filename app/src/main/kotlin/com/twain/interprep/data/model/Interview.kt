@@ -29,7 +29,8 @@ data class Interview(
     val jobPostLink: String = "",
     val companyLink: String = "",
     val interviewer: String = "",
-    val interviewStatus: InterviewStatus = InterviewStatus.NO_UPDATE
+    val interviewStatus: InterviewStatus = InterviewStatus.NO_UPDATE,
+    val noteIds: List<Int> = emptyList()
 )
 
 data class DashBoardInterviews(

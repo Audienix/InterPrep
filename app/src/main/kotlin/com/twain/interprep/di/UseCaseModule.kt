@@ -1,7 +1,10 @@
 package com.twain.interprep.di
 
 import com.twain.interprep.domain.repository.InterviewRepository
+import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
+import com.twain.interprep.domain.usecase.NoteUseCase.GetNoteUseCase
+import com.twain.interprep.domain.usecase.NoteUseCase.NoteUseCase
 import com.twain.interprep.domain.usecase.interview.DeleteAllInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.DeleteInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.GetInterviewByIdUseCase
@@ -41,6 +44,14 @@ class UseCaseModule {
             getInterviewById = GetInterviewByIdUseCase(interviewRepository),
             deleteInterview = DeleteInterviewUseCase(interviewRepository),
             deleteAllInterviews = DeleteAllInterviewsUseCase(interviewRepository)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideNoteUseCase(noteRepository: NoteRepository): NoteUseCase {
+        return NoteUseCase(
+            getNoteUseCase = GetNoteUseCase(noteRepository)
         )
     }
 }

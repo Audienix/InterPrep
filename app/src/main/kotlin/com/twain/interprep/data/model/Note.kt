@@ -7,7 +7,7 @@ import com.twain.interprep.constants.StringConstants.DB_TABLE_NOTE
 
 @Entity(tableName = DB_TABLE_NOTE)
 data class Note(
-    @PrimaryKey(autoGenerate = true) val noteId: Int,
+    @PrimaryKey(autoGenerate = true) val noteId: Int = 0,
     val interviewId: Int,
     val interviewSegment: String,
     val topic: String?,
