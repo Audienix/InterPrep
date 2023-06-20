@@ -8,11 +8,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -30,10 +37,13 @@ import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptySta
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.interview.InterviewBottomSheet
 import com.twain.interprep.presentation.ui.components.interview.InterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
@@ -43,9 +53,15 @@ fun DashboardScreen(
 ) {
     // TODO ask Arighna
     quotesViewModel.insertQuotes(QuoteData.quotes)
+
+    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState()
+
     LaunchedEffect(Unit) {
         dashboardViewModel.getInterviews()
     }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -169,7 +185,11 @@ fun DashboardScreen(
                                     interview = interview,
                                     onClick = { interviewModel.interviewData = interview },
                                     navController = navController,
-                                    dashboardInterviewType = DashboardInterviewType.PastInterview()
+                                    dashboardInterviewType = DashboardInterviewType.PastInterview(),
+                                    onStatusBarClicked = {
+                                        interviewModel.interviewData = interview
+                                        openBottomSheet = true
+                                    }
                                 )
                             }
                         }
@@ -178,4 +198,19 @@ fun DashboardScreen(
             }
         }
     )
+    if (openBottomSheet) {
+        InterviewBottomSheet(
+            onDismissRequest = { openBottomSheet = false },
+            bottomSheetState = bottomSheetState,
+            onNewStatusSelected = {
+                scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
+                    if (!bottomSheetState.isVisible) {
+                        openBottomSheet = false
+                    }
+                }
+                interviewModel.upDateInterviewStatus(it)
+            },
+            highlightedStatus = interviewModel.interviewData.interviewStatus
+        )
+    }
 }
