@@ -26,7 +26,7 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun providesNoteRepository(database: DBManager): NoteRepository {
-        return NoteRepositoryImpl(database.interviewDao(), database.noteDao())
+        return NoteRepositoryImpl(database.noteDao())
     }
 
     @Provides
