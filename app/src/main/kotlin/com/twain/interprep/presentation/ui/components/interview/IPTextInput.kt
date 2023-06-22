@@ -32,12 +32,15 @@ import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
+import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel.AddInterviewDropDown
+import com.twain.interprep.utils.validateRequiredField
 
 @Composable
 fun IPTextInput(
     modifier: Modifier = Modifier,
     inputText: String,
     shouldValidate: Boolean = false,
+    dropDownOptions: MutableList<String>? = null,
     textInputAttributes: TextInputAttributes,
     onTextUpdate: (text: String) -> Unit
 ) {
@@ -89,7 +92,7 @@ fun IPTextInput(
                     }
                 ) {
                     Icon(
-                       imageVector = Icons.Default.Close,
+                        imageVector = Icons.Default.Close,
                         contentDescription = "Cancel"
                     )
                 }
@@ -97,7 +100,7 @@ fun IPTextInput(
 
         },
     )
-    HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
+    HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize,dropDownOptions) {
         onTextUpdate(it)
     }
 }
@@ -109,7 +112,8 @@ private fun HandleComponentInteraction(
     modifier: Modifier,
     fieldText: String,
     textFieldSize: Size,
-    onTextUpdate: (text: String) -> Unit
+    dropDownOptions: MutableList<String>?,
+    onTextUpdate: (text: String) -> Unit,
 ) {
     val pressedState = source.interactions.collectAsState(
         initial = PressInteraction.Cancel(PressInteraction.Press(Offset.Zero))
@@ -127,24 +131,14 @@ private fun HandleComponentInteraction(
             )
 
             TextInputType.DROPDOWN -> {
-                var dropdownOptions = emptyList<String>()
-                if (textInputAttributes.labelTextId == R.string.hint_label_interview_type)
-                    dropdownOptions =
-                        listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
-                else if (textInputAttributes.labelTextId == R.string.hint_label_role)
-                    dropdownOptions = listOf(
-                        "Software Engineer",
-                        "Sr. Software Engineer",
-                        "Staff Engineer",
-                        "Engineering Manager"
+                if (dropDownOptions != null) {
+                    IPDropdownMenu(
+                        modifier = modifier.fillMaxWidth(),
+                        options = dropDownOptions.toList(),
+                        textFieldSize = textFieldSize,
+                        onDropdownDismiss = { onTextUpdate(it) }
                     )
-
-                IPDropdownMenu(
-                    modifier = modifier.fillMaxWidth(),
-                    options = dropdownOptions,
-                    textFieldSize = textFieldSize,
-                    onDropdownDismiss = { onTextUpdate(it) }
-                )
+                }
             }
 
             else -> {}

@@ -30,6 +30,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.DropDownOption
+import com.twain.interprep.data.model.DropDownOptionType.INTERVIEW_TYPE
+import com.twain.interprep.data.model.DropDownOptionType.ROLE
 import com.twain.interprep.data.model.getInterviewField
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
@@ -63,6 +66,7 @@ fun AddInterviewScreen(
         if (isEditInterview) {
             viewModel.getInterviewById(interviewId)
         }
+        viewModel.getDropDownValues()
     }
     BackHandler {
         if (viewModel.interviewData.isValid()) {
@@ -83,6 +87,16 @@ fun AddInterviewScreen(
                     IconButton(onClick = {
                         if (viewModel.interviewData.isValid()) {
                             viewModel.onSaveInterview(isEditInterview)
+                            viewModel.insertDropDownOption(
+                                DropDownOption(type = ROLE,
+                                    content = viewModel.interviewData.role
+                                )
+                            )
+                            viewModel.insertDropDownOption(
+                                DropDownOption(type = INTERVIEW_TYPE,
+                                    content = viewModel.interviewData.interviewType
+                                )
+                            )
                             navController.popBackStack()
                         } else {
                             showDialog.value = true
@@ -157,7 +171,8 @@ fun AddInterviewScreen(
                             shouldValidate = shouldValidate.value,
                             onTextUpdate = {
                                 viewModel.updateInterviewField(input.labelTextId, it)
-                            }
+                            },
+                            dropDownOptions = viewModel.getDropDown(input.labelTextId)
                         )
                     }
                 }
@@ -169,7 +184,8 @@ fun AddInterviewScreen(
                         shouldValidate = shouldValidate.value,
                         onTextUpdate = {
                             viewModel.updateInterviewField(input.labelTextId, it)
-                        }
+                        },
+                        dropDownOptions = viewModel.getDropDown(input.labelTextId)
                     )
                 }
             }

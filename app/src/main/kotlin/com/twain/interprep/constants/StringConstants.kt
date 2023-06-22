@@ -15,6 +15,5 @@ object StringConstants {
     const val DB_TABLE_QUOTE = "quote"
     const val DB_TABLE_RESOURCE = "resource"
     const val DB_TABLE_RESOURCE_LINKS = "resource_link"
-    const val DB_TABLE_SUBTOPICS = "subtopic"
-    const val DB_TABLE_TOPICS = "topic"
+    const val DB_TABLE_DROP_DOWN_OPTION = "drop_down_option"
 }

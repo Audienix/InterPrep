@@ -1,7 +1,11 @@
 package com.twain.interprep.di
 
+import com.twain.interprep.domain.repository.DropDownRepository
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.QuoteRepository
+import com.twain.interprep.domain.usecase.dropDownOption.DropDownOptionUseCase
+import com.twain.interprep.domain.usecase.dropDownOption.GetDropDownOptionsUseCase
+import com.twain.interprep.domain.usecase.dropDownOption.InsertDropDownOptionsUseCase
 import com.twain.interprep.domain.usecase.interview.DeleteAllInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.DeleteInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.GetInterviewByIdUseCase
@@ -41,6 +45,15 @@ class UseCaseModule {
             getInterviewById = GetInterviewByIdUseCase(interviewRepository),
             deleteInterview = DeleteInterviewUseCase(interviewRepository),
             deleteAllInterviews = DeleteAllInterviewsUseCase(interviewRepository)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideDropDownUseCase(dropDownRepository: DropDownRepository): DropDownOptionUseCase {
+        return DropDownOptionUseCase(
+            getDropDownOptions = GetDropDownOptionsUseCase(dropDownRepository),
+            insertDropDownOption = InsertDropDownOptionsUseCase(dropDownRepository)
         )
     }
 }
