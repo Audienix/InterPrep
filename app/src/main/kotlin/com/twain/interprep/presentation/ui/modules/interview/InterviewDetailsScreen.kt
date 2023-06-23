@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.Quote
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
@@ -39,11 +40,13 @@ import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import kotlin.random.Random.Default.nextInt
 
 @Composable
 fun InterviewDetailsScreen(
     navController: NavHostController,
     viewModel: InterviewViewModel = hiltViewModel(),
+    quotesViewModel: QuotesViewModel = hiltViewModel(),
     interviewId: Int?,
     primaryColor: Color,
     secondaryColor: Color
@@ -51,6 +54,7 @@ fun InterviewDetailsScreen(
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
         interviewId?.let { viewModel.getInterviewById(id = it) }
+        quotesViewModel.getQuotes()
     }
 
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -97,10 +101,13 @@ fun InterviewDetailsScreen(
                     .padding(dimensionResource(id = R.dimen.dimension_4dp))
                     .verticalScroll(rememberScrollState()),
             ) {
-                IPQuoteCard(
-                    quote = QuoteData.quotes[0],
-                    backgroundColor = primaryColor
-                )
+                val quotes = quotesViewModel.quotesList
+                if (quotes.isNotEmpty()) {
+                    IPQuoteCard(
+                        quote = quotes[nextInt(0, quotes.size - 1)],
+                        backgroundColor = primaryColor
+                    )
+                }
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
                     IPInterviewDetailsCard(
                         interview = viewModel.interviewData,
