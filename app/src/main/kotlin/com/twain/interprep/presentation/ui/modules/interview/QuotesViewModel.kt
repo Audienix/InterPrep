@@ -4,10 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.twain.interprep.data.model.DashBoardInterviews
-import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Quote
-import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.domain.usecase.quotes.QuoteUseCase
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
 import com.twain.interprep.helper.CoroutineContextDispatcher

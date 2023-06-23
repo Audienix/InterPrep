@@ -104,7 +104,8 @@ fun InterviewDetailsScreen(
                 val quotes = quotesViewModel.quotesList
                 if (quotes.isNotEmpty()) {
                     IPQuoteCard(
-                        quote = quotes[nextInt(0, quotes.size - 1)],
+                        quote = quotes[nextInt
+                            (0, quotes.size - 1)],
                         backgroundColor = primaryColor
                     )
                 }
