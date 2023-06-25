@@ -14,6 +14,8 @@ import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightGray
 import com.twain.interprep.presentation.ui.theme.BackgroundLightGreen
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.utils.DateUtils
+import java.util.Date
 
 @Entity(tableName = DB_TABLE_INTERVIEW)
 data class Interview(
@@ -42,6 +44,27 @@ enum class InterviewStatus {
     NEXT_ROUND,
     REJECTED,
     SELECTED
+}
+
+fun InterviewStatus.getBackgroundColor() =  when (this) {
+    InterviewStatus.NO_UPDATE -> 0xFFFFE0B2
+    InterviewStatus.NEXT_ROUND -> 0xFFFFF9C4
+    InterviewStatus.REJECTED -> 0xFFFFCDD2
+    InterviewStatus.SELECTED -> 0xFFE8F5E9
+}
+
+fun InterviewStatus.getCircleColor() =  when (this) {
+    InterviewStatus.NO_UPDATE -> 0xFFFF6F00
+    InterviewStatus.NEXT_ROUND -> 0xFFFBC02D
+    InterviewStatus.REJECTED -> 0xFFD32F2F
+    InterviewStatus.SELECTED -> 0xFF388E3C
+}
+
+fun InterviewStatus.getText() = when (this) {
+    InterviewStatus.NO_UPDATE -> "No Update"
+    InterviewStatus.NEXT_ROUND -> "Next Round"
+    InterviewStatus.REJECTED -> "Rejected"
+    InterviewStatus.SELECTED -> "Selected"
 }
 
 sealed class DashboardInterviewType(
@@ -79,3 +102,5 @@ fun Interview.getInterviewField(@StringRes labelTextId: Int) = when (labelTextId
         ""
     }
 }
+
+fun Interview.isPast() = false.takeIf { date.isEmpty() } ?: DateUtils.convertDateTimeStringToDate(date, time).before(Date())

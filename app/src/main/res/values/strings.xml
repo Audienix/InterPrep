@@ -53,4 +53,5 @@
     <string name="error_message_form_input_company">Company can\'t be empty</string>
 
     <string name="add_interview_header">Add your scheduled interview details.</string>
+    <string name="edit_interview_header">Update your scheduled interview details.</string>
 </resources>
