@@ -56,13 +56,13 @@ fun InterviewCard(
 ) {
     val configuration = LocalConfiguration.current
     val cardWidth = configuration.screenWidthDp.dp * dashboardInterviewType.cardWidthFactor
-    Box() {
-        Column() {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(12.dp)
-            )
+    Box {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.dimension_12dp))
+        )
+        Column {
             ElevatedCard(
                 shape = Shapes.medium,
                 elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
@@ -154,7 +154,7 @@ fun InterviewCard(
             }
         }
         if (interview.isPast()) {
-            InterviewStatusBar(status = interview.interviewStatus, modifier = Modifier
+            IPInterviewStatus(status = interview.interviewStatus, modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(end = 12.dp), onClick = { onStatusBarClicked() })
         }

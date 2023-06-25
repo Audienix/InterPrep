@@ -45,7 +45,7 @@ import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
 import com.twain.interprep.presentation.ui.components.interview.InterviewBottomSheet
-import com.twain.interprep.presentation.ui.components.interview.InterviewStatusBar
+import com.twain.interprep.presentation.ui.components.interview.IPInterviewStatus
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import kotlinx.coroutines.launch
@@ -89,8 +89,6 @@ fun InterviewDetailsScreen(
             }
         },
         content = { padding ->
-
-
             if (showDeleteDialog) {
                 IPAlertDialog(
                     titleResId = R.string.alert_dialog_delete_interview_title,
@@ -119,12 +117,12 @@ fun InterviewDetailsScreen(
                             .fillMaxWidth()
                             .padding(
                                 horizontal = dimensionResource(id = R.dimen.dimension_8dp),
-                                vertical = dimensionResource(id = R.dimen.dimension_8dp)
+                                vertical = dimensionResource(id = R.dimen.dimension_16dp)
                             ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Status: ", style = MaterialTheme.typography.headlineSmall)
-                        InterviewStatusBar(
+                        Text(text = "Status: ", style = MaterialTheme.typography.titleMedium)
+                        IPInterviewStatus(
                             status = viewModel.interviewData.interviewStatus,
                             onClick = { openBottomSheet = true }
                         )

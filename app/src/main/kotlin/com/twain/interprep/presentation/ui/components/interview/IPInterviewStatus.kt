@@ -5,65 +5,69 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardDefaults.elevatedCardElevation
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.twain.interprep.R
 import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.data.model.getBackgroundColor
 import com.twain.interprep.data.model.getCircleColor
 import com.twain.interprep.data.model.getText
+import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
-fun InterviewStatusBar(
+fun IPInterviewStatus(
     modifier: Modifier = Modifier,
     status: InterviewStatus,
     shouldHighLight: Boolean = false,
     onClick: (InterviewStatus) -> Unit
 ) {
-    ElevatedCard(
+    Card(
         modifier = modifier,
-        shape = RoundedCornerShape(40.dp),
-        elevation = elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
+        elevation = elevatedCardElevation(),
+        shape = Shapes.large,
         colors = CardDefaults.cardColors(containerColor = Color(status.getBackgroundColor())),
     ) {
         Row(
-            modifier = (Modifier.border(
-                BorderStroke(1.dp, Color(status.getCircleColor())),
-                shape = RoundedCornerShape(40.dp)
-            ).takeIf { shouldHighLight } ?: Modifier).then(
-                modifier
-                    .clip(RoundedCornerShape(40.dp))
-                    .background(Color(status.getBackgroundColor()))
-                    .width(120.dp)
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                    .clickable { onClick(status) }
+            modifier = (Modifier.widthIn(min = 100.dp)
+                .border(
+                    BorderStroke(1.dp, Color(status.getCircleColor())),
+                    shape = Shapes.large
+                ).takeIf { shouldHighLight } ?: Modifier).then(
+                Modifier.widthIn(min = 100.dp)
+                    .background(Color(status.getBackgroundColor()), shape = Shapes.large)
+                    .padding(
+                        start = dimensionResource(id = R.dimen.dimension_4dp),
+                        end = dimensionResource(id = R.dimen.dimension_8dp),
+                        top = dimensionResource(id = R.dimen.dimension_4dp),
+                        bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                    ).clickable { onClick(status) }
             ),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
         ) {
-            Circle(color = Color(status.getCircleColor()), size = 24.dp)
+            Circle(
+                color = Color(status.getCircleColor()),
+                size = dimensionResource(id = R.dimen.dimension_16dp)
+            )
             Text(
                 text = status.getText(),
-                modifier = Modifier.padding(start = 4.dp),
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Medium
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }
@@ -83,5 +87,5 @@ fun Circle(
 @Preview
 @Composable
 fun InterviewStatusPreview() {
-    InterviewStatusBar(status = InterviewStatus.NEXT_ROUND, onClick = {})
+    IPInterviewStatus(status = InterviewStatus.NEXT_ROUND, onClick = {})
 }
