@@ -37,7 +37,6 @@ import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.isPast
-import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
@@ -49,12 +48,14 @@ import com.twain.interprep.presentation.ui.components.interview.IPInterviewStatu
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import kotlinx.coroutines.launch
+import kotlin.random.Random.Default.nextInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InterviewDetailsScreen(
     navController: NavHostController,
     viewModel: InterviewViewModel = hiltViewModel(),
+    quotesViewModel: QuotesViewModel = hiltViewModel(),
     interviewId: Int?,
     primaryColor: Color,
     secondaryColor: Color
@@ -67,6 +68,7 @@ fun InterviewDetailsScreen(
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
         interviewId?.let { viewModel.getInterviewById(id = it) }
+        quotesViewModel.getQuotes()
     }
 
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -128,10 +130,14 @@ fun InterviewDetailsScreen(
                         )
                     }
                 } else {
-                    IPQuoteCard(
-                        quote = QuoteData.quotes[0],
-                        backgroundColor = primaryColor
-                    )
+                    val quotes = quotesViewModel.quotesList
+                    if (quotes.isNotEmpty()) {
+                        IPQuoteCard(
+                            quote = quotes[nextInt
+                                (0, quotes.size)],
+                            backgroundColor = primaryColor
+                        )
+                    }
                 }
                 IPInterviewDetailsCard(
                     interview = viewModel.interviewData,
