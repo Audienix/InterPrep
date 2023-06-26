@@ -30,8 +30,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.model.Quote
-import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
@@ -105,7 +103,7 @@ fun InterviewDetailsScreen(
                 if (quotes.isNotEmpty()) {
                     IPQuoteCard(
                         quote = quotes[nextInt
-                            (0, quotes.size - 1)],
+                            (0, quotes.size)],
                         backgroundColor = primaryColor
                     )
                 }
