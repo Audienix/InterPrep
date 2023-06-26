@@ -20,7 +20,7 @@ interface InterviewDAO {
     @Query("SELECT * FROM interview WHERE interviewId = :id")
     fun getInterview(id: Int): Flow<Interview>
 
-    @Query("SELECT * FROM interview ORDER BY date DESC ")
+    @Query("SELECT * FROM interview ORDER BY date ASC ")
     fun getAllInterviews(): Flow<List<Interview>>
 
     @Delete
