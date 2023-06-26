@@ -30,7 +30,7 @@ class PrefManager @Inject constructor(
     }
 
     companion object {
-        const val FLAG_QUOTE_INSERTED = "FLAG_QUOTE_INSERTED"
+        const val NUM_QUOTE_INSERTED = "NUM_QUOTE_INSERTED"
     }
 }
 
@@ -38,13 +38,13 @@ sealed class IntPair(
     val key: String,
     val default: Int
 ) {
+    object PREV_NUM_QUOTES_INSERTED: IntPair(PrefManager.NUM_QUOTE_INSERTED, 0)
 }
 
 sealed class BooleanPair(
     val key: String,
     val default: Boolean
 ) {
-    object QUOTE_INSERTED: BooleanPair(PrefManager.FLAG_QUOTE_INSERTED, false)
 }
 
 sealed class StringPair(
