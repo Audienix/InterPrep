@@ -14,7 +14,6 @@ import com.twain.interprep.presentation.navigation.NavGraph
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-
     Scaffold(
         bottomBar = {
             BottomNavigationBar(navController)
