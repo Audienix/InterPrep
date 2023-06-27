@@ -43,7 +43,6 @@ class NotesViewModel @Inject constructor(
     }
 
     fun deleteNote(interview: Interview, note: Note) {
-
     }
 
     fun initAddNoteScreen(interviewId: Int) = launchCoroutineIO {

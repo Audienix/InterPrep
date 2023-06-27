@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.map
 import java.util.Date
 
 class GetNoteUseCase(private val noteRepository: NoteRepository) {
-
     suspend operator fun invoke() =
         noteRepository.getAllInterviewWithNotes().map {
             it.filter { (interview, _) ->

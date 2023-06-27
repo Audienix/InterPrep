@@ -23,15 +23,17 @@ import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
 fun IPFilledButton(
-    backgroundColor: Color,
     text: String,
     textColor: Color,
+    iconColor: Color,
+    backgroundColor: Color,
+    disabledContentColor: Color,
     enabled: Boolean = true,
     contentDescription: String? = null,
-    iconColor: Color,
     textStyle: TextStyle,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     onClick: () -> Unit,
@@ -42,7 +44,8 @@ fun IPFilledButton(
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
-            contentColor = textColor
+            contentColor = textColor,
+            disabledContentColor = disabledContentColor,
         ),
         contentPadding = contentPadding
     ) {
@@ -111,7 +114,8 @@ fun FilledButtonPreview() {
             leadingIcon = R.drawable.filled_reorder,
             onClick = {},
             textStyle = MaterialTheme.typography.bodySmall,
-            iconColor = BackgroundLightPurple
+            iconColor = BackgroundLightPurple,
+            disabledContentColor = TextSecondary
         )
         IPFilledButton(
             backgroundColor = BackgroundDarkPurple,
@@ -120,7 +124,8 @@ fun FilledButtonPreview() {
             leadingIcon = R.drawable.filled_reorder,
             onClick = {},
             textStyle = MaterialTheme.typography.bodySmall,
-            iconColor = BackgroundLightPurple
+            iconColor = BackgroundLightPurple,
+            disabledContentColor = TextSecondary
         )
         IPFilledButton(
             backgroundColor = BackgroundDarkPurple,
@@ -129,7 +134,8 @@ fun FilledButtonPreview() {
             leadingIcon = R.drawable.filled_post_add,
             onClick = {},
             textStyle = MaterialTheme.typography.bodySmall,
-            iconColor = BackgroundLightPurple
+            iconColor = BackgroundLightPurple,
+            disabledContentColor = TextSecondary
         )
     }
 }

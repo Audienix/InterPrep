@@ -2,9 +2,11 @@ package com.twain.interprep.presentation.ui.modules.notes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,6 +36,7 @@ import com.twain.interprep.presentation.ui.components.note.AddNoteCard
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.BackgroundSurface
 
 @Composable
 fun AddNotesScreen(
@@ -65,35 +68,58 @@ fun AddNotesScreen(
                 }
             },
             content = { padding ->
-
                 Column(
                     modifier = Modifier
                         .padding(padding)
-                        .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
+                        .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    InterviewDetailForNote(interview = interview)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(BackgroundSurface)
+                    ) {
+                        InterviewDetailForNote(
+                            modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
+                            interview = interview
+                        )
+                    }
                     IPHeader(
                         stringResource(id = R.string.add_note_header),
                         MaterialTheme.colorScheme.onSurfaceVariant,
                         MaterialTheme.typography.titleMedium,
-                        Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
+                        Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
                         fontWeight = FontWeight.Normal
                     )
 
                     viewModel.notes.forEachIndexed { index, note ->
                         AddNoteCard(
+                            modifier = Modifier
+                            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
+                            .fillMaxWidth(),
                             note = note,
                             getNoteField = { viewModel.getNoteField(it, index) },
-                            updateNoteField = { resId, value -> viewModel.updateNoteField(resId, index, value) },
-                            updateQuestion = { questionIndex, value -> viewModel.updateQuestion(index, questionIndex, value) },
+                            updateNoteField = { resId, value ->
+                                viewModel.updateNoteField(
+                                    resId,
+                                    index,
+                                    value
+                                )
+                            },
+                            updateQuestion = { questionIndex, value ->
+                                viewModel.updateQuestion(
+                                    index,
+                                    questionIndex,
+                                    value
+                                )
+                            },
                             addQuestion = { viewModel.addQuestion(index) }
                         )
                     }
                     Row(
-                        modifier = Modifier.padding(
-                            top = dimensionResource(id = R.dimen.dimension_12dp)
+                        modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_12dp),
+                            horizontal = dimensionResource(id = R.dimen.dimension_16dp)
                         )
                     ) {
                         IPOutlinedButton(

@@ -25,6 +25,7 @@ import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
 fun AddNoteCard(
+    modifier: Modifier = Modifier,
     note: Note,
     getNoteField: (Int) -> String,
     updateNoteField: ( Int, String) -> Unit,
@@ -34,12 +35,11 @@ fun AddNoteCard(
     ElevatedCard(
         shape = Shapes.medium,
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
-        modifier = Modifier
-            .padding(dimensionResource(id = R.dimen.dimension_8dp))
-            .fillMaxWidth(),
+        modifier = modifier,
         colors = CardDefaults.elevatedCardColors(containerColor = BackgroundPalePurple)
     ) {
-        Column() {
+        Column( modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.dimension_8dp))) {
             InterviewFormData.noteFormList.map { input ->
                 IPTextInput(
                     modifier = Modifier.fillMaxWidth(),
@@ -52,6 +52,7 @@ fun AddNoteCard(
             }
             note.questions.forEachIndexed { index, question ->
                 IPTextInput(
+                    modifier = Modifier.fillMaxWidth(),
                     inputText = question,
                     textInputAttributes = InterviewFormData.getQuestion(),
                     onTextUpdate = {
@@ -63,9 +64,7 @@ fun AddNoteCard(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        end = dimensionResource(id = R.dimen.dimension_8dp),
-                        top = dimensionResource(id = R.dimen.dimension_8dp)
+                    .padding( top = dimensionResource(id = R.dimen.dimension_4dp)
                     )
             ) {
                 IPOutlinedButton(
