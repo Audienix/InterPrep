@@ -17,9 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Note
+import com.twain.interprep.data.ui.interviewMockData
+import com.twain.interprep.data.ui.notesMockData
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
@@ -51,7 +54,7 @@ fun NoteCard(
         ) {
             Row {
                 InterviewDetailForNote(
-                    Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_4dp)),
+                    Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_16dp)),
                     interview = interview
                 )
             }
@@ -103,4 +106,15 @@ fun NoteCard(
             }
         }
     }
+}
+
+@Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
+@Composable
+private fun NoteCardPreview() {
+    NoteCard(
+        interviewNotePair = interviewMockData to notesMockData,
+        onDeleteNoteClick = {},
+        onViewNoteClick = {},
+        onAddNoteClick = {}
+    )
 }

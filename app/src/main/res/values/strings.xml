@@ -67,4 +67,6 @@
     <string name="hint_label_topic">Topic</string>
     <string name="hint_label_question">Question</string>
     <string name="edit_interview_header">Update your scheduled interview details.</string>
+
+    <string name="icon_more_vert_content_description">More Options</string>
 </resources>
