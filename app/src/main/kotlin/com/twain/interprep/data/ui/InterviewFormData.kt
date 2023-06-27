@@ -55,6 +55,24 @@ object InterviewFormData {
         )
     )
 
+    val noteFormList = listOf(
+        TextInputAttributes(
+            labelTextId = R.string.hint_label_interview_segment,
+            inputType = TextInputType.TEXT,
+            required = true
+        ),
+        TextInputAttributes(
+            labelTextId = R.string.hint_label_topic,
+            inputType = TextInputType.TEXT
+        )
+    )
+
+    fun getQuestion() = TextInputAttributes(
+        labelTextId = R.string.hint_label_question,
+        inputType = TextInputType.TEXT,
+        required = true
+    )
+
     fun getTextLabelList(interview: Interview): List<TextLabelData> {
         return listOf(
             TextLabelData(

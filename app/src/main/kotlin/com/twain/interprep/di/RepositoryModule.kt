@@ -2,8 +2,10 @@ package com.twain.interprep.di
 
 import com.twain.interprep.data.db.DBManager
 import com.twain.interprep.data.repository.InterviewRepositoryImpl
+import com.twain.interprep.data.repository.NoteRepositoryImpl
 import com.twain.interprep.data.repository.QuoteRepositoryImpl
 import com.twain.interprep.domain.repository.InterviewRepository
+import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
 import dagger.Module
 import dagger.Provides
@@ -19,6 +21,12 @@ class RepositoryModule {
     @Singleton
     fun providesInterviewRepository(database: DBManager): InterviewRepository {
         return InterviewRepositoryImpl(database.interviewDao())
+    }
+
+    @Provides
+    @Singleton
+    fun providesNoteRepository(database: DBManager): NoteRepository {
+        return NoteRepositoryImpl(database.noteDao())
     }
 
     @Provides
