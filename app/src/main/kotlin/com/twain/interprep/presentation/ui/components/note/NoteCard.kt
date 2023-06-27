@@ -1,7 +1,9 @@
 package com.twain.interprep.presentation.ui.components.note
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,13 +11,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
@@ -26,6 +32,7 @@ import com.twain.interprep.data.ui.notesMockData
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.Purple100
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 
@@ -61,13 +68,40 @@ fun NoteCard(
             if (notes.isNotEmpty()) {
                 Divider()
                 notes.forEachIndexed { index, note ->
-                    Row(modifier = Modifier.clickable { onDeleteNoteClick(note) }) {
-                        Text(text = index.toString())
-                        Column {
-                            Text(text = note.interviewSegment)
-                            Text(text = note.topic)
+                    Row(
+                        modifier = Modifier
+                            .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
+                            .clickable { onDeleteNoteClick(note) }
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(dimensionResource(id = R.dimen.dimension_32dp))
+                                .clip(CircleShape)
+                                .background(Purple100),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = index.toString(),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
+                        ) {
+                            Text(
+                                text = note.interviewSegment,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                            Text(
+                                text = note.topic,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
                             note.questions.forEach {
-                                Text(text = it)
+                                Text(
+                                    text = it,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
                             }
                         }
                     }

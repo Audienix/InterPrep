@@ -16,12 +16,5 @@ val notesMockData = listOf(
         interviewSegment = "Technical",
         topic = "Leetcode Questions",
         questions = listOf(""),
-    ),
-    Note(
-        noteId = 2,
-        interviewId = 1,
-        interviewSegment = "",
-        topic = "",
-        questions = listOf(""),
     )
 )
