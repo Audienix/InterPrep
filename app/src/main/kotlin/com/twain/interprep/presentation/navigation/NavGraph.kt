@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardScreen
 import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
 import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScreen
+import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 
@@ -17,14 +18,12 @@ import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 fun NavGraph(navController: NavHostController) {
 
     NavHost(navController = navController, startDestination = AppScreens.Dashboard.route) {
+
+
+        // interview
+
         composable(AppScreens.Dashboard.route) {
             DashboardScreen(navController = navController)
-        }
-        composable(AppScreens.Notes.route) {
-            NotesScreen()
-        }
-        composable(AppScreens.Resources.route) {
-            ResourcesScreen()
         }
         composable(route = "${AppScreens.AddInterview.route}/{interviewId}", arguments = listOf(
             navArgument("interviewId") {
@@ -61,6 +60,26 @@ fun NavGraph(navController: NavHostController) {
                     )
                 }
             }
+        }
+
+        // note
+
+        composable(AppScreens.Notes.route) {
+            NotesScreen(navController = navController)
+        }
+
+        composable(route = "${AppScreens.AddNotes.route}/{interviewId}", arguments = listOf(
+            navArgument("interviewId") {
+                type = NavType.IntType
+            }
+        )) { entry ->
+            val interviewId = entry.arguments?.getInt("interviewId")
+            AddNotesScreen(navController = navController, interviewId = interviewId ?: 0)
+        }
+        // resource
+
+        composable(AppScreens.Resources.route) {
+            ResourcesScreen()
         }
     }
 }
