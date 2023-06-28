@@ -36,7 +36,7 @@ import com.twain.interprep.utils.DateUtils
 
 @Composable
 fun InterviewDetailForNote(
-    modifier:Modifier = Modifier,
+    modifier: Modifier = Modifier,
     interview: Interview
 ) {
     Row(modifier = modifier) {
@@ -56,7 +56,7 @@ fun InterviewDetailForNote(
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                             append("#${interview.roundNum}")
                         }
-                        append(" - ${interview.role}")
+                        append(" - ${interview.interviewType}")
                     }
                 )
             }
@@ -75,5 +75,10 @@ fun InterviewDetailForNote(
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 fun InterviewDetailForNotePreview() {
-    InterviewDetailForNote(modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp), dimensionResource(id = R.dimen.dimension_12dp)), interview = interviewMockData)
+    InterviewDetailForNote(
+        modifier = Modifier.padding(
+            dimensionResource(id = R.dimen.dimension_16dp),
+            dimensionResource(id = R.dimen.dimension_12dp)
+        ), interview = interviewMockData
+    )
 }

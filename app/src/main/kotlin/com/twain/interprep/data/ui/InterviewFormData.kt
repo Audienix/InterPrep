@@ -1,6 +1,7 @@
 package com.twain.interprep.data.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.text.input.KeyboardType
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 
@@ -39,7 +40,8 @@ object InterviewFormData {
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_round_count,
-            inputType = TextInputType.TEXT
+            inputType = TextInputType.TEXT,
+            keyboardType = KeyboardType.Number
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_job_post,
@@ -108,7 +110,8 @@ data class TextInputAttributes(
     @StringRes val bottomTextId: Int? = null,
     val required: Boolean = false,
     @StringRes val errorTextId: Int? = null,
-    val inputType: TextInputType = TextInputType.TEXT
+    val inputType: TextInputType = TextInputType.TEXT,
+    val keyboardType : KeyboardType = KeyboardType.Text
 )
 
 enum class TextInputType {

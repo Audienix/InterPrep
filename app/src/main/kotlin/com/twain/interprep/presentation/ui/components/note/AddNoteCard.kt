@@ -18,7 +18,7 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.ui.InterviewFormData
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
-import com.twain.interprep.presentation.ui.components.interview.IPTextInput
+import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundPalePurple
 import com.twain.interprep.presentation.ui.theme.Shapes

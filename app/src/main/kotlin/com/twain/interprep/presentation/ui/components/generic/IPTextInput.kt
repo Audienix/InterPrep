@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components.interview
+package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
@@ -33,6 +34,9 @@ import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
+import com.twain.interprep.presentation.ui.components.interview.IPDatePicker
+import com.twain.interprep.presentation.ui.components.interview.IPDropdownMenu
+import com.twain.interprep.presentation.ui.components.interview.IPTimePicker
 
 @Composable
 fun IPTextInput(
@@ -67,6 +71,7 @@ fun IPTextInput(
         singleLine = true,
         label = { Text(text = label) },
         isError = notValid(shouldValidate, inputText, textInputAttributes, isError),
+        keyboardOptions = KeyboardOptions(keyboardType = textInputAttributes.keyboardType),
         supportingText = {
             if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Text(
@@ -206,20 +211,22 @@ private fun TextFormInputPreview() {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             textInputAttributes = TextInputAttributes(
+                labelTextId = R.string.hint_label_date,
+                bottomTextId = R.string.hint_label_month_format,
+                required = false
+            ),
+            inputText = "",
+            onTextUpdate = {}
+        )
+        IPTextInput(
+            modifier = Modifier.fillMaxWidth(),
+            textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_time,
                 bottomTextId = R.string.hint_label_time_format,
                 required = false
             ),
             onTextUpdate = {},
             inputText = ""
-        )
-        IPTextInput(
-            modifier = Modifier.fillMaxWidth(),
-            input = Input(
-                labelTextId = R.string.hint_label_time,
-                bottomTextId = R.string.hint_label_time_format,
-                required = false
-            )
         )
         IPDropdownMenu(
             modifier = Modifier.fillMaxWidth(),
@@ -229,4 +236,3 @@ private fun TextFormInputPreview() {
         )
     }
 }
-
