@@ -1,12 +1,9 @@
 package com.twain.interprep.data.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.text.input.KeyboardType
 import com.twain.interprep.R
-import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.utils.DateUtils
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 object InterviewFormData {
     val textInputHorizontalList = listOf(
@@ -43,7 +40,8 @@ object InterviewFormData {
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_round_count,
-            inputType = TextInputType.TEXT
+            inputType = TextInputType.TEXT,
+            keyboardType = KeyboardType.Number
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_job_post,
@@ -59,13 +57,28 @@ object InterviewFormData {
         )
     )
 
+    val noteFormList = listOf(
+        TextInputAttributes(
+            labelTextId = R.string.hint_label_interview_segment,
+            inputType = TextInputType.TEXT,
+            required = true
+        ),
+        TextInputAttributes(
+            labelTextId = R.string.hint_label_topic,
+            inputType = TextInputType.TEXT
+        )
+    )
+
+    fun getQuestion() = TextInputAttributes(
+        labelTextId = R.string.hint_label_question,
+        inputType = TextInputType.TEXT,
+        required = true
+    )
+
     fun getTextLabelList(interview: Interview): List<TextLabelData> {
         return listOf(
             TextLabelData(
-                R.string.hint_label_time, "".takeIf { interview.time.isEmpty() } ?: SimpleDateFormat(
-                    StringConstants.DT_FORMAT_DAY_HOUR_MIN,
-                    Locale.getDefault()
-                ).format(DateUtils.convertDateStringToDate(interview.date))
+                R.string.hint_label_time, interview.time
             ),
             TextLabelData(
                 R.string.hint_label_company, interview.company
@@ -97,7 +110,8 @@ data class TextInputAttributes(
     @StringRes val bottomTextId: Int? = null,
     val required: Boolean = false,
     @StringRes val errorTextId: Int? = null,
-    val inputType: TextInputType = TextInputType.TEXT
+    val inputType: TextInputType = TextInputType.TEXT,
+    val keyboardType : KeyboardType = KeyboardType.Text
 )
 
 enum class TextInputType {

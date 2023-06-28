@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -82,6 +83,13 @@ class InterviewViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun updateInterviewStatus(status: InterviewStatus){
+        interviewData = interviewData.copy(
+            interviewStatus = status
+        )
+        updateInterview(interviewData)
     }
 
     private fun insertInterview(interview: Interview) = launchCoroutineIO {

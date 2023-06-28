@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components.interview
+package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -32,6 +34,9 @@ import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
+import com.twain.interprep.presentation.ui.components.interview.IPDatePicker
+import com.twain.interprep.presentation.ui.components.interview.IPDropdownMenu
+import com.twain.interprep.presentation.ui.components.interview.IPTimePicker
 
 @Composable
 fun IPTextInput(
@@ -49,22 +54,24 @@ fun IPTextInput(
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
-//    var text by remember { mutableStateOf(inputText) }
+
+    var hasFocus by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         modifier = modifier.onGloballyPositioned { coordinates ->
             //This value is used to assign to the DropDown the same width
             textFieldSize = coordinates.size.toSize()
-        },
+        }.onFocusChanged { hasFocus = it.hasFocus },
         value = inputText,
         onValueChange = {
             onTextUpdate(it)
-            isError = notValid(true, inputText, textInputAttributes, isError)
+            isError = notValid(true, it, textInputAttributes, isError)
         },
         interactionSource = source,
         singleLine = true,
         label = { Text(text = label) },
         isError = notValid(shouldValidate, inputText, textInputAttributes, isError),
+        keyboardOptions = KeyboardOptions(keyboardType = textInputAttributes.keyboardType),
         supportingText = {
             if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Text(
@@ -81,7 +88,7 @@ fun IPTextInput(
                     painter = painterResource(id = R.drawable.error_icon),
                     contentDescription = "Error"
                 )
-            } else if (inputText.isNotEmpty()) {
+            } else if (inputText.isNotEmpty() && hasFocus) {
                 IconButton(
                     onClick = {
                         onTextUpdate("")
@@ -98,6 +105,7 @@ fun IPTextInput(
         },
     )
     HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
+        isError = false
         onTextUpdate(it)
     }
 }
@@ -203,6 +211,16 @@ private fun TextFormInputPreview() {
         IPTextInput(
             modifier = Modifier.fillMaxWidth(),
             textInputAttributes = TextInputAttributes(
+                labelTextId = R.string.hint_label_date,
+                bottomTextId = R.string.hint_label_month_format,
+                required = false
+            ),
+            inputText = "",
+            onTextUpdate = {}
+        )
+        IPTextInput(
+            modifier = Modifier.fillMaxWidth(),
+            textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_time,
                 bottomTextId = R.string.hint_label_time_format,
                 required = false
@@ -218,4 +236,3 @@ private fun TextFormInputPreview() {
         )
     }
 }
-

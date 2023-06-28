@@ -4,7 +4,13 @@
     <string name="nav_item_dashboard">Dashboard</string>
     <string name="nav_item_notes">Notes</string>
     <string name="nav_item_resources">Resources</string>
-
+    <string name="dashboard_empty_title">No interview scheduled.</string>
+    <string name="dashboard_empty_note">No notes captured.</string>
+    <string name="dashboard_empty_resource">No resources added</string>
+    <string name="dashboard_empty_text">Add your first interview schedule by clicking ‘+’
+        button.</string>
+    <string name="dashboard_empty_note_text">Come back after your scheduled interview to capture some quick notes.</string>
+    <string name="dashboard_empty_resource_text">Add your first resource material by clicking ‘+’ button.</string>
     <string name="appbar_title_add_interview">Add Interview</string>
     <string name="appbar_title_edit_interview">Edit Interview</string>
     <string name="appbar_title_interview_details">Interview Details</string>
@@ -53,4 +59,14 @@
     <string name="error_message_form_input_company">Company can\'t be empty</string>
 
     <string name="add_interview_header">Add your scheduled interview details.</string>
+    <string name="add_note_header">Add your interview notes</string>
+    <string name="add_note_question">Add Question</string>
+    <string name="add_note">Add Note</string>
+
+    <string name="hint_label_interview_segment">Interview Segment</string>
+    <string name="hint_label_topic">Topic</string>
+    <string name="hint_label_question">Question</string>
+    <string name="edit_interview_header">Update your scheduled interview details.</string>
+
+    <string name="icon_more_vert_content_description">More Options</string>
 </resources>

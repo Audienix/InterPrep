@@ -10,6 +10,8 @@ import com.twain.interprep.data.dao.ResourceDAO
 import com.twain.interprep.data.db.converter.ListConverter
 import com.twain.interprep.data.db.converter.DateConverter
 import com.twain.interprep.data.db.converter.EnumConverter
+import com.twain.interprep.data.db.converter.IntegerListConverter
+import com.twain.interprep.data.db.converter.StringListConverter
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.Question
@@ -25,7 +27,7 @@ import com.twain.interprep.data.model.Topic
     version = 1,
     exportSchema = false
 )
-@TypeConverters(ListConverter::class, DateConverter::class, EnumConverter::class)
+@TypeConverters(ListConverter::class, DateConverter::class, EnumConverter::class, IntegerListConverter::class, StringListConverter::class)
 abstract class DBManager : RoomDatabase() {
     abstract fun interviewDao(): InterviewDAO
     abstract fun noteDao(): NoteDAO
