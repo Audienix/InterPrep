@@ -18,6 +18,12 @@ interface NoteDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: Note): Long
 
+
+    @Transaction
+    suspend fun insertAllNotes(notes: List<Note>) {
+        notes.forEach { insertNote(it) }
+    }
+
     @Update
     suspend fun updateNote(note: Note)
 
