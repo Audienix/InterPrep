@@ -80,7 +80,7 @@ fun NoteCard(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = 0.toString(),
+                            text = "1",
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
@@ -96,46 +96,44 @@ fun NoteCard(
                             text = note.topic,
                             style = MaterialTheme.typography.bodyMedium
                         )
-                        note.questions.forEach {
-                            Text(
-                                text = it,
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
+                        Text(
+                            text = note.questions.firstOrNull().orEmpty(),
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
             }
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = dimensionResource(id = R.dimen.dimension_24dp))
-            ) {
-                IPFilledButton(
-                    backgroundColor = BackgroundDarkPurple,
-                    text = "View Notes",
-                    textColor = BackgroundLightPurple,
-                    enabled = false,
-                    iconColor = TextSecondary,
-                    textStyle = MaterialTheme.typography.labelLarge,
-                    onClick = onViewNoteClick,
-                    leadingIcon = R.drawable.filled_reorder,
-                    disabledContentColor = TextSecondary,
-                    contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
-                )
-                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_8dp)))
-                IPFilledButton(
-                    backgroundColor = BackgroundDarkPurple,
-                    text = "Add Notes",
-                    textColor = BackgroundLightPurple,
-                    iconColor = BackgroundLightPurple,
-                    textStyle = MaterialTheme.typography.labelLarge,
-                    onClick = onAddNoteClick,
-                    leadingIcon = R.drawable.filled_post_add,
-                    disabledContentColor = TextSecondary,
-                    contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
-                )
-            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = dimensionResource(id = R.dimen.dimension_24dp))
+        ) {
+            IPFilledButton(
+                backgroundColor = BackgroundDarkPurple,
+                text = "View Notes",
+                textColor = BackgroundLightPurple,
+                enabled = false,
+                iconColor = TextSecondary,
+                textStyle = MaterialTheme.typography.labelLarge,
+                onClick = onViewNoteClick,
+                leadingIcon = R.drawable.filled_reorder,
+                disabledContentColor = TextSecondary,
+                contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_8dp)))
+            IPFilledButton(
+                backgroundColor = BackgroundDarkPurple,
+                text = "Add Notes",
+                textColor = BackgroundLightPurple,
+                iconColor = BackgroundLightPurple,
+                textStyle = MaterialTheme.typography.labelLarge,
+                onClick = onAddNoteClick,
+                leadingIcon = R.drawable.filled_post_add,
+                disabledContentColor = TextSecondary,
+                contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
+            )
         }
     }
 }
