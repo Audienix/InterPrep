@@ -45,13 +45,11 @@ object InterviewFormData {
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_job_post,
-            inputType = TextInputType.TEXT,
-            errorTextId = R.string.error_message_form_input_company,
+            inputType = TextInputType.TEXT
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_company_link,
-            inputType = TextInputType.TEXT,
-            errorTextId = R.string.error_message_form_input_company,
+            inputType = TextInputType.TEXT
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_interviewer,

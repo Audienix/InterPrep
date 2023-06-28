@@ -96,14 +96,13 @@ fun IPTextInput(
                     }
                 ) {
                     Icon(
-                       imageVector = Icons.Default.Close,
+                        imageVector = Icons.Default.Close,
                         contentDescription = "Cancel"
                     )
                 }
             }
 
         },
-        keyboardOptions = textInputAttributes.keyboardOptions
     )
     HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
         isError = false
