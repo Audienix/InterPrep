@@ -28,7 +28,6 @@ import androidx.navigation.NavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
@@ -63,9 +62,7 @@ fun AddNotesScreen(
                             Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                         }
                     }
-                ) {
-                    DeleteIcon { }
-                }
+                )
             },
             content = { padding ->
                 Column(
@@ -96,7 +93,11 @@ fun AddNotesScreen(
                     viewModel.notes.forEachIndexed { index, note ->
                         AddNoteCard(
                             modifier = Modifier
-                            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
+                            .padding(
+                                start = dimensionResource(id = R.dimen.dimension_12dp),
+                                end = dimensionResource(id = R.dimen.dimension_12dp),
+                                top = dimensionResource(id = R.dimen.dimension_16dp)
+                            )
                             .fillMaxWidth(),
                             note = note,
                             getNoteField = { viewModel.getNoteField(it, index) },

@@ -93,10 +93,12 @@ fun NoteCard(
                                 text = note.interviewSegment,
                                 style = MaterialTheme.typography.bodyLarge
                             )
-                            Text(
-                                text = note.topic,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
+                            if (note.topic.isNotEmpty()) {
+                                Text(
+                                    text = note.topic,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                             note.questions.forEach {
                                 Text(
                                     text = it,
@@ -111,7 +113,8 @@ fun NoteCard(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = dimensionResource(id = R.dimen.dimension_24dp))
+                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp),
+                        vertical = dimensionResource(id = R.dimen.dimension_24dp))
             ) {
                 IPFilledButton(
                     backgroundColor = BackgroundDarkPurple,
