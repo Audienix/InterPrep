@@ -9,7 +9,6 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.domain.usecase.note.NoteUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -20,8 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     contextProvider: CoroutineContextDispatcher,
-    private val noteUseCase: NoteUseCase,
-    private val interviewUseCase: InterviewUseCase
+    private val noteUseCase: NoteUseCase
 ) : BaseViewModel(contextProvider) {
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -45,11 +43,15 @@ class NotesViewModel @Inject constructor(
     fun deleteNote(interview: Interview, note: Note) {
     }
 
-    fun initAddNoteScreen(interviewId: Int) = launchCoroutineIO {
+    fun initAddNoteScreen(interviewId: Int, isEdit: Boolean) = launchCoroutineIO {
         noteUseCase.getNoteByInterviewIdUseCase(interviewId).collect { (interview, notes) ->
             this@NotesViewModel.interview = ViewResult.Loaded(interview)
-            this@NotesViewModel.notes.clear()
-            this@NotesViewModel.notes.addAll(notes.sortedBy { it.noteId } + Note(interviewId = interviewId))
+            if (isEdit){
+                this@NotesViewModel.notes.clear()
+                this@NotesViewModel.notes.addAll(notes.sortedBy { it.noteId })
+            } else {
+                this@NotesViewModel.notes.add(Note(interviewId = interviewId))
+            }
         }
     }
 
@@ -96,7 +98,7 @@ class NotesViewModel @Inject constructor(
         )
     }
 
-    fun addNote(interviewId: Int) = launchCoroutineIO {
+    fun addNote() = launchCoroutineIO {
         if (interview !is ViewResult.Loaded) return@launchCoroutineIO
 
         val index = notes.size - 1
@@ -109,12 +111,25 @@ class NotesViewModel @Inject constructor(
             else {
                 noteUseCase.updateNoteUseCase(note)
             }
-            notes.add(Note(interviewId = interviewId))
         }
     }
 
     private fun isNoteValid(note: Note) =
         note.interviewSegment.isNotBlank() && note.questions.none { it.isBlank() }
+
+    private fun isNotEmpty(note: Note) =
+        note.interviewSegment.isBlank() && note.questions.all { it.isBlank() } && note.topic.isBlank()
+
+
+    fun addNoteEnabled() = isNoteValid(notes.last())
+
+    fun onBackPressed(): Boolean {
+        if (notes.any { !isNoteValid(it) && !isNotEmpty(it) }) return false
+        launchCoroutineIO {
+            noteUseCase.insertAllNotesUseCase(notes.filter { isNoteValid(it) })
+        }
+        return true
+    }
 
 
 }

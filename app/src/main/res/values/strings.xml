@@ -63,6 +63,10 @@
     <string name="add_note_question">Add Question</string>
     <string name="add_note">Add Note</string>
 
+    <string name="alert_dialog_unsaved_notes_title">Unsaved Notes!</string>
+    <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as
+        you have not filled up mandatory details. Go back?</string>
+
     <string name="hint_label_interview_segment">Interview Segment</string>
     <string name="hint_label_topic">Topic</string>
     <string name="hint_label_question">Question</string>

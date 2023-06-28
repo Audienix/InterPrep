@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -29,6 +34,7 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
+import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
@@ -42,10 +48,17 @@ import com.twain.interprep.presentation.ui.theme.BackgroundSurface
 fun AddNotesScreen(
     navController: NavController,
     interviewId: Int,
+    isEdit: Boolean,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
+    
+    var shouldShowAlert by remember { mutableStateOf(false) }
+    
     LaunchedEffect(Unit) {
-        viewModel.initAddNoteScreen(interviewId)
+        viewModel.initAddNoteScreen(interviewId, isEdit)
+    }
+    BackHandler {
+        if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert = true
     }
     if (viewModel.interview is ViewResult.Loaded) {
         val interview = (viewModel.interview as ViewResult.Loaded<Interview>).data
@@ -58,16 +71,23 @@ fun AddNotesScreen(
                     title = stringResource(id = R.string.appbar_title_interview_details),
                     navIcon = {
                         IconButton(onClick = {
-                            navController.popBackStack()
+                            if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert = true
                         }) {
                             Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                         }
                     }
                 ) {
-                    DeleteIcon { }
+                    if (isEdit) DeleteIcon { /*TODO*/ }
                 }
             },
             content = { padding ->
+                if (shouldShowAlert){
+                    IPAlertDialog(
+                        titleResId = R.string.alert_dialog_unsaved_notes_title,
+                        contentResId = R.string.alert_dialog_unsaved_notes_text,
+                        onPositiveButtonClick = { navController.popBackStack() },
+                        onNegativeButtonClick = { shouldShowAlert = false })
+                }
                 Column(
                     modifier = Modifier
                         .padding(padding)
@@ -96,8 +116,8 @@ fun AddNotesScreen(
                     viewModel.notes.forEachIndexed { index, note ->
                         AddNoteCard(
                             modifier = Modifier
-                            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
-                            .fillMaxWidth(),
+                                .padding(dimensionResource(id = R.dimen.dimension_16dp))
+                                .fillMaxWidth(),
                             note = note,
                             getNoteField = { viewModel.getNoteField(it, index) },
                             updateNoteField = { resId, value ->
@@ -127,10 +147,11 @@ fun AddNotesScreen(
                             text = stringResource(id = R.string.add_note),
                             textColor = Color.Black,
                             textStyle = MaterialTheme.typography.titleMedium,
+                            enabled = viewModel.addNoteEnabled(),
                             iconColor = BackgroundDarkPurple,
                             borderColor = BackgroundDarkPurple,
                             leadingIcon = R.drawable.outline_add_circle,
-                            onClick = { viewModel.addNote(interviewId) })
+                            onClick = { viewModel.addNote() })
                     }
                 }
             })
