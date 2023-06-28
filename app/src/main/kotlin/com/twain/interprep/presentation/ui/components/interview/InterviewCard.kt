@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
@@ -34,6 +35,7 @@ import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DateTimeBox
+import com.twain.interprep.presentation.ui.components.note.InterviewDetails
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
@@ -108,17 +110,13 @@ fun InterviewCard(
                             color = TextSecondary,
                             style = MaterialTheme.typography.bodySmall
                         )
-                        Text(
-                            text = interview.company,
-                            color = TextPrimary,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = formatRoundNumAndInterviewType(interview),
-                            color = dashboardInterviewType.cardContentColor,
-                            style = MaterialTheme.typography.bodyMedium,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
+                        InterviewDetails(
+                            interview = interview,
+                            companyTextColor = dashboardInterviewType.cardContentColor,
+                            roundTypeTextColor = dashboardInterviewType.cardContentColor,
+                            companyTextStyle = MaterialTheme.typography.bodyMedium,
+                            roundTypeTextStyle = MaterialTheme.typography.bodyMedium,
+                            height = 80.dp
                         )
                     }
                 }

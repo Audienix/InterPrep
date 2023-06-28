@@ -62,6 +62,7 @@
     <string name="add_note_header">Add your interview notes</string>
     <string name="add_note_question">Add Question</string>
     <string name="add_note">Add Note</string>
+    <string name="add_notes">Add Notes</string>
 
     <string name="hint_label_interview_segment">Interview Segment</string>
     <string name="hint_label_topic">Topic</string>

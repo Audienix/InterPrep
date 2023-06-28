@@ -55,7 +55,7 @@ fun AddNotesScreen(
                 .background(MaterialTheme.colorScheme.background),
             topBar = {
                 IPAppBar(
-                    title = stringResource(id = R.string.appbar_title_interview_details),
+                    title = stringResource(id = R.string.add_notes),
                     navIcon = {
                         IconButton(onClick = {
                             navController.popBackStack()
