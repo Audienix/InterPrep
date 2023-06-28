@@ -138,21 +138,23 @@ fun AddNotesScreen(
                             addQuestion = { viewModel.addQuestion(index) }
                         )
                     }
-                    Row(
-                        modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_12dp),
-                            horizontal = dimensionResource(id = R.dimen.dimension_16dp)
-                        )
-                    ) {
-                        IPOutlinedButton(
-                            backgroundColor = BackgroundLightPurple,
-                            text = stringResource(id = R.string.add_note),
-                            textColor = Color.Black,
-                            textStyle = MaterialTheme.typography.titleMedium,
-                            enabled = viewModel.addNoteEnabled(),
-                            iconColor = BackgroundDarkPurple,
-                            borderColor = BackgroundDarkPurple,
-                            leadingIcon = R.drawable.outline_add_circle,
-                            onClick = { viewModel.addNote() })
+                    if (!isEdit) {
+                        Row(
+                            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_12dp),
+                                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                            )
+                        ) {
+                            IPOutlinedButton(
+                                backgroundColor = BackgroundLightPurple,
+                                text = stringResource(id = R.string.add_note),
+                                textColor = Color.Black,
+                                textStyle = MaterialTheme.typography.titleMedium,
+                                enabled = viewModel.addNoteEnabled(),
+                                iconColor = BackgroundDarkPurple,
+                                borderColor = BackgroundDarkPurple,
+                                leadingIcon = R.drawable.outline_add_circle,
+                                onClick = { viewModel.addNote() })
+                        }
                     }
                 }
             })
