@@ -52,12 +52,13 @@ fun InterviewCard(
     val configuration = LocalConfiguration.current
     val cardWidth = configuration.screenWidthDp.dp * dashboardInterviewType.cardWidthFactor
     Box {
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(id = R.dimen.dimension_12dp))
-        )
         Column {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(id = R.dimen.dimension_4dp))
+            )
+
             ElevatedCard(
                 shape = Shapes.medium,
                 elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
@@ -88,8 +89,8 @@ fun InterviewCard(
                     DateTimeBox(
                         bkgColor = dashboardInterviewType.cardContentColor,
                         date = date,
-                        dateTextColor = MaterialTheme.colorScheme.primaryContainer,
-                        monthYearTextColor = MaterialTheme.colorScheme.secondaryContainer
+                        dateTextColor = dashboardInterviewType.cardBackgroundColor,
+                        monthYearTextColor = dashboardInterviewType.cardBackgroundColor
                     )
                     Column(
                         modifier = Modifier

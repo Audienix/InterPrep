@@ -2,6 +2,7 @@ package com.twain.interprep.presentation.ui.modules.interview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,12 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,14 +43,12 @@ import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
-import com.twain.interprep.presentation.ui.components.interview.InterviewBottomSheet
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewStatus
+import com.twain.interprep.presentation.ui.modules.dashboard.ShowInterviewStatusBottomSheet
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import kotlinx.coroutines.launch
 import kotlin.random.Random.Default.nextInt
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InterviewDetailsScreen(
     navController: NavHostController,
@@ -60,18 +58,13 @@ fun InterviewDetailsScreen(
     primaryColor: Color,
     secondaryColor: Color
 ) {
-
-    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalBottomSheetState()
+    val showDeleteDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
         interviewId?.let { viewModel.getInterviewById(id = it) }
         quotesViewModel.getQuotes()
     }
-
-    var showDeleteDialog by remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -87,83 +80,123 @@ fun InterviewDetailsScreen(
                     }
                 }
             ) {
-                DeleteIcon { showDeleteDialog = true }
+                DeleteIcon { showDeleteDialog.value = true }
             }
         },
         content = { padding ->
-            if (showDeleteDialog) {
-                IPAlertDialog(
-                    titleResId = R.string.alert_dialog_delete_interview_title,
-                    contentResId = R.string.alert_dialog_delete_interview_text,
-                    onPositiveButtonClick = {
-                        showDeleteDialog = false
-                        viewModel.deleteInterview(viewModel.interviewData)
-                        navController.popBackStack()
-
-                    }, // "OK" is clicked
-                    onNegativeButtonClick = {
-                        showDeleteDialog = false
-                    } // "CANCEL" is clicked
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxSize()
-                    .padding(dimensionResource(id = R.dimen.dimension_4dp))
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                if (viewModel.interviewData.isPast()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = dimensionResource(id = R.dimen.dimension_8dp),
-                                vertical = dimensionResource(id = R.dimen.dimension_16dp)
-                            ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Status: ", style = MaterialTheme.typography.titleMedium)
-                        IPInterviewStatus(
-                            status = viewModel.interviewData.interviewStatus,
-                            onClick = { openBottomSheet = true }
-                        )
-                    }
-                } else {
-                    val quotes = quotesViewModel.quotesList
-                    if (quotes.isNotEmpty()) {
-                        IPQuoteCard(
-                            quote = quotes[nextInt
-                                (0, quotes.size)],
-                            backgroundColor = primaryColor
-                        )
-                    }
-                }
-                IPInterviewDetailsCard(
-                    interview = viewModel.interviewData,
-                    headerColor = secondaryColor,
-                    onEditClick = {
-                        interviewId?.let {
-                            navController.navigate(AppScreens.AddInterview.withArgs(it))
-                        }
-                    })
-            }
+            ShowDeleteConfirmationDialog(showDeleteDialog, viewModel, navController)
+            ShowInterviewDetailsScreenContent(
+                padding,
+                viewModel,
+                quotesViewModel,
+                primaryColor,
+                secondaryColor,
+                interviewId,
+                navController
+            )
         }
     )
-    if (openBottomSheet) {
-        InterviewBottomSheet(
-            onDismissRequest = { openBottomSheet = false },
-            bottomSheetState = bottomSheetState,
-            onNewStatusSelected = {
-                scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
-                    if (!bottomSheetState.isVisible) {
-                        openBottomSheet = false
-                    }
-                }
-                viewModel.upDateInterviewStatus(it)
-            },
-            highlightedStatus = viewModel.interviewData.interviewStatus
+}
+
+@Composable
+private fun ShowDeleteConfirmationDialog(
+    showDeleteDialog: MutableState<Boolean>,
+    viewModel: InterviewViewModel,
+    navController: NavHostController
+) {
+    if (showDeleteDialog.value) {
+        IPAlertDialog(
+            titleResId = R.string.alert_dialog_delete_interview_title,
+            contentResId = R.string.alert_dialog_delete_interview_text,
+            onPositiveButtonClick = {
+                showDeleteDialog.value = false
+                viewModel.deleteInterview(viewModel.interviewData)
+                navController.popBackStack()
+
+            }, // "OK" is clicked
+            onNegativeButtonClick = {
+                showDeleteDialog.value = false
+            } // "CANCEL" is clicked
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ShowInterviewDetailsScreenContent(
+    padding: PaddingValues,
+    viewModel: InterviewViewModel,
+    quotesViewModel: QuotesViewModel,
+    primaryColor: Color,
+    secondaryColor: Color,
+    interviewId: Int?,
+    navController: NavHostController
+) {
+    val scope = rememberCoroutineScope()
+    val openBottomSheet = rememberSaveable { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState()
+    Column(
+        modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()
+            .padding(dimensionResource(id = R.dimen.dimension_4dp))
+            .verticalScroll(rememberScrollState()),
+    ) {
+        ShowQuoteHeader(viewModel, openBottomSheet, quotesViewModel, primaryColor)
+        ShowInterviewDetailsCard(viewModel, secondaryColor, interviewId, navController)
+    }
+    ShowInterviewStatusBottomSheet(openBottomSheet, bottomSheetState, scope, viewModel)
+}
+
+@Composable
+private fun ShowInterviewDetailsCard(
+    viewModel: InterviewViewModel,
+    secondaryColor: Color,
+    interviewId: Int?,
+    navController: NavHostController
+) {
+    IPInterviewDetailsCard(
+        interview = viewModel.interviewData,
+        headerColor = secondaryColor,
+        onEditClick = {
+            interviewId?.let {
+                navController.navigate(AppScreens.AddInterview.withArgs(it))
+            }
+        })
+}
+
+@Composable
+private fun ShowQuoteHeader(
+    viewModel: InterviewViewModel,
+    openBottomSheet: MutableState<Boolean>,
+    quotesViewModel: QuotesViewModel,
+    primaryColor: Color
+) {
+    if (viewModel.interviewData.isPast()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.dimension_8dp),
+                    vertical = dimensionResource(id = R.dimen.dimension_16dp)
+                ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Status: ", style = MaterialTheme.typography.titleMedium)
+            IPInterviewStatus(
+                status = viewModel.interviewData.interviewStatus,
+                onClick = { openBottomSheet.value = true }
+            )
+        }
+    } else {
+        val quotes = quotesViewModel.quotesList
+        if (quotes.isNotEmpty()) {
+            IPQuoteCard(
+                quote = quotes[nextInt
+                    (0, quotes.size)],
+                backgroundColor = primaryColor
+            )
+        }
     }
 }
 
