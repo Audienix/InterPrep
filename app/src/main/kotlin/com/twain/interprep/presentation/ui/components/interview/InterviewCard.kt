@@ -56,7 +56,7 @@ fun InterviewCard(
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.dimension_8dp))
+                    .height(dimensionResource(id = R.dimen.dimension_4dp))
             )
 
             ElevatedCard(

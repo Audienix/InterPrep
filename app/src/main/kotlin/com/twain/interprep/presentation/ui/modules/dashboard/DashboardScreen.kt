@@ -16,11 +16,10 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -53,7 +52,6 @@ fun DashboardScreen(
     LaunchedEffect(Unit) {
         dashboardViewModel.getInterviews()
     }
-
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -82,10 +80,10 @@ private fun ShowDashboardScreenContent(
     interviewModel: InterviewViewModel,
     navController: NavHostController
 ) {
-    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+//    val showBottomSheet by rememberSaveable { mutableStateOf(openBottomSheet) }
+    val openBottomSheet = rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState()
-
     if (dashboardViewModel.interviews is ViewResult.Loaded) {
         val interviews = dashboardViewModel.interviews as ViewResult.Loaded
         //Show Empty State for no data
@@ -128,7 +126,7 @@ private fun ShowDashboardScreenContent(
                             dashboardInterviewType = DashboardInterviewType.PastInterview(),
                             onStatusBarClicked = {
                                 interviewModel.interviewData = interview
-                                openBottomSheet = true
+                                openBottomSheet.value = true
                             }
                         )
                     }
@@ -141,24 +139,23 @@ private fun ShowDashboardScreenContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ShowInterviewStatusBottomSheet(
-    openBottomSheet: Boolean,
+fun ShowInterviewStatusBottomSheet(
+    openBottomSheet: MutableState<Boolean>,
     bottomSheetState: SheetState,
     scope: CoroutineScope,
     interviewModel: InterviewViewModel
 ) {
-    var showBottomSheet = openBottomSheet
-    if (showBottomSheet) {
+    if (openBottomSheet.value) {
         InterviewBottomSheet(
-            onDismissRequest = { showBottomSheet = false },
+            onDismissRequest = { openBottomSheet.value = false },
             bottomSheetState = bottomSheetState,
             onNewStatusSelected = {
                 scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
                     if (!bottomSheetState.isVisible) {
-                        showBottomSheet = false
+                        openBottomSheet.value = false
                     }
                 }
-                interviewModel.upDateInterviewStatus(it)
+                interviewModel.updateInterviewStatus(it)
             },
             highlightedStatus = interviewModel.interviewData.interviewStatus
         )

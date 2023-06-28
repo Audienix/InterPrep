@@ -1,13 +1,13 @@
 package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import com.twain.interprep.R
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.twain.interprep.R
 
 @Composable
 fun IPAlertDialog(
@@ -55,4 +55,3 @@ private fun AlertDialogPreview() {
         onNegativeButtonClick = { /*TODO*/ }
     )
 }
-
