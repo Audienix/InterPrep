@@ -103,6 +103,7 @@ fun IPTextInput(
             }
 
         },
+        keyboardOptions = textInputAttributes.keyboardOptions
     )
     HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
         isError = false
