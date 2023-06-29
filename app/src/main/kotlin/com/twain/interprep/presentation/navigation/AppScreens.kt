@@ -8,6 +8,8 @@ sealed class AppScreens(val route: String) {
     object Notes : AppScreens("notes_screen")
     object AddNotes : AppScreens("add_notes_screen")
 
+    object ViewNotes: AppScreens("view_notes_screen")
+
     object Resources : AppScreens("resources_screen")
 
     fun withArgs(vararg args: Any): String{

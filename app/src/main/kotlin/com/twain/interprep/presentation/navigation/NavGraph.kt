@@ -12,6 +12,7 @@ import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
 import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScreen
 import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
+import com.twain.interprep.presentation.ui.modules.notes.ViewNotesScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 
 @Composable
@@ -80,6 +81,16 @@ fun NavGraph(navController: NavHostController) {
             val isEdit = entry.arguments?.getBoolean("isEdit") ?: false
             AddNotesScreen(navController = navController, interviewId = interviewId, isEdit = isEdit)
         }
+
+        composable(route = "${AppScreens.ViewNotes.route}/{interviewId}", arguments = listOf(
+            navArgument("interviewId") {
+                type = NavType.IntType
+            }
+        )) { entry ->
+            val interviewId = entry.arguments?.getInt("interviewId") ?: 0
+            ViewNotesScreen(navController = navController, interviewId = interviewId)
+        }
+
         // resource
 
         composable(AppScreens.Resources.route) {
