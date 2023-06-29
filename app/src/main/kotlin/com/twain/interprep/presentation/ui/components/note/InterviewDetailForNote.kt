@@ -21,10 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
@@ -33,6 +29,11 @@ import com.twain.interprep.presentation.ui.components.generic.DateTimeBox
 import com.twain.interprep.presentation.ui.components.interview.interviewMockData
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.utils.DateUtils
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import com.twain.interprep.presentation.ui.components.interview.formatRoundNumAndInterviewType
 
 @Composable
 fun InterviewDetailForNote(
@@ -44,23 +45,13 @@ fun InterviewDetailForNote(
             val date = DateUtils.convertDateStringToDate(interview.date)
             DateTimeBox(borderColor = BackgroundDarkPurple, date = date)
         }
-        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
-        Box(modifier = Modifier.height(80.dp)) {
-            Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
-                Text(
-                    text = interview.company,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("#${interview.roundNum}")
-                        }
-                        append(" - ${interview.interviewType}")
-                    }
-                )
-            }
-        }
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_16dp)))
+        InterviewDetails(
+            interview = interview,
+            companyTextColor = Color.Black,
+            roundTypeTextColor = Color.Gray,
+            height = 80.dp
+        )
         Box(modifier = Modifier.fillMaxWidth()) {
             IconButton(modifier = Modifier.align(Alignment.TopEnd), onClick = { /*TODO*/ }) {
                 Icon(
@@ -68,6 +59,35 @@ fun InterviewDetailForNote(
                     contentDescription = stringResource(id = R.string.icon_more_vert_content_description)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun InterviewDetails(
+    height: Dp,
+    interview: Interview,
+    companyTextColor: Color,
+    companyTextStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    roundTypeTextColor: Color,
+    roundTypeTextStyle: TextStyle = MaterialTheme.typography.bodyMedium) {
+    Box(modifier = Modifier.height(height)) {
+        Column(
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Text(
+                text = interview.company,
+                color = companyTextColor,
+                style =companyTextStyle
+            )
+            Text(
+                text = formatRoundNumAndInterviewType(interview),
+                color = roundTypeTextColor,
+                style = roundTypeTextStyle,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
+            )
         }
     }
 }
