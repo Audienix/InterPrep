@@ -57,26 +57,6 @@ object InterviewFormData {
         )
     )
 
-    val noteFormList = listOf(
-        TextInputAttributes(
-            labelTextId = R.string.hint_label_interview_segment,
-            inputType = TextInputType.TEXT,
-            required = true,
-            errorTextId = R.string.error_message_form_input_interview_segment
-        ),
-        TextInputAttributes(
-            labelTextId = R.string.hint_label_topic,
-            inputType = TextInputType.TEXT
-        )
-    )
-
-    fun getQuestion() = TextInputAttributes(
-        labelTextId = R.string.hint_label_question,
-        inputType = TextInputType.TEXT,
-        required = true,
-        errorTextId = R.string.error_message_form_input_question
-    )
-
     fun getTextLabelList(interview: Interview): List<TextLabelData> {
         return listOf(
             TextLabelData(
@@ -113,7 +93,7 @@ data class TextInputAttributes(
     val required: Boolean = false,
     @StringRes val errorTextId: Int? = null,
     val inputType: TextInputType = TextInputType.TEXT,
-    val keyboardType : KeyboardType = KeyboardType.Text
+    val keyboardType: KeyboardType = KeyboardType.Text
 )
 
 enum class TextInputType {
