@@ -60,6 +60,9 @@ fun NotesScreen(
                             viewModel.deleteNote(interview, it)
                         },
                         onViewNoteClick = {
+                            navController.navigate(AppScreens.ViewNotes.withArgs(interview.interviewId)) {
+                                popUpTo(AppScreens.Notes.route)
+                            }
                         },
                         onAddNoteClick = {
                             navController.navigate(AppScreens.AddNotes.withArgs(interview.interviewId, false)) {

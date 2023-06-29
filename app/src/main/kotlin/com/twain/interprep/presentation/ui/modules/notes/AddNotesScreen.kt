@@ -67,10 +67,13 @@ fun AddNotesScreen(
                 .background(MaterialTheme.colorScheme.background),
             topBar = {
                 IPAppBar(
-                    title = stringResource(id = R.string.appbar_header_add_notes),
+                    title = stringResource(
+                        id = R.string.appbar_header_add_notes.takeUnless { isEdit }
+                            ?: R.string.appbar_header_edit_notes),
                     navIcon = {
                         IconButton(onClick = {
-                            if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert = true
+                            if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert =
+                                true
                         }) {
                             Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                         }
@@ -78,7 +81,7 @@ fun AddNotesScreen(
                 )
             },
             content = { padding ->
-                if (shouldShowAlert){
+                if (shouldShowAlert) {
                     IPAlertDialog(
                         titleResId = R.string.alert_dialog_unsaved_notes_title,
                         contentResId = R.string.alert_dialog_unsaved_notes_text,
@@ -99,26 +102,33 @@ fun AddNotesScreen(
                     ) {
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
-                            interview = interview
+                            interview = interview,
+                            shouldShowDeleteButton = false
                         )
                     }
                     IPHeader(
-                        stringResource(id = R.string.add_note_header),
+                        stringResource(id = R.string.add_note_header.takeUnless { isEdit }
+                            ?: R.string.edit_note_header),
                         MaterialTheme.colorScheme.onSurfaceVariant,
                         MaterialTheme.typography.titleMedium,
-                        Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
+                        Modifier.padding(
+                            start = dimensionResource(id = R.dimen.dimension_16dp),
+                            end = dimensionResource(id = R.dimen.dimension_16dp),
+                            top = dimensionResource(id = R.dimen.dimension_16dp),
+                            bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                        ),
                         fontWeight = FontWeight.Normal
                     )
 
                     viewModel.notes.forEachIndexed { index, note ->
                         AddNoteCard(
                             modifier = Modifier
-                            .padding(
-                                start = dimensionResource(id = R.dimen.dimension_12dp),
-                                end = dimensionResource(id = R.dimen.dimension_12dp),
-                                top = dimensionResource(id = R.dimen.dimension_16dp)
-                            )
-                            .fillMaxWidth(),
+                                .padding(
+                                    start = dimensionResource(id = R.dimen.dimension_12dp),
+                                    end = dimensionResource(id = R.dimen.dimension_12dp),
+                                    top = dimensionResource(id = R.dimen.dimension_16dp)
+                                )
+                                .fillMaxWidth(),
                             note = note,
                             getNoteField = { viewModel.getNoteField(it, index) },
                             updateNoteField = { resId, value ->
@@ -140,7 +150,8 @@ fun AddNotesScreen(
                     }
                     if (!isEdit) {
                         Row(
-                            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_12dp),
+                            modifier = Modifier.padding(
+                                vertical = dimensionResource(id = R.dimen.dimension_12dp),
                                 horizontal = dimensionResource(id = R.dimen.dimension_16dp)
                             )
                         ) {
