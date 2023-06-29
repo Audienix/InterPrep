@@ -63,7 +63,7 @@ fun NoteCard(
                 InterviewDetailForNote(
                     Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
                     interview = interview,
-                    shouldShowDeleteButton = false
+                    shouldShowDeleteButton = true
                 )
             }
             Divider()
