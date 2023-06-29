@@ -52,6 +52,8 @@ fun AddNotesScreen(
 ) {
 
     var shouldShowAlert by remember { mutableStateOf(false) }
+    // Flag to check if we should highlight any empty mandatory input field by showing an error message
+    var shouldValidateFormFields by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.initAddNoteScreen(interviewId, isEdit)
@@ -85,8 +87,16 @@ fun AddNotesScreen(
                     IPAlertDialog(
                         titleResId = R.string.alert_dialog_unsaved_notes_title,
                         contentResId = R.string.alert_dialog_unsaved_notes_text,
-                        onPositiveButtonClick = { navController.popBackStack() },
-                        onNegativeButtonClick = { shouldShowAlert = false })
+                        // "OK" is clicked
+                        onPositiveButtonClick = {
+                            shouldShowAlert = false
+                            navController.popBackStack()
+                        },
+                        // "CANCEL" is clicked
+                        onNegativeButtonClick = {
+                            shouldShowAlert = false
+                            shouldValidateFormFields = true
+                        })
                 }
                 Column(
                     modifier = Modifier
@@ -145,7 +155,8 @@ fun AddNotesScreen(
                                     value
                                 )
                             },
-                            addQuestion = { viewModel.addQuestion(index) }
+                            addQuestion = { viewModel.addQuestion(index) },
+                            shouldValidate = shouldValidateFormFields,
                         )
                     }
                     if (!isEdit) {

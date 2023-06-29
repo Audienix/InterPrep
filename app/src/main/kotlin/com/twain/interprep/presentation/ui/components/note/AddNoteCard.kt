@@ -10,6 +10,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -17,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.ui.InterviewFormData
+import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
@@ -30,7 +33,8 @@ fun AddNoteCard(
     getNoteField: (Int) -> String,
     updateNoteField: ( Int, String) -> Unit,
     updateQuestion: (Int, String) -> Unit,
-    addQuestion: () -> Unit
+    addQuestion: () -> Unit,
+    shouldValidate: Boolean
 ) {
     ElevatedCard(
         shape = Shapes.medium,
@@ -47,7 +51,8 @@ fun AddNoteCard(
                     textInputAttributes = input,
                     onTextUpdate = {
                         updateNoteField(input.labelTextId, it)
-                    }
+                    },
+                    shouldValidate = shouldValidate
                 )
             }
             note.questions.forEachIndexed { index, question ->
@@ -57,7 +62,8 @@ fun AddNoteCard(
                     textInputAttributes = InterviewFormData.getQuestion(),
                     onTextUpdate = {
                         updateQuestion(index, it)
-                    }
+                    },
+                    shouldValidate = shouldValidate
                 )
             }
             Row(

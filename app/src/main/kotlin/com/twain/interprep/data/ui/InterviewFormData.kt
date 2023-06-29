@@ -61,7 +61,8 @@ object InterviewFormData {
         TextInputAttributes(
             labelTextId = R.string.hint_label_interview_segment,
             inputType = TextInputType.TEXT,
-            required = true
+            required = true,
+            errorTextId = R.string.error_message_form_input_interview_segment
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_topic,
@@ -72,7 +73,8 @@ object InterviewFormData {
     fun getQuestion() = TextInputAttributes(
         labelTextId = R.string.hint_label_question,
         inputType = TextInputType.TEXT,
-        required = true
+        required = true,
+        errorTextId = R.string.error_message_form_input_question
     )
 
     fun getTextLabelList(interview: Interview): List<TextLabelData> {
