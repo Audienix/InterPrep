@@ -62,7 +62,7 @@ fun NotesScreen(
                         onViewNoteClick = {
                         },
                         onAddNoteClick = {
-                            navController.navigate(AppScreens.AddNotes.withArgs(interview.interviewId)) {
+                            navController.navigate(AppScreens.AddNotes.withArgs(interview.interviewId, false)) {
                                 popUpTo(AppScreens.Notes.route)
                             }
                         }
