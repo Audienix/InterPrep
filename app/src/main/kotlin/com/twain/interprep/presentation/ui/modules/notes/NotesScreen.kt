@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,20 +52,22 @@ fun NotesScreen(
                 )
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
-            interviewNotePairs.forEach { (interview, notes) ->
-                NoteCard(
-                    interviewNotePair = interview to notes,
-                    onDeleteNoteClick = {
-                        viewModel.deleteNote(interview, it)
-                    },
-                    onViewNoteClick = {
-                    },
-                    onAddNoteClick = {
-                        navController.navigate(AppScreens.AddNotes.withArgs(interview.interviewId)) {
-                            popUpTo(AppScreens.Notes.route)
+            LazyColumn {
+                items(interviewNotePairs) { (interview, notes) ->
+                    NoteCard(
+                        interviewNotePair = interview to notes,
+                        onDeleteNoteClick = {
+                            viewModel.deleteNote(interview, it)
+                        },
+                        onViewNoteClick = {
+                        },
+                        onAddNoteClick = {
+                            navController.navigate(AppScreens.AddNotes.withArgs(interview.interviewId)) {
+                                popUpTo(AppScreens.Notes.route)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
