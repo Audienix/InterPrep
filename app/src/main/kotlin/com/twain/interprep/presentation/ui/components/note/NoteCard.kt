@@ -61,12 +61,13 @@ fun NoteCard(
         ) {
             Row {
                 InterviewDetailForNote(
-                    Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_16dp)),
-                    interview = interview
+                    Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
+                    interview = interview,
+                    shouldShowDeleteButton = false
                 )
             }
+            Divider()
             notes.firstOrNull()?.let { note ->
-                Divider()
                 Row(
                     modifier = Modifier
                         .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
@@ -106,18 +107,17 @@ fun NoteCard(
                 }
             }
             Row(
-                horizontalArrangement = Arrangement.End,
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp),
-                        vertical = dimensionResource(id = R.dimen.dimension_24dp))
+                    .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
             ) {
                 IPFilledButton(
                     backgroundColor = BackgroundDarkPurple,
                     text = "View Notes",
                     textColor = BackgroundLightPurple,
-                    enabled = false,
-                    iconColor = TextSecondary,
+                    enabled = notes.isNotEmpty(),
+                    iconColor = TextSecondary.takeIf { notes.isEmpty() } ?: BackgroundLightPurple,
                     textStyle = MaterialTheme.typography.labelLarge,
                     onClick = onViewNoteClick,
                     leadingIcon = R.drawable.filled_reorder,

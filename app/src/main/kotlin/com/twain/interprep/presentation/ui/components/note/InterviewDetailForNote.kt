@@ -38,7 +38,8 @@ import com.twain.interprep.presentation.ui.components.interview.formatRoundNumAn
 @Composable
 fun InterviewDetailForNote(
     modifier: Modifier = Modifier,
-    interview: Interview
+    interview: Interview,
+    shouldShowDeleteButton: Boolean
 ) {
     Row(modifier = modifier) {
         Box {
@@ -52,12 +53,14 @@ fun InterviewDetailForNote(
             roundTypeTextColor = Color.Gray,
             height = 80.dp
         )
-        Box(modifier = Modifier.fillMaxWidth()) {
-            IconButton(modifier = Modifier.align(Alignment.TopEnd), onClick = { /*TODO*/ }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = stringResource(id = R.string.icon_more_vert_content_description)
-                )
+        if (shouldShowDeleteButton) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                IconButton(modifier = Modifier.align(Alignment.TopEnd), onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = stringResource(id = R.string.icon_more_vert_content_description)
+                    )
+                }
             }
         }
     }
@@ -99,6 +102,6 @@ fun InterviewDetailForNotePreview() {
         modifier = Modifier.padding(
             dimensionResource(id = R.dimen.dimension_16dp),
             dimensionResource(id = R.dimen.dimension_12dp)
-        ), interview = interviewMockData
+        ), interview = interviewMockData, true
     )
 }
