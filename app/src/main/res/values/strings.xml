@@ -57,6 +57,8 @@
     <string name="error_message_form_input_date">Date can\'t be empty</string>
     <string name="error_message_form_input_time">Time can\'t be empty</string>
     <string name="error_message_form_input_company">Company can\'t be empty</string>
+    <string name="error_message_form_input_interview_segment">Interview Segment can\'t be empty</string>
+    <string name="error_message_form_input_question">Question can\'t be empty</string>
 
     <string name="appbar_title_view_notes">View Notes</string>
 
