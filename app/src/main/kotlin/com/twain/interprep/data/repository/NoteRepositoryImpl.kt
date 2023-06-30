@@ -30,6 +30,9 @@ class NoteRepositoryImpl(private val noteDAO: NoteDAO) : NoteRepository {
     override suspend fun insertNote(note: Note) = noteDAO.insertNote(note).toInt()
 
     @WorkerThread
+    override suspend fun insertAllNotes(notes: List<Note>) = noteDAO.insertAllNotes(notes)
+
+    @WorkerThread
     override suspend fun updateNote(note: Note) { noteDAO.updateNote(note) }
 
 }

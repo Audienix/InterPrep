@@ -12,6 +12,7 @@ import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
 import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScreen
 import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
+import com.twain.interprep.presentation.ui.modules.notes.ViewNotesScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 
 @Composable
@@ -68,14 +69,28 @@ fun NavGraph(navController: NavHostController) {
             NotesScreen(navController = navController)
         }
 
-        composable(route = "${AppScreens.AddNotes.route}/{interviewId}", arguments = listOf(
+        composable(route = "${AppScreens.AddNotes.route}/{interviewId}/{isEdit}", arguments = listOf(
+            navArgument("interviewId") {
+                type = NavType.IntType
+            },
+            navArgument("isEdit"){
+                type = NavType.BoolType
+            }
+        )) { entry ->
+            val interviewId = entry.arguments?.getInt("interviewId") ?: 0
+            val isEdit = entry.arguments?.getBoolean("isEdit") ?: false
+            AddNotesScreen(navController = navController, interviewId = interviewId, isEdit = isEdit)
+        }
+
+        composable(route = "${AppScreens.ViewNotes.route}/{interviewId}", arguments = listOf(
             navArgument("interviewId") {
                 type = NavType.IntType
             }
         )) { entry ->
-            val interviewId = entry.arguments?.getInt("interviewId")
-            AddNotesScreen(navController = navController, interviewId = interviewId ?: 0)
+            val interviewId = entry.arguments?.getInt("interviewId") ?: 0
+            ViewNotesScreen(navController = navController, interviewId = interviewId)
         }
+
         // resource
 
         composable(AppScreens.Resources.route) {

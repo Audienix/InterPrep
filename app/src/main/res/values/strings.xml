@@ -57,11 +57,22 @@
     <string name="error_message_form_input_date">Date can\'t be empty</string>
     <string name="error_message_form_input_time">Time can\'t be empty</string>
     <string name="error_message_form_input_company">Company can\'t be empty</string>
+    <string name="error_message_form_input_interview_segment">Interview Segment can\'t be empty</string>
+    <string name="error_message_form_input_question">Question can\'t be empty</string>
+
+    <string name="appbar_title_view_notes">View Notes</string>
 
     <string name="add_interview_header">Add your scheduled interview details.</string>
     <string name="add_note_header">Add your interview notes</string>
+    <string name="edit_note_header">Edit your interview notes</string>
     <string name="add_note_question">Add Question</string>
     <string name="add_note">Add Note</string>
+    <string name="appbar_header_add_notes">Add Notes</string>
+    <string name="appbar_header_edit_notes">Edit Notes</string>
+
+    <string name="alert_dialog_unsaved_notes_title">Unsaved Notes!</string>
+    <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as
+        you have not filled up mandatory details. Go back?</string>
 
     <string name="hint_label_interview_segment">Interview Segment</string>
     <string name="hint_label_topic">Topic</string>

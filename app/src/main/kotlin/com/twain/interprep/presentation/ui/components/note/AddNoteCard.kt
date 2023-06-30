@@ -16,7 +16,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
-import com.twain.interprep.data.ui.InterviewFormData
+import com.twain.interprep.data.ui.NoteFormData
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
@@ -30,7 +30,8 @@ fun AddNoteCard(
     getNoteField: (Int) -> String,
     updateNoteField: ( Int, String) -> Unit,
     updateQuestion: (Int, String) -> Unit,
-    addQuestion: () -> Unit
+    addQuestion: () -> Unit,
+    shouldValidate: Boolean
 ) {
     ElevatedCard(
         shape = Shapes.medium,
@@ -40,24 +41,26 @@ fun AddNoteCard(
     ) {
         Column( modifier = Modifier
             .padding(dimensionResource(id = R.dimen.dimension_8dp))) {
-            InterviewFormData.noteFormList.map { input ->
+            NoteFormData.noteFormList.map { input ->
                 IPTextInput(
                     modifier = Modifier.fillMaxWidth(),
                     inputText = getNoteField(input.labelTextId),
                     textInputAttributes = input,
                     onTextUpdate = {
                         updateNoteField(input.labelTextId, it)
-                    }
+                    },
+                    shouldValidate = shouldValidate
                 )
             }
             note.questions.forEachIndexed { index, question ->
                 IPTextInput(
                     modifier = Modifier.fillMaxWidth(),
                     inputText = question,
-                    textInputAttributes = InterviewFormData.getQuestion(),
+                    textInputAttributes = NoteFormData.getQuestion(),
                     onTextUpdate = {
                         updateQuestion(index, it)
-                    }
+                    },
+                    shouldValidate = shouldValidate
                 )
             }
             Row(

@@ -11,6 +11,8 @@ interface NoteRepository {
 
     suspend fun insertNote(note: Note): Int
 
+    suspend fun insertAllNotes(notes: List<Note>)
+
     suspend fun updateNote(note: Note)
 //
 //    suspend fun getSingleInterviewWithNotes(interviewId: Int): Flow<Pair<Interview, List<Note>>>

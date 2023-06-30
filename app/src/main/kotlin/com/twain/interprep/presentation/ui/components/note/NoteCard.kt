@@ -61,64 +61,63 @@ fun NoteCard(
         ) {
             Row {
                 InterviewDetailForNote(
-                    Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_16dp)),
-                    interview = interview
+                    Modifier.padding(bottom = dimensionResource(id = R.dimen.dimension_8dp)),
+                    interview = interview,
+                    shouldShowDeleteButton = true
                 )
             }
-            if (notes.isNotEmpty()) {
-                Divider()
-                notes.forEachIndexed { index, note ->
-                    Row(
+            Divider()
+            notes.firstOrNull()?.let { note ->
+                Row(
+                    modifier = Modifier
+                        .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
+                        .clickable { onDeleteNoteClick(note) }
+                ) {
+                    Box(
                         modifier = Modifier
-                            .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
-                            .clickable { onDeleteNoteClick(note) }
+                            .size(dimensionResource(id = R.dimen.dimension_32dp))
+                            .clip(CircleShape)
+                            .background(Purple100),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(dimensionResource(id = R.dimen.dimension_32dp))
-                                .clip(CircleShape)
-                                .background(Purple100),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = index.toString(),
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
-                        ) {
-                            Text(
-                                text = note.interviewSegment,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
+                        Text(
+                            text = "1",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
+                    ) {
+                        Text(
+                            text = note.interviewSegment,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        if (note.topic.isNotEmpty()) {
                             Text(
                                 text = note.topic,
                                 style = MaterialTheme.typography.bodyMedium
                             )
-                            note.questions.forEach {
-                                Text(
-                                    text = it,
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            }
                         }
+                        Text(
+                            text = note.questions.firstOrNull().orEmpty(),
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     }
                 }
             }
             Row(
-                horizontalArrangement = Arrangement.End,
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = dimensionResource(id = R.dimen.dimension_24dp))
+                    .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
             ) {
                 IPFilledButton(
                     backgroundColor = BackgroundDarkPurple,
                     text = "View Notes",
                     textColor = BackgroundLightPurple,
-                    enabled = false,
-                    iconColor = TextSecondary,
+                    enabled = notes.isNotEmpty(),
+                    iconColor = TextSecondary.takeIf { notes.isEmpty() } ?: BackgroundLightPurple,
                     textStyle = MaterialTheme.typography.labelLarge,
                     onClick = onViewNoteClick,
                     leadingIcon = R.drawable.filled_reorder,

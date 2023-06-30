@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -28,7 +33,7 @@ import androidx.navigation.NavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
+import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
@@ -42,10 +47,19 @@ import com.twain.interprep.presentation.ui.theme.BackgroundSurface
 fun AddNotesScreen(
     navController: NavController,
     interviewId: Int,
+    isEdit: Boolean,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
+
+    var shouldShowAlert by remember { mutableStateOf(false) }
+    // Flag to check if we should highlight any empty mandatory input field by showing an error message
+    var shouldValidateFormFields by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
-        viewModel.initAddNoteScreen(interviewId)
+        viewModel.initAddNoteScreen(interviewId, isEdit)
+    }
+    BackHandler {
+        if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert = true
     }
     if (viewModel.interview is ViewResult.Loaded) {
         val interview = (viewModel.interview as ViewResult.Loaded<Interview>).data
@@ -55,19 +69,35 @@ fun AddNotesScreen(
                 .background(MaterialTheme.colorScheme.background),
             topBar = {
                 IPAppBar(
-                    title = stringResource(id = R.string.appbar_title_interview_details),
+                    title = stringResource(
+                        id = R.string.appbar_header_add_notes.takeUnless { isEdit }
+                            ?: R.string.appbar_header_edit_notes),
                     navIcon = {
                         IconButton(onClick = {
-                            navController.popBackStack()
+                            if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert =
+                                true
                         }) {
                             Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                         }
                     }
-                ) {
-                    DeleteIcon { }
-                }
+                )
             },
             content = { padding ->
+                if (shouldShowAlert) {
+                    IPAlertDialog(
+                        titleResId = R.string.alert_dialog_unsaved_notes_title,
+                        contentResId = R.string.alert_dialog_unsaved_notes_text,
+                        // "OK" is clicked
+                        onPositiveButtonClick = {
+                            shouldShowAlert = false
+                            navController.popBackStack()
+                        },
+                        // "CANCEL" is clicked
+                        onNegativeButtonClick = {
+                            shouldShowAlert = false
+                            shouldValidateFormFields = true
+                        })
+                }
                 Column(
                     modifier = Modifier
                         .padding(padding)
@@ -82,22 +112,33 @@ fun AddNotesScreen(
                     ) {
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
-                            interview = interview
+                            interview = interview,
+                            shouldShowDeleteButton = false
                         )
                     }
                     IPHeader(
-                        stringResource(id = R.string.add_note_header),
+                        stringResource(id = R.string.add_note_header.takeUnless { isEdit }
+                            ?: R.string.edit_note_header),
                         MaterialTheme.colorScheme.onSurfaceVariant,
                         MaterialTheme.typography.titleMedium,
-                        Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
+                        Modifier.padding(
+                            start = dimensionResource(id = R.dimen.dimension_16dp),
+                            end = dimensionResource(id = R.dimen.dimension_16dp),
+                            top = dimensionResource(id = R.dimen.dimension_16dp),
+                            bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                        ),
                         fontWeight = FontWeight.Normal
                     )
 
                     viewModel.notes.forEachIndexed { index, note ->
                         AddNoteCard(
                             modifier = Modifier
-                            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
-                            .fillMaxWidth(),
+                                .padding(
+                                    start = dimensionResource(id = R.dimen.dimension_12dp),
+                                    end = dimensionResource(id = R.dimen.dimension_12dp),
+                                    top = dimensionResource(id = R.dimen.dimension_16dp)
+                                )
+                                .fillMaxWidth(),
                             note = note,
                             getNoteField = { viewModel.getNoteField(it, index) },
                             updateNoteField = { resId, value ->
@@ -114,23 +155,28 @@ fun AddNotesScreen(
                                     value
                                 )
                             },
-                            addQuestion = { viewModel.addQuestion(index) }
+                            addQuestion = { viewModel.addQuestion(index) },
+                            shouldValidate = shouldValidateFormFields,
                         )
                     }
-                    Row(
-                        modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_12dp),
-                            horizontal = dimensionResource(id = R.dimen.dimension_16dp)
-                        )
-                    ) {
-                        IPOutlinedButton(
-                            backgroundColor = BackgroundLightPurple,
-                            text = stringResource(id = R.string.add_note),
-                            textColor = Color.Black,
-                            textStyle = MaterialTheme.typography.titleMedium,
-                            iconColor = BackgroundDarkPurple,
-                            borderColor = BackgroundDarkPurple,
-                            leadingIcon = R.drawable.outline_add_circle,
-                            onClick = { viewModel.addNote(interviewId) })
+                    if (!isEdit) {
+                        Row(
+                            modifier = Modifier.padding(
+                                vertical = dimensionResource(id = R.dimen.dimension_12dp),
+                                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                            )
+                        ) {
+                            IPOutlinedButton(
+                                backgroundColor = BackgroundLightPurple,
+                                text = stringResource(id = R.string.add_note),
+                                textColor = Color.Black,
+                                textStyle = MaterialTheme.typography.titleMedium,
+                                enabled = viewModel.addNoteEnabled(),
+                                iconColor = BackgroundDarkPurple,
+                                borderColor = BackgroundDarkPurple,
+                                leadingIcon = R.drawable.outline_add_circle,
+                                onClick = { viewModel.addNote() })
+                        }
                     }
                 }
             })
