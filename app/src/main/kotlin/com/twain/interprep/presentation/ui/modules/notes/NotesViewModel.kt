@@ -80,7 +80,6 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-
     fun updateQuestion(index: Int, questionIndex: Int, value: String) {
         val note = notes[index]
 
@@ -123,13 +122,11 @@ class NotesViewModel @Inject constructor(
 
     fun addNoteEnabled() = isNoteValid(notes.last())
 
-    fun onBackPressed(): Boolean {
+    fun saveNotes(): Boolean {
         if (notes.any { !isNoteValid(it) && !isNotEmpty(it) }) return false
         launchCoroutineIO {
             noteUseCase.insertAllNotesUseCase(notes.filter { isNoteValid(it) })
         }
         return true
     }
-
-
 }

@@ -13,8 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -40,6 +38,7 @@ import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 
 @Composable
@@ -61,12 +60,7 @@ fun AddInterviewScreen(
         }
     }
     BackHandler {
-        if (viewModel.interviewData.isValid()) {
-            viewModel.onSaveInterview(isEditInterview)
-            navController.popBackStack()
-        } else {
-            showBackConfirmationDialog.value = true
-        }
+        handleBackPress(viewModel, isEditInterview, navController, showBackConfirmationDialog)
     }
     Scaffold(
         modifier = Modifier
@@ -77,15 +71,13 @@ fun AddInterviewScreen(
                 title = stringResource(id = R.string.appbar_title_edit_interview.takeIf { isEditInterview }
                     ?: R.string.appbar_title_add_interview),
                 navIcon = {
-                    IconButton(onClick = {
-                        if (viewModel.interviewData.isValid()) {
-                            viewModel.onSaveInterview(isEditInterview)
-                            navController.popBackStack()
-                        } else {
-                            showBackConfirmationDialog.value = true
-                        }
-                    }) {
-                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
+                        handleBackPress(
+                            viewModel,
+                            isEditInterview,
+                            navController,
+                            showBackConfirmationDialog
+                        )
                     }
                 },
                 actions = {
@@ -94,13 +86,37 @@ fun AddInterviewScreen(
             )
         },
         content = { padding ->
-            ShowConfirmationDialog(showBackConfirmationDialog, navController, shouldValidateFormFields)
+            ShowConfirmationDialog(
+                showBackConfirmationDialog,
+                navController,
+                shouldValidateFormFields
+            )
 
             ShowDeleteConfirmationDialog(showDeleteDialog, navController, viewModel)
 
-            ShowAddInterviewScreenContent(padding, isEditInterview, viewModel, shouldValidateFormFields)
+            ShowAddInterviewScreenContent(
+                padding,
+                isEditInterview,
+                viewModel,
+                shouldValidateFormFields
+            )
         }
     )
+}
+
+
+private fun handleBackPress(
+    viewModel: InterviewViewModel,
+    isEditInterview: Boolean,
+    navController: NavHostController,
+    showBackConfirmationDialog: MutableState<Boolean>
+) {
+    if (viewModel.interviewData.isValid()) {
+        viewModel.onSaveInterview(isEditInterview)
+        navController.popBackStack()
+    } else {
+        showBackConfirmationDialog.value = true
+    }
 }
 
 @Composable

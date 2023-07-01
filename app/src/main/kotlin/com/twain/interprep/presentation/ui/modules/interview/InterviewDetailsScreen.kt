@@ -12,8 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,13 +39,13 @@ import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewStatus
 import com.twain.interprep.presentation.ui.modules.dashboard.ShowInterviewStatusBottomSheet
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import kotlin.random.Random.Default.nextInt
 
 @Composable
 fun InterviewDetailsScreen(
@@ -63,7 +61,10 @@ fun InterviewDetailsScreen(
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
         interviewId?.let { viewModel.getInterviewById(id = it) }
-        quotesViewModel.getQuotes()
+    }
+    LaunchedEffect(Unit){
+        if (quotesViewModel.currentQuote.quoteId == -1)
+            quotesViewModel.getQuotes()
     }
     Scaffold(
         modifier = Modifier
@@ -73,10 +74,8 @@ fun InterviewDetailsScreen(
             IPAppBar(
                 title = stringResource(id = R.string.appbar_title_interview_details),
                 navIcon = {
-                    IconButton(onClick = {
+                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
                         navController.popBackStack()
-                    }) {
-                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                     }
                 }
             ) {
@@ -142,62 +141,85 @@ private fun ShowInterviewDetailsScreenContent(
             .padding(dimensionResource(id = R.dimen.dimension_4dp))
             .verticalScroll(rememberScrollState()),
     ) {
-        ShowQuoteHeader(viewModel, openBottomSheet, quotesViewModel, primaryColor)
-        ShowInterviewDetailsCard(viewModel, secondaryColor, interviewId, navController)
+        ShowHeader(viewModel, openBottomSheet, quotesViewModel, primaryColor)
+        ShowInterviewDetailsCard(
+            viewModel,
+            primaryColor,
+            secondaryColor,
+            interviewId,
+            navController
+        )
     }
     ShowInterviewStatusBottomSheet(openBottomSheet, bottomSheetState, scope, viewModel)
 }
 
 @Composable
-private fun ShowInterviewDetailsCard(
-    viewModel: InterviewViewModel,
-    secondaryColor: Color,
-    interviewId: Int?,
-    navController: NavHostController
-) {
-    IPInterviewDetailsCard(
-        interview = viewModel.interviewData,
-        headerColor = secondaryColor,
-        onEditClick = {
-            interviewId?.let {
-                navController.navigate(AppScreens.AddInterview.withArgs(it))
-            }
-        })
-}
-
-@Composable
-private fun ShowQuoteHeader(
+private fun ShowHeader(
     viewModel: InterviewViewModel,
     openBottomSheet: MutableState<Boolean>,
     quotesViewModel: QuotesViewModel,
     primaryColor: Color
 ) {
     if (viewModel.interviewData.isPast()) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = dimensionResource(id = R.dimen.dimension_8dp),
-                    vertical = dimensionResource(id = R.dimen.dimension_16dp)
-                ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "Status: ", style = MaterialTheme.typography.titleMedium)
-            IPInterviewStatus(
-                status = viewModel.interviewData.interviewStatus,
-                onClick = { openBottomSheet.value = true }
-            )
-        }
+        ShowInterviewStatus(viewModel, openBottomSheet)
     } else {
-        val quotes = quotesViewModel.quotesList
-        if (quotes.isNotEmpty()) {
-            IPQuoteCard(
-                quote = quotes[nextInt
-                    (0, quotes.size)],
-                backgroundColor = primaryColor
-            )
-        }
+        ShowQuoteCard(quotesViewModel, primaryColor)
     }
+}
+
+@Composable
+private fun ShowInterviewStatus(
+    viewModel: InterviewViewModel,
+    openBottomSheet: MutableState<Boolean>
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.dimension_8dp),
+                vertical = dimensionResource(id = R.dimen.dimension_16dp)
+            ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = "Status: ", style = MaterialTheme.typography.titleMedium)
+        IPInterviewStatus(
+            status = viewModel.interviewData.interviewStatus,
+            onClick = { openBottomSheet.value = true }
+        )
+    }
+}
+
+@Composable
+private fun ShowQuoteCard(
+    quotesViewModel: QuotesViewModel,
+    primaryColor: Color
+) {
+    val quote = quotesViewModel.currentQuote
+    if (quote.quoteId != -1) {
+        IPQuoteCard(
+            quote = quote,
+            backgroundColor = primaryColor
+        )
+    }
+}
+
+@Composable
+private fun ShowInterviewDetailsCard(
+    viewModel: InterviewViewModel,
+    primaryColor: Color,
+    secondaryColor: Color,
+    interviewId: Int?,
+    navController: NavHostController
+) {
+    IPInterviewDetailsCard(
+        interview = viewModel.interviewData,
+        headerBackgroundColor = secondaryColor,
+        headerContentColor = primaryColor,
+        onEditClick = {
+            interviewId?.let {
+                navController.navigate(AppScreens.AddInterview.withArgs(it))
+            }
+        })
 }
 
 @Preview

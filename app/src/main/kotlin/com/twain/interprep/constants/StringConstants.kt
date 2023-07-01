@@ -17,4 +17,9 @@ object StringConstants {
     const val DB_TABLE_RESOURCE_LINKS = "resource_link"
     const val DB_TABLE_SUBTOPICS = "subtopic"
     const val DB_TABLE_TOPICS = "topic"
+
+    const val NAV_ARG_INTERVIEW_ID = "interviewId"
+    const val NAV_ARG_PRIMARY_COLOR = "primaryColor"
+    const val NAV_ARG_SECONDARY_COLOR = "secondaryColor"
+    const val NAV_ARG_IS_EDIT = "isEdit"
 }
