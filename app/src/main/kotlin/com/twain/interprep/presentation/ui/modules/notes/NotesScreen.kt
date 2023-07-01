@@ -29,7 +29,6 @@ fun NotesScreen(
     navController: NavController,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
-
     LaunchedEffect(Unit) {
         viewModel.getNoteInterviewPairs()
     }

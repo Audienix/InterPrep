@@ -13,8 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -36,6 +34,7 @@ import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.note.AddNoteCard
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
@@ -50,7 +49,6 @@ fun AddNotesScreen(
     isEdit: Boolean,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
-
     var shouldShowAlert by remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
     var shouldValidateFormFields by remember { mutableStateOf(false) }
@@ -59,7 +57,7 @@ fun AddNotesScreen(
         viewModel.initAddNoteScreen(interviewId, isEdit)
     }
     BackHandler {
-        if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert = true
+        if (viewModel.saveNotes()) navController.popBackStack() else shouldShowAlert = true
     }
     if (viewModel.interview is ViewResult.Loaded) {
         val interview = (viewModel.interview as ViewResult.Loaded<Interview>).data
@@ -73,11 +71,9 @@ fun AddNotesScreen(
                         id = R.string.appbar_header_add_notes.takeUnless { isEdit }
                             ?: R.string.appbar_header_edit_notes),
                     navIcon = {
-                        IconButton(onClick = {
-                            if (viewModel.onBackPressed()) navController.popBackStack() else shouldShowAlert =
-                                true
-                        }) {
-                            Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                        IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
+                            if (viewModel.saveNotes()) navController.popBackStack()
+                            else shouldShowAlert = true
                         }
                     }
                 )

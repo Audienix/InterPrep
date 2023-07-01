@@ -33,7 +33,7 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.generic.DateTimeBox
+import com.twain.interprep.presentation.ui.components.generic.IPDateTimeBox
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
@@ -86,8 +86,8 @@ fun InterviewCard(
                         .padding(dimensionResource(id = R.dimen.dimension_16dp))
                 ) {
                     val date = DateUtils.convertDateStringToDate(interview.date)
-                    DateTimeBox(
-                        bkgColor = dashboardInterviewType.cardContentColor,
+                    IPDateTimeBox(
+                        backgroundColor = dashboardInterviewType.cardContentColor,
                         date = date,
                         dateTextColor = dashboardInterviewType.cardBackgroundColor,
                         monthYearTextColor = dashboardInterviewType.cardBackgroundColor
@@ -105,11 +105,15 @@ fun InterviewCard(
                             ).format(date).uppercase() + buildString {
                                 append(", ")
                             } + interview.time,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
                             color = TextSecondary,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
                             text = interview.company,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 2,
                             color = TextPrimary,
                             style = MaterialTheme.typography.bodyMedium
                         )

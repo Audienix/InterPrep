@@ -36,8 +36,8 @@ import com.twain.interprep.data.ui.InterviewFormData.getTextLabelList
 import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPClickableLinkText
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
+import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundSurface
-import com.twain.interprep.presentation.ui.theme.Purple100
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 import com.twain.interprep.utils.DateUtils
@@ -48,7 +48,8 @@ import java.util.Locale
 fun IPInterviewDetailsCard(
     modifier: Modifier = Modifier,
     interview: Interview,
-    headerColor: Color,
+    headerContentColor: Color,
+    headerBackgroundColor: Color,
     onEditClick: () -> Unit
 ) {
     Card(
@@ -62,7 +63,7 @@ fun IPInterviewDetailsCard(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
     ) {
-        InterviewDetailsHeader(interview, onEditClick, headerColor)
+        InterviewDetailsHeader(interview, onEditClick, headerBackgroundColor, headerContentColor)
         InterviewDetailsList(interview)
     }
 }
@@ -109,11 +110,12 @@ private fun InterviewDetailsList(interview: Interview) {
 private fun InterviewDetailsHeader(
     interview: Interview,
     onEditClick: () -> Unit,
-    headerColor: Color
+    headerBackgroundColor: Color,
+    headerContentColor: Color
 ) {
     Box(
         modifier = Modifier
-            .background(headerColor),
+            .background(headerBackgroundColor),
     ) {
         val text = "".takeIf { interview.date.isEmpty() } ?: SimpleDateFormat(
             StringConstants.DT_FORMAT_DD_MMMM_YYYY,
@@ -124,12 +126,12 @@ private fun InterviewDetailsHeader(
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(id = R.dimen.dimension_8dp)),
             text = text,
-            color = Purple100,
+            color = headerContentColor,
             fontSize = MaterialTheme.typography.headlineSmall.fontSize,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center
         )
-        if (!interview.isPast()){
+        if (!interview.isPast()) {
             IconButton(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
@@ -138,7 +140,7 @@ private fun InterviewDetailsHeader(
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    tint = Purple100,
+                    tint = headerContentColor,
                     contentDescription = stringResource(id = R.string.appbar_title_edit_interview)
                 )
             }
@@ -151,7 +153,8 @@ private fun InterviewDetailsHeader(
 fun InterviewDetailsCardPreview() {
     IPInterviewDetailsCard(
         interview = interviewMockData,
-        headerColor = BackgroundDarkPurple,
+        headerBackgroundColor = BackgroundDarkPurple,
+        headerContentColor = BackgroundLightPurple,
         onEditClick = {})
 }
 

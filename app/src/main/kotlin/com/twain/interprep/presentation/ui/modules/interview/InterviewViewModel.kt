@@ -115,13 +115,10 @@ class InterviewViewModel @Inject constructor(
     }
 
     fun onSaveInterview(isEditInterview: Boolean){
-//        if (interviewData.isValid()) {
             if (isEditInterview) {
                 updateInterview(interviewData)
             } else {
                 insertInterview(interviewData)
             }
-//        }
-
     }
 }
