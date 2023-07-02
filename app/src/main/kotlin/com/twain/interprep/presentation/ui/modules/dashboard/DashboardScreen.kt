@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.data.model.DashBoardInterviews
+import com.twain.interprep.data.model.DashboardInterviews
 import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
@@ -164,7 +164,7 @@ fun ShowInterviewStatusBottomSheet(
 
 @Composable
 private fun ShowComingNextInterviews(
-    interviews: ViewResult.Loaded<DashBoardInterviews>,
+    interviews: ViewResult.Loaded<DashboardInterviews>,
     interviewModel: InterviewViewModel,
     navController: NavHostController
 ) {
@@ -202,7 +202,7 @@ private fun ShowComingNextInterviews(
 
 @Composable
 private fun ShowUpcomingInterviews(
-    interviews: ViewResult.Loaded<DashBoardInterviews>,
+    interviews: ViewResult.Loaded<DashboardInterviews>,
     interviewModel: InterviewViewModel,
     navController: NavHostController
 ) {

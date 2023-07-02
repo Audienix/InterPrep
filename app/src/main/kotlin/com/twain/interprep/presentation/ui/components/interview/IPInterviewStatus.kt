@@ -20,14 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.data.model.InterviewStatus
-import com.twain.interprep.data.model.getBackgroundColor
-import com.twain.interprep.data.model.getCircleColor
-import com.twain.interprep.data.model.getText
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
@@ -41,32 +39,34 @@ fun IPInterviewStatus(
         modifier = modifier,
         elevation = elevatedCardElevation(),
         shape = Shapes.large,
-        colors = CardDefaults.cardColors(containerColor = Color(status.getBackgroundColor())),
+        colors = CardDefaults.cardColors(containerColor = status.getPrimaryColor()),
     ) {
         Row(
             modifier = (Modifier.widthIn(min = 100.dp)
                 .border(
-                    BorderStroke(1.dp, Color(status.getCircleColor())),
+                    BorderStroke(1.dp, status.getSecondaryColor()),
                     shape = Shapes.large
                 ).takeIf { shouldHighLight } ?: Modifier).then(
-                Modifier.widthIn(min = 100.dp)
-                    .background(Color(status.getBackgroundColor()), shape = Shapes.large)
+                Modifier
+                    .widthIn(min = 100.dp)
+                    .background(status.getPrimaryColor(), shape = Shapes.large)
                     .padding(
                         start = dimensionResource(id = R.dimen.dimension_4dp),
                         end = dimensionResource(id = R.dimen.dimension_8dp),
                         top = dimensionResource(id = R.dimen.dimension_4dp),
                         bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                    ).clickable { onClick(status) }
+                    )
+                    .clickable { onClick(status) }
             ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
         ) {
             Circle(
-                color = Color(status.getCircleColor()),
+                color = status.getSecondaryColor(),
                 size = dimensionResource(id = R.dimen.dimension_16dp)
             )
             Text(
-                text = status.getText(),
+                text = stringResource(id = status.getResourceId()),
                 style = MaterialTheme.typography.labelMedium
             )
         }

@@ -37,6 +37,7 @@ import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.presentation.ui.components.interview.IPDatePicker
 import com.twain.interprep.presentation.ui.components.interview.IPDropdownMenu
 import com.twain.interprep.presentation.ui.components.interview.IPTimePicker
+import com.twain.interprep.utils.isValidTextInput
 
 @Composable
 fun IPTextInput(
@@ -65,15 +66,15 @@ fun IPTextInput(
         value = inputText,
         onValueChange = {
             onTextUpdate(it)
-            isError = notValid(true, it, textInputAttributes, isError)
+            isError = isValidTextInput(true, it, textInputAttributes, isError)
         },
         interactionSource = source,
         singleLine = true,
         label = { Text(text = label) },
-        isError = notValid(shouldValidate, inputText, textInputAttributes, isError),
+        isError = isValidTextInput(shouldValidate, inputText, textInputAttributes, isError),
         keyboardOptions = KeyboardOptions(keyboardType = textInputAttributes.keyboardType),
         supportingText = {
-            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
+            if (isValidTextInput(shouldValidate, inputText, textInputAttributes, isError)) {
                 Text(
                     text = errorText,
                     color = MaterialTheme.colorScheme.error,
@@ -83,7 +84,7 @@ fun IPTextInput(
             }
         },
         trailingIcon = {
-            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
+            if (isValidTextInput(shouldValidate, inputText, textInputAttributes, isError)) {
                 Icon(
                     painter = painterResource(id = R.drawable.error_icon),
                     contentDescription = "Error"
@@ -92,7 +93,7 @@ fun IPTextInput(
                 IconButton(
                     onClick = {
                         onTextUpdate("")
-                        isError = notValid(true, "", textInputAttributes, isError)
+                        isError = isValidTextInput(true, "", textInputAttributes, isError)
                     }
                 ) {
                     Icon(
@@ -157,23 +158,6 @@ private fun HandleComponentInteraction(
 
             else -> {}
         }
-    }
-}
-
-/**
- * When shouldValidate is false, we don't need to validate the input text since user hasn't
- * edit the input yet.
- */
-fun notValid(
-    shouldValidate: Boolean,
-    text: String,
-    attributes: TextInputAttributes,
-    isError: Boolean
-): Boolean {
-    return if (shouldValidate) {
-        attributes.required && text.trim().isEmpty()
-    } else {
-        isError
     }
 }
 

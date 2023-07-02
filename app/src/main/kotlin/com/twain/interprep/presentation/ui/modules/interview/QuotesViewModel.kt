@@ -32,7 +32,7 @@ class QuotesViewModel @Inject constructor(
 
     fun insertQuotes(quotes: List<Quote>) = launchCoroutineIO {
         viewModelScope.launch {
-            if (quotes.size > prefManager.getInt(IntPair.PREV_NUM_QUOTES_INSERTED)) {
+            if (quotes.size > prefManager.getInt(IntPair.CurrentTotalQuoteCount)) {
                 quoteUseCase.insertQuotesUseCase.invoke(quotes)
                 prefManager.putInt(NUM_QUOTE_INSERTED, quotes.size)
             }

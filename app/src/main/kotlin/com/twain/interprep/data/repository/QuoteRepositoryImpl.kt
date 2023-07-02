@@ -16,7 +16,7 @@ class QuoteRepositoryImpl(private val quoteDAO: QuoteDAO) : QuoteRepository {
     override fun getQuotes(): Flow<List<Quote>> = quoteDAO.getAllQuotes()
 
     @WorkerThread
-    override suspend fun getQuoteById(id: Int): Quote? = quoteDAO.getQuote(quoteId = id)
+    override suspend fun getQuoteById(id: Int): Quote = quoteDAO.getQuote(quoteId = id)
 
     @WorkerThread
     override suspend fun deleteQuotes() {
