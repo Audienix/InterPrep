@@ -90,16 +90,22 @@ fun ViewNotesScreen(
                         }
                     }
                     itemsIndexed(viewModel.notes, key = { _, note -> note.noteId }) { index, note ->
-                        ViewNoteCard(note = note, onEditClicked = {
-                            navController.navigate(
-                                AppScreens.AddNotes.withArgs(
-                                    interview.interviewId,
-                                    true
-                                )
-                            ) {
-                                popUpTo(AppScreens.ViewNotes.route)
-                            }
-                        }, index = index + 1)
+                        ViewNoteCard(
+                            note = note, onEditClicked = {
+                                navController.navigate(
+                                    AppScreens.AddNotes.withArgs(
+                                        interview.interviewId,
+                                        true
+                                    )
+                                ) {
+                                    popUpTo(AppScreens.ViewNotes.route)
+                                }
+                            },
+                            onDeleteClicked = {
+                                viewModel.deleteNote(interview, note)
+                            },
+                            index = index + 1
+                        )
                     }
                 }
             })

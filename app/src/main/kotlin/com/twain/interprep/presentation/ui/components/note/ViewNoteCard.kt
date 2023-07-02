@@ -21,14 +21,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
+import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.EditIcon
 import com.twain.interprep.presentation.ui.theme.Purple100
+import com.twain.interprep.presentation.ui.theme.Purple500
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
 fun ViewNoteCard(
     note: Note,
     onEditClicked: () -> Unit,
+    onDeleteClicked: () -> Unit,
     index: Int
 ) {
     Card(
@@ -85,7 +88,11 @@ fun ViewNoteCard(
                     }
             }
             Spacer(modifier = Modifier.weight(1f))
-            EditIcon(onEditIconClick = onEditClicked)
+            Column() {
+                EditIcon(onEditIconClick = onEditClicked)
+                DeleteIcon(Purple500, onDeleteIconClick = onDeleteClicked)
+            }
+
         }
 
     }
