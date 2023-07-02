@@ -43,9 +43,9 @@ data class Interview(
 
 data class DashboardInterviews(
     var isEmptyInterviewList: Boolean,
-    val upcomingInterviews: MutableList<Interview>,
-    val comingNextInterviews: MutableList<Interview>,
-    val pastInterviews: MutableList<Interview>
+    var upcomingInterviews: MutableList<Interview>,
+    var comingNextInterviews: MutableList<Interview>,
+    var pastInterviews: MutableList<Interview>
 )
 
 enum class InterviewStatus(
