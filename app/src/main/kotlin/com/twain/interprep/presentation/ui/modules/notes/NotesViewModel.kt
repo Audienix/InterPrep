@@ -32,7 +32,6 @@ class NotesViewModel @Inject constructor(
     var interviewNotesPair: ViewResult<List<Pair<Interview, List<Note>>>> by mutableStateOf(
         ViewResult.UnInitialized
     )
-        private set
 
     fun getNoteInterviewPairs() = launchCoroutineIO {
         noteUseCase.getNoteUseCase().collect {
@@ -46,7 +45,7 @@ class NotesViewModel @Inject constructor(
     fun initAddNoteScreen(interviewId: Int, isEdit: Boolean) = launchCoroutineIO {
         noteUseCase.getNoteByInterviewIdUseCase(interviewId).collect { (interview, notes) ->
             this@NotesViewModel.interview = ViewResult.Loaded(interview)
-            if (isEdit){
+            if (isEdit) {
                 this@NotesViewModel.notes.clear()
                 this@NotesViewModel.notes.addAll(notes.sortedBy { it.noteId })
             } else {
@@ -106,8 +105,7 @@ class NotesViewModel @Inject constructor(
             if (note.noteId == 0) {
                 val noteId = noteUseCase.insertNoteUseCase(note)
                 notes[index] = note.copy(noteId = noteId)
-            }
-            else {
+            } else {
                 noteUseCase.updateNoteUseCase(note)
             }
         }
@@ -122,11 +120,14 @@ class NotesViewModel @Inject constructor(
 
     fun addNoteEnabled() = isNoteValid(notes.last())
 
-    fun saveNotes(): Boolean {
-        if (notes.any { !isNoteValid(it) && !isNotEmpty(it) }) return false
+    fun saveNotes() {
         launchCoroutineIO {
             noteUseCase.insertAllNotesUseCase(notes.filter { isNoteValid(it) })
         }
+    }
+
+    fun areAllNotesValid(): Boolean {
+        if (notes.any { !isNoteValid(it) && !isNotEmpty(it) }) return false
         return true
     }
 }

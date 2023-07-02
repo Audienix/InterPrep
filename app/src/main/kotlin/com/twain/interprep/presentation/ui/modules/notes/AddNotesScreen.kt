@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +50,7 @@ fun AddNotesScreen(
     isEdit: Boolean,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
-    var shouldShowAlert by remember { mutableStateOf(false) }
+    val shouldShowAlert = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
     var shouldValidateFormFields by remember { mutableStateOf(false) }
 
@@ -57,7 +58,7 @@ fun AddNotesScreen(
         viewModel.initAddNoteScreen(interviewId, isEdit)
     }
     BackHandler {
-        if (viewModel.saveNotes()) navController.popBackStack() else shouldShowAlert = true
+        handleBackPress(viewModel, navController, shouldShowAlert)
     }
     if (viewModel.interview is ViewResult.Loaded) {
         val interview = (viewModel.interview as ViewResult.Loaded<Interview>).data
@@ -68,29 +69,28 @@ fun AddNotesScreen(
             topBar = {
                 IPAppBar(
                     title = stringResource(
-                        id = R.string.appbar_header_add_notes.takeUnless { isEdit }
-                            ?: R.string.appbar_header_edit_notes),
+                        id = R.string.appbar_title_add_notes.takeUnless { isEdit }
+                            ?: R.string.appbar_title_edit_notes),
                     navIcon = {
                         IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
-                            if (viewModel.saveNotes()) navController.popBackStack()
-                            else shouldShowAlert = true
+                            handleBackPress(viewModel, navController, shouldShowAlert)
                         }
                     }
                 )
             },
             content = { padding ->
-                if (shouldShowAlert) {
+                if (shouldShowAlert.value) {
                     IPAlertDialog(
                         titleResId = R.string.alert_dialog_unsaved_notes_title,
                         contentResId = R.string.alert_dialog_unsaved_notes_text,
                         // "OK" is clicked
                         onPositiveButtonClick = {
-                            shouldShowAlert = false
+                            shouldShowAlert.value = false
                             navController.popBackStack()
                         },
                         // "CANCEL" is clicked
                         onNegativeButtonClick = {
-                            shouldShowAlert = false
+                            shouldShowAlert.value = false
                             shouldValidateFormFields = true
                         })
                 }
@@ -177,4 +177,15 @@ fun AddNotesScreen(
                 }
             })
     }
+}
+
+private fun handleBackPress(
+    viewModel: NotesViewModel,
+    navController: NavController,
+    shouldShowAlert: MutableState<Boolean>
+) {
+    if (viewModel.areAllNotesValid()) {
+        viewModel.saveNotes()
+        navController.popBackStack()
+    } else shouldShowAlert.value = true
 }

@@ -14,7 +14,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.constants.StringConstants
-import com.twain.interprep.presentation.ui.theme.*
+import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.utils.DateUtils.isAM
 import java.util.Calendar
 import java.util.Locale
 
@@ -78,12 +80,6 @@ fun IPTimePicker(
             }
         )
     }
-}
-
-fun isAM(timeString: String): Boolean {
-    val format = SimpleDateFormat("a", Locale.getDefault())
-    val date = format.parse(timeString)
-    return date?.hours in 0..11
 }
 
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)

@@ -38,16 +38,15 @@ sealed class IntPair(
     val key: String,
     val default: Int
 ) {
-    object PREV_NUM_QUOTES_INSERTED: IntPair(PrefManager.NUM_QUOTE_INSERTED, 0)
+    object CurrentTotalQuoteCount: IntPair(PrefManager.NUM_QUOTE_INSERTED, 0)
 }
 
 sealed class BooleanPair(
     val key: String,
     val default: Boolean
-) {
-}
+)
 
 sealed class StringPair(
     val key: String,
     val default: String
-) {}
+)

@@ -3,7 +3,7 @@ package com.twain.interprep.presentation.ui.modules.dashboard
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.twain.interprep.data.model.DashBoardInterviews
+import com.twain.interprep.data.model.DashboardInterviews
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
@@ -22,8 +22,7 @@ class DashboardViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
-    var interviews: ViewResult<DashBoardInterviews> by mutableStateOf(ViewResult.UnInitialized)
-        private set
+    var interviews: ViewResult<DashboardInterviews> by mutableStateOf(ViewResult.UnInitialized)
 
     fun getInterviews() = launchCoroutineIO {
         interviewUseCase.getInterviews().collect {

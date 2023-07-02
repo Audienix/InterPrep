@@ -4,7 +4,7 @@ object StringConstants {
     const val DT_FORMAT_DATE = "dd"
     const val DT_FORMAT_MONTH_YEAR = "MMM, yyyy"
     const val DT_FORMAT_DAY = "EEE"
-    const val DT_FORMAT_DAY_HOUR_MIN = "EEEE, hh:mm a"
+    const val DT_FORMAT_MM_DD_YYYY_HH_MM_A = "MM/dd/yyyy hh:mm a"
     const val DT_FORMAT_HOUR_MIN = "hh:mm a"
     const val DT_FORMAT_MM_DD_YYYY = "MM/dd/yyyy"
     const val DT_FORMAT_DD_MMMM_YYYY = "dd MMMM, yyyy"
