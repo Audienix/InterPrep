@@ -15,6 +15,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +36,9 @@ fun ViewNoteCard(
     onDeleteClicked: () -> Unit,
     index: Int
 ) {
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    ShowDeleteConfirmationDialog(showDeleteDialog, onDeleteClicked)
+
     Card(
         shape = Shapes.medium,
         modifier = Modifier
@@ -90,7 +95,9 @@ fun ViewNoteCard(
             Spacer(modifier = Modifier.weight(1f))
             Column() {
                 EditIcon(onEditIconClick = onEditClicked)
-                DeleteIcon(Purple500, onDeleteIconClick = onDeleteClicked)
+                DeleteIcon(Purple500, onDeleteIconClick = {
+                    showDeleteDialog.value = true
+                })
             }
 
         }

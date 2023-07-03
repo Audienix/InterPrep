@@ -10,6 +10,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -31,8 +33,12 @@ fun AddNoteCard(
     updateNoteField: ( Int, String) -> Unit,
     updateQuestion: (Int, String) -> Unit,
     addQuestion: () -> Unit,
-    shouldValidate: Boolean
+    deleteNote: () -> Unit,
+    shouldValidate: Boolean,
+    isEdit: Boolean
 ) {
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    ShowDeleteConfirmationDialog(showDeleteDialog, deleteNote)
     ElevatedCard(
         shape = Shapes.medium,
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
@@ -63,27 +69,48 @@ fun AddNoteCard(
                     shouldValidate = shouldValidate
                 )
             }
+            var horizontalArrangement = Arrangement.End
+            if (isEdit)
+                horizontalArrangement = Arrangement.Start
             Row(
-                horizontalArrangement = Arrangement.End,
+                horizontalArrangement = horizontalArrangement,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding( top = dimensionResource(id = R.dimen.dimension_4dp)
                     )
             ) {
-                IPOutlinedButton(
-                    backgroundColor = BackgroundPalePurple,
-                    textColor = Color.Black,
-                    text = stringResource(id = R.string.add_note_question),
-                    iconColor = BackgroundDarkPurple,
-                    leadingIcon = R.drawable.outline_add_circle,
-                    onClick = { addQuestion() },
-                    borderColor = BackgroundDarkPurple,
-                    textStyle = MaterialTheme.typography.titleMedium,
-                    contentPadding = PaddingValues(
-                        horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                if (isEdit) {
+                    IPOutlinedButton(
+                        backgroundColor = BackgroundPalePurple,
+                        textColor = Color.Black,
+                        text = stringResource(id = R.string.delete_note_button_text),
+                        iconColor = BackgroundDarkPurple,
+                        leadingIcon = R.drawable.outline_do_disturb_on,
+                        onClick = { showDeleteDialog.value = true },
+                        borderColor = BackgroundDarkPurple,
+                        textStyle = MaterialTheme.typography.titleMedium,
+                        contentPadding = PaddingValues(
+                            horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                        )
                     )
-                )
+                } else {
+                    IPOutlinedButton(
+                        backgroundColor = BackgroundPalePurple,
+                        textColor = Color.Black,
+                        text = stringResource(id = R.string.add_note_question),
+                        iconColor = BackgroundDarkPurple,
+                        leadingIcon = R.drawable.outline_add_circle,
+                        onClick = { addQuestion() },
+                        borderColor = BackgroundDarkPurple,
+                        textStyle = MaterialTheme.typography.titleMedium,
+                        contentPadding = PaddingValues(
+                            horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                        )
+                    )
+
+                }
             }
         }
     }
 }
+
