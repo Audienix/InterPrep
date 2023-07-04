@@ -89,6 +89,7 @@
     <string name="interview_status_rejected">Rejected</string>
 
     <string name="icon_more_vert_content_description">More Options</string>
-</resources>
+     <string name="interview_status">Interview Status</string>
+ </resources>
 
 

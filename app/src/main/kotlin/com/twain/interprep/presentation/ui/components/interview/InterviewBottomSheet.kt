@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.InterviewStatus
 
@@ -42,7 +43,7 @@ fun InterviewBottomSheet(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Interview Status", style = MaterialTheme.typography.titleLarge)
+            Text(text = stringResource(R.string.interview_status), style = MaterialTheme.typography.titleLarge)
             Row(
                 modifier = Modifier
                     .padding(
