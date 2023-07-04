@@ -132,7 +132,8 @@ fun AddNotesScreen(
                                 .padding(
                                     start = dimensionResource(id = R.dimen.dimension_12dp),
                                     end = dimensionResource(id = R.dimen.dimension_12dp),
-                                    top = dimensionResource(id = R.dimen.dimension_16dp)
+                                    top = dimensionResource(id = R.dimen.dimension_16dp),
+                                    bottom = dimensionResource(id = R.dimen.dimension_16dp)
                                 )
                                 .fillMaxWidth(),
                             note = note,
