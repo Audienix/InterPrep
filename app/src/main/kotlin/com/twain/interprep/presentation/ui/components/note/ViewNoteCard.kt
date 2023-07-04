@@ -15,22 +15,30 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
+import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.EditIcon
 import com.twain.interprep.presentation.ui.theme.Purple100
+import com.twain.interprep.presentation.ui.theme.Purple500
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
 fun ViewNoteCard(
     note: Note,
     onEditClicked: () -> Unit,
+    onDeleteClicked: () -> Unit,
     index: Int
 ) {
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    ShowDeleteConfirmationDialog(showDeleteDialog, onDeleteClicked)
+
     Card(
         shape = Shapes.medium,
         modifier = Modifier
@@ -85,7 +93,13 @@ fun ViewNoteCard(
                     }
             }
             Spacer(modifier = Modifier.weight(1f))
-            EditIcon(onEditIconClick = onEditClicked)
+            Column() {
+                EditIcon(onEditIconClick = onEditClicked)
+                DeleteIcon(Purple500, onDeleteIconClick = {
+                    showDeleteDialog.value = true
+                })
+            }
+
         }
 
     }

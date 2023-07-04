@@ -152,7 +152,9 @@ fun AddNotesScreen(
                                 )
                             },
                             addQuestion = { viewModel.addQuestion(index) },
+                            deleteNote = { viewModel.deleteNote(interview, note)},
                             shouldValidate = shouldValidateFormFields,
+                            isEdit
                         )
                     }
                     if (!isEdit) {

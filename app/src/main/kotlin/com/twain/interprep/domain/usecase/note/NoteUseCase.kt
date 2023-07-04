@@ -5,5 +5,6 @@ data class NoteUseCase(
     val getNoteByInterviewIdUseCase: GetNoteByInterviewIdUseCase,
     val insertNoteUseCase: InsertNoteUseCase,
     val insertAllNotesUseCase: InsertAllNotesUseCase,
-    val updateNoteUseCase: UpdateNoteUseCase
+    val updateNoteUseCase: UpdateNoteUseCase,
+    val deleteNoteUseCase: DeleteNoteUseCase
 )
