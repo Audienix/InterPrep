@@ -71,8 +71,6 @@
     <string name="edit_interview_header">Update your scheduled interview details.</string>
     <string name="add_note_question">Add Question</string>
     <string name="add_note">Add Note</string>
-    <string name="appbar_header_add_notes">Add Notes</string>
-    <string name="appbar_header_edit_notes">Edit Notes</string>
     <string name="delete_note_button_text">Delete Note</string>
     <string name="alert_dialog_delete_note_title">Delete Note?</string>
     <string name="alert_dialog_delete_note_text">You are about to delete an interview note which can not be retrieved after deletion. Proceed?</string>

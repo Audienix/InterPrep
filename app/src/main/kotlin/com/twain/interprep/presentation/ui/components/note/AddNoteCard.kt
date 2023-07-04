@@ -30,7 +30,7 @@ fun AddNoteCard(
     modifier: Modifier = Modifier,
     note: Note,
     getNoteField: (Int) -> String,
-    updateNoteField: ( Int, String) -> Unit,
+    updateNoteField: (Int, String) -> Unit,
     updateQuestion: (Int, String) -> Unit,
     addQuestion: () -> Unit,
     deleteNote: () -> Unit,
@@ -45,8 +45,10 @@ fun AddNoteCard(
         modifier = modifier,
         colors = CardDefaults.elevatedCardColors(containerColor = BackgroundPalePurple)
     ) {
-        Column( modifier = Modifier
-            .padding(dimensionResource(id = R.dimen.dimension_8dp))) {
+        Column(
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.dimension_8dp))
+        ) {
             NoteFormData.noteFormList.map { input ->
                 IPTextInput(
                     modifier = Modifier.fillMaxWidth(),
@@ -70,45 +72,38 @@ fun AddNoteCard(
                 )
             }
             var horizontalArrangement = Arrangement.End
-            if (isEdit)
+            var buttonText = stringResource(id = R.string.add_note_question)
+            var buttonIcon = R.drawable.outline_add_circle
+            var clickHandler = { addQuestion() }
+
+            if (isEdit) {
                 horizontalArrangement = Arrangement.Start
+                buttonText = stringResource(id = R.string.delete_note_button_text)
+                buttonIcon = R.drawable.outline_do_disturb_on
+                clickHandler = { showDeleteDialog.value = true }
+            }
+
             Row(
                 horizontalArrangement = horizontalArrangement,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding( top = dimensionResource(id = R.dimen.dimension_4dp)
+                    .padding(
+                        top = dimensionResource(id = R.dimen.dimension_4dp)
                     )
             ) {
-                if (isEdit) {
-                    IPOutlinedButton(
-                        backgroundColor = BackgroundPalePurple,
-                        textColor = Color.Black,
-                        text = stringResource(id = R.string.delete_note_button_text),
-                        iconColor = BackgroundDarkPurple,
-                        leadingIcon = R.drawable.outline_do_disturb_on,
-                        onClick = { showDeleteDialog.value = true },
-                        borderColor = BackgroundDarkPurple,
-                        textStyle = MaterialTheme.typography.titleMedium,
-                        contentPadding = PaddingValues(
-                            horizontal = dimensionResource(id = R.dimen.dimension_16dp)
-                        )
+                IPOutlinedButton(
+                    backgroundColor = BackgroundPalePurple,
+                    textColor = Color.Black,
+                    text = buttonText,
+                    iconColor = BackgroundDarkPurple,
+                    leadingIcon = buttonIcon,
+                    onClick = clickHandler,
+                    borderColor = BackgroundDarkPurple,
+                    textStyle = MaterialTheme.typography.titleMedium,
+                    contentPadding = PaddingValues(
+                        horizontal = dimensionResource(id = R.dimen.dimension_16dp)
                     )
-                } else {
-                    IPOutlinedButton(
-                        backgroundColor = BackgroundPalePurple,
-                        textColor = Color.Black,
-                        text = stringResource(id = R.string.add_note_question),
-                        iconColor = BackgroundDarkPurple,
-                        leadingIcon = R.drawable.outline_add_circle,
-                        onClick = { addQuestion() },
-                        borderColor = BackgroundDarkPurple,
-                        textStyle = MaterialTheme.typography.titleMedium,
-                        contentPadding = PaddingValues(
-                            horizontal = dimensionResource(id = R.dimen.dimension_16dp)
-                        )
-                    )
-
-                }
+                )
             }
         }
     }
