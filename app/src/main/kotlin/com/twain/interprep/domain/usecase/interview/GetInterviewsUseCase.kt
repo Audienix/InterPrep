@@ -46,7 +46,7 @@ class GetInterviewsUseCase(private val interviewRepository: InterviewRepository)
             val date = DateUtils.convertDateTimeStringToDate(interview.date, interview.time)
 
             if (date.before(Date())) {
-                dashboardInterviews.pastInterviews.add(interview)
+                sortedPastInterviews.add(interview)
             } else if (isInterviewDateInSameWeek(date)) {
                 sortedUpcomingInterviews.add(interview)
             } else {

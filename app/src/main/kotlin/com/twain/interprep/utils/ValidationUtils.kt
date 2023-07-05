@@ -18,3 +18,9 @@ fun isValidTextInput(
         isError
     }
 }
+
+fun isValidURL(url: String): Boolean {
+    val urlPattern =
+        Regex("^((http[s]?|ftp)://)?([a-zA-Z0-9]+\\.)?[a-zA-Z0-9-]+\\.[a-zA-Z]{2,63}(\\.[a-zA-Z]{2,63})?(:[0-9]{2,5})?(/[a-zA-Z0-9+&@#/%?=~_|!:,.;-]*)?(#[-a-zA-Z0-9_]*)?\$")
+    return urlPattern.matches(url)
+}
