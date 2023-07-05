@@ -47,7 +47,6 @@ fun ResourceCard(
         shape = Shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.dimension_16dp))
     ) {
         Row(
             modifier = Modifier
