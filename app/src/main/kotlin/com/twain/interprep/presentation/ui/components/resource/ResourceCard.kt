@@ -26,14 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Resource
 import com.twain.interprep.data.ui.resourcesMockData
-import com.twain.interprep.presentation.ui.components.generic.IPClickableLinkText
+import com.twain.interprep.presentation.ui.components.generic.IPText
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
@@ -80,11 +78,9 @@ fun ResourceCard(
                 }
                 if (isExpanded) {
                     resource.links.forEachIndexed { index, link ->
-                        IPClickableLinkText(
-                            text = "${index + 1}. ${link.linkDescription}", // TODO: fix hyperlink
-                            textDecoration = TextDecoration.Underline,
-                            color = Color.Blue,
-                            style = MaterialTheme.typography.bodyMedium
+                        IPText(
+                            text = link.linkDescription,
+                            link = link.link
                         )
                     }
                 }

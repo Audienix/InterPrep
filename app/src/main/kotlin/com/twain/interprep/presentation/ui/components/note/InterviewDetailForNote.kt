@@ -73,7 +73,8 @@ fun InterviewDetails(
     companyTextColor: Color,
     companyTextStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     roundTypeTextColor: Color,
-    roundTypeTextStyle: TextStyle = MaterialTheme.typography.bodyMedium) {
+    roundTypeTextStyle: TextStyle = MaterialTheme.typography.bodyMedium
+) {
     Box(modifier = Modifier.height(height)) {
         Column(
             modifier = Modifier.fillMaxHeight(),
@@ -82,10 +83,14 @@ fun InterviewDetails(
             Text(
                 text = interview.company,
                 color = companyTextColor,
-                style =companyTextStyle
+                style = companyTextStyle
             )
             Text(
-                text = formatRoundNumAndInterviewType(interview),
+                text = formatRoundNumAndInterviewType(interview).ifEmpty {
+                    stringResource(
+                        id = R.string.no_text_available
+                    )
+                },
                 color = roundTypeTextColor,
                 style = roundTypeTextStyle,
                 overflow = TextOverflow.Ellipsis,

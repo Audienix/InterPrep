@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -118,7 +119,11 @@ fun InterviewCard(
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = formatRoundNumAndInterviewType(interview),
+                            text = formatRoundNumAndInterviewType(interview).ifEmpty {
+                                stringResource(
+                                    id = R.string.no_text_available
+                                )
+                            },
                             color = dashboardInterviewType.cardContentColor,
                             style = MaterialTheme.typography.bodyMedium,
                             overflow = TextOverflow.Ellipsis,
@@ -156,7 +161,7 @@ fun formatRoundNumAndInterviewType(interview: Interview): String {
         if (interview.roundNum.isNotEmpty() && interview.interviewType.isNotEmpty())
             "- ${interview.interviewType}"
         else interview.interviewType
-    return if (formattedRoundNum.isEmpty() && formattedInterviewType.isEmpty()) "N/A"
+    return if (formattedRoundNum.isEmpty() && formattedInterviewType.isEmpty()) ""
     else
         formattedRoundNum + formattedInterviewType
 }
