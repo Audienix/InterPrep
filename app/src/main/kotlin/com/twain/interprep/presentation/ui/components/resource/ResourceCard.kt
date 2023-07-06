@@ -79,7 +79,7 @@ fun ResourceCard(
                 if (isExpanded) {
                     resource.links.forEachIndexed { index, link ->
                         IPText(
-                            text = link.linkDescription,
+                            text = "${index + 1}. ${link.linkDescription}",
                             link = link.link
                         )
                     }
