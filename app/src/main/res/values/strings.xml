@@ -1,4 +1,4 @@
- <resources>
+<resources>
     <string name="app_name">InterPrep</string>
 
     <string name="nav_item_dashboard">Dashboard</string>
@@ -47,11 +47,14 @@
     <string name="hint_label_time_format">HH:MM</string>
 
     <string name="alert_dialog_unsaved_interview_title">Unsaved Interview!</string>
-    <string name="alert_dialog_unsaved_interview_text">Your interview details will not be saved as
-        you have not filled up mandatory details. Go back?</string>
-
+    <string name="alert_dialog_unsaved_interview_text">Your interview details will not be saved as you have not filled up mandatory details. Go back?</string>
     <string name="alert_dialog_delete_interview_title">Delete Interview?</string>
     <string name="alert_dialog_delete_interview_text">You are about to delete a scheduled interview details which can not be retrieved after deletion. Proceed?</string>
+    <string name="alert_dialog_delete_note_title">Delete Note?</string>
+    <string name="alert_dialog_delete_note_text">You are about to delete an interview note which can not be retrieved after deletion. Proceed?</string>
+    <string name="alert_dialog_unsaved_notes_title">Unsaved Notes!</string>
+    <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as
+        you have not filled up mandatory details. Go back?</string>
 
     <string name="date_picker_supporting_text">MM/DD/YYYY</string>
     <string name="time_picker_supporting_text">HH:MM AM/PM</string>
@@ -69,15 +72,10 @@
     <string name="add_note_header">Add your interview notes</string>
     <string name="edit_note_header">Edit your interview notes</string>
     <string name="edit_interview_header">Update your scheduled interview details.</string>
+
     <string name="add_note_question">Add Question</string>
     <string name="add_note">Add Note</string>
     <string name="delete_note_button_text">Delete Note</string>
-    <string name="alert_dialog_delete_note_title">Delete Note?</string>
-    <string name="alert_dialog_delete_note_text">You are about to delete an interview note which can not be retrieved after deletion. Proceed?</string>
-
-    <string name="alert_dialog_unsaved_notes_title">Unsaved Notes!</string>
-    <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as
-        you have not filled up mandatory details. Go back?</string>
 
     <string name="hint_label_interview_segment">Interview Segment</string>
     <string name="hint_label_topic">Topic</string>
@@ -89,7 +87,10 @@
     <string name="interview_status_rejected">Rejected</string>
 
     <string name="icon_more_vert_content_description">More Options</string>
-     <string name="interview_status">Interview Status</string>
- </resources>
+    <string name="interview_status">Interview Status</string>
+
+    <string name="no_text_available">N/A</string>
+    <string name="error_no_browser_app">No browser app installed</string>
+</resources>
 
 
