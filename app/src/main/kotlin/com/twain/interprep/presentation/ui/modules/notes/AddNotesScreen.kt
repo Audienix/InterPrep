@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -30,13 +27,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
@@ -117,30 +112,19 @@ fun AddNotesScreen(
                             shouldShowDeleteButton = false
                         )
                     }
-                    if (!viewModel.notes.isEmpty()) {
-                        IPHeader(
-                            stringResource(id = R.string.add_note_header.takeUnless { isEdit }
-                                ?: R.string.edit_note_header),
-                            MaterialTheme.colorScheme.onSurfaceVariant,
-                            MaterialTheme.typography.titleMedium,
-                            Modifier.padding(
-                                start = dimensionResource(id = R.dimen.dimension_16dp),
-                                end = dimensionResource(id = R.dimen.dimension_16dp),
-                                top = dimensionResource(id = R.dimen.dimension_16dp),
-                                bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                            ),
-                            fontWeight = FontWeight.Normal
-                        )
-
-                    } else {
-                        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_75dp)))
-                        FullScreenEmptyState(
-                            modifier = Modifier.fillMaxHeight(),
-                            R.drawable.empty_state_notes,
-                            stringResource(id = R.string.empty_state_title_note),
-                            stringResource(id = R.string.empty_state_description_note)
-                        )
-                    }
+                    IPHeader(
+                        stringResource(id = R.string.add_note_header.takeUnless { isEdit }
+                            ?: R.string.edit_note_header),
+                        MaterialTheme.colorScheme.onSurfaceVariant,
+                        MaterialTheme.typography.titleMedium,
+                        Modifier.padding(
+                            start = dimensionResource(id = R.dimen.dimension_16dp),
+                            end = dimensionResource(id = R.dimen.dimension_16dp),
+                            top = dimensionResource(id = R.dimen.dimension_16dp),
+                            bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                        ),
+                        fontWeight = FontWeight.Normal
+                    )
 
                     viewModel.notes.forEachIndexed { index, note ->
                         AddNoteCard(
@@ -168,7 +152,7 @@ fun AddNotesScreen(
                                 )
                             },
                             addQuestion = { viewModel.addQuestion(index) },
-                            deleteNote = { viewModel.deleteNote(interview, note) },
+                            deleteNote = { viewModel.deleteNote(interview, note)},
                             shouldValidate = shouldValidateFormFields,
                             isEdit
                         )

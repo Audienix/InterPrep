@@ -2,11 +2,8 @@ package com.twain.interprep.presentation.ui.modules.notes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -22,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.twain.interprep.R
@@ -30,7 +26,6 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.EditIcon
-import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
 import com.twain.interprep.presentation.ui.components.note.ViewNoteCard
@@ -91,17 +86,6 @@ fun ViewNotesScreen(
                                 modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
                                 interview = interview,
                                 shouldShowDeleteButton = false
-                            )
-                        }
-                    }
-                    item {
-                        if (viewModel.notes.isEmpty()) {
-                            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_75dp)))
-                            FullScreenEmptyState(
-                                modifier = Modifier.fillMaxHeight(),
-                                R.drawable.empty_state_notes,
-                                stringResource(id = R.string.empty_state_title_note),
-                                stringResource(id = R.string.empty_state_description_note)
                             )
                         }
                     }
