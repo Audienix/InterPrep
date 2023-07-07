@@ -34,11 +34,10 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.data.ui.InterviewFormData.getTextLabelList
 import com.twain.interprep.data.ui.interviewMockData
-import com.twain.interprep.presentation.ui.components.generic.IPClickableLinkText
+import com.twain.interprep.presentation.ui.components.generic.IPText
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundSurface
-import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 import com.twain.interprep.utils.DateUtils
 import java.text.SimpleDateFormat
@@ -85,14 +84,14 @@ private fun InterviewDetailsList(interview: Interview) {
                 color = TextSecondary,
                 style = MaterialTheme.typography.bodyMedium,
             )
-            IPClickableLinkText(
+            IPText(
                 modifier = Modifier
                     .padding(
                         dimensionResource(id = R.dimen.dimension_8dp)
                     ),
-                text = textLabelData.labelValue.ifEmpty { "N/A" },
-                color = TextPrimary,
-                style = MaterialTheme.typography.bodyLarge
+                text = textLabelData.labelValue,
+                link = textLabelData.labelValue,
+                textStyle = MaterialTheme.typography.bodyLarge
             )
         }
         if (index < labelList.lastIndex)
