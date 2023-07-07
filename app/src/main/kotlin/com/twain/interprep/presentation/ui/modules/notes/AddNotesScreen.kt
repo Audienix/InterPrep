@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -32,6 +34,7 @@ import androidx.navigation.NavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
@@ -96,10 +99,9 @@ fun AddNotesScreen(
                 }
                 Column(
                     modifier = Modifier
-                        .padding(padding)
-                        .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.SpaceEvenly
+                        .fillMaxSize()
+                        .padding(paddingValues = padding),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
                         modifier = Modifier
@@ -112,69 +114,85 @@ fun AddNotesScreen(
                             shouldShowDeleteButton = false
                         )
                     }
-                    IPHeader(
-                        stringResource(id = R.string.add_note_header.takeUnless { isEdit }
-                            ?: R.string.edit_note_header),
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-                        MaterialTheme.typography.titleMedium,
-                        Modifier.padding(
-                            start = dimensionResource(id = R.dimen.dimension_16dp),
-                            end = dimensionResource(id = R.dimen.dimension_16dp),
-                            top = dimensionResource(id = R.dimen.dimension_16dp),
-                            bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                        ),
-                        fontWeight = FontWeight.Normal
-                    )
-
-                    viewModel.notes.forEachIndexed { index, note ->
-                        AddNoteCard(
-                            modifier = Modifier
-                                .padding(
-                                    start = dimensionResource(id = R.dimen.dimension_12dp),
-                                    end = dimensionResource(id = R.dimen.dimension_12dp),
-                                    top = dimensionResource(id = R.dimen.dimension_16dp),
-                                    bottom = dimensionResource(id = R.dimen.dimension_16dp)
-                                )
-                                .fillMaxWidth(),
-                            note = note,
-                            getNoteField = { viewModel.getNoteField(it, index) },
-                            updateNoteField = { resId, value ->
-                                viewModel.updateNoteField(
-                                    resId,
-                                    index,
-                                    value
-                                )
-                            },
-                            updateQuestion = { questionIndex, value ->
-                                viewModel.updateQuestion(
-                                    index,
-                                    questionIndex,
-                                    value
-                                )
-                            },
-                            addQuestion = { viewModel.addQuestion(index) },
-                            deleteNote = { viewModel.deleteNote(interview, note)},
-                            shouldValidate = shouldValidateFormFields,
-                            isEdit
+                    if (!viewModel.notes.isEmpty()) {
+                        IPHeader(
+                            stringResource(id = R.string.add_note_header.takeUnless { isEdit }
+                                ?: R.string.edit_note_header),
+                            MaterialTheme.colorScheme.onSurfaceVariant,
+                            MaterialTheme.typography.titleMedium,
+                            Modifier.padding(
+                                start = dimensionResource(id = R.dimen.dimension_16dp),
+                                end = dimensionResource(id = R.dimen.dimension_16dp),
+                                top = dimensionResource(id = R.dimen.dimension_16dp),
+                                bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                            )
+                                .align(Alignment.Start),
+                            fontWeight = FontWeight.Normal
+                        )
+                    } else {
+                        FullScreenEmptyState(
+                            modifier = Modifier.fillMaxHeight(),
+                            R.drawable.empty_state_notes,
+                            stringResource(id = R.string.empty_state_title_note),
+                            stringResource(id = R.string.empty_state_description_note)
                         )
                     }
-                    if (!isEdit) {
-                        Row(
-                            modifier = Modifier.padding(
-                                vertical = dimensionResource(id = R.dimen.dimension_12dp),
-                                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                    Column(
+                        modifier = Modifier
+                            .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        viewModel.notes.forEachIndexed { index, note ->
+                            AddNoteCard(
+                                modifier = Modifier
+                                    .padding(
+                                        start = dimensionResource(id = R.dimen.dimension_12dp),
+                                        end = dimensionResource(id = R.dimen.dimension_12dp),
+                                        top = dimensionResource(id = R.dimen.dimension_16dp),
+                                        bottom = dimensionResource(id = R.dimen.dimension_16dp)
+                                    )
+                                    .fillMaxWidth(),
+                                note = note,
+                                getNoteField = { viewModel.getNoteField(it, index) },
+                                updateNoteField = { resId, value ->
+                                    viewModel.updateNoteField(
+                                        resId,
+                                        index,
+                                        value
+                                    )
+                                },
+                                updateQuestion = { questionIndex, value ->
+                                    viewModel.updateQuestion(
+                                        index,
+                                        questionIndex,
+                                        value
+                                    )
+                                },
+                                addQuestion = { viewModel.addQuestion(index) },
+                                deleteNote = { viewModel.deleteNote(interview, note) },
+                                shouldValidate = shouldValidateFormFields,
+                                isEdit
                             )
-                        ) {
-                            IPOutlinedButton(
-                                backgroundColor = BackgroundLightPurple,
-                                text = stringResource(id = R.string.add_note),
-                                textColor = Color.Black,
-                                textStyle = MaterialTheme.typography.titleMedium,
-                                enabled = viewModel.addNoteEnabled(),
-                                iconColor = BackgroundDarkPurple,
-                                borderColor = BackgroundDarkPurple,
-                                leadingIcon = R.drawable.outline_add_circle,
-                                onClick = { viewModel.addNote() })
+                        }
+                        if (!isEdit) {
+                            Row(
+                                modifier = Modifier.padding(
+                                    vertical = dimensionResource(id = R.dimen.dimension_12dp),
+                                    horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                                )
+                            ) {
+                                IPOutlinedButton(
+                                    backgroundColor = BackgroundLightPurple,
+                                    text = stringResource(id = R.string.add_note),
+                                    textColor = Color.Black,
+                                    textStyle = MaterialTheme.typography.titleMedium,
+                                    enabled = viewModel.addNoteEnabled(),
+                                    iconColor = BackgroundDarkPurple,
+                                    borderColor = BackgroundDarkPurple,
+                                    leadingIcon = R.drawable.outline_add_circle,
+                                    onClick = { viewModel.addNote() })
+                            }
                         }
                     }
                 }
