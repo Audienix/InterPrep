@@ -125,7 +125,8 @@ fun AddNotesScreen(
                                 end = dimensionResource(id = R.dimen.dimension_16dp),
                                 top = dimensionResource(id = R.dimen.dimension_16dp),
                                 bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                            ),
+                            )
+                                .align(Alignment.Start),
                             fontWeight = FontWeight.Normal
                         )
                     } else {
