@@ -22,4 +22,7 @@ object StringConstants {
     const val NAV_ARG_PRIMARY_COLOR = "primaryColor"
     const val NAV_ARG_SECONDARY_COLOR = "secondaryColor"
     const val NAV_ARG_IS_EDIT = "isEdit"
+
+    const val NOTIFICATION_KEY_TITLE = "title"
+    const val NOTIFICATION_KEY_MESSAGE = "message"
 }

@@ -3,9 +3,11 @@ package com.twain.interprep.utils
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import com.twain.interprep.constants.NumberConstants.MILLISECONDS
 import com.twain.interprep.constants.NumberConstants.WEEK_IN_MILLISECONDS
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_A
 import java.util.Date
 import java.util.Locale
 
@@ -62,8 +64,8 @@ object DateUtils {
      */
     fun isInterviewDateInSameWeek(date: Date): Boolean {
         val c: java.util.Calendar = java.util.Calendar.getInstance()
-        c.firstDayOfWeek = java.util.Calendar.MONDAY
-        c.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY)
+        c.firstDayOfWeek = java.util.Calendar.SUNDAY
+        c.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.SUNDAY)
         c.set(java.util.Calendar.HOUR_OF_DAY, 0)
         c.set(java.util.Calendar.MINUTE, 0)
         c.set(java.util.Calendar.SECOND, 0)
@@ -78,5 +80,21 @@ object DateUtils {
         val format = SimpleDateFormat("a", Locale.getDefault())
         val date = format.parse(timeString)
         return date?.hours in 0..11
+    }
+
+    fun calculateTimeDifferenceInSeconds(
+        targetDate: String,
+        targetTime: String,
+        reminderTimeBefore: Int
+    ): Long {
+        val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_A, Locale.getDefault())
+        val currentDate = Date()
+        val targetDateTime = dateFormat.parse("$targetDate $targetTime")
+
+        // Calculate the time difference in milliseconds
+        val timeDifferenceInMillis = targetDateTime.time - currentDate.time
+
+        // Convert the time difference to seconds
+        return (timeDifferenceInMillis / MILLISECONDS) - reminderTimeBefore
     }
 }
