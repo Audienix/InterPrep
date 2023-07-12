@@ -20,6 +20,8 @@
     <string name="appbar_title_view_notes">View Notes</string>
     <string name="appbar_title_add_notes">Add Notes</string>
     <string name="appbar_title_edit_notes">Edit Notes</string>
+    <string name="menuitem_edit_note">Edit Note</string>
+    <string name="menuitem_delete_note">Delete Note</string>
 
     <string name="empty_state_title_dashboard">No interview scheduled.</string>
     <string name="empty_state_title_note">No notes captured.</string>
