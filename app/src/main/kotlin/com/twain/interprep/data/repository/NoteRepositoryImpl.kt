@@ -38,4 +38,8 @@ class NoteRepositoryImpl(private val noteDAO: NoteDAO) : NoteRepository {
         noteDAO.deleteNote(note)
     }
 
+    override suspend fun deleteNotesForInterview(interview: Interview) {
+        noteDAO.deleteNotesForInterview(interview.interviewId)
+    }
+
 }
