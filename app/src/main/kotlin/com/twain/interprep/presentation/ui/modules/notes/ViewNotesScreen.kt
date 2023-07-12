@@ -89,8 +89,12 @@ fun ViewNotesScreen(
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
                             interview = interview,
-                            shouldShowDeleteButton = false
-                        )
+                            shouldShowDeleteButton = false,
+                            notesEmpty = viewModel.notes.isEmpty(),
+                            onDeleteInterview = {}
+                        ) {
+                            viewModel.deleteNotesForInterview(interview)
+                        }
                     }
                     if (viewModel.notes.isEmpty()) {
                         FullScreenEmptyState(

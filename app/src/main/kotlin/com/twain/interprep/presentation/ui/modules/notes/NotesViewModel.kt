@@ -134,4 +134,11 @@ class NotesViewModel @Inject constructor(
         if (notes.any { !isNoteValid(it) && !isNotEmpty(it) }) return false
         return true
     }
+
+    fun deleteNotesForInterview(interview: Interview) {
+        launchCoroutineIO {
+            noteUseCase.deleteNotesForInterviewUseCase(interview)
+        }
+
+    }
 }

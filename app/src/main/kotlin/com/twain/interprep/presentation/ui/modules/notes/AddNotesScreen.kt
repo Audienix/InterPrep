@@ -111,8 +111,12 @@ fun AddNotesScreen(
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
                             interview = interview,
-                            shouldShowDeleteButton = false
-                        )
+                            shouldShowDeleteButton = false,
+                            notesEmpty = viewModel.notes.isEmpty(),
+                            {}
+                        ) {
+                            viewModel.deleteNotesForInterview(interview)
+                        }
                     }
                     if (!viewModel.notes.isEmpty()) {
                         IPHeader(

@@ -16,6 +16,8 @@ interface NoteRepository {
     suspend fun updateNote(note: Note)
 
     suspend fun deleteNote(note: Note)
+
+    suspend fun deleteNotesForInterview(interview: Interview)
 //
 //    suspend fun getSingleInterviewWithNotes(interviewId: Int): Flow<Pair<Interview, List<Note>>>
 }
