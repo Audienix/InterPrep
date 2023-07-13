@@ -93,6 +93,9 @@
 
     <string name="no_text_available">N/A</string>
     <string name="error_no_browser_app">No browser app installed</string>
+
+    <string name="noti_interview_reminder_title">Upcoming Interview</string>
+    <string name="noti_interview_reminder_description">%1$s interview is coming up after 1 hour.</string>
 </resources>
 
 

@@ -1,5 +1,8 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
+import android.Manifest
+import android.content.Context
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,18 +25,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.work.WorkManager
 import com.twain.interprep.R
+import com.twain.interprep.constants.NumberConstants.MINUTES
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
+import com.twain.interprep.data.model.isPast
 import com.twain.interprep.data.model.isValid
 import com.twain.interprep.data.ui.InterviewFormData.textInputHorizontalList
 import com.twain.interprep.data.ui.InterviewFormData.textInputVerticalList
 import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.presentation.ui.components.generic.CheckRuntimePermission
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
@@ -47,6 +55,7 @@ fun AddInterviewScreen(
     viewModel: InterviewViewModel = hiltViewModel(),
     interviewId: Int
 ) {
+    val context = LocalContext.current
     val isEditInterview = interviewId != 0
     val showBackConfirmationDialog = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
@@ -60,7 +69,13 @@ fun AddInterviewScreen(
         }
     }
     BackHandler {
-        handleBackPress(viewModel, isEditInterview, navController, showBackConfirmationDialog)
+        handleBackPress(
+            context,
+            viewModel,
+            isEditInterview,
+            navController,
+            showBackConfirmationDialog
+        )
     }
     Scaffold(
         modifier = Modifier
@@ -73,6 +88,7 @@ fun AddInterviewScreen(
                 navIcon = {
                     IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
                         handleBackPress(
+                            context,
                             viewModel,
                             isEditInterview,
                             navController,
@@ -100,19 +116,46 @@ fun AddInterviewScreen(
                 viewModel,
                 shouldValidateFormFields
             )
+            // In Android 13+ , we require user consent for posting notification.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                CheckRuntimePermission(
+                    onPermissionGranted = {},
+                    onPermissionDenied = {
+                        //TODO show an alert dialog that user won't get notification of scheduled interview
+                    },
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            }
         }
     )
 }
 
 
 private fun handleBackPress(
+    context: Context,
     viewModel: InterviewViewModel,
     isEditInterview: Boolean,
     navController: NavHostController,
     showBackConfirmationDialog: MutableState<Boolean>
 ) {
-    if (viewModel.interviewData.isValid()) {
+    val interviewData = viewModel.interviewData
+    if (interviewData.isValid()) {
+        //Save the interview details in local database
         viewModel.onSaveInterview(isEditInterview)
+
+        // We should only create notification for future interviews
+        if (!viewModel.interviewData.isPast()) {
+            val notificationWorkRequest = viewModel.createInterviewNotification(
+                title = context.resources.getString(R.string.noti_interview_reminder_title),
+                message = context.resources.getString(
+                    R.string.noti_interview_reminder_description,
+                    interviewData.company
+                ),
+                reminderTimeBefore = MINUTES
+            )
+            WorkManager.getInstance(context).enqueue(notificationWorkRequest)
+        }
+
         navController.popBackStack()
     } else {
         showBackConfirmationDialog.value = true
