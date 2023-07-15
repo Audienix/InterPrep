@@ -23,7 +23,7 @@
     <string name="menuitem_edit_note">Edit Note</string>
     <string name="menuitem_delete_note">Delete Note</string>
     <string name="menuitem_delete_interview">Delete Interview</string>
-    <string name="menuitem_delete_notes">Delete Note(s)</string>
+    <string name="menuitem_delete_notes">Delete Notes</string>
 
     <string name="empty_state_title_dashboard">No interview scheduled.</string>
     <string name="empty_state_title_note">No notes captured.</string>
