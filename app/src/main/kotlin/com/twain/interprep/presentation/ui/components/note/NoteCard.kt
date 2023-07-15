@@ -42,7 +42,8 @@ fun NoteCard(
     onDeleteNoteClick: (Note) -> Unit,
     onViewNoteClick: () -> Unit,
     onAddNoteClick: () -> Unit,
-    onDeleteNotesForInterviewClick : ()-> Unit
+    onDeleteNotesForInterviewClick : ()-> Unit,
+    onDeleteInterviewClick: () -> Unit
 ) {
     val (interview, notes) = interviewNotePair
     ElevatedCard(
@@ -66,7 +67,7 @@ fun NoteCard(
                     interview = interview,
                     shouldShowDeleteButton = true,
                     notesEmpty = notes.isEmpty(),
-                    {}, onDeleteNotesForInterviewClick)
+                    onDeleteInterviewClick, onDeleteNotesForInterviewClick)
             }
             Divider()
             notes.firstOrNull()?.let { note ->
@@ -151,6 +152,7 @@ private fun NoteCardPreview() {
         onDeleteNoteClick = {},
         onViewNoteClick = {},
         onAddNoteClick = {},
-        onDeleteNotesForInterviewClick = {}
+        onDeleteNotesForInterviewClick = {},
+        onDeleteInterviewClick = {}
     )
 }

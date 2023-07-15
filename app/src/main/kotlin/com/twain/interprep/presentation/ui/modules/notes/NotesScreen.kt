@@ -70,6 +70,9 @@ fun NotesScreen(
                         },
                         onDeleteNotesForInterviewClick = {
                             viewModel.deleteNotesForInterview(interview)
+                        },
+                        onDeleteInterviewClick = {
+                            viewModel.deleteInterview(interview)
                         }
                     )
                 }

@@ -56,7 +56,7 @@ fun InterviewDetailForNote(
         )
        if (shouldShowDeleteButton) {
             IPDropdown(items = GetInterviewDropdownMenuItems(notesEmpty,
-                onDeleteInterviewClicked = { },
+                onDeleteInterviewClicked = onDeleteInterview,
                 onDeleteNotesClicked = onDeleteNotes))
        }
     }
