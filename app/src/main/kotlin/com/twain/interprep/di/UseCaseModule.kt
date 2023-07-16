@@ -3,6 +3,7 @@ package com.twain.interprep.di
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
+import com.twain.interprep.domain.repository.ResourceRepository
 import com.twain.interprep.domain.usecase.note.GetNotesByInterviewIdUseCase
 import com.twain.interprep.domain.usecase.note.GetAllInterviewsWithNotesUseCase
 import com.twain.interprep.domain.usecase.note.NoteUseCase
@@ -22,6 +23,8 @@ import com.twain.interprep.domain.usecase.note.UpdateNoteUseCase
 import com.twain.interprep.domain.usecase.quotes.GetQuotesUseCase
 import com.twain.interprep.domain.usecase.quotes.InsertQuotesUseCase
 import com.twain.interprep.domain.usecase.quotes.QuoteUseCase
+import com.twain.interprep.domain.usecase.resource.GetAllResourcesWithLinksUseCase
+import com.twain.interprep.domain.usecase.resource.ResourceUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,6 +69,14 @@ class UseCaseModule {
             updateNoteUseCase = UpdateNoteUseCase(noteRepository),
             deleteNoteUseCase = DeleteNoteUseCase(noteRepository),
             deleteNotesForInterviewUseCase = DeleteNotesForInterviewUseCase(noteRepository)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideResourceUseCase(resourceRepository: ResourceRepository): ResourceUseCase {
+        return ResourceUseCase(
+            getAllResourcesWithLinksUseCase = GetAllResourcesWithLinksUseCase(resourceRepository)
         )
     }
 }

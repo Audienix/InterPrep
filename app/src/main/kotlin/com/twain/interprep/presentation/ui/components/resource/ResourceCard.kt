@@ -30,17 +30,18 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Resource
-import com.twain.interprep.data.ui.resourcesMockData
+import com.twain.interprep.data.model.ResourceLink
+import com.twain.interprep.data.ui.resourceWithLinks
 import com.twain.interprep.presentation.ui.components.generic.IPText
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
 fun ResourceCard(
-    resource: Resource,
+    resourceAndLinks: Pair<Resource, List<ResourceLink>>,
     onEditResourceClick: () -> Unit,
 ) {
     var isExpanded by remember { mutableStateOf(true) }
-
+    val (resource, links) = resourceAndLinks
     ElevatedCard(
         shape = Shapes.medium,
         modifier = Modifier
@@ -77,7 +78,7 @@ fun ResourceCard(
                     )
                 }
                 if (isExpanded) {
-                    resource.links.forEachIndexed { index, link ->
+                    links.forEachIndexed { index, link ->
                         IPText(
                             text = "${index + 1}. ${link.linkDescription}",
                             link = link.link
@@ -104,7 +105,7 @@ fun ResourceCard(
 @Composable
 private fun ResourceCardPreview() {
     ResourceCard(
-        resource = resourcesMockData[0],
+        resourceAndLinks = resourceWithLinks[1],
         onEditResourceClick = {}
     )
 }
