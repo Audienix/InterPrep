@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 import java.util.Date
 import java.util.Locale
 
-class GetNoteUseCase(private val noteRepository: NoteRepository) {
+class GetAllInterviewsWithNotesUseCase(private val noteRepository: NoteRepository) {
     suspend operator fun invoke() =
         noteRepository.getAllInterviewWithNotes().map { interviewList ->
             interviewList.filter { (interview, _) ->

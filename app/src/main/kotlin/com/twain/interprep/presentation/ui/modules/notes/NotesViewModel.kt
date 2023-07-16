@@ -36,7 +36,7 @@ class NotesViewModel @Inject constructor(
     )
 
     fun getNoteInterviewPairs() = launchCoroutineIO {
-        noteUseCase.getNoteUseCase().collect {
+        noteUseCase.getAllInterviewsWithNotesUseCase().collect {
             interviewNotesPair = ViewResult.Loaded(it)
         }
     }
@@ -47,9 +47,8 @@ class NotesViewModel @Inject constructor(
         }
 
     }
-
-    fun initAddNoteScreen(interviewId: Int, isEdit: Boolean) = launchCoroutineIO {
-        noteUseCase.getNoteByInterviewIdUseCase(interviewId).collect { (interview, notes) ->
+    fun getNotesByInterviewId(interviewId: Int, isEdit: Boolean) = launchCoroutineIO {
+        noteUseCase.getNotesByInterviewIdUseCase(interviewId).collect { (interview, notes) ->
             this@NotesViewModel.interview = ViewResult.Loaded(interview)
             if (isEdit) {
                 this@NotesViewModel.notes.clear()
@@ -120,7 +119,7 @@ class NotesViewModel @Inject constructor(
     private fun isNoteValid(note: Note) =
         note.interviewSegment.isNotBlank() && note.questions.none { it.isBlank() }
 
-    private fun isNotEmpty(note: Note) =
+    private fun isNoteEmpty(note: Note) =
         note.interviewSegment.isBlank() && note.questions.all { it.isBlank() } && note.topic.isBlank()
 
 
@@ -133,7 +132,7 @@ class NotesViewModel @Inject constructor(
     }
 
     fun areAllNotesValid(): Boolean {
-        if (notes.any { !isNoteValid(it) && !isNotEmpty(it) }) return false
+        if (notes.any { !isNoteEmpty(it) && !isNoteValid(it) }) return false
         return true
     }
 

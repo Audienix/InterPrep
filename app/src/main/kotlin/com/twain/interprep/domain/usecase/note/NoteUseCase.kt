@@ -1,8 +1,8 @@
 package com.twain.interprep.domain.usecase.note
 
 data class NoteUseCase(
-    val getNoteUseCase: GetNoteUseCase,
-    val getNoteByInterviewIdUseCase: GetNoteByInterviewIdUseCase,
+    val getAllInterviewsWithNotesUseCase: GetAllInterviewsWithNotesUseCase,
+    val getNotesByInterviewIdUseCase: GetNotesByInterviewIdUseCase,
     val insertNoteUseCase: InsertNoteUseCase,
     val insertAllNotesUseCase: InsertAllNotesUseCase,
     val updateNoteUseCase: UpdateNoteUseCase,

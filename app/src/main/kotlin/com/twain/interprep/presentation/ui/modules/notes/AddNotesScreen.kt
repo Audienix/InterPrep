@@ -58,7 +58,7 @@ fun AddNotesScreen(
     var shouldValidateFormFields by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.initAddNoteScreen(interviewId, isEdit)
+        viewModel.getNotesByInterviewId(interviewId, isEdit)
     }
     BackHandler {
         handleBackPress(viewModel, navController, shouldShowAlert)
