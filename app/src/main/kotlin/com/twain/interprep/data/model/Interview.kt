@@ -41,13 +41,6 @@ data class Interview(
     val interviewStatus: InterviewStatus = InterviewStatus.NO_UPDATE,
 )
 
-data class DashboardInterviews(
-    var isEmptyInterviewList: Boolean,
-    var upcomingInterviews: MutableList<Interview>,
-    var comingNextInterviews: MutableList<Interview>,
-    var pastInterviews: MutableList<Interview>
-)
-
 enum class InterviewStatus(
     private val mResourceId: Int,
     private val mPrimaryColor: Color,

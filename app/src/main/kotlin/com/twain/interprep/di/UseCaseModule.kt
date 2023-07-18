@@ -10,6 +10,7 @@ import com.twain.interprep.domain.usecase.interview.DeleteAllInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.DeleteInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.GetInterviewByIdUseCase
 import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
+import com.twain.interprep.domain.usecase.interview.GetTypedInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InsertInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.domain.usecase.interview.UpdateInterviewUseCase
@@ -47,6 +48,7 @@ class UseCaseModule {
             insertInterview = InsertInterviewUseCase(interviewRepository),
             updateInterview = UpdateInterviewUseCase(interviewRepository),
             getInterviews = GetInterviewsUseCase(interviewRepository),
+            getTypedInterviews = GetTypedInterviewsUseCase(interviewRepository),
             getInterviewById = GetInterviewByIdUseCase(interviewRepository),
             deleteInterview = DeleteInterviewUseCase(interviewRepository),
             deleteAllInterviews = DeleteAllInterviewsUseCase(interviewRepository)

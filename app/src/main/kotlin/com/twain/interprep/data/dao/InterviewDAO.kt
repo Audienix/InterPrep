@@ -23,9 +23,20 @@ interface InterviewDAO {
     @Query("SELECT * FROM interview ORDER BY date ASC")
     fun getAllInterviews(): Flow<List<Interview>>
 
+    @Query("SELECT * FROM interview WHERE (date || time) < :dateCurr ORDER BY (date || time) LIMIT :limit OFFSET :offset")
+    fun getPastInterviews(dateCurr: String, limit: Int = PAGE_LIMIT, offset: Int = 0): Flow<List<Interview>>
+
+    @Query("SELECT * FROM interview WHERE (date || time) >= :dateCurr AND (date || time) <= :dateFuture ORDER BY (date || time) LIMIT :limit OFFSET :offset")
+    fun getUpcomingInterviews(dateCurr: String, dateFuture: String, limit: Int = PAGE_LIMIT, offset: Int = 0): Flow<List<Interview>>
+
+    @Query("SELECT * FROM interview WHERE (date || time) > :dateFuture ORDER BY (date || time) LIMIT :limit OFFSET :offset")
+    fun getComingNextInterviews(dateFuture: String, limit: Int = PAGE_LIMIT, offset: Int = 0): Flow<List<Interview>>
+
     @Delete
     suspend fun deleteInterview(interview: Interview)
 
     @Query("DELETE FROM interview")
     suspend fun deleteAllInterviews()
 }
+
+const val PAGE_LIMIT = 1

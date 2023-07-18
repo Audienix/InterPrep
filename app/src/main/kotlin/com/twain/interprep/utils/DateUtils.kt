@@ -5,9 +5,8 @@ import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import com.twain.interprep.constants.NumberConstants.MILLISECONDS
 import com.twain.interprep.constants.NumberConstants.WEEK_IN_MILLISECONDS
-import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
-import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_A
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM
 import java.util.Date
 import java.util.Locale
 
@@ -25,7 +24,7 @@ object DateUtils {
 
     fun convertDateTimeStringToDate(dateString: String, timeString: String): Date {
         val format = SimpleDateFormat(
-            "$DT_FORMAT_MM_DD_YYYY $DT_FORMAT_HOUR_MIN",
+            "MM/dd/yyyy HH:mm",
             Locale.getDefault()
         )
         return format.parse("$dateString $timeString")
@@ -34,6 +33,13 @@ object DateUtils {
     fun getCurrentDateAsString(): String {
         val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
         return format.format(Calendar.getInstance().time)
+    }
+
+    fun getWeekAfterCurrentDateAsString(): String {
+        val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, 7)
+        return format.format(calendar.time)
     }
 
     //TODO Fix the issue of current date getting disabled when current UTC time falls next day
@@ -87,7 +93,7 @@ object DateUtils {
         targetTime: String,
         reminderTimeBefore: Int
     ): Long {
-        val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_A, Locale.getDefault())
+        val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM, Locale.getDefault())
         val currentDate = Date()
         val targetDateTime = dateFormat.parse("$targetDate $targetTime")
 
