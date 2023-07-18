@@ -13,6 +13,7 @@ import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InsertInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.domain.usecase.interview.UpdateInterviewUseCase
+import com.twain.interprep.domain.usecase.note.DeleteNotesForInterviewUseCase
 import com.twain.interprep.domain.usecase.note.DeleteNoteUseCase
 import com.twain.interprep.domain.usecase.note.InsertAllNotesUseCase
 import com.twain.interprep.domain.usecase.note.InsertNoteUseCase
@@ -61,7 +62,8 @@ class UseCaseModule {
             insertNoteUseCase = InsertNoteUseCase(noteRepository),
             insertAllNotesUseCase = InsertAllNotesUseCase(noteRepository),
             updateNoteUseCase = UpdateNoteUseCase(noteRepository),
-            deleteNoteUseCase = DeleteNoteUseCase(noteRepository)
+            deleteNoteUseCase = DeleteNoteUseCase(noteRepository),
+            deleteNotesForInterviewUseCase = DeleteNotesForInterviewUseCase(noteRepository)
         )
     }
 }

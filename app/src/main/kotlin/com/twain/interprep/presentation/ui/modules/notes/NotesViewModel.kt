@@ -9,6 +9,7 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.domain.usecase.note.NoteUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     contextProvider: CoroutineContextDispatcher,
-    private val noteUseCase: NoteUseCase
+    private val noteUseCase: NoteUseCase,
+    private val interviewUseCase: InterviewUseCase
 ) : BaseViewModel(contextProvider) {
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -133,5 +135,16 @@ class NotesViewModel @Inject constructor(
     fun areAllNotesValid(): Boolean {
         if (notes.any { !isNoteValid(it) && !isNotEmpty(it) }) return false
         return true
+    }
+
+    fun deleteNotesForInterview(interview: Interview) {
+        launchCoroutineIO {
+            noteUseCase.deleteNotesForInterviewUseCase(interview)
+        }
+    }
+    fun deleteInterview(interview: Interview) {
+        launchCoroutineIO {
+            interviewUseCase.deleteInterview(interview)
+        }
     }
 }
