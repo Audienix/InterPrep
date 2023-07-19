@@ -13,7 +13,7 @@ interface InterviewRepository {
 
     suspend fun getInitialInterviews(): Flow<InterviewListMetaData>
 
-    suspend fun getTypedInterviews(type: InterviewType, page: Int): Flow<List<Interview>>
+    suspend fun getInterviewList(type: InterviewType, page: Int): Flow<List<Interview>>
 
     suspend fun getInterviewById(id: Int): Flow<Interview>
 

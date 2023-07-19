@@ -23,8 +23,6 @@ class DashboardViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
-//    var interviews: ViewResult<DashboardInterviews> by mutableStateOf(ViewResult.UnInitialized)
-
     var interviewListMataData: ViewResult<InterviewListMetaData> by mutableStateOf(ViewResult.UnInitialized)
 
     var isLoading by mutableStateOf(false)
@@ -50,7 +48,7 @@ class DashboardViewModel @Inject constructor(
         }
         if (!isLoading) {
             isLoading = true
-            interviewUseCase.getTypedInterviews(
+            interviewUseCase.getInterviewList(
                 type = type,
                 page = originalList.page + 1,
                 currentState = currentState

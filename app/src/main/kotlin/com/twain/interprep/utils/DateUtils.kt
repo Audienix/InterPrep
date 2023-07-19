@@ -24,7 +24,7 @@ object DateUtils {
 
     fun convertDateTimeStringToDate(dateString: String, timeString: String): Date {
         val format = SimpleDateFormat(
-            "MM/dd/yyyy HH:mm",
+            DT_FORMAT_MM_DD_YYYY_HH_MM,
             Locale.getDefault()
         )
         return format.parse("$dateString $timeString")

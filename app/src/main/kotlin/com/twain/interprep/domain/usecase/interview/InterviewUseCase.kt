@@ -4,7 +4,7 @@ data class InterviewUseCase(
     val insertInterview: InsertInterviewUseCase,
     val updateInterview: UpdateInterviewUseCase,
     val getInterviews: GetInterviewsUseCase,
-    val getTypedInterviews: GetTypedInterviewsUseCase,
+    val getInterviewList: GetInterviewListUseCase,
     val getInterviewById: GetInterviewByIdUseCase,
     val deleteInterview: DeleteInterviewUseCase,
     val deleteAllInterviews: DeleteAllInterviewsUseCase,

@@ -13,6 +13,3 @@ data class InterviewListMetaData(
 )
 
 fun InterviewListMetaData.isEmpty() = pastInterviewList.list.isEmpty() && upcomingInterviewList.list.isEmpty() && comingNextInterviewList.list.isEmpty()
-
-
-

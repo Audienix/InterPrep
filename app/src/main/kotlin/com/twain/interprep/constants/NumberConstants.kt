@@ -9,4 +9,6 @@ object NumberConstants {
     const val WEEK_IN_MILLISECONDS = 7 * 24 * MINUTES * SECONDS * MILLISECONDS
 
     const val PENDING_INTENT_REQUEST_CODE = 123
+
+    const val INTERVIEW_PAGE_LIMIT = 3
 }

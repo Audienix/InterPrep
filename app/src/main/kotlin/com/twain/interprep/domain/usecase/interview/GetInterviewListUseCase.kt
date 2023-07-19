@@ -1,24 +1,24 @@
 package com.twain.interprep.domain.usecase.interview
 
-import com.twain.interprep.data.dao.PAGE_LIMIT
+import com.twain.interprep.constants.NumberConstants.INTERVIEW_PAGE_LIMIT
 import com.twain.interprep.data.model.InterviewList
 import com.twain.interprep.data.model.InterviewListMetaData
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.domain.repository.InterviewRepository
 import kotlinx.coroutines.flow.transform
 
-class GetTypedInterviewsUseCase(private val interviewRepository: InterviewRepository) {
+class GetInterviewListUseCase(private val interviewRepository: InterviewRepository) {
     suspend operator fun invoke(
         type: InterviewType,
         page: Int,
         currentState: InterviewListMetaData
     ) =
-        interviewRepository.getTypedInterviews(
+        interviewRepository.getInterviewList(
             type = type,
             page = page
         ).transform { interviews ->
 
-            val hasMore = interviews.size == PAGE_LIMIT
+            val hasMore = interviews.size == INTERVIEW_PAGE_LIMIT
 
             emit(
                 when (type) {

@@ -3,8 +3,9 @@ package com.twain.interprep.data.repository
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
+import com.twain.interprep.constants.NumberConstants.INTERVIEW_PAGE_LIMIT
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN
 import com.twain.interprep.data.dao.InterviewDAO
-import com.twain.interprep.data.dao.PAGE_LIMIT
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewList
 import com.twain.interprep.data.model.InterviewListMetaData
@@ -33,7 +34,7 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
     override suspend fun getInitialInterviews(): Flow<InterviewListMetaData> {
 
         val currentTime = LocalTime.now()
-        val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+        val formattedTime = currentTime.format(DateTimeFormatter.ofPattern(DT_FORMAT_HOUR_MIN))
         val dateCurr = DateUtils.getCurrentDateAsString() + formattedTime
         val dateFuture = DateUtils.getWeekAfterCurrentDateAsString() + formattedTime
 
@@ -44,13 +45,13 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
         return combine(pastInterviews, upcomingInterviews, compingNextInterviews) { past, upcoming, comingNext ->
             InterviewListMetaData(
                 pastInterviewList = InterviewList(
-                    list = past, page = 0, hasMore = past.size == PAGE_LIMIT
+                    list = past, page = 0, hasMore = past.size == INTERVIEW_PAGE_LIMIT
                 ),
                 upcomingInterviewList = InterviewList(
-                    list = upcoming, page = 0, hasMore = upcoming.size == PAGE_LIMIT
+                    list = upcoming, page = 0, hasMore = upcoming.size == INTERVIEW_PAGE_LIMIT
                 ),
                 comingNextInterviewList = InterviewList(
-                    list = comingNext, page = 0, hasMore = comingNext.size == PAGE_LIMIT
+                    list = comingNext, page = 0, hasMore = comingNext.size == INTERVIEW_PAGE_LIMIT
                 )
             )
         }
@@ -58,12 +59,12 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
 
     @RequiresApi(Build.VERSION_CODES.O)
     @WorkerThread
-    override suspend fun getTypedInterviews(type: InterviewType, page: Int): Flow<List<Interview>> {
+    override suspend fun getInterviewList(type: InterviewType, page: Int): Flow<List<Interview>> {
         val currentTime = LocalTime.now()
-        val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+        val formattedTime = currentTime.format(DateTimeFormatter.ofPattern(DT_FORMAT_HOUR_MIN))
         val dateCurr = DateUtils.getCurrentDateAsString() + formattedTime
         val dateFuture = DateUtils.getWeekAfterCurrentDateAsString() + formattedTime
-        val offset = page * PAGE_LIMIT
+        val offset = page * INTERVIEW_PAGE_LIMIT
         return when(type) {
             InterviewType.PAST -> interviewDao.getPastInterviews(
                 dateCurr = dateCurr,
