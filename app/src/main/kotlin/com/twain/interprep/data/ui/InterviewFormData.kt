@@ -12,25 +12,25 @@ object InterviewFormData {
         TextInputAttributes(
             labelTextId = R.string.hint_label_date,
             bottomTextId = R.string.hint_label_month_format,
-            required = true,
             errorTextId = R.string.error_message_form_input_date,
-            inputType = TextInputType.DATE
+            inputType = TextInputType.DATE,
+            validationType = ValidationType.REQUIRED
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_time,
             bottomTextId = R.string.hint_label_time_format,
-            required = true,
             errorTextId = R.string.error_message_form_input_time,
-            inputType = TextInputType.TIME
+            inputType = TextInputType.TIME,
+            validationType = ValidationType.REQUIRED
         )
     )
 
     val textInputVerticalList = listOf(
         TextInputAttributes(
             labelTextId = R.string.hint_label_company,
-            required = true,
             errorTextId = R.string.error_message_form_input_company,
-            inputType = TextInputType.TEXT
+            inputType = TextInputType.TEXT,
+            validationType = ValidationType.REQUIRED
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_interview_type,
@@ -47,13 +47,17 @@ object InterviewFormData {
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_job_post,
+            errorTextId = R.string.error_url_not_valid_text,
             inputType = TextInputType.TEXT,
-            keyboardType = KeyboardType.Uri
+            keyboardType = KeyboardType.Uri,
+            validationType = ValidationType.URL
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_company_link,
             inputType = TextInputType.TEXT,
-            keyboardType = KeyboardType.Uri
+            errorTextId = R.string.error_url_not_valid_text,
+            keyboardType = KeyboardType.Uri,
+            validationType = ValidationType.URL
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_interviewer,
@@ -94,10 +98,10 @@ object InterviewFormData {
 data class TextInputAttributes(
     @StringRes val labelTextId: Int,
     @StringRes val bottomTextId: Int? = null,
-    val required: Boolean = false,
     @StringRes val errorTextId: Int? = null,
     val inputType: TextInputType = TextInputType.TEXT,
-    val keyboardType: KeyboardType = KeyboardType.Text
+    val keyboardType: KeyboardType = KeyboardType.Text,
+    val validationType: ValidationType = ValidationType.NONE
 )
 
 enum class TextInputType {
@@ -105,6 +109,12 @@ enum class TextInputType {
     DATE,
     TIME,
     DROPDOWN
+}
+
+enum class ValidationType {
+    NONE,
+    REQUIRED,
+    URL
 }
 
 data class TextLabelData(

@@ -1,23 +1,35 @@
 package com.twain.interprep.utils
 
 import com.twain.interprep.data.ui.TextInputAttributes
+import com.twain.interprep.data.ui.ValidationType
 
 /**
  * When shouldValidate is false, we don't need to validate the input text since user hasn't
  * edit the input yet.
  */
 fun isValidTextInput(
-    shouldValidate: Boolean,
+    isBackPressed: Boolean,
     text: String,
-    attributes: TextInputAttributes,
-    isError: Boolean
+    attributes: TextInputAttributes
 ): Boolean {
-    return if (shouldValidate) {
-        attributes.required && text.trim().isEmpty()
+    return if (isBackPressed) {
+        validateField(attributes.validationType, text)
     } else {
-        isError
+        when (attributes.validationType) {
+            ValidationType.REQUIRED -> validateField(attributes.validationType, text)
+            else -> true
+        }
     }
 }
+
+private fun validateField(validationType: ValidationType, text: String) =
+    when (validationType) {
+        ValidationType.REQUIRED -> { text.isNotBlank() }
+        ValidationType.URL -> {
+            text.isBlank() or isValidURL(text.trim())
+        }
+        ValidationType.NONE -> { true }
+    }
 
 fun isValidURL(url: String): Boolean {
     val urlPattern =

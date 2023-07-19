@@ -60,7 +60,7 @@ fun AddInterviewScreen(
     val showBackConfirmationDialog = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
-    val shouldValidateFormFields = remember { mutableStateOf(false) }
+    val isBackPressed = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
@@ -105,7 +105,7 @@ fun AddInterviewScreen(
             ShowConfirmationDialog(
                 showBackConfirmationDialog,
                 navController,
-                shouldValidateFormFields
+                isBackPressed
             )
 
             ShowDeleteConfirmationDialog(showDeleteDialog, navController, viewModel)
@@ -114,7 +114,7 @@ fun AddInterviewScreen(
                 padding,
                 isEditInterview,
                 viewModel,
-                shouldValidateFormFields
+                isBackPressed
             )
             // In Android 13+ , we require user consent for posting notification.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -167,7 +167,7 @@ private fun ShowAddInterviewScreenContent(
     padding: PaddingValues,
     isEditInterview: Boolean,
     viewModel: InterviewViewModel,
-    shouldValidateFormFields: MutableState<Boolean>
+    isBackPressed: MutableState<Boolean>
 ) {
     Column(
         modifier = Modifier
@@ -197,8 +197,9 @@ private fun ShowAddInterviewScreenContent(
                         .weight(1f),
                     inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
                     textInputAttributes = input,
-                    shouldValidate = shouldValidateFormFields.value,
+                    isBackPressed = isBackPressed.value,
                     onTextUpdate = {
+                        isBackPressed.value = false
                         viewModel.updateInterviewField(input.labelTextId, it)
                     }
                 )
@@ -209,8 +210,9 @@ private fun ShowAddInterviewScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
                 textInputAttributes = input,
-                shouldValidate = shouldValidateFormFields.value,
+                isBackPressed = isBackPressed.value,
                 onTextUpdate = {
+                    isBackPressed.value = false
                     viewModel.updateInterviewField(input.labelTextId, it)
                 }
             )
