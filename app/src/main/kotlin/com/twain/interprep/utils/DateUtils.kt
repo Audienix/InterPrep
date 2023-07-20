@@ -94,12 +94,6 @@ object DateUtils {
         return date.after(monday) && date.before(nextMonday)
     }
 
-    fun isAM(timeString: String): Boolean {
-        val format = SimpleDateFormat("a", Locale.getDefault())
-        val date = format.parse(timeString)
-        return date?.hours in 0..11
-    }
-
     fun calculateTimeDifferenceInSeconds(
         targetDate: String,
         targetTime: String,

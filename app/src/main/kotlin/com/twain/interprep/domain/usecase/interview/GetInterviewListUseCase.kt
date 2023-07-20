@@ -18,8 +18,12 @@ class GetInterviewListUseCase(private val interviewRepository: InterviewReposito
             page = page
         ).transform { interviews ->
 
+            // has more is indicated by whether the fetched list has reached the page limit or not.
+            // special case: When the last item is fetched but the list size equals limit, it will
+            // do one more fetch but return an empty list
             val hasMore = interviews.size == INTERVIEW_PAGE_LIMIT
 
+            // add the new list to the end of current list and return the new state
             emit(
                 when (type) {
                     InterviewType.PAST -> currentState.copy(
