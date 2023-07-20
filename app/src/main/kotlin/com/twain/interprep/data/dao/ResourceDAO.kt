@@ -9,16 +9,14 @@ import androidx.room.Query
 import androidx.room.Relation
 import androidx.room.Transaction
 import androidx.room.Update
-import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.Resource
 import com.twain.interprep.data.model.ResourceLink
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ResourceDAO {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertResource(resource: Resource)
+    @Insert
+    suspend fun insertResource(resource: Resource): Long
 
     @Update
     suspend fun updateResource(resource: Resource)
@@ -29,6 +27,10 @@ interface ResourceDAO {
     @Transaction
     @Query("SELECT * FROM resource")
     fun getAllResourceLinkMap(): Flow<List<ResourceWithLinks>>
+
+    @Transaction
+    @Query("SELECT * FROM resource where resourceId = :id")
+    fun getResourceWithLinksByResourceId(id: Int): Flow<ResourceWithLinks>
 
     data class ResourceWithLinks(
         @Embedded val resource: Resource,

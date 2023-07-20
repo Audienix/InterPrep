@@ -4,10 +4,12 @@ import com.twain.interprep.data.db.DBManager
 import com.twain.interprep.data.repository.InterviewRepositoryImpl
 import com.twain.interprep.data.repository.NoteRepositoryImpl
 import com.twain.interprep.data.repository.QuoteRepositoryImpl
+import com.twain.interprep.data.repository.ResourceLinkRepositoryImpl
 import com.twain.interprep.data.repository.ResourceRepositoryImpl
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
+import com.twain.interprep.domain.repository.ResourceLinkRepository
 import com.twain.interprep.domain.repository.ResourceRepository
 import dagger.Module
 import dagger.Provides
@@ -41,5 +43,11 @@ class RepositoryModule {
     @Singleton
     fun providesResourceRepository(database: DBManager): ResourceRepository {
         return ResourceRepositoryImpl(database.resourceDao())
+    }
+
+    @Provides
+    @Singleton
+    fun providesResourceLinkRepository(database: DBManager): ResourceLinkRepository {
+        return ResourceLinkRepositoryImpl(database.resourceLinkDao())
     }
 }

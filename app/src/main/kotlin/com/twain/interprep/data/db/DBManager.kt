@@ -7,6 +7,7 @@ import com.twain.interprep.data.dao.InterviewDAO
 import com.twain.interprep.data.dao.NoteDAO
 import com.twain.interprep.data.dao.QuoteDAO
 import com.twain.interprep.data.dao.ResourceDAO
+import com.twain.interprep.data.dao.ResourceLinkDAO
 import com.twain.interprep.data.db.converter.DateConverter
 import com.twain.interprep.data.db.converter.EnumConverter
 import com.twain.interprep.data.db.converter.IntegerListConverter
@@ -39,4 +40,5 @@ abstract class DBManager : RoomDatabase() {
     abstract fun noteDao(): NoteDAO
     abstract fun resourceDao(): ResourceDAO
     abstract fun quoteDao(): QuoteDAO
+    abstract fun resourceLinkDao(): ResourceLinkDAO
 }

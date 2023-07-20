@@ -2,6 +2,7 @@ package com.twain.interprep.data.repository
 
 import androidx.annotation.WorkerThread
 import com.twain.interprep.data.dao.ResourceDAO
+import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.Resource
 import com.twain.interprep.data.model.ResourceLink
 import com.twain.interprep.domain.repository.ResourceRepository
@@ -16,4 +17,22 @@ class ResourceRepositoryImpl(private val resourceDAO: ResourceDAO) : ResourceRep
         }
         result
     }
+
+    @WorkerThread
+    override suspend fun insertResource(resource: Resource) =
+        resourceDAO.insertResource(resource).toInt()
+
+    @WorkerThread
+    override suspend fun getResourceWithLinksByResourceId(id: Int) =
+        resourceDAO.getResourceWithLinksByResourceId(id)
+
+    @WorkerThread
+    override suspend fun updateResource(resource: Resource) {
+      resourceDAO.updateResource(resource)
+    }
+
+    override suspend fun deleteResource(resource: Resource) {
+        resourceDAO.deleteResource(resource)
+    }
 }
+

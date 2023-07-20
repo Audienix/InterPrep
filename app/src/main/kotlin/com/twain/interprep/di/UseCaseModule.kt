@@ -3,6 +3,7 @@ package com.twain.interprep.di
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
+import com.twain.interprep.domain.repository.ResourceLinkRepository
 import com.twain.interprep.domain.repository.ResourceRepository
 import com.twain.interprep.domain.usecase.note.GetNotesByInterviewIdUseCase
 import com.twain.interprep.domain.usecase.note.GetAllInterviewsWithNotesUseCase
@@ -23,8 +24,16 @@ import com.twain.interprep.domain.usecase.note.UpdateNoteUseCase
 import com.twain.interprep.domain.usecase.quotes.GetQuotesUseCase
 import com.twain.interprep.domain.usecase.quotes.InsertQuotesUseCase
 import com.twain.interprep.domain.usecase.quotes.QuoteUseCase
+import com.twain.interprep.domain.usecase.resource.DeleteResourceUseCase
 import com.twain.interprep.domain.usecase.resource.GetAllResourcesWithLinksUseCase
+import com.twain.interprep.domain.usecase.resource.GetResourceWithLinksByResourceId
+import com.twain.interprep.domain.usecase.resource.UpsertResourceUseCase
 import com.twain.interprep.domain.usecase.resource.ResourceUseCase
+import com.twain.interprep.domain.usecase.resourceLink.DeleteResourceLinkUseCase
+import com.twain.interprep.domain.usecase.resourceLink.InsertAllResourceLinkUseCase
+import com.twain.interprep.domain.usecase.resourceLink.InsertResourceLinkUseCase
+import com.twain.interprep.domain.usecase.resourceLink.ResourceLinkUseCase
+import com.twain.interprep.domain.usecase.resourceLink.UpdateResourceLinkUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -74,9 +83,25 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideResourceUseCase(resourceRepository: ResourceRepository): ResourceUseCase {
+    fun provideResourceUseCase(
+        resourceRepository: ResourceRepository
+    ): ResourceUseCase {
         return ResourceUseCase(
-            getAllResourcesWithLinksUseCase = GetAllResourcesWithLinksUseCase(resourceRepository)
+            getAllResourcesWithLinksUseCase = GetAllResourcesWithLinksUseCase(resourceRepository),
+            upsertResourceUseCase = UpsertResourceUseCase(resourceRepository),
+            getResourceWithLinksByResourceId = GetResourceWithLinksByResourceId(resourceRepository),
+            deleteResourceUseCase = DeleteResourceUseCase(resourceRepository)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideResourceLinkUseCase(resourceLinkRepository: ResourceLinkRepository): ResourceLinkUseCase {
+        return ResourceLinkUseCase(
+            insertAllResourceLinkUseCase = InsertAllResourceLinkUseCase(resourceLinkRepository),
+            insertResourceLinkUseCase = InsertResourceLinkUseCase(resourceLinkRepository),
+            updateResourceLinkUseCase = UpdateResourceLinkUseCase(resourceLinkRepository),
+            deleteResourceLinkUseCase = DeleteResourceLinkUseCase(resourceLinkRepository)
         )
     }
 }

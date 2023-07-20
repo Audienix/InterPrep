@@ -24,6 +24,9 @@
     <string name="menuitem_delete_note">Delete Note</string>
     <string name="menuitem_delete_interview">Delete Interview</string>
     <string name="menuitem_delete_notes">Delete Notes</string>
+    <string name="menuitem_delete">Delete</string>
+    <string name="appbar_title_add_resource">Add Resource</string>
+    <string name="appbar_title_edit_resource">Edit Resource</string>
 
     <string name="empty_state_title_dashboard">No interview scheduled.</string>
     <string name="empty_state_title_note">No notes captured.</string>
@@ -59,6 +62,9 @@
     <string name="alert_dialog_unsaved_notes_title">Unsaved Notes!</string>
     <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as
         you have not filled up mandatory details. Go back?</string>
+    <string name="alert_dialog_unsaved_resource_title">Unsaved Resource!</string>
+    <string name="alert_dialog_unsaved_resource_text">Your learning resource would not be saved as you have not filled up mandatory details. Go back ?</string>
+
 
     <string name="date_picker_supporting_text">MM/DD/YYYY</string>
     <string name="time_picker_supporting_text">HH:MM AM/PM</string>
@@ -71,19 +77,30 @@
     <string name="error_message_form_input_company">Company can\'t be empty</string>
     <string name="error_message_form_input_interview_segment">Interview Segment can\'t be empty</string>
     <string name="error_message_form_input_question">Question can\'t be empty</string>
+    <string name="error_message_form_input_topic">Topic can\'t be empty</string>
+    <string name="error_message_form_input_link_description">Topic can\'t be empty</string>
+    <string name="error_message_form_input_link">Topic can\'t be empty</string>
+
 
     <string name="add_interview_header">Add your scheduled interview details.</string>
     <string name="add_note_header">Add your interview notes</string>
     <string name="edit_note_header">Edit your interview notes</string>
     <string name="edit_interview_header">Update your scheduled interview details.</string>
+    <string name="add_resource_header">Add your learning resource material.</string>
+    <string name="edit_resource_header">Update your learning resource material.</string>
 
     <string name="add_note_question">Add Question</string>
     <string name="add_note">Add Note</string>
     <string name="delete_note_button_text">Delete Note</string>
+    <string name="add_link">Add Link</string>
+
 
     <string name="hint_label_interview_segment">Interview Segment</string>
     <string name="hint_label_topic">Topic</string>
+    <string name="hint_label_subtopic">Subtopic</string>
     <string name="hint_label_question">Question</string>
+    <string name="hint_label_link_description">Link Description</string>
+    <string name="hint_label_link">Link</string>
 
     <string name="interview_status_no_update">No Update</string>
     <string name="interview_status_next_round">Next Round</string>
@@ -108,6 +125,7 @@
     <string name="resource_title">"Organize your learning resources"</string>
     <string name="resource_description">"Maximize your interview preparation with a collection of learning materials"</string>
     <string name="get_started_button_text">"Get Started"</string>
+    <string name="reference_link">Reference Link</string>
 </resources>
 
 

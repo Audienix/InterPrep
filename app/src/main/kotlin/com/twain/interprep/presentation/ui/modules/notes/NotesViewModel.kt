@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
