@@ -7,6 +7,7 @@ object NumberConstants {
     const val SECONDS = 60
     const val MINUTES = 60
     const val WEEK_IN_MILLISECONDS = 7 * 24 * MINUTES * SECONDS * MILLISECONDS
+    const val WEEK = 7
 
     const val PENDING_INTENT_REQUEST_CODE = 123
 
