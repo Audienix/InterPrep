@@ -17,7 +17,7 @@ class GetNoteUseCase(private val noteRepository: NoteRepository) {
             }
             // Sort the list by date & time
             val dateFormat =
-                SimpleDateFormat(StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_A, Locale.getDefault())
+                SimpleDateFormat(StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM, Locale.getDefault())
             interviewList.sortedWith(compareBy {
                 dateFormat.parse(
                     "${it.first.date} ${it.first.time}"

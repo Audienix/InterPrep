@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,6 +38,7 @@ import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.presentation.ui.components.interview.IPDatePicker
 import com.twain.interprep.presentation.ui.components.interview.IPDropdownMenu
 import com.twain.interprep.presentation.ui.components.interview.IPTimePicker
+import com.twain.interprep.utils.DateUtils
 import com.twain.interprep.utils.isValidTextInput
 
 @Composable
@@ -52,18 +54,25 @@ fun IPTextInput(
     val errorText = textInputAttributes.errorTextId?.let { stringResource(id = it) } ?: ""
     val label = if (textInputAttributes.required) "$labelText *" else labelText
 
+    val context = LocalContext.current
+
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     var hasFocus by remember { mutableStateOf(false) }
 
+    val displayedText = when (textInputAttributes.labelTextId) {
+        R.string.hint_label_time -> DateUtils.getDisplayedTime(context, inputText)
+        else -> inputText
+    }
+
     OutlinedTextField(
         modifier = modifier.onGloballyPositioned { coordinates ->
             //This value is used to assign to the DropDown the same width
             textFieldSize = coordinates.size.toSize()
         }.onFocusChanged { hasFocus = it.hasFocus },
-        value = inputText,
+        value = displayedText,
         onValueChange = {
             onTextUpdate(it)
             isError = isValidTextInput(true, it, textInputAttributes, isError)
