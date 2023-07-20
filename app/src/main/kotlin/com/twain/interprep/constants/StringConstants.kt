@@ -8,7 +8,7 @@ object StringConstants {
     const val DT_FORMAT_MM_DD_YYYY_HH_MM = "MM/dd/yyyy HH:mm"
     const val DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE = "MM/dd/yyyyHH:mm"
     const val DT_FORMAT_HOUR_MIN = "HH:mm"
-    const val DT_FORMAT_HOUR_MIN_A = "HH:mm a"
+    const val DT_FORMAT_HOUR_MIN_A = "hh:mm a"
     const val DT_FORMAT_MM_DD_YYYY = "MM/dd/yyyy"
     const val DT_FORMAT_DD_MMMM_YYYY = "dd MMMM, yyyy"
 
