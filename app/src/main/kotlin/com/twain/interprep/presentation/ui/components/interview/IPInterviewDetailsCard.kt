@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -69,7 +70,8 @@ fun IPInterviewDetailsCard(
 
 @Composable
 private fun InterviewDetailsList(interview: Interview) {
-    val labelList = getTextLabelList(interview)
+    val context = LocalContext.current
+    val labelList = getTextLabelList(interview, context)
     labelList.forEachIndexed { index, textLabelData ->
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
         Column(

@@ -1,9 +1,11 @@
 package com.twain.interprep.data.ui
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.KeyboardType
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.utils.DateUtils
 
 object InterviewFormData {
     val textInputHorizontalList = listOf(
@@ -59,10 +61,10 @@ object InterviewFormData {
         )
     )
 
-    fun getTextLabelList(interview: Interview): List<TextLabelData> {
+    fun getTextLabelList(interview: Interview, context: Context): List<TextLabelData> {
         return listOf(
             TextLabelData(
-                R.string.hint_label_time, interview.time
+                R.string.hint_label_time, DateUtils.getDisplayedTime(context, interview.time)
             ),
             TextLabelData(
                 R.string.hint_label_company, interview.company

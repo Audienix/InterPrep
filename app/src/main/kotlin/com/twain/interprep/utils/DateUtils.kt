@@ -1,11 +1,15 @@
 package com.twain.interprep.utils
 
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.text.format.DateFormat
 import com.twain.interprep.constants.NumberConstants.MILLISECONDS
-import com.twain.interprep.constants.NumberConstants.WEEK
+import com.twain.interprep.constants.NumberConstants.WEEK_IN_DAYS
 import com.twain.interprep.constants.NumberConstants.WEEK_IN_MILLISECONDS
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN_A
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE
@@ -50,7 +54,7 @@ object DateUtils {
         val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())
         val calendar = Calendar.getInstance()
         calendar.time = format.parse(timeString)
-        calendar.add(Calendar.DAY_OF_MONTH, WEEK)
+        calendar.add(Calendar.DAY_OF_MONTH, WEEK_IN_DAYS)
         return format.format(calendar.time)
     }
 
@@ -109,4 +113,14 @@ object DateUtils {
         // Convert the time difference to seconds
         return (timeDifferenceInMillis / MILLISECONDS) - reminderTimeBefore
     }
+
+    fun getDisplayedTime(context: Context, timeString: String): String = timeString.takeIf {
+        (DateFormat.is24HourFormat(context)) or it.isEmpty()
+    } ?:
+        SimpleDateFormat(
+            DT_FORMAT_HOUR_MIN_A, Locale.getDefault()).format(
+            SimpleDateFormat(DT_FORMAT_HOUR_MIN, Locale.getDefault()
+            ).parse(timeString))
+
+
 }

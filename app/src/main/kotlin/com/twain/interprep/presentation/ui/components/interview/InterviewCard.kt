@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,6 +53,7 @@ fun InterviewCard(
 ) {
     val configuration = LocalConfiguration.current
     val cardWidth = configuration.screenWidthDp.dp * dashboardInterviewType.cardWidthFactor
+    val context = LocalContext.current
     Box {
         Column {
             Spacer(
@@ -105,7 +107,7 @@ fun InterviewCard(
                                 Locale.getDefault()
                             ).format(date).uppercase() + buildString {
                                 append(", ")
-                            } + interview.time,
+                            } + DateUtils.getDisplayedTime(context, interview.time),
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
                             color = TextSecondary,
