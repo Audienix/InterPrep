@@ -22,18 +22,18 @@ import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 
 @Composable
-fun IPDescriptionRow(modifier: Modifier = Modifier, title: String, body: String, icon: Int) {
+fun IPDescriptionRow(modifier: Modifier = Modifier, title: String, body: String, icon: Int, contentDescription: String) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Row() {
             Icon(
                 painterResource(id = icon),
-                contentDescription = "Collection_bookmark",
+                contentDescription = contentDescription,
                 modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.dimension_5dp))
-                    .size(dimensionResource(id = R.dimen.dimension_28dp)),
+                    .padding(dimensionResource(id = R.dimen.dimension_4dp))
+                    .size(dimensionResource(id = R.dimen.dimension_24dp)),
                 tint = BackgroundDarkPurple
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_10dp)))
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_16dp)))
             Column() {
 
                 Text(
@@ -41,7 +41,7 @@ fun IPDescriptionRow(modifier: Modifier = Modifier, title: String, body: String,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_10dp)))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_4dp)))
                 Text(text = body, style = MaterialTheme.typography.bodyMedium)
             }
         }
@@ -52,7 +52,7 @@ fun IPDescriptionRow(modifier: Modifier = Modifier, title: String, body: String,
 fun IPIntroductionRow1Preview() {
     val title = "Manage scheduled job interviews"
     val description = "Effortlessly organize your interview details from a personalized dashboard"
-    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_dashboard)
+    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_dashboard_24, contentDescription = "dashboard_icon")
 }
 
 @Preview
@@ -60,7 +60,7 @@ fun IPIntroductionRow1Preview() {
 fun IPIntroductionRow2Preview() {
     val title = "Take notes on past interviews"
     val description = "Easily access and manage your past interview notes for future reference"
-    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_event_note)
+    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_note_24, contentDescription = "note_icon")
 }
 
 @Preview
@@ -68,7 +68,7 @@ fun IPIntroductionRow2Preview() {
 fun IPIntroductionRow3Preview() {
     val title = "Organize your learning resources"
     val description = "Maximize your interview preparation with a collection of learning materials"
-    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_collection_bookmark)
+    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_resource_24, contentDescription = "resource_icon")
 }
 
 
