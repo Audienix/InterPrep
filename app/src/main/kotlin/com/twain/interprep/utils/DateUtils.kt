@@ -4,9 +4,11 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import com.twain.interprep.constants.NumberConstants.MILLISECONDS
+import com.twain.interprep.constants.NumberConstants.WEEK
 import com.twain.interprep.constants.NumberConstants.WEEK_IN_MILLISECONDS
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE
 import java.util.Date
 import java.util.Locale
 
@@ -35,10 +37,20 @@ object DateUtils {
         return format.format(Calendar.getInstance().time)
     }
 
+    fun getCurrentDateTimeAsString() : String {
+        // Get the current time
+        val currentTime = Calendar.getInstance().time
+
+        val timeFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())
+        return timeFormat.format(currentTime)
+    }
+
     fun getWeekAfterCurrentDateAsString(): String {
-        val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+        val timeString = getCurrentDateTimeAsString()
+        val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_MONTH, 7)
+        calendar.time = format.parse(timeString)
+        calendar.add(Calendar.DAY_OF_MONTH, WEEK)
         return format.format(calendar.time)
     }
 

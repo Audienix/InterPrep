@@ -1,10 +1,7 @@
 package com.twain.interprep.data.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import com.twain.interprep.constants.NumberConstants.INTERVIEW_PAGE_LIMIT
-import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN
 import com.twain.interprep.data.dao.InterviewDAO
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewList
@@ -14,8 +11,6 @@ import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.utils.DateUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : InterviewRepository {
 
@@ -29,14 +24,11 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
         interviewDao.updateInterview(interview)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @WorkerThread
     override suspend fun getInitialInterviews(): Flow<InterviewListMetaData> {
 
-        val currentTime = LocalTime.now()
-        val formattedTime = currentTime.format(DateTimeFormatter.ofPattern(DT_FORMAT_HOUR_MIN))
-        val dateCurr = DateUtils.getCurrentDateAsString() + formattedTime
-        val dateFuture = DateUtils.getWeekAfterCurrentDateAsString() + formattedTime
+        val dateCurr = DateUtils.getCurrentDateTimeAsString()
+        val dateFuture = DateUtils.getWeekAfterCurrentDateAsString()
 
         val pastInterviews =  interviewDao.getPastInterviews(dateCurr = dateCurr)
         val upcomingInterviews = interviewDao.getUpcomingInterviews(dateCurr = dateCurr, dateFuture = dateFuture)
@@ -57,15 +49,12 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @WorkerThread
     override suspend fun getInterviewList(type: InterviewType, page: Int): Flow<List<Interview>> {
-        val currentTime = LocalTime.now()
-        val formattedTime = currentTime.format(DateTimeFormatter.ofPattern(DT_FORMAT_HOUR_MIN))
-        val dateCurr = DateUtils.getCurrentDateAsString() + formattedTime
-        val dateFuture = DateUtils.getWeekAfterCurrentDateAsString() + formattedTime
+        val dateCurr = DateUtils.getCurrentDateTimeAsString()
+        val dateFuture = DateUtils.getWeekAfterCurrentDateAsString()
         val offset = page * INTERVIEW_PAGE_LIMIT
-        return when(type) {
+        return when (type) {
             InterviewType.PAST -> interviewDao.getPastInterviews(
                 dateCurr = dateCurr,
                 offset = offset
