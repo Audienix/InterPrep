@@ -65,6 +65,3 @@ fun IPIntroductionRow2Preview() {
 fun IPIntroductionRow3Preview() {
     IPDescriptionRow(title = stringResource(id = R.string.resource_title), body = stringResource(id = R.string.resource_description), icon = R.drawable.ic_resource_24, contentDescription = "resource_icon")
 }
-
-
-

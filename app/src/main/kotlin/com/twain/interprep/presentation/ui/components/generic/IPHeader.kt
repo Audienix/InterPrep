@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 
@@ -19,16 +20,32 @@ fun IPHeader(
     textColor: Color = Black,
     textStyle: TextStyle,
     modifier: Modifier,
-    fontWeight: FontWeight
+    fontWeight: FontWeight,
+    alignTextToCenter: Boolean = false,
 ) {
-    Text(
-        text = text,
-        color = textColor,
-        style = textStyle,
-        modifier = modifier,
-        fontWeight = fontWeight
-    )
+    var textAlign: TextAlign = TextAlign.Center
+    if (alignTextToCenter) {
+        Text(
+            text = text,
+            color = textColor,
+            style = textStyle,
+            modifier = modifier,
+            fontWeight = fontWeight,
+            textAlign = textAlign
+        )
+    } else {
+        Text(
+            text = text,
+            color = textColor,
+            style = textStyle,
+            modifier = modifier,
+            fontWeight = fontWeight
+        )
+    }
+
+
 }
+
 @Composable
 @Preview
 fun PreviewHeader() {

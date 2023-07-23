@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.generic.IPDescriptionRow
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
+import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPText
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.Purple200
@@ -39,15 +41,23 @@ fun IntroScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
     ) {
-        Text(
+        IPHeader(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.intro_screen_heading1),
-            style = typography.headlineLarge,
-            lineHeight = 45.sp,
-            textAlign = TextAlign.Center
+            textStyle = typography.headlineLarge,
+            fontWeight = FontWeight.Normal,
+            alignTextToCenter = true
+
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_32dp)))
-        Text(stringResource(id = R.string.intro_screen_heading2), fontSize = 24.sp)
+        IPHeader(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(id = R.string.intro_screen_heading2),
+            textStyle = typography.headlineMedium,
+            fontWeight = FontWeight.Normal,
+            alignTextToCenter = true
+
+        )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_24dp)))
         IPDescriptionRow(
             title = stringResource(id = R.string.dashboard_title),
@@ -69,14 +79,15 @@ fun IntroScreen() {
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_44dp)))
         IPFilledButton(
-            text = "Continue",
+            text = stringResource(id = R.string.continue_button_text),
             textColor = Color.White,
             iconColor = PurpleButton,
             backgroundColor = PurpleButton,
             disabledContentColor = PurpleButton,
             textStyle = typography.bodyLarge,
             onClick = { /*TODO*/ },
-            modifier = Modifier.fillMaxWidth())
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 

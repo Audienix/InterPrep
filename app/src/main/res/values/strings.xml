@@ -107,6 +107,8 @@
     <string name="note_description">"Easily access and manage your past interview notes for future reference"</string>
     <string name="resource_title">"Organize your learning resources"</string>
     <string name="resource_description">"Maximize your interview preparation with a collection of learning materials"</string>
+    <string name="continue_button_text">"Continue"</string>
 </resources>
+
 
 
