@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
@@ -50,26 +51,17 @@ fun IPDescriptionRow(modifier: Modifier = Modifier, title: String, body: String,
 @Preview
 @Composable
 fun IPIntroductionRow1Preview() {
-    val title = "Manage scheduled job interviews"
-    val description = "Effortlessly organize your interview details from a personalized dashboard"
-    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_dashboard_24, contentDescription = "dashboard_icon")
+    IPDescriptionRow(title = stringResource(id = R.string.dashboard_title), body = stringResource(id = R.string.dashboard_description), icon = R.drawable.ic_dashboard_24, contentDescription = "dashboard_icon")
 }
 
 @Preview
 @Composable
 fun IPIntroductionRow2Preview() {
-    val title = "Take notes on past interviews"
-    val description = "Easily access and manage your past interview notes for future reference"
-    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_note_24, contentDescription = "note_icon")
+    IPDescriptionRow(title = stringResource(id = R.string.note_title), body = stringResource(id = R.string.note_description), icon = R.drawable.ic_note_24, contentDescription = "note_icon")
 }
 
 @Preview
 @Composable
 fun IPIntroductionRow3Preview() {
-    val title = "Organize your learning resources"
-    val description = "Maximize your interview preparation with a collection of learning materials"
-    IPDescriptionRow(title = title, body = description, icon = R.drawable.ic_resource_24, contentDescription = "resource_icon")
+    IPDescriptionRow(title = stringResource(id = R.string.resource_title), body = stringResource(id = R.string.resource_description), icon = R.drawable.ic_resource_24, contentDescription = "resource_icon")
 }
-
-
-
