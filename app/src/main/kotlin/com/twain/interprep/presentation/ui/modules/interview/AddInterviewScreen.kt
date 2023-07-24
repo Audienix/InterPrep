@@ -232,7 +232,7 @@ private fun ShowDeleteConfirmationDialog(
             onPositiveButtonClick = {
                 showDeleteDialog.value = false
                 viewModel.deleteInterview(viewModel.interviewData)
-                navController.popBackStack(AppScreens.Dashboard.route, false)
+                navController.popBackStack(AppScreens.MainScreens.Dashboard.route, false)
             },
             // "CANCEL" is clicked
             onNegativeButtonClick = {

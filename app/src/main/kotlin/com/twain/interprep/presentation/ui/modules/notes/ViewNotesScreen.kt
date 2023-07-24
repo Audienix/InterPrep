@@ -64,12 +64,12 @@ fun ViewNotesScreen(
                 ) {
                     EditIcon(tint = Color.White) {
                         navController.navigate(
-                            AppScreens.AddNotes.withArgs(
+                            AppScreens.MainScreens.AddNotes.withArgs(
                                 interview.interviewId,
                                 true
                             )
                         ) {
-                            popUpTo(AppScreens.ViewNotes.route)
+                            popUpTo(AppScreens.MainScreens.ViewNotes.route)
                         }
                     }
                 }
@@ -114,12 +114,12 @@ fun ViewNotesScreen(
                             ViewNoteCard(
                                 note = note, onEditClicked = {
                                     navController.navigate(
-                                        AppScreens.AddNotes.withArgs(
+                                        AppScreens.MainScreens.AddNotes.withArgs(
                                             interview.interviewId,
                                             true
                                         )
                                     ) {
-                                        popUpTo(AppScreens.ViewNotes.route)
+                                        popUpTo(AppScreens.MainScreens.ViewNotes.route)
                                     }
                                 },
                                 onDeleteClicked = {
