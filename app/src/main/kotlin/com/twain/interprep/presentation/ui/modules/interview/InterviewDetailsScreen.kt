@@ -217,7 +217,7 @@ private fun ShowInterviewDetailsCard(
         headerContentColor = primaryColor,
         onEditClick = {
             interviewId?.let {
-                navController.navigate(AppScreens.AddInterview.withArgs(it))
+                navController.navigate(AppScreens.MainScreens.AddInterview.withArgs(it))
             }
         })
 }

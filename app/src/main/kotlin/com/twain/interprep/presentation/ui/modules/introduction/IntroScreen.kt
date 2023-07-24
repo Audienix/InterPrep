@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,21 +16,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPDescriptionRow
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
-import com.twain.interprep.presentation.ui.components.generic.IPText
+import com.twain.interprep.presentation.ui.modules.common.MainScreen
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
-import com.twain.interprep.presentation.ui.theme.Purple200
 import com.twain.interprep.presentation.ui.theme.PurpleButton
 
 @Composable
-fun IntroScreen() {
+fun IntroScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.dimension_32dp))
@@ -79,13 +75,18 @@ fun IntroScreen() {
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_44dp)))
         IPFilledButton(
-            text = stringResource(id = R.string.continue_button_text),
+            text = stringResource(id = R.string.get_started_button_text),
             textColor = Color.White,
             iconColor = PurpleButton,
             backgroundColor = PurpleButton,
             disabledContentColor = PurpleButton,
             textStyle = typography.bodyLarge,
-            onClick = { /*TODO*/ },
+            onClick = {
+                // Open Dashboard, and remove the Intro Screen from Stack
+                navController.navigate(AppScreens.MainScreens.route){
+                    popUpTo(AppScreens.IntroScreen.route) { inclusive = true }
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -95,7 +96,8 @@ fun IntroScreen() {
 @Composable
 fun IntroScreenPreview() {
     InterPrepTheme {
-        IntroScreen()
+        val navController = rememberNavController()
+        IntroScreen(navController)
     }
 
 }

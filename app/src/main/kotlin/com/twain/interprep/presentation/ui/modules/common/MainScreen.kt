@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.navigation.BottomNavigationBar
+import com.twain.interprep.presentation.navigation.MainScreensNavGraph
 import com.twain.interprep.presentation.navigation.NavGraph
 
 @Composable
@@ -20,14 +21,14 @@ fun MainScreen() {
     Scaffold(
         bottomBar = {
             if (currentScreen in listOf(
-                    AppScreens.Dashboard.route,
-                    AppScreens.Notes.route,
-                    AppScreens.Resources.route
+                    AppScreens.MainScreens.Dashboard.route,
+                    AppScreens.MainScreens.Notes.route,
+                    AppScreens.MainScreens.Resources.route
             )) BottomNavigationBar(navController)
         },
         content = { padding ->
             Box(modifier = Modifier.padding(padding)) {
-                NavGraph(navController = navController)
+                MainScreensNavGraph(navController = navController)
             }
         },
         // Set background color to avoid the white flashing when you switch between screens

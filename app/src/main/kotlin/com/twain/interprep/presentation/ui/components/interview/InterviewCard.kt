@@ -72,13 +72,13 @@ fun InterviewCard(
                     .clickable(onClick = {
                         onClick()
                         navController.navigate(
-                            AppScreens.InterviewDetails.withArgs(
+                            AppScreens.MainScreens.InterviewDetails.withArgs(
                                 interview.interviewId,
                                 dashboardInterviewType.cardBackgroundColor.toArgb(),
                                 dashboardInterviewType.cardContentColor.toArgb()
                             )
                         ) {
-                            popUpTo(AppScreens.Dashboard.route)
+                            popUpTo(AppScreens.MainScreens.Dashboard.route)
                         }
                     })
                     .height(106.dp), //TODO change constant height value
