@@ -17,19 +17,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
-import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPDescriptionRow
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
-import com.twain.interprep.presentation.ui.modules.common.MainScreen
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.PurpleButton
 
 @Composable
-fun IntroScreen(navController: NavHostController) {
+fun IntroScreen(onGetStartedClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.dimension_32dp))
@@ -81,12 +77,7 @@ fun IntroScreen(navController: NavHostController) {
             backgroundColor = PurpleButton,
             disabledContentColor = PurpleButton,
             textStyle = typography.bodyLarge,
-            onClick = {
-                // Open Dashboard, and remove the Intro Screen from Stack
-                navController.navigate(AppScreens.MainScreens.route){
-                    popUpTo(AppScreens.IntroScreen.route) { inclusive = true }
-                }
-            },
+            onClick = onGetStartedClicked,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -96,8 +87,7 @@ fun IntroScreen(navController: NavHostController) {
 @Composable
 fun IntroScreenPreview() {
     InterPrepTheme {
-        val navController = rememberNavController()
-        IntroScreen(navController)
+        IntroScreen{}
     }
 
 }
