@@ -29,7 +29,7 @@ fun AddLinkCard(
     deleteLink: () -> Unit,
     shouldValidate: Boolean,
     isEdit: Boolean,
-    numberOfLinks: Int
+    numberOfCurrentLinks: Int
 ) {
     Card(
         shape = Shapes.medium,
@@ -53,7 +53,7 @@ fun AddLinkCard(
             }
             // we will hide the delete button in the adding mode and when there are more than
             // one link on the screen
-            if (isEdit && numberOfLinks > 1){
+            if (isEdit && numberOfCurrentLinks > 1){
                 IPOutlinedButton(
                     backgroundColor = BackgroundLightPurple,
                     textColor = Color.Black,

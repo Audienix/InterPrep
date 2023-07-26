@@ -35,7 +35,7 @@ class NotesViewModel @Inject constructor(
         ViewResult.UnInitialized
     )
 
-    fun getNoteInterviewPairs() = launchCoroutineIO {
+    fun getAllInterviewsWithNotes() = launchCoroutineIO {
         noteUseCase.getAllInterviewsWithNotesUseCase().collect {
             interviewNotesPair = ViewResult.Loaded(it)
         }
