@@ -33,12 +33,22 @@ class ResourcesViewModel @Inject constructor(
         ViewResult.UnInitialized
     )
 
+    /**
+     * Fetch all information for the list of resource and links screen  [ResourcesScreen]
+     *
+     * @return pairs of Resource and its associated ResourceLinks
+     */
     fun getResourceAndLinksPair() = launchCoroutineIO {
         resourceUseCase.getAllResourcesWithLinksUseCase().collect {
             resourceAndLinksPair = ViewResult.Loaded(it)
         }
     }
 
+    /**
+     * Fetch all information for resource adding and editing screen [AddResourceScreen]
+     *
+     * @return the Resource based on the given resourceId and its associated ResourceLinks
+     */
     fun getResourceAndLinksByResourceId(resourceId: Int) = launchCoroutineIO {
         if (resourceId == 0) {
             this@ResourcesViewModel.links.add(ResourceLink())
@@ -53,10 +63,16 @@ class ResourcesViewModel @Inject constructor(
         }
     }
 
-    fun addLinkEnabled() = true
-
+    /**
+     * Add Resource to the database and then add the last ResourceLink stored in the view model
+     * to the database with the corresponding resourceId.We can't insert Resource with replacing
+     * policy, since ResourceLink is associated with Resource and is cascaded when deleting the
+     * Resource.
+     *
+     * https://betterprogramming.pub/upserting-in-room-8207a100db53
+     */
     fun addLink() = launchCoroutineIO {
-        // insert the current resource
+        // upsert the current resource
         val res = (resource as ViewResult.Loaded).data
         val resId = resourceUseCase.upsertResourceUseCase(res) ?: return@launchCoroutineIO
 
@@ -69,15 +85,21 @@ class ResourcesViewModel @Inject constructor(
         val linkId = resourceLinkUseCase.insertResourceLinkUseCase(link.copy(resourceId = resId))
             ?: return@launchCoroutineIO
 
-        // update the last link instance in the links list in the view model
+        // update the last link in the links list in the view model
         links[index] = link.copy(linkId = linkId, resourceId = resId)
 
         // add one ResourceLink() in the view model
         this@ResourcesViewModel.links.add(ResourceLink())
     }
 
-
-
+    /**
+     * Add Resource to the database and then add all ResourceLinks stored in the view model
+     * to the database with the corresponding resourceId.We can't insert Resource with replacing
+     * policy, since ResourceLink is associated with Resource and is cascaded when deleting the
+     * Resource.
+     *
+     * https://betterprogramming.pub/upserting-in-room-8207a100db53
+     */
     fun addAllLinks() = launchCoroutineIO {
         val res = (resource as ViewResult.Loaded).data
         val resId = resourceUseCase.upsertResourceUseCase(res) ?: return@launchCoroutineIO
@@ -85,13 +107,19 @@ class ResourcesViewModel @Inject constructor(
         resourceLinkUseCase.insertAllResourceLinkUseCase(links, resId)
     }
 
+    /**
+     * Delete the given link instance in the database
+     */
     fun deleteLink(link: ResourceLink) {
         launchCoroutineIO {
             resourceLinkUseCase.deleteResourceLinkUseCase(link)
         }
     }
 
-    // delete link is cascaded
+    /**
+     * Delete the resource stored in the view model from the database and the associated
+     * ResourceLinks will be deleted too
+     */
     fun deleteResource() {
         val res = (resource as ViewResult.Loaded<Resource>).data
         launchCoroutineIO {
@@ -99,6 +127,9 @@ class ResourcesViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Retrieve the value of instance property based on the given string resource
+     */
     fun getResourceField(@StringRes resId: Int): String {
         return if (resource is ViewResult.Loaded) {
             val data = (resource as ViewResult.Loaded<Resource>).data
@@ -112,6 +143,9 @@ class ResourcesViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Retrieve the value of instance property based on the given string resource
+     */
     fun getLinkField(@StringRes resId: Int, index: Int): String {
         val res = links[index].let {
             when (resId) {
@@ -123,6 +157,13 @@ class ResourcesViewModel @Inject constructor(
         return res
     }
 
+    /**
+     * Update the specified field of the ResourceLink instance in the view model.
+     *
+     * @param resId: the string resource to identify the field of the Resource Link to update
+     * @param index: the index of the ResourceLink in the links stored in the view model
+     * @param value: the value to update the field of ResourceLink to
+     */
     fun updateLinkField(@StringRes resId: Int, index: Int, value: String) {
         val link = links[index]
         when (resId) {
@@ -140,6 +181,12 @@ class ResourcesViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Update the specified field of the Resource instance in the view model.
+     *
+     * @param resId: the string resource to identify the field of the Resource to update
+     * @param value: the value to update the field of Resource to
+     */
     fun updateResourceField(@StringRes resId: Int, value: String) {
         val data = (resource as ViewResult.Loaded<Resource>).data
         when (resId) {
@@ -159,4 +206,6 @@ class ResourcesViewModel @Inject constructor(
     }
 
     fun areAllLinksValid() = true
+
+    fun addLinkEnabled() = true
 }

@@ -169,7 +169,8 @@ fun AddResourceScreen(
                             },
                             deleteLink = { viewModel.deleteLink(link) },
                             shouldValidate = shouldValidateFormFields,
-                            isEdit = isEdit
+                            isEdit = isEdit,
+                            numberOfLinks = viewModel.links.size
                         )
                     }
                     if (!isEdit) {

@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -48,7 +47,7 @@ class NotesViewModel @Inject constructor(
         }
 
     }
-    fun getNotesByInterviewId(interviewId: Int, isEdit: Boolean) = launchCoroutineIO {
+    fun getInterviewsWithNotesByInterviewId(interviewId: Int, isEdit: Boolean) = launchCoroutineIO {
         noteUseCase.getNotesByInterviewIdUseCase(interviewId).collect { (interview, notes) ->
             this@NotesViewModel.interview = ViewResult.Loaded(interview)
             if (isEdit) {

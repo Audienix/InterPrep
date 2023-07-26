@@ -42,7 +42,7 @@ fun ViewNotesScreen(
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getNotesByInterviewId(interviewId, true)
+        viewModel.getInterviewsWithNotesByInterviewId(interviewId, true)
     }
 
     if (viewModel.interview is ViewResult.Loaded) {

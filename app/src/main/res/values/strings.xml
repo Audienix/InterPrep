@@ -78,8 +78,8 @@
     <string name="error_message_form_input_interview_segment">Interview Segment can\'t be empty</string>
     <string name="error_message_form_input_question">Question can\'t be empty</string>
     <string name="error_message_form_input_topic">Topic can\'t be empty</string>
-    <string name="error_message_form_input_link_description">Topic can\'t be empty</string>
-    <string name="error_message_form_input_link">Topic can\'t be empty</string>
+    <string name="error_message_form_input_link_description">Link description can\'t be empty</string>
+    <string name="error_message_form_input_link">Link can\'t be empty</string>
 
 
     <string name="add_interview_header">Add your scheduled interview details.</string>

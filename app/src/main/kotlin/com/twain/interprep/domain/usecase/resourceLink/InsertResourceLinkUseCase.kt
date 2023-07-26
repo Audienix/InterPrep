@@ -1,26 +1,25 @@
 package com.twain.interprep.domain.usecase.resourceLink
 
-import android.util.Log
 import com.twain.interprep.data.model.ResourceLink
 import com.twain.interprep.domain.repository.ResourceLinkRepository
-
+/**
+ * Insert the given ResourceLink if it is not in the database
+ *
+ * @return the linkId of the ResourceLink inserted or linkId of the ResourceLink if it is already in
+ * the database
+ */
 class InsertResourceLinkUseCase(private val resourceLinkRepository: ResourceLinkRepository) {
     suspend operator fun invoke(
         link: ResourceLink
-    ): Int? {
-        val id = if (isLinkValid(link)) {
-            if (link.linkId == 0) {
-                resourceLinkRepository.insertResourceLink(link)
-            } else {
-                link.linkId
-            }
+    ): Int? = if (isLinkValid(link)) {
+        if (link.linkId == 0) {
+            resourceLinkRepository.insertResourceLink(link)
         } else {
-            null
+            link.linkId
         }
-        Log.i("add link", "linkId = ${id.toString()}")
-        return id
+    } else {
+        null
     }
-
 
     private fun isLinkValid(link: ResourceLink) = true
 }

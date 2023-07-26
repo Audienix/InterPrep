@@ -30,11 +30,4 @@ object ResourceFormData {
             errorTextId = R.string.error_message_form_input_link
         )
     )
-
-    fun getResourceLink() = TextInputAttributes(
-        labelTextId = R.string.hint_label_question,
-        inputType = TextInputType.TEXT,
-        required = true,
-        errorTextId = R.string.error_message_form_input_question
-    )
 }
