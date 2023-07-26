@@ -1,10 +1,12 @@
 package com.twain.interprep.presentation.ui.components.resource
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,21 +28,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Resource
-import com.twain.interprep.data.ui.resourcesMockData
+import com.twain.interprep.data.model.ResourceLink
+import com.twain.interprep.data.ui.resourceWithLinks
 import com.twain.interprep.presentation.ui.components.generic.IPText
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
 fun ResourceCard(
-    resource: Resource,
+    resourceAndLinks: Pair<Resource, List<ResourceLink>>,
     onEditResourceClick: () -> Unit,
 ) {
     var isExpanded by remember { mutableStateOf(true) }
-
+    val (resource, links) = resourceAndLinks
     ElevatedCard(
         shape = Shapes.medium,
         modifier = Modifier
@@ -70,14 +74,14 @@ fun ResourceCard(
                     text = resource.topic,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                if (!resource.subtopic.isNullOrEmpty()) {
+                if (resource.subtopic.isNotEmpty()) {
                     Text(
                         text = resource.subtopic,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
                 if (isExpanded) {
-                    resource.links.forEachIndexed { index, link ->
+                    links.forEachIndexed { index, link ->
                         IPText(
                             text = "${index + 1}. ${link.linkDescription}",
                             link = link.link
@@ -95,7 +99,6 @@ fun ResourceCard(
                     Icon(imageVector = Icons.Default.Edit, contentDescription = "")
                 }
             }
-
         }
     }
 }
@@ -104,7 +107,7 @@ fun ResourceCard(
 @Composable
 private fun ResourceCardPreview() {
     ResourceCard(
-        resource = resourcesMockData[0],
+        resourceAndLinks = resourceWithLinks[1],
         onEditResourceClick = {}
     )
 }

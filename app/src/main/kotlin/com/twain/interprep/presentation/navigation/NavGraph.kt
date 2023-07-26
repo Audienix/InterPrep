@@ -7,7 +7,6 @@ import androidx.navigation.compose.composable
 import com.twain.interprep.presentation.ui.modules.common.MainScreen
 import com.twain.interprep.presentation.ui.modules.introduction.IntroScreen
 
-
 @Composable
 fun NavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = AppScreens.IntroScreen.route) {
