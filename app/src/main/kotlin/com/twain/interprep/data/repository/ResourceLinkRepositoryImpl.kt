@@ -2,7 +2,6 @@ package com.twain.interprep.data.repository
 
 import androidx.annotation.WorkerThread
 import com.twain.interprep.data.dao.ResourceLinkDAO
-import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.ResourceLink
 import com.twain.interprep.domain.repository.ResourceLinkRepository
 

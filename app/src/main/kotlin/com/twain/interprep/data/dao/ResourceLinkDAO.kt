@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.ResourceLink
 
 @Dao

@@ -21,8 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
-import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.Resource
 import com.twain.interprep.data.model.ResourceLink
 import com.twain.interprep.data.model.ViewResult

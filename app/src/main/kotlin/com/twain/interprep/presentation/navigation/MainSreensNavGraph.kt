@@ -8,7 +8,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardScreen
 import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
@@ -16,6 +15,7 @@ import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScr
 import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.ViewNotesScreen
+import com.twain.interprep.presentation.ui.modules.resources.AddResourceScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 
 // Main Dashboard NavGraph.
@@ -69,8 +69,15 @@ fun MainScreensNavGraph(navController: NavHostController) {
             ViewNotesScreen(navController = navController, interviewId = interviewId)
         }
         // Resource List Screen
-        composable(AppScreens.MainScreens.Resources.route) {
-            ResourcesScreen()
+        composable(AppScreens.Resources.route) {
+            ResourcesScreen(navController = navController)
+        }
+        // Add Resource Screen
+        composable(
+            route = "${AppScreens.AddResource.route}/{resourceId}",
+            arguments = getAddResourceNavArguments()
+        ) { entry ->
+            NavigateToAddResource(entry, navController)
         }
     }
 }
@@ -125,6 +132,24 @@ private fun getInterviewDetailsNavArguments() = listOf(
         type = NavType.IntType
     },
     navArgument(StringConstants.NAV_ARG_SECONDARY_COLOR) {
+        type = NavType.IntType
+    }
+)
+
+@Composable
+private fun NavigateToAddResource(
+    entry: NavBackStackEntry,
+    navController: NavHostController
+) {
+    val resourceId = entry.arguments?.getInt(StringConstants.NAV_ARG_RESOURCE_ID) ?: 0
+    AddResourceScreen(
+        navController = navController,
+        resourceId = resourceId
+    )
+}
+
+private fun getAddResourceNavArguments() = listOf(
+    navArgument(StringConstants.NAV_ARG_RESOURCE_ID) {
         type = NavType.IntType
     }
 )
