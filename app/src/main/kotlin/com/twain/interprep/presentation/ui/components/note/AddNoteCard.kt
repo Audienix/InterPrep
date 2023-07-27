@@ -57,7 +57,7 @@ fun AddNoteCard(
                     onTextUpdate = {
                         updateNoteField(input.labelTextId, it)
                     },
-                    shouldValidate = shouldValidate
+                    isBackPressed = shouldValidate
                 )
             }
             note.questions.forEachIndexed { index, question ->
@@ -68,7 +68,7 @@ fun AddNoteCard(
                     onTextUpdate = {
                         updateQuestion(index, it)
                     },
-                    shouldValidate = shouldValidate
+                    isBackPressed = shouldValidate
                 )
             }
             var horizontalArrangement = Arrangement.End

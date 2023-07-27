@@ -23,6 +23,7 @@ import com.twain.interprep.presentation.ui.theme.StatusRejectedPrimary
 import com.twain.interprep.presentation.ui.theme.StatusSelectedPrimary
 import com.twain.interprep.presentation.ui.theme.StatusSelectedSecondary
 import com.twain.interprep.utils.DateUtils
+import com.twain.interprep.utils.isValidURL
 import java.util.Date
 
 
@@ -91,7 +92,11 @@ sealed class DashboardInterviewType(
         DashboardInterviewType(BackgroundLightGray, BackgroundDarkGray, CARD_FULL_WIDTH_FACTOR)
 }
 
-fun Interview.isValid() = listOf(date, time, company).none { it.isEmpty() }
+fun Interview.isValid(): Boolean {
+    val requiredInfoValid = listOf(date, time, company).all { it.isNotEmpty() }
+    val linksValid = listOf(jobPostLink, companyLink).all { it.isBlank() or isValidURL(it) }
+    return requiredInfoValid and linksValid
+}
 
 fun Interview.getInterviewField(@StringRes labelTextId: Int) = when (labelTextId) {
     R.string.hint_label_date -> date
