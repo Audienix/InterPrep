@@ -7,7 +7,7 @@ object ResourceFormData {
         TextInputAttributes(
             labelTextId = R.string.hint_label_topic,
             inputType = TextInputType.TEXT,
-            required = true,
+            validationType = ValidationType.REQUIRED,
             errorTextId = R.string.error_message_form_input_topic
         ),
         TextInputAttributes(
@@ -20,13 +20,13 @@ object ResourceFormData {
         TextInputAttributes(
             labelTextId = R.string.hint_label_link_description,
             inputType = TextInputType.TEXT,
-            required = true,
+            validationType = ValidationType.REQUIRED,
             errorTextId = R.string.error_message_form_input_link_description
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_link,
             inputType = TextInputType.TEXT,
-            required = true,
+            validationType = ValidationType.REQUIRED,
             errorTextId = R.string.error_message_form_input_link
         )
     )

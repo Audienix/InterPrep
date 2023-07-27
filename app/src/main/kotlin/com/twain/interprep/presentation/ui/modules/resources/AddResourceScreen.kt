@@ -126,7 +126,6 @@ fun AddResourceScreen(
                         onTextUpdate = {
                             viewModel.updateResourceField(input.labelTextId, it)
                         },
-                        shouldValidate = shouldValidateFormFields
                     )
                 }
                 IPHeader(
