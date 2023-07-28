@@ -12,14 +12,17 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.data.ui.QuoteData
+import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.navigation.NavGraph
-import com.twain.interprep.presentation.ui.modules.common.MainScreen
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -39,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController)
+                    NavGraph(navController = navController, prefManager)
                 }
             }
         }
