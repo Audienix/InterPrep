@@ -11,26 +11,46 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
+import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.EditIcon
+import com.twain.interprep.presentation.ui.components.generic.IPDropdown
+import com.twain.interprep.presentation.ui.components.generic.IPDropdownItem
 import com.twain.interprep.presentation.ui.theme.Purple100
+import com.twain.interprep.presentation.ui.theme.Purple500
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
 fun ViewNoteCard(
     note: Note,
     onEditClicked: () -> Unit,
+    onDeleteClicked: () -> Unit,
     index: Int
 ) {
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    ShowDeleteConfirmationDialog(showDeleteDialog, onDeleteClicked)
+
+    val menuItems = GetNoteDropdownMenuItems(onEditClicked, showDeleteDialog)
+
     Card(
         shape = Shapes.medium,
         modifier = Modifier
@@ -85,8 +105,20 @@ fun ViewNoteCard(
                     }
             }
             Spacer(modifier = Modifier.weight(1f))
-            EditIcon(onEditIconClick = onEditClicked)
+            IPDropdown(menuItems)
+
         }
 
     }
+}
+
+@Composable
+private fun GetNoteDropdownMenuItems(
+    onEditClicked: () -> Unit,
+    showDeleteDialog: MutableState<Boolean>
+): List<IPDropdownItem> {
+    val menuItems = mutableListOf<IPDropdownItem>()
+    menuItems.add(IPDropdownItem(stringResource(id = R.string.menuitem_edit_note), Icons.Default.Edit, onEditClicked))
+    menuItems.add(IPDropdownItem(stringResource(id = R.string.menuitem_delete_note), Icons.Default.Delete) { showDeleteDialog.value = true })
+    return menuItems
 }

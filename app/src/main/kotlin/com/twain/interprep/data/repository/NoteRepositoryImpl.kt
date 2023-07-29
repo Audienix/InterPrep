@@ -34,5 +34,10 @@ class NoteRepositoryImpl(private val noteDAO: NoteDAO) : NoteRepository {
 
     @WorkerThread
     override suspend fun updateNote(note: Note) { noteDAO.updateNote(note) }
-
+    override suspend fun deleteNote(note: Note) {
+        noteDAO.deleteNote(note)
+    }
+    override suspend fun deleteNotesForInterview(interview: Interview) {
+        noteDAO.deleteInterviewNotes(interview.interviewId)
+    }
 }

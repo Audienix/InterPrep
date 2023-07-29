@@ -20,7 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +35,7 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.generic.DateTimeBox
+import com.twain.interprep.presentation.ui.components.generic.IPDateTimeBox
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import com.twain.interprep.presentation.ui.theme.TextSecondary
@@ -51,6 +53,7 @@ fun InterviewCard(
 ) {
     val configuration = LocalConfiguration.current
     val cardWidth = configuration.screenWidthDp.dp * dashboardInterviewType.cardWidthFactor
+    val context = LocalContext.current
     Box {
         Column {
             Spacer(
@@ -69,13 +72,13 @@ fun InterviewCard(
                     .clickable(onClick = {
                         onClick()
                         navController.navigate(
-                            AppScreens.InterviewDetails.withArgs(
+                            AppScreens.MainScreens.InterviewDetails.withArgs(
                                 interview.interviewId,
                                 dashboardInterviewType.cardBackgroundColor.toArgb(),
                                 dashboardInterviewType.cardContentColor.toArgb()
                             )
                         ) {
-                            popUpTo(AppScreens.Dashboard.route)
+                            popUpTo(AppScreens.MainScreens.Dashboard.route)
                         }
                     })
                     .height(106.dp), //TODO change constant height value
@@ -86,8 +89,8 @@ fun InterviewCard(
                         .padding(dimensionResource(id = R.dimen.dimension_16dp))
                 ) {
                     val date = DateUtils.convertDateStringToDate(interview.date)
-                    DateTimeBox(
-                        bkgColor = dashboardInterviewType.cardContentColor,
+                    IPDateTimeBox(
+                        backgroundColor = dashboardInterviewType.cardContentColor,
                         date = date,
                         dateTextColor = dashboardInterviewType.cardBackgroundColor,
                         monthYearTextColor = dashboardInterviewType.cardBackgroundColor
@@ -104,17 +107,25 @@ fun InterviewCard(
                                 Locale.getDefault()
                             ).format(date).uppercase() + buildString {
                                 append(", ")
-                            } + interview.time,
+                            } + DateUtils.getDisplayedTime(context, interview.time),
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
                             color = TextSecondary,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
                             text = interview.company,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 2,
                             color = TextPrimary,
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = formatRoundNumAndInterviewType(interview),
+                            text = formatRoundNumAndInterviewType(interview).ifEmpty {
+                                stringResource(
+                                    id = R.string.no_text_available
+                                )
+                            },
                             color = dashboardInterviewType.cardContentColor,
                             style = MaterialTheme.typography.bodyMedium,
                             overflow = TextOverflow.Ellipsis,
@@ -152,7 +163,7 @@ fun formatRoundNumAndInterviewType(interview: Interview): String {
         if (interview.roundNum.isNotEmpty() && interview.interviewType.isNotEmpty())
             "- ${interview.interviewType}"
         else interview.interviewType
-    return if (formattedRoundNum.isEmpty() && formattedInterviewType.isEmpty()) "N/A"
+    return if (formattedRoundNum.isEmpty() && formattedInterviewType.isEmpty()) ""
     else
         formattedRoundNum + formattedInterviewType
 }

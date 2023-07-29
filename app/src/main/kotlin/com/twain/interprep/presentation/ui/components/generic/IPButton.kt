@@ -37,7 +37,8 @@ fun IPFilledButton(
     textStyle: TextStyle,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     onClick: () -> Unit,
-    @DrawableRes leadingIcon: Int? = null
+    @DrawableRes leadingIcon: Int? = null,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
@@ -47,7 +48,8 @@ fun IPFilledButton(
             contentColor = textColor,
             disabledContentColor = disabledContentColor,
         ),
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
+        modifier = modifier
     ) {
         leadingIcon?.let {
             Icon(
