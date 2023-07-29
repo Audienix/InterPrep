@@ -18,10 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.presentation.ui.theme.Purple200
 import com.twain.interprep.utils.DateUtils.convertDateToMilliseconds
 import com.twain.interprep.utils.DateUtils.getCurrentDateAsString
+import com.twain.interprep.utils.DateUtils.isValidDate
 import java.util.Date
 import java.util.Locale
 

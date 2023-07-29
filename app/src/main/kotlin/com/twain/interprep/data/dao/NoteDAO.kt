@@ -37,9 +37,6 @@ interface NoteDAO {
     @Query("SELECT * FROM interview")
     fun getAllInterviewNoteMap(): Flow<List<InterviewWithNotes>>
 
-    @Query("DELETE FROM note where interviewId = :interviewId")
-    fun deleteInterviewNotes(interviewId: Int)
-
     data class InterviewWithNotes(
         @Embedded val interview: Interview,
         @Relation(

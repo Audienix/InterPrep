@@ -2,8 +2,6 @@ package com.twain.interprep.presentation.ui.modules.notes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,7 +15,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -29,7 +26,6 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.EditIcon
-import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
 import com.twain.interprep.presentation.ui.components.note.ViewNoteCard
@@ -42,7 +38,7 @@ fun ViewNotesScreen(
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getInterviewsWithNotesByInterviewId(interviewId, true)
+        viewModel.initAddNoteScreen(interviewId, true)
     }
 
     if (viewModel.interview is ViewResult.Loaded) {
@@ -64,70 +60,46 @@ fun ViewNotesScreen(
                 ) {
                     EditIcon(tint = Color.White) {
                         navController.navigate(
-                            AppScreens.MainScreens.AddNotes.withArgs(
+                            AppScreens.AddNotes.withArgs(
                                 interview.interviewId,
                                 true
                             )
                         ) {
-                            popUpTo(AppScreens.MainScreens.ViewNotes.route)
+                            popUpTo(AppScreens.ViewNotes.route)
                         }
                     }
                 }
             },
             content = { padding ->
-                Column(
+                LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues = padding),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(padding)
+                        .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(BackgroundSurface)
-                    ) {
-                        InterviewDetailForNote(
-                            modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
-                            interview = interview,
-                            shouldShowDeleteButton = false,
-                            notesEmpty = viewModel.notes.isEmpty(),
-                            onDeleteInterview = {}
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(BackgroundSurface)
                         ) {
-                            viewModel.deleteNotesForInterview(interview)
-                        }
-                    }
-                    if (viewModel.notes.isEmpty()) {
-                        FullScreenEmptyState(
-                            modifier = Modifier.fillMaxHeight(),
-                            R.drawable.empty_state_notes,
-                            stringResource(id = R.string.empty_state_title_note),
-                            stringResource(id = R.string.empty_state_description_note)
-                        )
-                    }
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
-                    ) {
-                        itemsIndexed(
-                            viewModel.notes,
-                            key = { _, note -> note.noteId }) { index, note ->
-                            ViewNoteCard(
-                                note = note, onEditClicked = {
-                                    navController.navigate(
-                                        AppScreens.MainScreens.AddNotes.withArgs(
-                                            interview.interviewId,
-                                            true
-                                        )
-                                    ) {
-                                        popUpTo(AppScreens.MainScreens.ViewNotes.route)
-                                    }
-                                },
-                                onDeleteClicked = {
-                                    viewModel.deleteNote(interview, note)
-                                },
-                                index = index + 1
+                            InterviewDetailForNote(
+                                modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
+                                interview = interview,
+                                shouldShowDeleteButton = false
                             )
                         }
+                    }
+                    itemsIndexed(viewModel.notes, key = { _, note -> note.noteId }) { index, note ->
+                        ViewNoteCard(note = note, onEditClicked = {
+                            navController.navigate(
+                                AppScreens.AddNotes.withArgs(
+                                    interview.interviewId,
+                                    true
+                                )
+                            ) {
+                                popUpTo(AppScreens.ViewNotes.route)
+                            }
+                        }, index = index + 1)
                     }
                 }
             })

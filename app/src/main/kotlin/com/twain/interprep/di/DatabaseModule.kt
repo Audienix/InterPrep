@@ -6,7 +6,6 @@ import com.twain.interprep.data.dao.InterviewDAO
 import com.twain.interprep.data.dao.NoteDAO
 import com.twain.interprep.data.dao.QuoteDAO
 import com.twain.interprep.data.dao.ResourceDAO
-import com.twain.interprep.data.dao.ResourceLinkDAO
 import com.twain.interprep.data.db.DBManager
 import dagger.Module
 import dagger.Provides
@@ -48,10 +47,5 @@ class DatabaseModule {
     @Provides
     fun provideQuoteDao(database: DBManager): QuoteDAO {
         return database.quoteDao()
-    }
-    @Singleton
-    @Provides
-    fun provideResourceLinkDao(database: DBManager): ResourceLinkDAO {
-        return database.resourceLinkDao()
     }
 }

@@ -1,18 +1,11 @@
 package com.twain.interprep.data.model
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.constants.StringConstants.DB_TABLE_NOTE
 
-@Entity(tableName = DB_TABLE_NOTE,
-    foreignKeys = [ForeignKey(
-        entity = Interview::class,
-        parentColumns = ["interviewId"],
-        childColumns = ["interviewId"],
-        onDelete = CASCADE)])
+@Entity(tableName = DB_TABLE_NOTE)
 data class Note(
     @PrimaryKey(autoGenerate = true) val noteId: Int = 0,
     val interviewId: Int,

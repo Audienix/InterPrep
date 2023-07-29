@@ -29,8 +29,9 @@ fun NotesScreen(
     navController: NavController,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
+
     LaunchedEffect(Unit) {
-        viewModel.getAllInterviewsWithNotes()
+        viewModel.getNoteInterviewPairs()
     }
     Column(
         modifier = Modifier
@@ -59,20 +60,14 @@ fun NotesScreen(
                             viewModel.deleteNote(interview, it)
                         },
                         onViewNoteClick = {
-                            navController.navigate(AppScreens.MainScreens.ViewNotes.withArgs(interview.interviewId)) {
-                                popUpTo(AppScreens.MainScreens.Notes.route)
+                            navController.navigate(AppScreens.ViewNotes.withArgs(interview.interviewId)) {
+                                popUpTo(AppScreens.Notes.route)
                             }
                         },
                         onAddNoteClick = {
-                            navController.navigate(AppScreens.MainScreens.AddNotes.withArgs(interview.interviewId, false)) {
-                                popUpTo(AppScreens.MainScreens.Notes.route)
+                            navController.navigate(AppScreens.AddNotes.withArgs(interview.interviewId, false)) {
+                                popUpTo(AppScreens.Notes.route)
                             }
-                        },
-                        onDeleteNotesForInterviewClick = {
-                            viewModel.deleteNotesForInterview(interview)
-                        },
-                        onDeleteInterviewClick = {
-                            viewModel.deleteInterview(interview)
                         }
                     )
                 }

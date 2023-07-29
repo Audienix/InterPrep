@@ -1,8 +1,5 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
-import android.Manifest
-import android.content.Context
-import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +13,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -25,28 +24,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.work.WorkManager
 import com.twain.interprep.R
-import com.twain.interprep.constants.NumberConstants.MINUTES
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
-import com.twain.interprep.data.model.isPast
 import com.twain.interprep.data.model.isValid
 import com.twain.interprep.data.ui.InterviewFormData.textInputHorizontalList
 import com.twain.interprep.data.ui.InterviewFormData.textInputVerticalList
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.generic.CheckRuntimePermission
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
-import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 
 @Composable
@@ -55,12 +48,11 @@ fun AddInterviewScreen(
     viewModel: InterviewViewModel = hiltViewModel(),
     interviewId: Int
 ) {
-    val context = LocalContext.current
     val isEditInterview = interviewId != 0
     val showBackConfirmationDialog = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
-    val isBackPressed = remember { mutableStateOf(false) }
+    val shouldValidateFormFields = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
@@ -69,13 +61,12 @@ fun AddInterviewScreen(
         }
     }
     BackHandler {
-        handleBackPress(
-            context,
-            viewModel,
-            isEditInterview,
-            navController,
-            showBackConfirmationDialog
-        )
+        if (viewModel.interviewData.isValid()) {
+            viewModel.onSaveInterview(isEditInterview)
+            navController.popBackStack()
+        } else {
+            showBackConfirmationDialog.value = true
+        }
     }
     Scaffold(
         modifier = Modifier
@@ -86,14 +77,15 @@ fun AddInterviewScreen(
                 title = stringResource(id = R.string.appbar_title_edit_interview.takeIf { isEditInterview }
                     ?: R.string.appbar_title_add_interview),
                 navIcon = {
-                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
-                        handleBackPress(
-                            context,
-                            viewModel,
-                            isEditInterview,
-                            navController,
-                            showBackConfirmationDialog
-                        )
+                    IconButton(onClick = {
+                        if (viewModel.interviewData.isValid()) {
+                            viewModel.onSaveInterview(isEditInterview)
+                            navController.popBackStack()
+                        } else {
+                            showBackConfirmationDialog.value = true
+                        }
+                    }) {
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
                     }
                 },
                 actions = {
@@ -102,64 +94,13 @@ fun AddInterviewScreen(
             )
         },
         content = { padding ->
-            ShowConfirmationDialog(
-                showBackConfirmationDialog,
-                navController,
-                isBackPressed
-            )
+            ShowConfirmationDialog(showBackConfirmationDialog, navController, shouldValidateFormFields)
 
             ShowDeleteConfirmationDialog(showDeleteDialog, navController, viewModel)
 
-            ShowAddInterviewScreenContent(
-                padding,
-                isEditInterview,
-                viewModel,
-                isBackPressed
-            )
-            // In Android 13+ , we require user consent for posting notification.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                CheckRuntimePermission(
-                    onPermissionGranted = {},
-                    onPermissionDenied = {
-                        //TODO show an alert dialog that user won't get notification of scheduled interview
-                    },
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
-            }
+            ShowAddInterviewScreenContent(padding, isEditInterview, viewModel, shouldValidateFormFields)
         }
     )
-}
-
-
-private fun handleBackPress(
-    context: Context,
-    viewModel: InterviewViewModel,
-    isEditInterview: Boolean,
-    navController: NavHostController,
-    showBackConfirmationDialog: MutableState<Boolean>
-) {
-    val interviewData = viewModel.interviewData
-    if (interviewData.isValid()) {
-        //Save the interview details in local database
-        viewModel.onSaveInterview(isEditInterview)
-
-        // We should only create notification for future interviews
-        if (!viewModel.interviewData.isPast()) {
-            val notificationWorkRequest = viewModel.createInterviewNotification(
-                title = context.resources.getString(R.string.noti_interview_reminder_title),
-                message = context.resources.getString(
-                    R.string.noti_interview_reminder_description,
-                    interviewData.company
-                ),
-                reminderTimeBefore = MINUTES
-            )
-            WorkManager.getInstance(context).enqueue(notificationWorkRequest)
-        }
-
-        navController.popBackStack()
-    } else {
-        showBackConfirmationDialog.value = true
-    }
 }
 
 @Composable
@@ -167,7 +108,7 @@ private fun ShowAddInterviewScreenContent(
     padding: PaddingValues,
     isEditInterview: Boolean,
     viewModel: InterviewViewModel,
-    isBackPressed: MutableState<Boolean>
+    shouldValidateFormFields: MutableState<Boolean>
 ) {
     Column(
         modifier = Modifier
@@ -197,9 +138,8 @@ private fun ShowAddInterviewScreenContent(
                         .weight(1f),
                     inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
                     textInputAttributes = input,
-                    isBackPressed = isBackPressed.value,
+                    shouldValidate = shouldValidateFormFields.value,
                     onTextUpdate = {
-                        isBackPressed.value = false
                         viewModel.updateInterviewField(input.labelTextId, it)
                     }
                 )
@@ -210,9 +150,8 @@ private fun ShowAddInterviewScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 inputText = viewModel.interviewData.getInterviewField(input.labelTextId),
                 textInputAttributes = input,
-                isBackPressed = isBackPressed.value,
+                shouldValidate = shouldValidateFormFields.value,
                 onTextUpdate = {
-                    isBackPressed.value = false
                     viewModel.updateInterviewField(input.labelTextId, it)
                 }
             )
@@ -234,7 +173,7 @@ private fun ShowDeleteConfirmationDialog(
             onPositiveButtonClick = {
                 showDeleteDialog.value = false
                 viewModel.deleteInterview(viewModel.interviewData)
-                navController.popBackStack(AppScreens.MainScreens.Dashboard.route, false)
+                navController.popBackStack(AppScreens.Dashboard.route, false)
             },
             // "CANCEL" is clicked
             onNegativeButtonClick = {

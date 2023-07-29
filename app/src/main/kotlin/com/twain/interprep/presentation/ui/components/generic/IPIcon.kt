@@ -7,7 +7,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.twain.interprep.presentation.ui.theme.Purple500
 
@@ -25,13 +24,6 @@ fun EditIcon(tint: Color = Purple500, onEditIconClick: () -> Unit){
 fun IPIcon(imageVector: ImageVector, tint: Color, onIconClick: () -> Unit) {
     IconButton(onClick = onIconClick) {
         Icon(imageVector = imageVector, null, tint = tint)
-    }
-}
-
-@Composable
-fun IPIcon(painter: Painter, tint: Color, onIconClick: () -> Unit) {
-    IconButton(onClick = onIconClick) {
-        Icon(painter = painter, null, tint = tint)
     }
 }
 

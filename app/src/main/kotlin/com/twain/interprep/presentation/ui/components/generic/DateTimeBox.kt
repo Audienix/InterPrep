@@ -28,9 +28,9 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun IPDateTimeBox(
+fun DateTimeBox(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color.Transparent,
+    bkgColor: Color = Color.Transparent,
     borderColor: Color = Color.Transparent,
     borderWidth: Dp = 1.dp,
     dateTextColor: Color = TextPrimary,
@@ -41,7 +41,7 @@ fun IPDateTimeBox(
         modifier = modifier
             .wrapContentSize(unbounded = true)
             .clip(Shapes.medium)
-            .background(backgroundColor)
+            .background(bkgColor)
             .border(width = borderWidth, color = borderColor, shape = Shapes.medium),
     ) {
         Column(

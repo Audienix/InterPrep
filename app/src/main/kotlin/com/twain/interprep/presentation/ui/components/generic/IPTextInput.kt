@@ -16,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +26,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,27 +34,22 @@ import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
-import com.twain.interprep.data.ui.ValidationType
 import com.twain.interprep.presentation.ui.components.interview.IPDatePicker
 import com.twain.interprep.presentation.ui.components.interview.IPDropdownMenu
 import com.twain.interprep.presentation.ui.components.interview.IPTimePicker
-import com.twain.interprep.utils.DateUtils
-import com.twain.interprep.utils.isValidTextInput
 
 @Composable
 fun IPTextInput(
     modifier: Modifier = Modifier,
     inputText: String,
-    isBackPressed: Boolean = false,
+    shouldValidate: Boolean = false,
     textInputAttributes: TextInputAttributes,
     onTextUpdate: (text: String) -> Unit
 ) {
     val labelText = stringResource(id = textInputAttributes.labelTextId)
     val bottomText = textInputAttributes.bottomTextId?.let { stringResource(id = it) } ?: ""
     val errorText = textInputAttributes.errorTextId?.let { stringResource(id = it) } ?: ""
-    val label = if (textInputAttributes.validationType == ValidationType.REQUIRED) "$labelText *" else labelText
-
-    val context = LocalContext.current
+    val label = if (textInputAttributes.required) "$labelText *" else labelText
 
     var isError by remember { mutableStateOf(false) }
     val source = remember { MutableInteractionSource() }
@@ -64,32 +57,23 @@ fun IPTextInput(
 
     var hasFocus by remember { mutableStateOf(false) }
 
-    val displayedText = when (textInputAttributes.labelTextId) {
-        R.string.hint_label_time -> DateUtils.getDisplayedTime(context, inputText)
-        else -> inputText
-    }
-
-    LaunchedEffect(isBackPressed) {
-        if (isBackPressed) isError = !isValidTextInput(true, inputText, textInputAttributes)
-    }
-
     OutlinedTextField(
         modifier = modifier.onGloballyPositioned { coordinates ->
             //This value is used to assign to the DropDown the same width
             textFieldSize = coordinates.size.toSize()
         }.onFocusChanged { hasFocus = it.hasFocus },
-        value = displayedText,
+        value = inputText,
         onValueChange = {
             onTextUpdate(it)
-            isError = !isValidTextInput(false, it, textInputAttributes)
+            isError = notValid(true, it, textInputAttributes, isError)
         },
         interactionSource = source,
         singleLine = true,
         label = { Text(text = label) },
-        isError = isError,
+        isError = notValid(shouldValidate, inputText, textInputAttributes, isError),
         keyboardOptions = KeyboardOptions(keyboardType = textInputAttributes.keyboardType),
         supportingText = {
-            if (isError) {
+            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Text(
                     text = errorText,
                     color = MaterialTheme.colorScheme.error,
@@ -99,7 +83,7 @@ fun IPTextInput(
             }
         },
         trailingIcon = {
-            if (isError) {
+            if (notValid(shouldValidate, inputText, textInputAttributes, isError)) {
                 Icon(
                     painter = painterResource(id = R.drawable.error_icon),
                     contentDescription = "Error"
@@ -108,7 +92,7 @@ fun IPTextInput(
                 IconButton(
                     onClick = {
                         onTextUpdate("")
-                        isError = !isValidTextInput(false, "", textInputAttributes)
+                        isError = notValid(true, "", textInputAttributes, isError)
                     }
                 ) {
                     Icon(
@@ -176,6 +160,23 @@ private fun HandleComponentInteraction(
     }
 }
 
+/**
+ * When shouldValidate is false, we don't need to validate the input text since user hasn't
+ * edit the input yet.
+ */
+fun notValid(
+    shouldValidate: Boolean,
+    text: String,
+    attributes: TextInputAttributes,
+    isError: Boolean
+): Boolean {
+    return if (shouldValidate) {
+        attributes.required && text.trim().isEmpty()
+    } else {
+        isError
+    }
+}
+
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun TextFormInputPreview() {
@@ -191,6 +192,7 @@ private fun TextFormInputPreview() {
             modifier = Modifier.fillMaxWidth(),
             textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_company,
+                required = true,
                 errorTextId = R.string.error_message_form_input
             ),
             inputText = "",
@@ -201,6 +203,7 @@ private fun TextFormInputPreview() {
             textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
+                required = false
             ),
             inputText = "",
             onTextUpdate = {}
@@ -210,6 +213,7 @@ private fun TextFormInputPreview() {
             textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_date,
                 bottomTextId = R.string.hint_label_month_format,
+                required = false
             ),
             inputText = "",
             onTextUpdate = {}
@@ -218,7 +222,8 @@ private fun TextFormInputPreview() {
             modifier = Modifier.fillMaxWidth(),
             textInputAttributes = TextInputAttributes(
                 labelTextId = R.string.hint_label_time,
-                bottomTextId = R.string.hint_label_time_format
+                bottomTextId = R.string.hint_label_time_format,
+                required = false
             ),
             onTextUpdate = {},
             inputText = ""

@@ -31,7 +31,6 @@ class PrefManager @Inject constructor(
 
     companion object {
         const val NUM_QUOTE_INSERTED = "NUM_QUOTE_INSERTED"
-        const val IS_INTRO_SHOWN = "IS_INTRO_SHOWN"
     }
 }
 
@@ -39,17 +38,16 @@ sealed class IntPair(
     val key: String,
     val default: Int
 ) {
-    object CurrentTotalQuoteCount: IntPair(PrefManager.NUM_QUOTE_INSERTED, 0)
+    object PREV_NUM_QUOTES_INSERTED: IntPair(PrefManager.NUM_QUOTE_INSERTED, 0)
 }
 
 sealed class BooleanPair(
     val key: String,
     val default: Boolean
 ) {
-    object IsIntroScreenShown: BooleanPair(PrefManager.IS_INTRO_SHOWN, false)
 }
 
 sealed class StringPair(
     val key: String,
     val default: String
-)
+) {}

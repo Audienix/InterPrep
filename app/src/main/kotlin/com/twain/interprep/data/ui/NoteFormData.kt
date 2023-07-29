@@ -7,8 +7,8 @@ object NoteFormData {
         TextInputAttributes(
             labelTextId = R.string.hint_label_interview_segment,
             inputType = TextInputType.TEXT,
-            errorTextId = R.string.error_message_form_input_interview_segment,
-            validationType = ValidationType.REQUIRED
+            required = true,
+            errorTextId = R.string.error_message_form_input_interview_segment
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_topic,
@@ -19,7 +19,7 @@ object NoteFormData {
     fun getQuestion() = TextInputAttributes(
         labelTextId = R.string.hint_label_question,
         inputType = TextInputType.TEXT,
-        errorTextId = R.string.error_message_form_input_question,
-        validationType = ValidationType.REQUIRED
+        required = true,
+        errorTextId = R.string.error_message_form_input_question
     )
 }

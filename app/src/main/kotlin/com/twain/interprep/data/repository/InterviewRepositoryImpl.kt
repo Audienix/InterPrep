@@ -1,16 +1,10 @@
 package com.twain.interprep.data.repository
 
 import androidx.annotation.WorkerThread
-import com.twain.interprep.constants.NumberConstants.INTERVIEW_PAGE_LIMIT
 import com.twain.interprep.data.dao.InterviewDAO
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.model.InterviewList
-import com.twain.interprep.data.model.InterviewListMetaData
-import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.domain.repository.InterviewRepository
-import com.twain.interprep.utils.DateUtils
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 
 class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : InterviewRepository {
 
@@ -25,51 +19,7 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
     }
 
     @WorkerThread
-    override suspend fun getInitialInterviews(): Flow<InterviewListMetaData> {
-
-        val dateCurr = DateUtils.getCurrentDateTimeAsString()
-        val dateFuture = DateUtils.getWeekAfterCurrentDateAsString()
-
-        val pastInterviews =  interviewDao.getPastInterviews(dateCurr = dateCurr)
-        val upcomingInterviews = interviewDao.getUpcomingInterviews(dateCurr = dateCurr, dateFuture = dateFuture)
-        val compingNextInterviews = interviewDao.getComingNextInterviews(dateFuture = dateFuture)
-
-        return combine(pastInterviews, upcomingInterviews, compingNextInterviews) { past, upcoming, comingNext ->
-            InterviewListMetaData(
-                pastInterviewList = InterviewList(
-                    list = past, page = 0, hasMore = past.size == INTERVIEW_PAGE_LIMIT
-                ),
-                upcomingInterviewList = InterviewList(
-                    list = upcoming, page = 0, hasMore = upcoming.size == INTERVIEW_PAGE_LIMIT
-                ),
-                comingNextInterviewList = InterviewList(
-                    list = comingNext, page = 0, hasMore = comingNext.size == INTERVIEW_PAGE_LIMIT
-                )
-            )
-        }
-    }
-
-    @WorkerThread
-    override suspend fun getInterviewList(type: InterviewType, page: Int): Flow<List<Interview>> {
-        val dateCurr = DateUtils.getCurrentDateTimeAsString()
-        val dateFuture = DateUtils.getWeekAfterCurrentDateAsString()
-        val offset = page * INTERVIEW_PAGE_LIMIT
-        return when (type) {
-            InterviewType.PAST -> interviewDao.getPastInterviews(
-                dateCurr = dateCurr,
-                offset = offset
-            )
-            InterviewType.UPCOMING -> interviewDao.getUpcomingInterviews(
-                dateCurr = dateCurr,
-                dateFuture = dateFuture,
-                offset = offset
-            )
-            InterviewType.COMING_NEXT -> interviewDao.getComingNextInterviews(
-                dateFuture = dateFuture,
-                offset = offset
-            )
-        }
-    }
+    override suspend fun getInterviews(): Flow<List<Interview>> = interviewDao.getAllInterviews()
 
     @WorkerThread
     override suspend fun getInterviewById(id: Int): Flow<Interview> =

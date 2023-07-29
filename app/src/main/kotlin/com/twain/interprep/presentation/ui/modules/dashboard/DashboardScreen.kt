@@ -1,17 +1,13 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
@@ -32,11 +28,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
+import com.twain.interprep.data.model.DashBoardInterviews
 import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.ViewResult
-import com.twain.interprep.data.model.isEmpty
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
@@ -66,8 +61,8 @@ fun DashboardScreen(
         floatingActionButton = {
             IPFAB {
                 interviewModel.interviewData = Interview()
-                navController.navigate(AppScreens.MainScreens.AddInterview.withArgs(0)) {
-                    popUpTo(AppScreens.MainScreens.Dashboard.route)
+                navController.navigate(AppScreens.AddInterview.withArgs(0)) {
+                    popUpTo(AppScreens.Dashboard.route)
                 }
             }
         },
@@ -85,54 +80,32 @@ private fun ShowDashboardScreenContent(
     interviewModel: InterviewViewModel,
     navController: NavHostController
 ) {
+//    val showBottomSheet by rememberSaveable { mutableStateOf(openBottomSheet) }
     val openBottomSheet = rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState()
-
-    val pastInterviewListState = rememberLazyListState()
-    val upcomingInterviewListState = rememberLazyListState()
-    val comingNextInterviewListState = rememberLazyListState()
-
-    if (dashboardViewModel.interviewListMataData is ViewResult.Loaded) {
-        val interviews = dashboardViewModel.interviewListMataData as ViewResult.Loaded
-        if (interviews.data.isEmpty())
+    if (dashboardViewModel.interviews is ViewResult.Loaded) {
+        val interviews = dashboardViewModel.interviews as ViewResult.Loaded
+        //Show Empty State for no data
+        if (interviews.data.isEmptyInterviewList)
             ShowEmptyState()
 
-        if (dashboardViewModel.interviewListMataData is ViewResult.Loaded) {
+        if (dashboardViewModel.interviews is ViewResult.Loaded) {
             LazyColumn(
                 modifier = Modifier.padding(padding),
-                contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
-                state = pastInterviewListState
+                contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp))
             ) {
-                if (shouldLoadMore(pastInterviewListState, interviews.data.pastInterviewList.hasMore, dashboardViewModel.isLoading)) {
-                   dashboardViewModel.loadMore(InterviewType.PAST)
-                }
-                if (interviews.data.upcomingInterviewList.list.isNotEmpty()) {
+                if (interviews.data.upcomingInterviews.isNotEmpty()) {
                     item {
-                        ShowUpcomingInterviews(
-                            interviews.data.upcomingInterviewList.list,
-                            interviewModel,
-                            navController,
-                            listState = upcomingInterviewListState,
-                            hasMore = interviews.data.upcomingInterviewList.hasMore,
-                            isLoading = dashboardViewModel.isLoading,
-                            loadMore = dashboardViewModel::loadMore)
+                        ShowUpcomingInterviews(interviews, interviewModel, navController)
                     }
                 }
-                if (interviews.data.comingNextInterviewList.list.isNotEmpty()) {
+                if (interviews.data.comingNextInterviews.isNotEmpty()) {
                     item {
-                        ShowComingNextInterviews(
-                            interviews.data.comingNextInterviewList.list,
-                            interviewModel,
-                            navController,
-                            listState = comingNextInterviewListState,
-                            hasMore = interviews.data.comingNextInterviewList.hasMore,
-                            isLoading = dashboardViewModel.isLoading,
-                            loadMore = dashboardViewModel::loadMore
-                        )
+                        ShowComingNextInterviews(interviews, interviewModel, navController)
                     }
                 }
-                if (interviews.data.pastInterviewList.list.isNotEmpty()) {
+                if (interviews.data.pastInterviews.isNotEmpty()) {
                     item {
                         IPHeader(
                             text = stringResource(id = R.string.heading_label_past),
@@ -145,7 +118,7 @@ private fun ShowDashboardScreenContent(
                             fontWeight = FontWeight.Normal
                         )
                     }
-                    items(interviews.data.pastInterviewList.list) { interview ->
+                    items(interviews.data.pastInterviews) { interview ->
                         InterviewCard(
                             interview = interview,
                             onClick = { interviewModel.interviewData = interview },
@@ -160,8 +133,6 @@ private fun ShowDashboardScreenContent(
                 }
             }
         }
-    } else {
-        ShowLoadingState()
     }
     ShowInterviewStatusBottomSheet(openBottomSheet, bottomSheetState, scope, interviewModel)
 }
@@ -193,13 +164,9 @@ fun ShowInterviewStatusBottomSheet(
 
 @Composable
 private fun ShowComingNextInterviews(
-    interviews: List<Interview>,
+    interviews: ViewResult.Loaded<DashBoardInterviews>,
     interviewModel: InterviewViewModel,
-    navController: NavHostController,
-    listState: LazyListState,
-    hasMore: Boolean,
-    isLoading: Boolean,
-    loadMore: (InterviewType) -> Unit
+    navController: NavHostController
 ) {
     Column {
         IPHeader(
@@ -217,13 +184,9 @@ private fun ShowComingNextInterviews(
                 bottom = dimensionResource(
                     id = R.dimen.dimension_8dp
                 )
-            ),
-            state = listState
+            )
         ) {
-            if (shouldLoadMore(listState, hasMore, isLoading)) {
-                loadMore(InterviewType.COMING_NEXT)
-            }
-            items(interviews) { interview ->
+            items(interviews.data.comingNextInterviews) { interview ->
                 InterviewCard(
                     interview = interview,
                     onClick = {
@@ -239,13 +202,9 @@ private fun ShowComingNextInterviews(
 
 @Composable
 private fun ShowUpcomingInterviews(
-    interviews: List<Interview>,
+    interviews: ViewResult.Loaded<DashBoardInterviews>,
     interviewModel: InterviewViewModel,
-    navController: NavHostController,
-    listState: LazyListState,
-    hasMore: Boolean,
-    isLoading: Boolean,
-    loadMore: (InterviewType) -> Unit
+    navController: NavHostController
 ) {
     Column {
         IPHeader(
@@ -264,13 +223,9 @@ private fun ShowUpcomingInterviews(
                     id = R.dimen.dimension_8dp
                 )
             ),
-            verticalAlignment = Alignment.CenterVertically,
-            state = listState
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            if (shouldLoadMore(listState, hasMore, isLoading)) {
-                loadMore(InterviewType.UPCOMING)
-            }
-            items(interviews) { interview ->
+            items(interviews.data.upcomingInterviews) { interview ->
                 InterviewCard(
                     interview = interview,
                     onClick = {
@@ -297,20 +252,4 @@ private fun ShowEmptyState() {
             stringResource(id = R.string.empty_state_description_dashboard)
         )
     }
-}
-
-@Composable
-private fun ShowLoadingState() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-private fun shouldLoadMore(listState: LazyListState, hasMore: Boolean, isLoading: Boolean) : Boolean{
-    if (!hasMore) return false
-    return listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == listState.layoutInfo.totalItemsCount - 1 && !isLoading
 }

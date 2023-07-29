@@ -14,8 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.constants.StringConstants
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.presentation.ui.theme.*
 import java.util.Calendar
 import java.util.Locale
 
@@ -38,8 +37,15 @@ fun IPTimePicker(
 
         // Initial selected time value parsing
         if (selectedTimeValue.isNotEmpty()) {
-            val parsedInitialTime = selectedTimeValue.split(":")
-            initialHour = parsedInitialTime[0].toInt()
+            val parsedInitialTime = selectedTimeValue.split(":", " ")
+            val hourOffset = if (isAM(parsedInitialTime[2])) {
+                0
+            } else if (parsedInitialTime[1] == "12" && isAM(parsedInitialTime[2])) {
+                -12
+            } else {
+                12
+            }
+            initialHour = parsedInitialTime[0].toInt() + hourOffset
             initialMinute = parsedInitialTime[1].toInt()
         }
 
@@ -72,6 +78,12 @@ fun IPTimePicker(
             }
         )
     }
+}
+
+fun isAM(timeString: String): Boolean {
+    val format = SimpleDateFormat("a", Locale.getDefault())
+    val date = format.parse(timeString)
+    return date?.hours in 0..11
 }
 
 @Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)

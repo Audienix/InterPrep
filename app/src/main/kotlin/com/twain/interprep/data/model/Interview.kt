@@ -14,18 +14,8 @@ import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightGray
 import com.twain.interprep.presentation.ui.theme.BackgroundLightGreen
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.StatusNextRoundPrimary
-import com.twain.interprep.presentation.ui.theme.StatusNextRoundSecondary
-import com.twain.interprep.presentation.ui.theme.StatusNoUpdatePrimary
-import com.twain.interprep.presentation.ui.theme.StatusNoUpdateSecondary
-import com.twain.interprep.presentation.ui.theme.StatusRejectedPSecondary
-import com.twain.interprep.presentation.ui.theme.StatusRejectedPrimary
-import com.twain.interprep.presentation.ui.theme.StatusSelectedPrimary
-import com.twain.interprep.presentation.ui.theme.StatusSelectedSecondary
 import com.twain.interprep.utils.DateUtils
-import com.twain.interprep.utils.isValidURL
 import java.util.Date
-
 
 @Entity(tableName = DB_TABLE_INTERVIEW)
 data class Interview(
@@ -42,35 +32,39 @@ data class Interview(
     val interviewStatus: InterviewStatus = InterviewStatus.NO_UPDATE,
 )
 
-enum class InterviewStatus(
-    private val mResourceId: Int,
-    private val mPrimaryColor: Color,
-    private val mSecondaryColor: Color
-) {
-    NO_UPDATE(
-        mResourceId = R.string.interview_status_no_update,
-        mPrimaryColor = StatusNoUpdatePrimary,
-        mSecondaryColor = StatusNoUpdateSecondary
-    ),
-    NEXT_ROUND(
-        mResourceId = R.string.interview_status_next_round,
-        mPrimaryColor = StatusNextRoundPrimary,
-        mSecondaryColor = StatusNextRoundSecondary
-    ),
-    REJECTED(
-        mResourceId = R.string.interview_status_rejected,
-        mPrimaryColor = StatusRejectedPrimary,
-        mSecondaryColor = StatusRejectedPSecondary
-    ),
-    SELECTED(
-        mResourceId = R.string.interview_status_selected,
-        mPrimaryColor = StatusSelectedPrimary,
-        mSecondaryColor = StatusSelectedSecondary
-    );
+data class DashBoardInterviews(
+    var isEmptyInterviewList: Boolean,
+    val upcomingInterviews: MutableList<Interview>,
+    val comingNextInterviews: MutableList<Interview>,
+    val pastInterviews: MutableList<Interview>
+)
 
-    fun getResourceId(): Int = mResourceId
-    fun getPrimaryColor(): Color = mPrimaryColor
-    fun getSecondaryColor(): Color = mSecondaryColor
+enum class InterviewStatus {
+    NO_UPDATE,
+    NEXT_ROUND,
+    REJECTED,
+    SELECTED
+}
+
+fun InterviewStatus.getBackgroundColor() =  when (this) {
+    InterviewStatus.NO_UPDATE -> 0xFFFFE0B2
+    InterviewStatus.NEXT_ROUND -> 0xFFFFF9C4
+    InterviewStatus.REJECTED -> 0xFFFFCDD2
+    InterviewStatus.SELECTED -> 0xFFE8F5E9
+}
+
+fun InterviewStatus.getCircleColor() =  when (this) {
+    InterviewStatus.NO_UPDATE -> 0xFFFF6F00
+    InterviewStatus.NEXT_ROUND -> 0xFFFBC02D
+    InterviewStatus.REJECTED -> 0xFFD32F2F
+    InterviewStatus.SELECTED -> 0xFF388E3C
+}
+
+fun InterviewStatus.getText() = when (this) {
+    InterviewStatus.NO_UPDATE -> "No Update"
+    InterviewStatus.NEXT_ROUND -> "Next Round"
+    InterviewStatus.REJECTED -> "Rejected"
+    InterviewStatus.SELECTED -> "Selected"
 }
 
 sealed class DashboardInterviewType(
@@ -92,11 +86,7 @@ sealed class DashboardInterviewType(
         DashboardInterviewType(BackgroundLightGray, BackgroundDarkGray, CARD_FULL_WIDTH_FACTOR)
 }
 
-fun Interview.isValid(): Boolean {
-    val requiredInfoValid = listOf(date, time, company).all { it.isNotEmpty() }
-    val linksValid = listOf(jobPostLink, companyLink).all { it.isBlank() or isValidURL(it) }
-    return requiredInfoValid and linksValid
-}
+fun Interview.isValid() = listOf(date, time, company).none { it.isEmpty() }
 
 fun Interview.getInterviewField(@StringRes labelTextId: Int) = when (labelTextId) {
     R.string.hint_label_date -> date
@@ -113,6 +103,4 @@ fun Interview.getInterviewField(@StringRes labelTextId: Int) = when (labelTextId
     }
 }
 
-fun Interview.isPast() =
-    false.takeIf { date.isEmpty() } ?: DateUtils.convertDateTimeStringToDate(date, time)
-        .before(Date())
+fun Interview.isPast() = false.takeIf { date.isEmpty() } ?: DateUtils.convertDateTimeStringToDate(date, time).before(Date())

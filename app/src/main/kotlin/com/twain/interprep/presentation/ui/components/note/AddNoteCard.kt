@@ -10,8 +10,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -30,25 +28,19 @@ fun AddNoteCard(
     modifier: Modifier = Modifier,
     note: Note,
     getNoteField: (Int) -> String,
-    updateNoteField: (Int, String) -> Unit,
+    updateNoteField: ( Int, String) -> Unit,
     updateQuestion: (Int, String) -> Unit,
     addQuestion: () -> Unit,
-    deleteNote: () -> Unit,
-    shouldValidate: Boolean,
-    isEdit: Boolean
+    shouldValidate: Boolean
 ) {
-    val showDeleteDialog = remember { mutableStateOf(false) }
-    ShowDeleteConfirmationDialog(showDeleteDialog, deleteNote)
     ElevatedCard(
         shape = Shapes.medium,
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
         modifier = modifier,
         colors = CardDefaults.elevatedCardColors(containerColor = BackgroundPalePurple)
     ) {
-        Column(
-            modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.dimension_8dp))
-        ) {
+        Column( modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.dimension_8dp))) {
             NoteFormData.noteFormList.map { input ->
                 IPTextInput(
                     modifier = Modifier.fillMaxWidth(),
@@ -57,7 +49,7 @@ fun AddNoteCard(
                     onTextUpdate = {
                         updateNoteField(input.labelTextId, it)
                     },
-                    isBackPressed = shouldValidate
+                    shouldValidate = shouldValidate
                 )
             }
             note.questions.forEachIndexed { index, question ->
@@ -68,36 +60,23 @@ fun AddNoteCard(
                     onTextUpdate = {
                         updateQuestion(index, it)
                     },
-                    isBackPressed = shouldValidate
+                    shouldValidate = shouldValidate
                 )
             }
-            var horizontalArrangement = Arrangement.End
-            var buttonText = stringResource(id = R.string.add_note_question)
-            var buttonIcon = R.drawable.outline_add_circle
-            var clickHandler = { addQuestion() }
-
-            if (isEdit) {
-                horizontalArrangement = Arrangement.Start
-                buttonText = stringResource(id = R.string.delete_note_button_text)
-                buttonIcon = R.drawable.outline_do_disturb_on
-                clickHandler = { showDeleteDialog.value = true }
-            }
-
             Row(
-                horizontalArrangement = horizontalArrangement,
+                horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        top = dimensionResource(id = R.dimen.dimension_4dp)
+                    .padding( top = dimensionResource(id = R.dimen.dimension_4dp)
                     )
             ) {
                 IPOutlinedButton(
                     backgroundColor = BackgroundPalePurple,
                     textColor = Color.Black,
-                    text = buttonText,
+                    text = stringResource(id = R.string.add_note_question),
                     iconColor = BackgroundDarkPurple,
-                    leadingIcon = buttonIcon,
-                    onClick = clickHandler,
+                    leadingIcon = R.drawable.outline_add_circle,
+                    onClick = { addQuestion() },
                     borderColor = BackgroundDarkPurple,
                     textStyle = MaterialTheme.typography.titleMedium,
                     contentPadding = PaddingValues(
@@ -108,4 +87,3 @@ fun AddNoteCard(
         }
     }
 }
-
