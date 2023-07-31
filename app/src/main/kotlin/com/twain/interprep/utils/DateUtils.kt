@@ -41,6 +41,7 @@ object DateUtils {
         return format.format(Calendar.getInstance().time)
     }
 
+    @JvmStatic
     fun getCurrentDateTimeAsString() : String {
         // Get the current time
         val currentTime = Calendar.getInstance().time
@@ -55,6 +56,8 @@ object DateUtils {
         val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())
         return dateFormat.format(calendar.time)
     }
+
+    @JvmStatic
     fun getWeekAfterCurrentDateAsString(): String {
         val timeString = getCurrentDateTimeAsString()
         val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())
