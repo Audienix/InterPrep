@@ -101,6 +101,19 @@ class NotesViewModel @Inject constructor(
         )
     }
 
+    fun deleteQuestion(notesIndex:Int, questionIndex: Int) {
+        val note = notes[notesIndex]
+        // Check if this is the last question before deletion
+        // Additional check in Viewmodel for not deleting all questions
+        if (note.questions.size <= 1)
+            return;
+        val questions = note.questions.toMutableList()
+        questions.removeAt(questionIndex)
+        notes[notesIndex] = note.copy(
+            questions = questions.toList()
+        )
+    }
+
     fun addNote() = launchCoroutineIO {
         if (interview !is ViewResult.Loaded) return@launchCoroutineIO
 
