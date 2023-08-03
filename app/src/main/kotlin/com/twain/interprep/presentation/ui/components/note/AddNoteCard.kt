@@ -21,6 +21,7 @@ import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.ui.NoteFormData
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
+import com.twain.interprep.presentation.ui.components.generic.IPTextInputDeletable
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundPalePurple
 import com.twain.interprep.presentation.ui.theme.Shapes
@@ -34,6 +35,7 @@ fun AddNoteCard(
     updateQuestion: (Int, String) -> Unit,
     addQuestion: () -> Unit,
     deleteNote: () -> Unit,
+    deleteQuestion: (Int) -> Unit,
     shouldValidate: Boolean,
     isEdit: Boolean
 ) {
@@ -60,15 +62,20 @@ fun AddNoteCard(
                     isBackPressed = shouldValidate
                 )
             }
+            val showDeleteQuestion = (note.questions.size > 1)
             note.questions.forEachIndexed { index, question ->
-                IPTextInput(
+                IPTextInputDeletable(
                     modifier = Modifier.fillMaxWidth(),
                     inputText = question,
                     textInputAttributes = NoteFormData.getQuestion(),
                     onTextUpdate = {
                         updateQuestion(index, it)
                     },
-                    isBackPressed = shouldValidate
+                    isBackPressed = shouldValidate,
+                    onDeleteClicked = {
+                        deleteQuestion(index)
+                    },
+                    showDeleteIcon = showDeleteQuestion
                 )
             }
             var horizontalArrangement = Arrangement.End
