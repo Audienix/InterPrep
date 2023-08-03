@@ -7,4 +7,6 @@
     <dimen name="dimension_24dp">24dp</dimen>
     <dimen name="dimension_32dp">32dp</dimen>
     <dimen name="dimension_44dp">44dp</dimen>
+    <dimen name="dimension_200dp">200dp</dimen>
+    <dimen name="dimension_205dp">205dp</dimen>
 </resources>

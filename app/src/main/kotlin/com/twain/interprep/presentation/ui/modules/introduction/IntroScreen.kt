@@ -1,6 +1,7 @@
 package com.twain.interprep.presentation.ui.modules.introduction
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,15 +9,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.generic.IPDescriptionRow
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
@@ -33,20 +37,19 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
     ) {
-        IPHeader(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(id = R.string.intro_screen_heading1),
-            textStyle = typography.headlineLarge,
-            fontWeight = FontWeight.Normal,
-            alignTextToCenter = true
-
+        Image(
+            modifier = Modifier
+                .height(dimensionResource(R.dimen.dimension_205dp))
+                .width(dimensionResource(R.dimen.dimension_200dp)),
+            painter = painterResource(id = R.drawable.intro_screen_image),
+            contentDescription = "Intro Screen Image"
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_32dp)))
         IPHeader(
             modifier = Modifier.fillMaxWidth(),
-            text = stringResource(id = R.string.intro_screen_heading2),
-            textStyle = typography.headlineMedium,
-            fontWeight = FontWeight.Normal,
+            text = stringResource(id = R.string.intro_screen_heading),
+            textStyle = typography.headlineLarge,
+            fontWeight = FontWeight.Medium,
             alignTextToCenter = true
 
         )
