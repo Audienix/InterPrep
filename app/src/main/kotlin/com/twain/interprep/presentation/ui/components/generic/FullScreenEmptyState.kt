@@ -35,7 +35,7 @@ fun FullScreenEmptyState(
                 .fillMaxSize()
                 .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(R.dimen.dimension_16dp),
+                dimensionResource(R.dimen.dimension_8dp),
                 Alignment.CenterVertically
             ),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -50,13 +50,13 @@ fun FullScreenEmptyState(
             )
             Text(
                 text = emptyStateTitle,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = emptyStateText,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             )

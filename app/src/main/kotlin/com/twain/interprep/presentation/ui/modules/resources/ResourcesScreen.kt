@@ -29,6 +29,7 @@ import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptySta
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.resource.ResourceCard
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun ResourcesScreen(
@@ -42,9 +43,9 @@ fun ResourcesScreen(
     ) {
         Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .fillMaxSize(),
             topBar = { IPAppBar(stringResource(id = R.string.nav_item_resources)) },
+            containerColor = MaterialColorPalette.background,
             floatingActionButtonPosition = FabPosition.End,
             floatingActionButton = {
                 IPFAB {

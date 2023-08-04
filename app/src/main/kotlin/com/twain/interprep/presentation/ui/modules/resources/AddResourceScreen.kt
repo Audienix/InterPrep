@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.resources
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,8 +39,7 @@ import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 import com.twain.interprep.presentation.ui.components.resource.AddLinkCard
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun AddResourceScreen(
@@ -62,8 +60,7 @@ fun AddResourceScreen(
     }
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .fillMaxSize(),
         topBar = {
             IPAppBar(
                 title = stringResource(
@@ -179,20 +176,21 @@ fun AddResourceScreen(
                             horizontalArrangement = Arrangement.End
                         ) {
                             IPOutlinedButton(
-                                backgroundColor = BackgroundLightPurple,
+                                backgroundColor = MaterialColorPalette.primaryContainer,
                                 text = stringResource(id = R.string.add_link),
-                                textColor = Color.Black,
+                                textColor = MaterialColorPalette.onPrimaryContainer,
                                 textStyle = MaterialTheme.typography.titleMedium,
                                 enabled = viewModel.addLinkEnabled(),
-                                iconColor = BackgroundDarkPurple,
-                                borderColor = BackgroundDarkPurple,
+                                iconColor = MaterialColorPalette.onPrimaryContainer,
+                                borderColor = MaterialColorPalette.onPrimaryContainer,
                                 leadingIcon = R.drawable.link_logo,
                                 onClick = { viewModel.addLink() })
                         }
                     }
                 }
             }
-        }
+        },
+        containerColor = MaterialColorPalette.background,
     )
 }
 
