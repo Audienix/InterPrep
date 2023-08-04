@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,18 +35,16 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.dimension_32dp))
+            .verticalScroll(rememberScrollState())
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
     ) {
         Image(
-            modifier = Modifier
-                .height(dimensionResource(R.dimen.dimension_205dp))
-                .width(dimensionResource(R.dimen.dimension_200dp)),
-            painter = painterResource(id = R.drawable.intro_screen_image),
+            painter = painterResource(id = R.drawable.pana),
             contentDescription = "Intro Screen Image"
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_32dp)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
         IPHeader(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.intro_screen_heading),
@@ -53,7 +53,7 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
             alignTextToCenter = true
 
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_24dp)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
         IPDescriptionRow(
             title = stringResource(id = R.string.dashboard_title),
             body = stringResource(id = R.string.dashboard_description),
@@ -72,7 +72,7 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
             icon = R.drawable.ic_resource_24,
             contentDescription = "resource_icon"
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_44dp)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_16dp)))
         IPFilledButton(
             text = stringResource(id = R.string.get_started_button_text),
             textColor = Color.White,
