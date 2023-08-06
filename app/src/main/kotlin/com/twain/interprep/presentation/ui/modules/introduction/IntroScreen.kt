@@ -1,6 +1,7 @@
 package com.twain.interprep.presentation.ui.modules.introduction
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,12 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,28 +33,25 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.dimension_32dp))
+            .verticalScroll(rememberScrollState())
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_intro),
+            contentDescription = "Intro Screen Image"
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
         IPHeader(
             modifier = Modifier.fillMaxWidth(),
-            text = stringResource(id = R.string.intro_screen_heading1),
+            text = stringResource(id = R.string.intro_screen_heading),
             textStyle = typography.headlineLarge,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.Medium,
             alignTextToCenter = true
 
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_32dp)))
-        IPHeader(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(id = R.string.intro_screen_heading2),
-            textStyle = typography.headlineMedium,
-            fontWeight = FontWeight.Normal,
-            alignTextToCenter = true
-
-        )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_24dp)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
         IPDescriptionRow(
             title = stringResource(id = R.string.dashboard_title),
             body = stringResource(id = R.string.dashboard_description),
@@ -69,7 +70,7 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
             icon = R.drawable.ic_resource_24,
             contentDescription = "resource_icon"
         )
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_44dp)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_16dp)))
         IPFilledButton(
             text = stringResource(id = R.string.get_started_button_text),
             textColor = Color.White,

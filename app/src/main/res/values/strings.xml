@@ -117,8 +117,7 @@
     <string name="noti_interview_reminder_title">Upcoming Interview</string>
     <string name="noti_interview_reminder_description">%1$s interview is coming up after 1 hour.</string>
 
-    <string name="intro_screen_heading1">Welcome to\nInterPrep</string>
-    <string name="intro_screen_heading2">What can you do here?</string>
+    <string name="intro_screen_heading">InterPrep</string>
     <string name="dashboard_title">"Manage scheduled job interviews"</string>
     <string name="dashboard_description">""Effortlessly organize your interview details from a personalized dashboard""</string>
     <string name="note_title">"Take notes on past interviews"</string>
