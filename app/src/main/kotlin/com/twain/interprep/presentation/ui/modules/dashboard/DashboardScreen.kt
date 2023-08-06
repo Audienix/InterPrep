@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,6 +44,7 @@ import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.interview.InterviewBottomSheet
 import com.twain.interprep.presentation.ui.components.interview.InterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -59,9 +59,9 @@ fun DashboardScreen(
     }
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .fillMaxSize(),
         topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) },
+        containerColor = MaterialColorPalette.background,
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             IPFAB {
@@ -104,8 +104,13 @@ private fun ShowDashboardScreenContent(
                 contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
                 state = pastInterviewListState
             ) {
-                if (shouldLoadMore(pastInterviewListState, interviews.data.pastInterviewList.hasMore, dashboardViewModel.isLoading)) {
-                   dashboardViewModel.loadMore(InterviewType.PAST)
+                if (shouldLoadMore(
+                        pastInterviewListState,
+                        interviews.data.pastInterviewList.hasMore,
+                        dashboardViewModel.isLoading
+                    )
+                ) {
+                    dashboardViewModel.loadMore(InterviewType.PAST)
                 }
                 if (interviews.data.upcomingInterviewList.list.isNotEmpty()) {
                     item {
@@ -116,7 +121,8 @@ private fun ShowDashboardScreenContent(
                             listState = upcomingInterviewListState,
                             hasMore = interviews.data.upcomingInterviewList.hasMore,
                             isLoading = dashboardViewModel.isLoading,
-                            loadMore = dashboardViewModel::loadMore)
+                            loadMore = dashboardViewModel::loadMore
+                        )
                     }
                 }
                 if (interviews.data.comingNextInterviewList.list.isNotEmpty()) {
@@ -310,7 +316,11 @@ private fun ShowLoadingState() {
     }
 }
 
-private fun shouldLoadMore(listState: LazyListState, hasMore: Boolean, isLoading: Boolean) : Boolean{
+private fun shouldLoadMore(
+    listState: LazyListState,
+    hasMore: Boolean,
+    isLoading: Boolean
+): Boolean {
     if (!hasMore) return false
     return listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == listState.layoutInfo.totalItemsCount - 1 && !isLoading
 }

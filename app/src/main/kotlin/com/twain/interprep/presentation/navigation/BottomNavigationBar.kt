@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.navigation
 
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -12,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -22,7 +21,7 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem.Resources
     )
     NavigationBar(
-        containerColor = BackgroundSurface
+        containerColor = MaterialColorPalette.surfaceContainer
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -38,10 +37,11 @@ fun BottomNavigationBar(navController: NavController) {
                 label = { Text(text = stringResource(id = item.title)) },
                 alwaysShowLabel = true,
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    selectedTextColor = MaterialTheme.colorScheme.onSurface,
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    indicatorColor = MaterialColorPalette.secondaryContainer,
+                    selectedIconColor = MaterialColorPalette.onSecondaryContainer,
+                    unselectedTextColor = MaterialColorPalette.onSurfaceVariant,
+                    selectedTextColor = MaterialColorPalette.onSecondaryContainer,
+                    unselectedIconColor = MaterialColorPalette.onSurfaceVariant,
                     ),
                 selected = currentRoute == item.route,
                 onClick = {
