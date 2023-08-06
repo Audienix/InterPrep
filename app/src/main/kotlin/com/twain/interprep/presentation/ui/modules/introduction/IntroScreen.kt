@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.typography
@@ -22,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.generic.IPDescriptionRow
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
@@ -41,7 +39,7 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
     ) {
         Image(
-            painter = painterResource(id = R.drawable.pana),
+            painter = painterResource(id = R.drawable.ic_intro),
             contentDescription = "Intro Screen Image"
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))

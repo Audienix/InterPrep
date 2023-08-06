@@ -107,7 +107,12 @@ class NotesViewModel @Inject constructor(
         // Additional check in Viewmodel for not deleting all questions
         if (note.questions.size <= 1)
             return
-        // TODO: Rest of the logic to be added when database changes are done
+        // Delete the question from the existing note.
+        val questions = note.questions.toMutableList()
+        questions.removeAt(questionIndex)
+        notes[notesIndex] = note.copy(
+            questions = questions.toList()
+        )
     }
 
     fun addNote() = launchCoroutineIO {
