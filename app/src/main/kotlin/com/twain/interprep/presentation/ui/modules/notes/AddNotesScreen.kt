@@ -25,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,13 +35,11 @@ import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
-import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.note.AddNoteCard
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
@@ -74,7 +71,7 @@ fun AddNotesScreen(
                         id = R.string.appbar_title_add_notes.takeUnless { isEdit }
                             ?: R.string.appbar_title_edit_notes),
                     navIcon = {
-                        IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
+                        IPIcon(imageVector = Icons.Filled.ArrowBack, tint = MaterialColorPalette.onSurfaceVariant) {
                             handleBackPress(viewModel, navController, shouldShowAlert)
                         }
                     }
@@ -105,7 +102,6 @@ fun AddNotesScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(MaterialColorPalette.surface)
                     ) {
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
@@ -186,14 +182,13 @@ fun AddNotesScreen(
                                     horizontal = dimensionResource(id = R.dimen.dimension_16dp)
                                 )
                             ) {
-                                IPOutlinedButton(
-                                    backgroundColor = BackgroundLightPurple,
+                                IPFilledButton(
+                                    backgroundColor = MaterialColorPalette.primaryContainer,
                                     text = stringResource(id = R.string.add_note),
-                                    textColor = Color.Black,
-                                    textStyle = MaterialTheme.typography.titleMedium,
+                                    textColor = MaterialColorPalette.onPrimaryContainer,
+                                    textStyle = MaterialTheme.typography.labelLarge,
                                     enabled = viewModel.addNoteEnabled(),
-                                    iconColor = BackgroundDarkPurple,
-                                    borderColor = BackgroundDarkPurple,
+                                    iconColor = MaterialColorPalette.onPrimaryContainer,
                                     leadingIcon = R.drawable.outline_add_circle,
                                     onClick = { viewModel.addNote() })
                             }
@@ -201,7 +196,8 @@ fun AddNotesScreen(
                     }
                 }
             },
-            containerColor = MaterialColorPalette.surface)
+            containerColor = MaterialColorPalette.surface
+        )
     }
 }
 

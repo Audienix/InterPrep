@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat.startActivity
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
-import com.twain.interprep.presentation.ui.theme.TextPrimary
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -33,7 +32,7 @@ fun IPText(
     modifier: Modifier = Modifier,
     text: String? = null,
     link: String? = null,
-    textColor: Color = TextPrimary,
+    textColor: Color = MaterialColorPalette.onSurface,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium
 ) {
     val context = LocalContext.current

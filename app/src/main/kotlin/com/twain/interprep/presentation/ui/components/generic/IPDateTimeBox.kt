@@ -17,7 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.presentation.ui.theme.Shapes
@@ -32,7 +31,7 @@ fun IPDateTimeBox(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Transparent,
     borderColor: Color = Color.Transparent,
-    borderWidth: Dp = 1.dp,
+    borderWidth: Dp = dimensionResource(id = R.dimen.dimension_stroke_width_low),
     dateTextColor: Color = TextPrimary,
     monthYearTextColor: Color = TextSecondary,
     date: Date

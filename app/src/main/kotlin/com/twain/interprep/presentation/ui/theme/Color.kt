@@ -11,8 +11,6 @@ val BackgroundLightPurple = Color(0xFFEBE3FF)
 val BackgroundLightGreen = Color(0xFFF4FFE3)
 val BackgroundLightGray = Color(0xFFEBEBEB)
 
-val BackgroundPalePurple = Color(0xFFFAF8F8)
-
 val TextPrimary = Color(0xFF1C1B1F)
 val TextSecondary = Color(0xFF625B71)
 

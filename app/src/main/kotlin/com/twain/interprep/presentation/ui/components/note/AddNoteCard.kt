@@ -22,8 +22,7 @@ import com.twain.interprep.data.ui.NoteFormData
 import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 import com.twain.interprep.presentation.ui.components.generic.IPTextInputDeletable
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundPalePurple
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
@@ -45,7 +44,7 @@ fun AddNoteCard(
         shape = Shapes.medium,
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
         modifier = modifier,
-        colors = CardDefaults.elevatedCardColors(containerColor = BackgroundPalePurple)
+        colors = CardDefaults.elevatedCardColors(containerColor = MaterialColorPalette.surfaceContainerLow)
     ) {
         Column(
             modifier = Modifier
@@ -99,13 +98,13 @@ fun AddNoteCard(
                     )
             ) {
                 IPOutlinedButton(
-                    backgroundColor = BackgroundPalePurple,
-                    textColor = Color.Black,
+                    backgroundColor = Color.Transparent,
+                    textColor = MaterialColorPalette.onPrimaryContainer,
                     text = buttonText,
-                    iconColor = BackgroundDarkPurple,
+                    iconColor = MaterialColorPalette.onPrimaryContainer,
                     leadingIcon = buttonIcon,
                     onClick = clickHandler,
-                    borderColor = BackgroundDarkPurple,
+                    borderColor = MaterialColorPalette.onPrimaryContainer,
                     textStyle = MaterialTheme.typography.titleMedium,
                     contentPadding = PaddingValues(
                         horizontal = dimensionResource(id = R.dimen.dimension_16dp)

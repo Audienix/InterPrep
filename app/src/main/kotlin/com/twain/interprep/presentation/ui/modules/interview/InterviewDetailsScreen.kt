@@ -181,7 +181,7 @@ private fun ShowInterviewStatus(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "Status: ", style = MaterialTheme.typography.titleMedium)
+        Text(text = "Status: ", style = MaterialTheme.typography.bodyLarge, color = MaterialColorPalette.onSurface)
         IPInterviewStatus(
             status = viewModel.interviewData.interviewStatus,
             onClick = { openBottomSheet.value = true }
