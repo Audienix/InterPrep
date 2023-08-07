@@ -35,7 +35,7 @@ fun NotesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialColorPalette.background)
+            .background(MaterialColorPalette.surface)
     ) {
         IPAppBar(stringResource(id = R.string.nav_item_notes))
 

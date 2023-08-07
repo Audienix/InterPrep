@@ -1,12 +1,11 @@
 package com.twain.interprep.presentation.ui.components.resource
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,7 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
@@ -28,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
@@ -36,6 +35,7 @@ import com.twain.interprep.data.model.Resource
 import com.twain.interprep.data.model.ResourceLink
 import com.twain.interprep.data.ui.resourceWithLinks
 import com.twain.interprep.presentation.ui.components.generic.IPText
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
@@ -45,10 +45,15 @@ fun ResourceCard(
 ) {
     var isExpanded by remember { mutableStateOf(true) }
     val (resource, links) = resourceAndLinks
-    ElevatedCard(
+    Card(
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.dimension_stroke_width_low),
+            MaterialColorPalette.surfaceContainer
+        ),
         shape = Shapes.medium,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        colors = CardDefaults.elevatedCardColors(containerColor = MaterialColorPalette.surfaceContainerLowest)
     ) {
         Row(
             modifier = Modifier
@@ -61,23 +66,33 @@ fun ResourceCard(
                 modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_24dp))
             ) {
                 if (isExpanded) {
-                    Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "")
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        tint = MaterialColorPalette.onSurfaceVariant,
+                        contentDescription = ""
+                    )
                 } else {
-                    Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = "")
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowUp,
+                        tint = MaterialColorPalette.onSurfaceVariant,
+                        contentDescription = ""
+                    )
                 }
             }
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_16dp)))
             Column(
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
             ) {
                 Text(
                     text = resource.topic,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialColorPalette.onSurface
                 )
                 if (resource.subtopic.isNotEmpty()) {
                     Text(
                         text = resource.subtopic,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialColorPalette.onSurfaceVariant
                     )
                 }
                 if (isExpanded) {
@@ -96,7 +111,10 @@ fun ResourceCard(
                         .size(dimensionResource(id = R.dimen.dimension_24dp))
                         .align(Alignment.TopEnd)
                 ) {
-                    Icon(imageVector = Icons.Default.Edit, contentDescription = "")
+                    Icon(
+                        imageVector = Icons.Default.Edit, contentDescription = "",
+                        tint = MaterialColorPalette.onSurfaceVariant,
+                    )
                 }
             }
         }

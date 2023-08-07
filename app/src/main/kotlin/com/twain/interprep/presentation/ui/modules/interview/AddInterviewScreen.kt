@@ -48,6 +48,7 @@ import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun AddInterviewScreen(
@@ -126,7 +127,8 @@ fun AddInterviewScreen(
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             }
-        }
+        },
+        containerColor = MaterialColorPalette.surface
     )
 }
 

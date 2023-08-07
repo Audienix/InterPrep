@@ -13,17 +13,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun IPHeader(
     text: String,
-    textColor: Color = Black,
+    textColor: Color = MaterialColorPalette.onSurface,
     textStyle: TextStyle,
     modifier: Modifier,
-    fontWeight: FontWeight,
+    fontWeight: FontWeight = FontWeight.Normal,
     alignTextToCenter: Boolean = false,
 ) {
-    var textAlign: TextAlign = TextAlign.Center
     if (alignTextToCenter) {
         Text(
             text = text,
@@ -31,7 +31,7 @@ fun IPHeader(
             style = textStyle,
             modifier = modifier,
             fontWeight = fontWeight,
-            textAlign = textAlign
+            textAlign = TextAlign.Center
         )
     } else {
         Text(
@@ -42,8 +42,6 @@ fun IPHeader(
             fontWeight = fontWeight
         )
     }
-
-
 }
 
 @Composable

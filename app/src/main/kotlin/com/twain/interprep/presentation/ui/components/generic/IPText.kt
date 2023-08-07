@@ -23,6 +23,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat.startActivity
 import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.TextPrimary
 import java.net.MalformedURLException
 import java.net.URL
@@ -38,7 +39,7 @@ fun IPText(
     val context = LocalContext.current
     if ((link != null && isUrlValid(link))) {
         val annotatedString = buildAnnotatedString {
-            withStyle(SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)) {
+            withStyle(SpanStyle(color = MaterialColorPalette.primary, textDecoration = TextDecoration.Underline)) {
                 append(text ?: link)
             }
         }

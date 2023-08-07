@@ -61,7 +61,7 @@ fun DashboardScreen(
         modifier = Modifier
             .fillMaxSize(),
         topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) },
-        containerColor = MaterialColorPalette.background,
+        containerColor = MaterialColorPalette.surface,
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             IPFAB {

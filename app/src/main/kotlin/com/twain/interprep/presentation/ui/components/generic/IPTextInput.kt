@@ -12,8 +12,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +42,7 @@ import com.twain.interprep.data.ui.ValidationType
 import com.twain.interprep.presentation.ui.components.interview.IPDatePicker
 import com.twain.interprep.presentation.ui.components.interview.IPDropdownMenu
 import com.twain.interprep.presentation.ui.components.interview.IPTimePicker
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.DateUtils
 import com.twain.interprep.utils.isValidTextInput
 
@@ -54,7 +57,8 @@ fun IPTextInput(
     val labelText = stringResource(id = textInputAttributes.labelTextId)
     val bottomText = textInputAttributes.bottomTextId?.let { stringResource(id = it) } ?: ""
     val errorText = textInputAttributes.errorTextId?.let { stringResource(id = it) } ?: ""
-    val label = if (textInputAttributes.validationType == ValidationType.REQUIRED) "$labelText *" else labelText
+    val label =
+        if (textInputAttributes.validationType == ValidationType.REQUIRED) "$labelText *" else labelText
 
     val context = LocalContext.current
 
@@ -74,10 +78,12 @@ fun IPTextInput(
     }
 
     OutlinedTextField(
-        modifier = modifier.onGloballyPositioned { coordinates ->
-            //This value is used to assign to the DropDown the same width
-            textFieldSize = coordinates.size.toSize()
-        }.onFocusChanged { hasFocus = it.hasFocus },
+        modifier = modifier
+            .onGloballyPositioned { coordinates ->
+                //This value is used to assign to the DropDown the same width
+                textFieldSize = coordinates.size.toSize()
+            }
+            .onFocusChanged { hasFocus = it.hasFocus },
         value = displayedText,
         onValueChange = {
             onTextUpdate(it)
@@ -112,13 +118,18 @@ fun IPTextInput(
                     }
                 ) {
                     Icon(
-                       imageVector = Icons.Default.Close,
+                        imageVector = Icons.Default.Close,
                         contentDescription = "Cancel"
                     )
                 }
             }
 
         },
+        textStyle = LocalTextStyle.current.copy(color = MaterialColorPalette.onSurfaceVariant),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = MaterialColorPalette.primary,
+            focusedLabelColor = MaterialColorPalette.primary
+        )
     )
     HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
         isError = false

@@ -3,6 +3,7 @@ package com.twain.interprep.presentation.ui.modules.resources
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,9 +34,9 @@ import com.twain.interprep.R
 import com.twain.interprep.data.ui.ResourceFormData
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
-import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 import com.twain.interprep.presentation.ui.components.resource.AddLinkCard
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
@@ -67,13 +67,19 @@ fun AddResourceScreen(
                     id = R.string.appbar_title_add_resource.takeUnless { isEdit }
                         ?: R.string.appbar_title_edit_resource),
                 navIcon = {
-                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
+                    IPIcon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        tint = MaterialColorPalette.onSurfaceVariant
+                    ) {
                         handleBackPress(viewModel, navController, shouldShowAlert)
                     }
                 },
                 actions = {
                     if (isEdit) {
-                        IPIcon(imageVector = Icons.Filled.Delete, tint = Color.White) {
+                        IPIcon(
+                            imageVector = Icons.Filled.Delete,
+                            tint = MaterialColorPalette.onSurfaceVariant
+                        ) {
                             viewModel.deleteResource()
                             navController.popBackStack()
                         }
@@ -97,101 +103,107 @@ fun AddResourceScreen(
                         shouldValidateFormFields = true
                     })
             }
-            Column(
+            ShowScreenContent(padding, isEdit, viewModel, shouldValidateFormFields)
+        },
+        containerColor = MaterialColorPalette.surface,
+    )
+}
+
+@Composable
+private fun ShowScreenContent(
+    padding: PaddingValues,
+    isEdit: Boolean,
+    viewModel: ResourcesViewModel,
+    shouldValidateFormFields: Boolean
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(paddingValues = padding),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        IPHeader(
+            stringResource(id = R.string.add_resource_header.takeUnless { isEdit }
+                ?: R.string.edit_resource_header),
+            MaterialColorPalette.onBackground,
+            MaterialTheme.typography.titleMedium,
+            Modifier
+                .padding(dimensionResource(id = R.dimen.dimension_16dp))
+                .align(Alignment.Start),
+            fontWeight = FontWeight.Normal
+        )
+        ResourceFormData.resourceForm.map { input ->
+            IPTextInput(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(paddingValues = padding),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                IPHeader(
-                    stringResource(id = R.string.add_resource_header.takeUnless { isEdit }
-                        ?: R.string.edit_resource_header),
-                    MaterialTheme.colorScheme.onSurfaceVariant,
-                    MaterialTheme.typography.titleMedium,
-                    Modifier
-                        .padding(dimensionResource(id = R.dimen.dimension_16dp))
-                        .align(Alignment.Start),
-                    fontWeight = FontWeight.Normal
+                    .fillMaxWidth()
+                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+                inputText = viewModel.getResourceField(input.labelTextId),
+                textInputAttributes = input,
+                onTextUpdate = {
+                    viewModel.updateResourceField(input.labelTextId, it)
+                },
+            )
+        }
+        IPHeader(
+            modifier = Modifier
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.dimension_16dp),
                 )
-                ResourceFormData.resourceForm.map { input ->
-                    IPTextInput(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
-                        inputText = viewModel.getResourceField(input.labelTextId),
-                        textInputAttributes = input,
-                        onTextUpdate = {
-                            viewModel.updateResourceField(input.labelTextId, it)
-                        },
-                    )
-                }
-                IPHeader(
-                    stringResource(id = R.string.reference_link),
-                    MaterialTheme.colorScheme.onSurface,
-                    MaterialTheme.typography.titleMedium,
-                    Modifier
+                .align(Alignment.Start),
+            text = stringResource(id = R.string.reference_link),
+            textStyle = MaterialTheme.typography.bodyMedium,
+        )
+        Column(
+            modifier = Modifier
+                .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            viewModel.links.forEachIndexed { index, link ->
+                AddLinkCard(
+                    modifier = Modifier
                         .padding(
                             start = dimensionResource(id = R.dimen.dimension_16dp),
+                            end = dimensionResource(id = R.dimen.dimension_16dp),
                             top = dimensionResource(id = R.dimen.dimension_16dp),
                             bottom = dimensionResource(id = R.dimen.dimension_4dp)
                         )
-                        .align(Alignment.Start),
-                    fontWeight = FontWeight.Medium
-                )
-                Column(
-                    modifier = Modifier
-                        .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    viewModel.links.forEachIndexed { index, link ->
-                        AddLinkCard(
-                            modifier = Modifier
-                                .padding(
-                                    start = dimensionResource(id = R.dimen.dimension_16dp),
-                                    end = dimensionResource(id = R.dimen.dimension_16dp),
-                                    top = dimensionResource(id = R.dimen.dimension_16dp),
-                                    bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                                )
-                                .fillMaxWidth(),
-                            getLinkField = { viewModel.getLinkField(resId = it, index = index) },
-                            updateLinkField = { resId, value ->
-                                viewModel.updateLinkField(
-                                    resId,
-                                    index,
-                                    value
-                                )
-                            },
-                            deleteLink = { viewModel.deleteLink(link) },
-                            shouldValidate = shouldValidateFormFields,
-                            isEdit = isEdit,
-                            numberOfCurrentLinks = viewModel.links.size
+                        .fillMaxWidth(),
+                    getLinkField = { viewModel.getLinkField(resId = it, index = index) },
+                    updateLinkField = { resId, value ->
+                        viewModel.updateLinkField(
+                            resId,
+                            index,
+                            value
                         )
-                    }
-                    if (!isEdit) {
-                        Row(
-                            modifier = Modifier
-                                .padding(dimensionResource(id = R.dimen.dimension_16dp))
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            IPOutlinedButton(
-                                backgroundColor = MaterialColorPalette.primaryContainer,
-                                text = stringResource(id = R.string.add_link),
-                                textColor = MaterialColorPalette.onPrimaryContainer,
-                                textStyle = MaterialTheme.typography.titleMedium,
-                                enabled = viewModel.addLinkEnabled(),
-                                iconColor = MaterialColorPalette.onPrimaryContainer,
-                                borderColor = MaterialColorPalette.onPrimaryContainer,
-                                leadingIcon = R.drawable.link_logo,
-                                onClick = { viewModel.addLink() })
-                        }
-                    }
+                    },
+                    deleteLink = { viewModel.deleteLink(link) },
+                    shouldValidate = shouldValidateFormFields,
+                    isEdit = isEdit,
+                    numberOfCurrentLinks = viewModel.links.size
+                )
+            }
+            if (!isEdit) {
+                Row(
+                    modifier = Modifier
+                        .padding(dimensionResource(id = R.dimen.dimension_16dp))
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IPFilledButton(
+                        backgroundColor = MaterialColorPalette.primaryContainer,
+                        text = stringResource(id = R.string.add_link),
+                        textColor = MaterialColorPalette.onPrimaryContainer,
+                        textStyle = MaterialTheme.typography.titleMedium,
+                        enabled = viewModel.addLinkEnabled(),
+                        iconColor = MaterialColorPalette.onPrimaryContainer,
+                        leadingIcon = R.drawable.link_logo,
+                        disabledContentColor = MaterialColorPalette.onSurfaceVariant,
+                        onClick = { viewModel.addLink() })
                 }
             }
-        },
-        containerColor = MaterialColorPalette.background,
-    )
+        }
+    }
 }
 
 private fun handleBackPress(
