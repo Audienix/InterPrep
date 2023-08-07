@@ -17,10 +17,10 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun IPHeader(
-    text: String,
-    textColor: Color = MaterialColorPalette.onSurface,
-    textStyle: TextStyle,
     modifier: Modifier,
+    text: String,
+    textColor: Color = MaterialColorPalette.onSurfaceVariant,
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     fontWeight: FontWeight = FontWeight.Normal,
     alignTextToCenter: Boolean = false,
 ) {

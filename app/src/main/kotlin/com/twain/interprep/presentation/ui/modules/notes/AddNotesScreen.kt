@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.twain.interprep.R
@@ -120,18 +119,16 @@ fun AddNotesScreen(
                     }
                     if (!viewModel.notes.isEmpty()) {
                         IPHeader(
-                            stringResource(id = R.string.add_note_header.takeUnless { isEdit }
+                            text = stringResource(id = R.string.add_note_header.takeUnless { isEdit }
                                 ?: R.string.edit_note_header),
-                            MaterialTheme.colorScheme.onSurfaceVariant,
-                            MaterialTheme.typography.titleMedium,
-                            Modifier.padding(
-                                start = dimensionResource(id = R.dimen.dimension_16dp),
-                                end = dimensionResource(id = R.dimen.dimension_16dp),
-                                top = dimensionResource(id = R.dimen.dimension_16dp),
-                                bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                            )
-                                .align(Alignment.Start),
-                            fontWeight = FontWeight.Normal
+                            modifier = Modifier
+                                .padding(
+                                    start = dimensionResource(id = R.dimen.dimension_16dp),
+                                    end = dimensionResource(id = R.dimen.dimension_16dp),
+                                    top = dimensionResource(id = R.dimen.dimension_16dp),
+                                    bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                                )
+                                .align(Alignment.Start)
                         )
                     } else {
                         FullScreenEmptyState(
@@ -176,7 +173,7 @@ fun AddNotesScreen(
                                 addQuestion = { viewModel.addQuestion(index) },
                                 deleteNote = { viewModel.deleteNote(interview, note) },
                                 deleteQuestion = { questionIndex ->
-                                    viewModel.deleteQuestion(index,questionIndex)
+                                    viewModel.deleteQuestion(index, questionIndex)
                                 },
                                 shouldValidate = shouldValidateFormFields,
                                 isEdit

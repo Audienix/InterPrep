@@ -6,9 +6,7 @@ import androidx.compose.ui.graphics.Color
 val BackgroundSurface = Color(0x146750A4)
 
 val Purple100 = Color(0xFFE8DEF8)
-val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
-val PurpleButton = Color(0xFF5A53AB)
 
 val BackgroundDarkPurple = Color(0xFF4F378B)
 val BackgroundDarkGreen = Color(0xFF008B00)

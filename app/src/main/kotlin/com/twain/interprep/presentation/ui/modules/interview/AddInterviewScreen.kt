@@ -24,11 +24,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.work.WorkManager
@@ -87,7 +85,10 @@ fun AddInterviewScreen(
                 title = stringResource(id = R.string.appbar_title_edit_interview.takeIf { isEditInterview }
                     ?: R.string.appbar_title_add_interview),
                 navIcon = {
-                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
+                    IPIcon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        tint = MaterialColorPalette.onSurfaceVariant
+                    ) {
                         handleBackPress(
                             context,
                             viewModel,
@@ -180,12 +181,9 @@ private fun ShowAddInterviewScreenContent(
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         IPHeader(
-            stringResource(id = R.string.add_interview_header.takeUnless { isEditInterview }
-                ?: R.string.edit_interview_header),
-            MaterialTheme.colorScheme.onSurfaceVariant,
-            MaterialTheme.typography.titleMedium,
-            Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
-            fontWeight = FontWeight.Normal
+            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
+            text = stringResource(id = R.string.add_interview_header.takeUnless { isEditInterview }
+                ?: R.string.edit_interview_header)
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(

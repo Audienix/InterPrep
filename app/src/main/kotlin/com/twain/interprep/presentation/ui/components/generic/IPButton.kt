@@ -24,15 +24,16 @@ import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
 fun IPFilledButton(
     text: String,
-    textColor: Color,
-    iconColor: Color,
-    backgroundColor: Color,
-    disabledContentColor: Color,
+    textColor: Color = MaterialColorPalette.onPrimary,
+    iconColor: Color = MaterialColorPalette.onPrimary,
+    backgroundColor: Color = MaterialColorPalette.primary,
+    disabledContentColor: Color = MaterialColorPalette.onSurfaceVariant,
     enabled: Boolean = true,
     contentDescription: String? = null,
     textStyle: TextStyle,
