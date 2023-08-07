@@ -20,13 +20,12 @@ fun IPAppBar(
         title = {
             Text(
                 text = title,
-                color = MaterialColorPalette.onPrimary,
                 style = MaterialTheme.typography.titleLarge
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialColorPalette.primary,
-            titleContentColor = MaterialColorPalette.onPrimary,
+            containerColor = MaterialColorPalette.surfaceContainerLow,
+            titleContentColor = MaterialColorPalette.onSurface,
         ),
         navigationIcon = navIcon,
         actions = actions

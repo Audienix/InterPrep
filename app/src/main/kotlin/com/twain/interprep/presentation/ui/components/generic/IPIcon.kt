@@ -17,21 +17,31 @@ fun DeleteIcon(tint: Color = Color.White, onDeleteIconClick: () -> Unit) {
 }
 
 @Composable
-fun EditIcon(tint: Color = Purple500, onEditIconClick: () -> Unit){
+fun EditIcon(tint: Color = Purple500, onEditIconClick: () -> Unit) {
     IPIcon(imageVector = Icons.Filled.Edit, tint = tint, onIconClick = onEditIconClick)
 }
 
 @Composable
-fun IPIcon(imageVector: ImageVector, tint: Color, onIconClick: () -> Unit) {
+fun IPIcon(
+    imageVector: ImageVector,
+    tint: Color,
+    contentDescription: String = "",
+    onIconClick: () -> Unit
+) {
     IconButton(onClick = onIconClick) {
-        Icon(imageVector = imageVector, null, tint = tint)
+        Icon(imageVector = imageVector, contentDescription = contentDescription, tint = tint)
     }
 }
 
 @Composable
-fun IPIcon(painter: Painter, tint: Color, onIconClick: () -> Unit) {
+fun IPIcon(
+    painter: Painter,
+    tint: Color,
+    contentDescription: String = "",
+    onIconClick: () -> Unit
+) {
     IconButton(onClick = onIconClick) {
-        Icon(painter = painter, null, tint = tint)
+        Icon(painter = painter, contentDescription = contentDescription, tint = tint)
     }
 }
 

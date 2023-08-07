@@ -63,7 +63,7 @@
     <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as
         you have not filled up mandatory details. Go back?</string>
     <string name="alert_dialog_unsaved_resource_title">Unsaved Resource!</string>
-    <string name="alert_dialog_unsaved_resource_text">Your learning resource would not be saved as you have not filled up mandatory details. Go back ?</string>
+    <string name="alert_dialog_unsaved_resource_text">Your learning resource would not be saved as you have not filled up mandatory details. Go back?</string>
 
 
     <string name="date_picker_supporting_text">MM/DD/YYYY</string>
@@ -93,6 +93,7 @@
     <string name="add_note">Add Note</string>
     <string name="delete_note_button_text">Delete Note</string>
     <string name="add_link">Add Link</string>
+    <string name="delete_link_button_text">Delete Link</string>
 
 
     <string name="hint_label_interview_segment">Interview Segment</string>

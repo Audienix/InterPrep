@@ -39,13 +39,13 @@ fun ResourcesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
             topBar = { IPAppBar(stringResource(id = R.string.nav_item_resources)) },
-            containerColor = MaterialColorPalette.background,
+            containerColor = MaterialColorPalette.surface,
             floatingActionButtonPosition = FabPosition.End,
             floatingActionButton = {
                 IPFAB {
@@ -74,7 +74,7 @@ private fun ShowResourcesScreenContent(
     if (viewModel.resourceAndLinksPair is ViewResult.Loaded) {
         val resourceAndLinks =
             (viewModel.resourceAndLinksPair as
-                ViewResult.Loaded<List<Pair<Resource, List<ResourceLink>>>>).data
+                    ViewResult.Loaded<List<Pair<Resource, List<ResourceLink>>>>).data
         if (resourceAndLinks.isEmpty()) {
             FullScreenEmptyState(
                 Modifier,
