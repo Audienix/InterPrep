@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,6 +45,7 @@ import com.twain.interprep.presentation.ui.components.interview.IPInterviewStatu
 import com.twain.interprep.presentation.ui.modules.dashboard.ShowInterviewStatusBottomSheet
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun InterviewDetailsScreen(
@@ -68,13 +68,12 @@ fun InterviewDetailsScreen(
     }
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .fillMaxSize(),
         topBar = {
             IPAppBar(
                 title = stringResource(id = R.string.appbar_title_interview_details),
                 navIcon = {
-                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
+                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = MaterialColorPalette.onSurfaceVariant) {
                         navController.popBackStack()
                     }
                 }
@@ -93,7 +92,8 @@ fun InterviewDetailsScreen(
                 interviewId,
                 navController
             )
-        }
+        },
+        containerColor = MaterialColorPalette.surface
     )
 }
 

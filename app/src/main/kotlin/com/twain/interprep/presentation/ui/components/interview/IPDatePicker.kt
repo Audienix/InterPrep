@@ -50,7 +50,20 @@ fun IPDatePicker(
             modifier = modifier,
             onDismissRequest = { openDatePicker = false },
             colors = DatePickerDefaults.colors(
-                containerColor = MaterialColorPalette.surfaceContainerHigh
+                containerColor = MaterialColorPalette.surfaceContainerHigh,
+                titleContentColor = MaterialColorPalette.onSurfaceVariant,
+                headlineContentColor = MaterialColorPalette.onSurfaceVariant,
+                weekdayContentColor = MaterialColorPalette.onSurface,
+                subheadContentColor = MaterialColorPalette.onSurfaceVariant,
+                yearContentColor = MaterialColorPalette.onSurfaceVariant,
+                currentYearContentColor = MaterialColorPalette.onSurfaceVariant,
+                selectedYearContentColor = MaterialColorPalette.onPrimary,
+                selectedYearContainerColor = MaterialColorPalette.primary,
+                dayContentColor = MaterialColorPalette.onSurfaceVariant,
+                selectedDayContainerColor = MaterialColorPalette.primaryContainer,
+                selectedDayContentColor = MaterialColorPalette.onPrimaryContainer,
+                todayDateBorderColor = MaterialColorPalette.primary,
+                todayContentColor = MaterialColorPalette.onSurface,
             ),
             confirmButton = {
                 TextButton(
@@ -90,16 +103,18 @@ fun IPDatePicker(
                 colors = DatePickerDefaults.colors(
                     containerColor = MaterialColorPalette.surfaceContainerHigh,
                     titleContentColor = MaterialColorPalette.onSurfaceVariant,
-                    headlineContentColor = MaterialColorPalette.onSurface,
+                    headlineContentColor = MaterialColorPalette.onSurfaceVariant,
+                    weekdayContentColor = MaterialColorPalette.onSurface,
                     subheadContentColor = MaterialColorPalette.onSurfaceVariant,
-                    selectedYearContainerColor = MaterialColorPalette.primaryContainer,
+                    yearContentColor = MaterialColorPalette.onSurfaceVariant,
                     currentYearContentColor = MaterialColorPalette.onSurfaceVariant,
+                    selectedYearContentColor = MaterialColorPalette.onPrimary,
+                    selectedYearContainerColor = MaterialColorPalette.primary,
+                    dayContentColor = MaterialColorPalette.onSurfaceVariant,
                     selectedDayContainerColor = MaterialColorPalette.primaryContainer,
                     selectedDayContentColor = MaterialColorPalette.onPrimaryContainer,
                     todayDateBorderColor = MaterialColorPalette.primary,
                     todayContentColor = MaterialColorPalette.onSurface,
-                    weekdayContentColor = MaterialColorPalette.onSurface,
-                    dayContentColor = MaterialColorPalette.onSurface
                 )
             )
         }

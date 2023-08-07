@@ -125,10 +125,14 @@ fun IPTextInput(
             }
 
         },
-        textStyle = LocalTextStyle.current.copy(color = MaterialColorPalette.onSurfaceVariant),
+        textStyle = LocalTextStyle.current.copy(color = MaterialColorPalette.onSurface),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialColorPalette.primary,
-            focusedLabelColor = MaterialColorPalette.primary
+            focusedLabelColor = MaterialColorPalette.primary,
+            unfocusedPlaceholderColor = MaterialColorPalette.onSurfaceVariant,
+            focusedPlaceholderColor = MaterialColorPalette.onSurfaceVariant,
+            focusedTrailingIconColor = MaterialColorPalette.onSurfaceVariant,
+            unfocusedLabelColor = MaterialColorPalette.onSurfaceVariant
         )
     )
     HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {

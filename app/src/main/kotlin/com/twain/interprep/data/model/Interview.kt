@@ -14,14 +14,10 @@ import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightGray
 import com.twain.interprep.presentation.ui.theme.BackgroundLightGreen
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.StatusNextRoundPrimary
-import com.twain.interprep.presentation.ui.theme.StatusNextRoundSecondary
-import com.twain.interprep.presentation.ui.theme.StatusNoUpdatePrimary
-import com.twain.interprep.presentation.ui.theme.StatusNoUpdateSecondary
-import com.twain.interprep.presentation.ui.theme.StatusRejectedPSecondary
-import com.twain.interprep.presentation.ui.theme.StatusRejectedPrimary
-import com.twain.interprep.presentation.ui.theme.StatusSelectedPrimary
-import com.twain.interprep.presentation.ui.theme.StatusSelectedSecondary
+import com.twain.interprep.presentation.ui.theme.StatusNextRound
+import com.twain.interprep.presentation.ui.theme.StatusNoUpdate
+import com.twain.interprep.presentation.ui.theme.StatusRejected
+import com.twain.interprep.presentation.ui.theme.StatusSelected
 import com.twain.interprep.utils.DateUtils
 import com.twain.interprep.utils.isValidURL
 import java.util.Date
@@ -44,33 +40,27 @@ data class Interview(
 
 enum class InterviewStatus(
     private val mResourceId: Int,
-    private val mPrimaryColor: Color,
-    private val mSecondaryColor: Color
+    private val mStatusColor: Color
 ) {
     NO_UPDATE(
         mResourceId = R.string.interview_status_no_update,
-        mPrimaryColor = StatusNoUpdatePrimary,
-        mSecondaryColor = StatusNoUpdateSecondary
+        mStatusColor = StatusNoUpdate
     ),
     NEXT_ROUND(
         mResourceId = R.string.interview_status_next_round,
-        mPrimaryColor = StatusNextRoundPrimary,
-        mSecondaryColor = StatusNextRoundSecondary
+        mStatusColor = StatusNextRound
     ),
     REJECTED(
         mResourceId = R.string.interview_status_rejected,
-        mPrimaryColor = StatusRejectedPrimary,
-        mSecondaryColor = StatusRejectedPSecondary
+        mStatusColor = StatusRejected
     ),
     SELECTED(
         mResourceId = R.string.interview_status_selected,
-        mPrimaryColor = StatusSelectedPrimary,
-        mSecondaryColor = StatusSelectedSecondary
+        mStatusColor = StatusSelected
     );
 
     fun getResourceId(): Int = mResourceId
-    fun getPrimaryColor(): Color = mPrimaryColor
-    fun getSecondaryColor(): Color = mSecondaryColor
+    fun getSecondaryColor(): Color = mStatusColor
 }
 
 sealed class DashboardInterviewType(

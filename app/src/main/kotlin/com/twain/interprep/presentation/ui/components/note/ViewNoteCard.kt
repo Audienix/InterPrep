@@ -14,10 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,12 +28,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
-import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
-import com.twain.interprep.presentation.ui.components.generic.EditIcon
 import com.twain.interprep.presentation.ui.components.generic.IPDropdown
 import com.twain.interprep.presentation.ui.components.generic.IPDropdownItem
-import com.twain.interprep.presentation.ui.theme.Purple100
-import com.twain.interprep.presentation.ui.theme.Purple500
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
@@ -69,7 +63,7 @@ fun ViewNoteCard(
                     .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp))
                     .size(dimensionResource(id = R.dimen.dimension_32dp))
                     .clip(CircleShape)
-                    .background(Purple100),
+                    .background(MaterialColorPalette.secondaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

@@ -39,7 +39,7 @@ import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptySta
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
-import com.twain.interprep.presentation.ui.components.interview.InterviewBottomSheet
+import com.twain.interprep.presentation.ui.components.interview.IPBottomSheet
 import com.twain.interprep.presentation.ui.components.interview.InterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
@@ -177,7 +177,7 @@ fun ShowInterviewStatusBottomSheet(
     interviewModel: InterviewViewModel
 ) {
     if (openBottomSheet.value) {
-        InterviewBottomSheet(
+        IPBottomSheet(
             onDismissRequest = { openBottomSheet.value = false },
             bottomSheetState = bottomSheetState,
             onNewStatusSelected = {

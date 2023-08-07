@@ -17,10 +17,11 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
 import com.twain.interprep.data.model.InterviewStatus
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InterviewBottomSheet(
+fun IPBottomSheet(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     bottomSheetState: SheetState,
@@ -30,7 +31,9 @@ fun InterviewBottomSheet(
     ModalBottomSheet(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
-        sheetState = bottomSheetState
+        sheetState = bottomSheetState,
+        containerColor = MaterialColorPalette.surfaceContainerLow,
+        contentColor = MaterialColorPalette.onSurface
     ) {
         Column(
             modifier = Modifier

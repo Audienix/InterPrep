@@ -43,7 +43,7 @@ import com.twain.interprep.presentation.ui.components.note.AddNoteCard
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun AddNotesScreen(
@@ -105,7 +105,7 @@ fun AddNotesScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(BackgroundSurface)
+                            .background(MaterialColorPalette.surface)
                     ) {
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
@@ -200,7 +200,8 @@ fun AddNotesScreen(
                         }
                     }
                 }
-            })
+            },
+            containerColor = MaterialColorPalette.surface)
     }
 }
 

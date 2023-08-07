@@ -136,9 +136,11 @@ fun InterviewCard(
             }
         }
         if (interview.isPast()) {
-            IPInterviewStatus(status = interview.interviewStatus, modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(end = 12.dp), onClick = { onStatusBarClicked() })
+            IPInterviewStatus(status = interview.interviewStatus,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(end = dimensionResource(id = R.dimen.dimension_16dp)),
+                onClick = { onStatusBarClicked() })
         }
     }
 }

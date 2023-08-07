@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -15,11 +16,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun IPTimePickerDialog(
@@ -33,11 +36,12 @@ fun IPTimePickerDialog(
         onDismissRequest = onCancel,
         properties = DialogProperties(
             usePlatformDefaultWidth = false
-        ),
+        )
     ) {
         Surface(
             shape = MaterialTheme.shapes.large,
             tonalElevation = dimensionResource(id = R.dimen.dimension_8dp),
+            color = MaterialColorPalette.surfaceContainerHigh,
             modifier = Modifier
                 .width(IntrinsicSize.Min)
                 .height(IntrinsicSize.Min)
@@ -51,7 +55,8 @@ fun IPTimePickerDialog(
                     modifier = Modifier
                         .fillMaxWidth(),
                     text = title,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialColorPalette.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_16dp)))
                 content()
@@ -61,10 +66,18 @@ fun IPTimePickerDialog(
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(
-                        onClick = onCancel
+                        onClick = onCancel,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = MaterialColorPalette.primary
+                        )
                     ) { Text(stringResource(id = android.R.string.cancel)) }
                     TextButton(
-                        onClick = onConfirm
+                        onClick = onConfirm,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = MaterialColorPalette.primary
+                        )
                     ) { Text(stringResource(id = android.R.string.ok)) }
                 }
             }
