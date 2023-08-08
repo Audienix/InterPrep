@@ -68,6 +68,7 @@ fun ViewMoreQuestionsScreen(
                 topic = viewModel.note.topic
             )
         }
+        item { Divider() }
 
         itemsIndexed(items = viewModel.note.questions) {index, item ->
 
@@ -93,7 +94,6 @@ fun NoteDetails(
 ) {
     Row(
         modifier = modifier
-            .background(MaterialColorPalette.surfaceContainer)
             .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.dimension_16dp)),
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
