@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,16 +58,18 @@ fun ViewMoreQuestionsScreen(
                     }
                 }
             )
+        },
+        containerColor = MaterialColorPalette.surface,
+        content = { padding ->
+            ShowViewMoreQuestionsContent(
+                paddingValues = padding,
+                noteIndex = noteIndex,
+                interviewSegment = viewModel.note.interviewSegment,
+                topic = viewModel.note.topic,
+                questions = viewModel.note.questions
+            )
         }
-    ) { padding ->
-        ShowViewMoreQuestionsContent(
-            paddingValues = padding,
-            noteIndex = noteIndex,
-            interviewSegment = viewModel.note.interviewSegment,
-            topic = viewModel.note.topic,
-            questions = viewModel.note.questions
-        )
-    }
+    )
 }
 
 @Composable
@@ -83,7 +84,6 @@ fun ShowViewMoreQuestionsContent(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
-            .background(MaterialColorPalette.surface)
     ) {
         item {
             NoteDetails(
@@ -94,7 +94,7 @@ fun ShowViewMoreQuestionsContent(
         }
         item { Divider() }
 
-        itemsIndexed(items = questions) {index, item ->
+        itemsIndexed(items = questions) { index, item ->
 
             Question(
                 questionIndex = index + 1,
@@ -103,8 +103,11 @@ fun ShowViewMoreQuestionsContent(
             )
 
             if (index == questions.lastIndex)
-                Spacer(modifier = Modifier.padding(
-                    bottom = dimensionResource(id = R.dimen.dimension_16dp)))
+                Spacer(
+                    modifier = Modifier.padding(
+                        bottom = dimensionResource(id = R.dimen.dimension_16dp)
+                    )
+                )
         }
     }
 }
