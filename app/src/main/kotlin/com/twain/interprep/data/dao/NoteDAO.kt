@@ -33,6 +33,9 @@ interface NoteDAO {
     @Query("SELECT * FROM note WHERE noteId IN (:ids)")
     fun getNotesById(ids: List<Int>): Flow<List<Note>>
 
+    @Query("SELECT * FROM NOTE WHERE noteId = :noteId")
+    fun getNoteById(noteId: Int): Flow<Note>
+
     @Transaction
     @Query("SELECT * FROM interview")
     fun getAllInterviewNoteMap(): Flow<List<InterviewWithNotes>>

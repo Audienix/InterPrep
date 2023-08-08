@@ -8,8 +8,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardScreen
 import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
@@ -73,33 +71,19 @@ fun MainScreensNavGraph(navController: NavHostController) {
         }
         // View More Questions
         composable(
-            route = "${AppScreens.MainScreens.ViewMoreQuestions.route}/{noteIndex}/{interviewSegment}/{topic}/{questions}",
+            route = "${AppScreens.MainScreens.ViewMoreQuestions.route}/{noteIndex}/{noteId}",
             arguments = listOf(
                 navArgument("noteIndex") {
                     type = NavType.IntType
                 },
-                navArgument("interviewSegment") {
-                    type = NavType.StringType
+                navArgument("noteId") {
+                    type = NavType.IntType
                 },
-                navArgument("topic") {
-                    type = NavType.StringType
-                },
-                navArgument("questions") {
-                    type = NavType.StringType
-                }
             )
         ) { entry ->
-            entry.arguments?.let {
-                ViewMoreQuestionsScreen(
-                    noteIndex = it.getInt("noteIndex"),
-                    interviewSegment = it.getString("interviewSegment").orEmpty(),
-                    topic = it.getString("topic").orEmpty(),
-                    questions = Gson().fromJson(
-                        it.getString("questions").orEmpty(),
-                        object : TypeToken<List<String>>(){}.type
-                    )
-                )
-            }
+            val noteIndex = entry.arguments?.getInt("noteIndex") ?: 0
+            val noteId = entry.arguments?.getInt("noteId") ?: 0
+            ViewMoreQuestionsScreen(noteId = noteId, noteIndex = noteIndex)
         }
         // Resource List Screen
         composable(AppScreens.Resources.route) {

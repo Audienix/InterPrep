@@ -130,9 +130,7 @@ fun ViewNotesScreen(
                                     navController.navigate(
                                         AppScreens.MainScreens.ViewMoreQuestions.withArgs(
                                             index + 1,
-                                            note.interviewSegment,
-                                            note.topic,
-                                            note.questions
+                                            note.noteId
                                         )
                                     )
                                 }

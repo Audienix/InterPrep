@@ -20,12 +20,14 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
@@ -33,11 +35,13 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun ViewMoreQuestionsScreen(
-    noteIndex: Int,
-    interviewSegment: String,
-    topic: String,
-    questions: List<String>
+    viewModel: QuestionViewModel = hiltViewModel(),
+    noteId: Int,
+    noteIndex: Int
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getNote(noteId)
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -59,20 +63,20 @@ fun ViewMoreQuestionsScreen(
         item {
             NoteDetails(
                 noteIndex = noteIndex,
-                interviewSegment = interviewSegment,
-                topic = topic
+                interviewSegment = viewModel.note.interviewSegment,
+                topic = viewModel.note.topic
             )
         }
 
-        itemsIndexed(items = questions) {index, item ->
+        itemsIndexed(items = viewModel.note.questions) {index, item ->
 
             Question(
                 questionIndex = index + 1,
                 question = item,
-                isLast = index == questions.lastIndex
+                isLast = index == viewModel.note.questions.lastIndex
             )
 
-            if (index == questions.lastIndex)
+            if (index == viewModel.note.questions.lastIndex)
                 Spacer(modifier = Modifier.padding(
                     bottom = dimensionResource(id = R.dimen.dimension_16dp)))
         }
@@ -109,7 +113,8 @@ fun NoteIndex(
             .background(MaterialColorPalette.secondaryContainer)
             .border(
                 width = dimensionResource(id = R.dimen.dimension_stroke_width_low),
-                color = MaterialColorPalette.onSecondaryContainer)
+                color = MaterialColorPalette.onSecondaryContainer
+            )
             .size(dimensionResource(id = R.dimen.dimension_icon_size_large)),
         contentAlignment = Alignment.Center
     ) {
@@ -180,17 +185,6 @@ fun ViewMoreQuestionsScreenPreview(
 ) {
     ViewMoreQuestionsScreen(
         noteIndex = 2,
-        interviewSegment = "Technical Question",
-        topic = "Kotlin Basics",
-        questions = listOf(
-            "Difference between sealed & enum class",
-            "Types of Dispatcher, Error handling in coroutine",
-            "Differentiate between Kotlin’s Variable Declaration Methods.",
-            "What is the Function of the Elvis Operator?",
-            "What are Kotlin Sealed Classes?",
-            "Explain why the Following Code Fails to compile.\n" +
-                    "class A{ }\n" +
-                    "class B : A(){ }"
-        )
+        noteId = 1
     )
 }
