@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,8 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
@@ -37,18 +39,15 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 @Composable
 fun ViewMoreQuestionsScreen(
     viewModel: QuestionViewModel = hiltViewModel(),
+    navController: NavHostController,
     noteId: Int,
     noteIndex: Int
 ) {
     LaunchedEffect(Unit) {
         viewModel.getNote(noteId)
     }
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialColorPalette.surface)
-    ) {
-        item {
+    Scaffold(
+        topBar = {
             IPAppBar(
                 title = stringResource(id = R.string.label_question),
                 navIcon = {
@@ -56,29 +55,54 @@ fun ViewMoreQuestionsScreen(
                         imageVector = Icons.Filled.ArrowBack,
                         tint = MaterialColorPalette.onSurfaceVariant
                     ) {
-
+                        navController.popBackStack()
                     }
                 }
             )
         }
+    ) { padding ->
+        ShowViewMoreQuestionsContent(
+            paddingValues = padding,
+            noteIndex = noteIndex,
+            interviewSegment = viewModel.note.interviewSegment,
+            topic = viewModel.note.topic,
+            questions = viewModel.note.questions
+        )
+    }
+}
+
+@Composable
+fun ShowViewMoreQuestionsContent(
+    paddingValues: PaddingValues,
+    noteIndex: Int,
+    interviewSegment: String,
+    topic: String,
+    questions: List<String>
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(MaterialColorPalette.surface)
+    ) {
         item {
             NoteDetails(
                 noteIndex = noteIndex,
-                interviewSegment = viewModel.note.interviewSegment,
-                topic = viewModel.note.topic
+                interviewSegment = interviewSegment,
+                topic = topic
             )
         }
         item { Divider() }
 
-        itemsIndexed(items = viewModel.note.questions) {index, item ->
+        itemsIndexed(items = questions) {index, item ->
 
             Question(
                 questionIndex = index + 1,
                 question = item,
-                isLast = index == viewModel.note.questions.lastIndex
+                isLast = index == questions.lastIndex
             )
 
-            if (index == viewModel.note.questions.lastIndex)
+            if (index == questions.lastIndex)
                 Spacer(modifier = Modifier.padding(
                     bottom = dimensionResource(id = R.dimen.dimension_16dp)))
         }
@@ -184,14 +208,4 @@ fun Question(
         }
         if (!isLast) Divider()
     }
-}
-
-@Preview
-@Composable
-fun ViewMoreQuestionsScreenPreview(
-) {
-    ViewMoreQuestionsScreen(
-        noteIndex = 2,
-        noteId = 1
-    )
 }

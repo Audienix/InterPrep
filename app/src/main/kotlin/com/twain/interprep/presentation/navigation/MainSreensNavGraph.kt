@@ -83,7 +83,11 @@ fun MainScreensNavGraph(navController: NavHostController) {
         ) { entry ->
             val noteIndex = entry.arguments?.getInt("noteIndex") ?: 0
             val noteId = entry.arguments?.getInt("noteId") ?: 0
-            ViewMoreQuestionsScreen(noteId = noteId, noteIndex = noteIndex)
+            ViewMoreQuestionsScreen(
+                noteId = noteId,
+                noteIndex = noteIndex,
+                navController = navController
+            )
         }
         // Resource List Screen
         composable(AppScreens.Resources.route) {
