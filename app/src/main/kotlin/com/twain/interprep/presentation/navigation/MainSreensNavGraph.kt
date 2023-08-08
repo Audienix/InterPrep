@@ -8,12 +8,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardScreen
 import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
 import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScreen
 import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
+import com.twain.interprep.presentation.ui.modules.notes.ViewMoreQuestionsScreen
 import com.twain.interprep.presentation.ui.modules.notes.ViewNotesScreen
 import com.twain.interprep.presentation.ui.modules.resources.AddResourceScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
@@ -67,6 +70,36 @@ fun MainScreensNavGraph(navController: NavHostController) {
             )) { entry ->
             val interviewId = entry.arguments?.getInt(StringConstants.NAV_ARG_INTERVIEW_ID) ?: 0
             ViewNotesScreen(navController = navController, interviewId = interviewId)
+        }
+        // View More Questions
+        composable(
+            route = "${AppScreens.MainScreens.ViewMoreQuestions.route}/{noteIndex}/{interviewSegment}/{topic}/{questions}",
+            arguments = listOf(
+                navArgument("noteIndex") {
+                    type = NavType.IntType
+                },
+                navArgument("interviewSegment") {
+                    type = NavType.StringType
+                },
+                navArgument("topic") {
+                    type = NavType.StringType
+                },
+                navArgument("questions") {
+                    type = NavType.StringType
+                }
+            )
+        ) { entry ->
+            entry.arguments?.let {
+                ViewMoreQuestionsScreen(
+                    noteIndex = it.getInt("noteIndex"),
+                    interviewSegment = it.getString("interviewSegment").orEmpty(),
+                    topic = it.getString("topic").orEmpty(),
+                    questions = Gson().fromJson(
+                        it.getString("questions").orEmpty(),
+                        object : TypeToken<List<String>>(){}.type
+                    )
+                )
+            }
         }
         // Resource List Screen
         composable(AppScreens.Resources.route) {

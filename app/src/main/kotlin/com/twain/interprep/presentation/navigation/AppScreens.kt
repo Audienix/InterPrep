@@ -1,5 +1,7 @@
 package com.twain.interprep.presentation.navigation
 
+import com.google.gson.Gson
+
 sealed class AppScreens(val route: String) {
     //Route for Intro Screen
     object IntroScreen : AppScreens("introduction_screen")
@@ -15,6 +17,8 @@ sealed class AppScreens(val route: String) {
 
         object ViewNotes: AppScreens("view_notes_screen")
 
+        object ViewMoreQuestions: AppScreens("view_more_questions")
+
         object Resources : AppScreens("resources_screen")
     }
     object Resources : AppScreens("resources_screen")
@@ -23,7 +27,7 @@ sealed class AppScreens(val route: String) {
     fun withArgs(vararg args: Any): String{
         return buildString { append(route)
         args.forEach { arg->
-            append("/$arg")
+            append("/${arg.takeUnless { arg is List<*> } ?: Gson().toJson(arg)}")
         }}
     }
 }

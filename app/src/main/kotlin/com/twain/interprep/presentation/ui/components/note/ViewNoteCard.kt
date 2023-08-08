@@ -1,6 +1,7 @@
 package com.twain.interprep.presentation.ui.components.note
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.presentation.ui.components.generic.IPDropdown
@@ -38,7 +40,8 @@ fun ViewNoteCard(
     note: Note,
     onEditClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
-    index: Int
+    index: Int,
+    onViewMoreClicked: () -> Unit
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
     ShowDeleteConfirmationDialog(showDeleteDialog, onDeleteClicked)
@@ -54,53 +57,73 @@ fun ViewNoteCard(
                 vertical = dimensionResource(id = R.dimen.dimension_8dp)
             )
     ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp))
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.dimension_8dp))
         ) {
-            Box(
+            Row(
                 modifier = Modifier
-                    .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp))
-                    .size(dimensionResource(id = R.dimen.dimension_32dp))
-                    .clip(CircleShape)
-                    .background(MaterialColorPalette.secondaryContainer),
-                contentAlignment = Alignment.Center
+                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp))
             ) {
-                Text(
-                    text = index.toString(),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
-                verticalArrangement = Arrangement.spacedBy(
-                    dimensionResource(id = R.dimen.dimension_4dp)
-                )
-            ) {
-                Text(
-                    text = note.interviewSegment,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                if (note.topic.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp))
+                        .size(dimensionResource(id = R.dimen.dimension_32dp))
+                        .clip(CircleShape)
+                        .background(MaterialColorPalette.secondaryContainer),
+                    contentAlignment = Alignment.Center
+                ) {
                     Text(
-                        text = note.topic,
-                        style = MaterialTheme.typography.bodyMedium
+                        text = index.toString(),
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
-                note.questions.subList(0, minOf(2, note.questions.size))
-                    .forEachIndexed { index, question ->
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
+                    verticalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.dimension_4dp)
+                    )
+                ) {
+                    Text(
+                        text = note.interviewSegment,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    if (note.topic.isNotEmpty()) {
                         Text(
-                            text = "${index + 1}. $question",
-                            style = MaterialTheme.typography.bodySmall
+                            text = note.topic,
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            IPDropdown(menuItems)
+                    note.questions.subList(0, minOf(2, note.questions.size))
+                        .forEachIndexed { index, question ->
+                            Text(
+                                text = "${index + 1}. $question",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                IPDropdown(menuItems)
 
+            }
+            if (note.questions.size > 2) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            bottom = dimensionResource(id = R.dimen.dimension_16dp),
+                            end = dimensionResource(id = R.dimen.dimension_8dp)
+                        )
+                        .clickable { onViewMoreClicked() },
+                    text = stringResource(id = R.string.label_view_more),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialColorPalette.surfaceTint,
+                    textAlign = TextAlign.End
+                )
+            }
         }
 
     }

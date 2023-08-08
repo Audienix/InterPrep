@@ -125,7 +125,17 @@ fun ViewNotesScreen(
                                 onDeleteClicked = {
                                     viewModel.deleteNote(interview, note)
                                 },
-                                index = index + 1
+                                index = index + 1,
+                                onViewMoreClicked = {
+                                    navController.navigate(
+                                        AppScreens.MainScreens.ViewMoreQuestions.withArgs(
+                                            index + 1,
+                                            note.interviewSegment,
+                                            note.topic,
+                                            note.questions
+                                        )
+                                    )
+                                }
                             )
                         }
                     }
