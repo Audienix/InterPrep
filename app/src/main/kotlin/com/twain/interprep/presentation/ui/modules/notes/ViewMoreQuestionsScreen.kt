@@ -153,7 +153,8 @@ fun NoteIndex(
         ) {
             Text(
                 text = index.toString(),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialColorPalette.onSecondaryContainer
             )
         }
     }
