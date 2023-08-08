@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.ui.components.note
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,10 +38,9 @@ import com.twain.interprep.presentation.ui.theme.TextSecondary
 @Composable
 fun NoteCard(
     interviewNotePair: Pair<Interview, List<Note>>,
-    onDeleteNoteClick: (Note) -> Unit,
     onViewNoteClick: () -> Unit,
     onAddNoteClick: () -> Unit,
-    onDeleteNotesForInterviewClick : ()-> Unit,
+    onDeleteNotesForInterviewClick: () -> Unit,
     onDeleteInterviewClick: () -> Unit
 ) {
     val (interview, notes) = interviewNotePair
@@ -74,7 +72,6 @@ fun NoteCard(
                 Row(
                     modifier = Modifier
                         .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
-                        .clickable { onDeleteNoteClick(note) }
                 ) {
                     Box(
                         modifier = Modifier
@@ -149,10 +146,8 @@ fun NoteCard(
 private fun NoteCardPreview() {
     NoteCard(
         interviewNotePair = interviewMockData to notesMockData,
-        onDeleteNoteClick = {},
         onViewNoteClick = {},
         onAddNoteClick = {},
-        onDeleteNotesForInterviewClick = {},
-        onDeleteInterviewClick = {}
-    )
+        onDeleteNotesForInterviewClick = {}
+    ) {}
 }
