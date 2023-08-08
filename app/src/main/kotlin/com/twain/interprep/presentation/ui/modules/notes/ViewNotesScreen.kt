@@ -1,6 +1,7 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,15 +12,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,7 +28,7 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.generic.EditIcon
+import com.twain.interprep.presentation.ui.components.generic.EditNoteIcon
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
@@ -49,8 +49,7 @@ fun ViewNotesScreen(
         val interview = (viewModel.interview as ViewResult.Loaded<Interview>).data
         Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .fillMaxSize(),
             topBar = {
                 IPAppBar(
                     title = stringResource(id = R.string.appbar_title_view_notes),
@@ -58,11 +57,11 @@ fun ViewNotesScreen(
                         IconButton(onClick = {
                             navController.popBackStack()
                         }) {
-                            Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                            Icon(Icons.Filled.ArrowBack, null, tint = MaterialColorPalette.onSurfaceVariant)
                         }
                     }
                 ) {
-                    EditIcon(tint = Color.White) {
+                    EditNoteIcon(tint = MaterialColorPalette.onSurfaceVariant) {
                         navController.navigate(
                             AppScreens.MainScreens.AddNotes.withArgs(
                                 interview.interviewId,
@@ -96,6 +95,12 @@ fun ViewNotesScreen(
                             viewModel.deleteNotesForInterview(interview)
                         }
                     }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        thickness = dimensionResource(id = R.dimen.dimension_stroke_width_low),
+                        color = MaterialColorPalette.outlineVariant
+                    )
                     if (viewModel.notes.isEmpty()) {
                         FullScreenEmptyState(
                             modifier = Modifier.fillMaxHeight(),
@@ -106,7 +111,8 @@ fun ViewNotesScreen(
                     }
                     LazyColumn(
                         modifier = Modifier
-                            .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
+                            .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
+                        verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         itemsIndexed(
                             viewModel.notes,

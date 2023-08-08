@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -33,7 +34,8 @@ fun IPFilledButton(
     textColor: Color = MaterialColorPalette.onPrimary,
     iconColor: Color = MaterialColorPalette.onPrimary,
     backgroundColor: Color = MaterialColorPalette.primary,
-    disabledContentColor: Color = MaterialColorPalette.onSurfaceVariant,
+    disabledContentColor: Color = MaterialColorPalette.onSurface,
+    disabledContainerColor: Color = MaterialColorPalette.surfaceContainerHighest,
     enabled: Boolean = true,
     contentDescription: String? = null,
     textStyle: TextStyle,
@@ -47,7 +49,9 @@ fun IPFilledButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
             contentColor = textColor,
-            disabledContentColor = disabledContentColor,
+            disabledContentColor = disabledContentColor.copy(alpha = 0.3f),
+            disabledContainerColor = disabledContainerColor.copy(alpha = 0.12f)
+                .compositeOver(disabledContainerColor)
         ),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = dimensionResource(id = R.dimen.dimension_elevation_low)
@@ -59,7 +63,8 @@ fun IPFilledButton(
             Icon(
                 painter = painterResource(leadingIcon),
                 contentDescription = contentDescription,
-                tint = if(enabled) iconColor else disabledContentColor
+                tint = if(enabled) iconColor else disabledContentColor.copy(alpha = 0.12f)
+                    .compositeOver(disabledContainerColor)
             )
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
         }
@@ -117,7 +122,7 @@ fun FilledButtonPreview() {
             textColor = BackgroundLightPurple,
             text = "View Notes",
             enabled = false,
-            leadingIcon = R.drawable.filled_reorder,
+            leadingIcon = R.drawable.ic_view_note_24,
             onClick = {},
             textStyle = MaterialTheme.typography.bodySmall,
             iconColor = BackgroundLightPurple,
@@ -127,7 +132,7 @@ fun FilledButtonPreview() {
             backgroundColor = BackgroundDarkPurple,
             textColor = BackgroundLightPurple,
             text = "View Notes",
-            leadingIcon = R.drawable.filled_reorder,
+            leadingIcon = R.drawable.ic_view_note_24,
             onClick = {},
             textStyle = MaterialTheme.typography.bodySmall,
             iconColor = BackgroundLightPurple,
@@ -137,7 +142,7 @@ fun FilledButtonPreview() {
             backgroundColor = BackgroundDarkPurple,
             textColor = BackgroundLightPurple,
             text = "Add Notes",
-            leadingIcon = R.drawable.filled_post_add,
+            leadingIcon = R.drawable.ic_add_note_24,
             onClick = {},
             textStyle = MaterialTheme.typography.bodySmall,
             iconColor = BackgroundLightPurple,
@@ -157,7 +162,7 @@ fun OutlinedButtonPreview() {
             textColor = Color.Black,
             text = "Add Note",
             iconColor = BackgroundDarkPurple,
-            leadingIcon = R.drawable.outline_add_circle,
+            leadingIcon = R.drawable.ic_outline_add_circle_24,
             onClick = {},
             borderColor = BackgroundDarkPurple,
             textStyle = MaterialTheme.typography.bodySmall
@@ -167,7 +172,7 @@ fun OutlinedButtonPreview() {
             textColor = Color.Black,
             text = "Delete Note",
             iconColor = BackgroundDarkPurple,
-            leadingIcon = R.drawable.outline_do_disturb_on,
+            leadingIcon = R.drawable.ic_outline_delete_circle_24,
             onClick = {},
             borderColor = BackgroundDarkPurple,
             textStyle = MaterialTheme.typography.bodySmall

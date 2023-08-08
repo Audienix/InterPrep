@@ -53,7 +53,7 @@ fun ResourceCard(
         shape = Shapes.medium,
         modifier = Modifier
             .fillMaxWidth(),
-        colors = CardDefaults.elevatedCardColors(containerColor = MaterialColorPalette.surfaceContainerLowest)
+        colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLowest)
     ) {
         Row(
             modifier = Modifier
@@ -108,7 +108,7 @@ fun ResourceCard(
                 IconButton(
                     onClick = onEditResourceClick,
                     modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.dimension_24dp))
+                        .size(dimensionResource(id = R.dimen.dimension_icon_size_regular))
                         .align(Alignment.TopEnd)
                 ) {
                     Icon(

@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.components.note
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,9 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,8 +30,6 @@ import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.data.ui.notesMockData
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextSecondary
@@ -44,9 +43,13 @@ fun NoteCard(
     onDeleteInterviewClick: () -> Unit
 ) {
     val (interview, notes) = interviewNotePair
-    ElevatedCard(
+    Card(
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.dimension_stroke_width_low),
+            MaterialColorPalette.surfaceContainerHigh
+        ),
         shape = Shapes.medium,
-        elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
+        colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLow),
         modifier = Modifier
             .fillMaxWidth()
             .padding(
@@ -65,9 +68,16 @@ fun NoteCard(
                     interview = interview,
                     shouldShowDeleteButton = true,
                     notesEmpty = notes.isEmpty(),
-                    onDeleteInterviewClick, onDeleteNotesForInterviewClick)
+                    onDeleteInterview = onDeleteInterviewClick,
+                    onDeleteNotes = onDeleteNotesForInterviewClick
+                )
             }
-            Divider()
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                thickness = dimensionResource(id = R.dimen.dimension_stroke_width_low),
+                color = MaterialColorPalette.outlineVariant
+            )
             notes.firstOrNull()?.let { note ->
                 Row(
                     modifier = Modifier
@@ -82,7 +92,8 @@ fun NoteCard(
                     ) {
                         Text(
                             text = "1",
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialColorPalette.onSecondaryContainer
                         )
                     }
                     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
@@ -91,17 +102,20 @@ fun NoteCard(
                     ) {
                         Text(
                             text = note.interviewSegment,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialColorPalette.onSurface
                         )
                         if (note.topic.isNotEmpty()) {
                             Text(
                                 text = note.topic,
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialColorPalette.onSurface
                             )
                         }
                         Text(
                             text = note.questions.firstOrNull().orEmpty(),
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialColorPalette.onSurfaceVariant
                         )
                     }
                 }
@@ -113,26 +127,25 @@ fun NoteCard(
                     .padding(top = dimensionResource(id = R.dimen.dimension_16dp))
             ) {
                 IPFilledButton(
-                    backgroundColor = BackgroundDarkPurple,
+                    backgroundColor = MaterialColorPalette.primary,
                     text = "View Notes",
-                    textColor = BackgroundLightPurple,
+                    textColor = MaterialColorPalette.onPrimary,
                     enabled = notes.isNotEmpty(),
-                    iconColor = TextSecondary.takeIf { notes.isEmpty() } ?: BackgroundLightPurple,
+                    iconColor = MaterialColorPalette.onPrimary,
                     textStyle = MaterialTheme.typography.labelLarge,
                     onClick = onViewNoteClick,
-                    leadingIcon = R.drawable.filled_reorder,
-                    disabledContentColor = TextSecondary,
+                    leadingIcon = R.drawable.ic_view_note_24,
                     contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
                 )
                 Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_8dp)))
                 IPFilledButton(
-                    backgroundColor = BackgroundDarkPurple,
+                    backgroundColor = MaterialColorPalette.primary,
                     text = "Add Notes",
-                    textColor = BackgroundLightPurple,
-                    iconColor = BackgroundLightPurple,
+                    textColor = MaterialColorPalette.onPrimary,
+                    iconColor = MaterialColorPalette.onPrimary,
                     textStyle = MaterialTheme.typography.labelLarge,
                     onClick = onAddNoteClick,
-                    leadingIcon = R.drawable.filled_post_add,
+                    leadingIcon = R.drawable.ic_add_note_24,
                     disabledContentColor = TextSecondary,
                     contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
                 )

@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -63,15 +63,17 @@ fun AddNotesScreen(
         val interview = (viewModel.interview as ViewResult.Loaded<Interview>).data
         Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .fillMaxSize(),
             topBar = {
                 IPAppBar(
                     title = stringResource(
                         id = R.string.appbar_title_add_notes.takeUnless { isEdit }
                             ?: R.string.appbar_title_edit_notes),
                     navIcon = {
-                        IPIcon(imageVector = Icons.Filled.ArrowBack, tint = MaterialColorPalette.onSurfaceVariant) {
+                        IPIcon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            tint = MaterialColorPalette.onSurfaceVariant
+                        ) {
                             handleBackPress(viewModel, navController, shouldShowAlert)
                         }
                     }
@@ -104,15 +106,24 @@ fun AddNotesScreen(
                             .fillMaxWidth()
                     ) {
                         InterviewDetailForNote(
-                            modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
+                            modifier = Modifier.padding(
+                                vertical = dimensionResource(id = R.dimen.dimension_8dp),
+                                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                            ),
                             interview = interview,
                             shouldShowDeleteButton = false,
                             notesEmpty = viewModel.notes.isEmpty(),
-                            {}
+                            onDeleteInterview = {}
                         ) {
                             viewModel.deleteNotesForInterview(interview)
                         }
                     }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        thickness = dimensionResource(id = R.dimen.dimension_stroke_width_low),
+                        color = MaterialColorPalette.outlineVariant
+                    )
                     if (!viewModel.notes.isEmpty()) {
                         IPHeader(
                             text = stringResource(id = R.string.add_note_header.takeUnless { isEdit }
@@ -189,7 +200,7 @@ fun AddNotesScreen(
                                     textStyle = MaterialTheme.typography.labelLarge,
                                     enabled = viewModel.addNoteEnabled(),
                                     iconColor = MaterialColorPalette.onPrimaryContainer,
-                                    leadingIcon = R.drawable.outline_add_circle,
+                                    leadingIcon = R.drawable.ic_outline_add_circle_24,
                                     onClick = { viewModel.addNote() })
                             }
                         }

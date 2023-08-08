@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.components.generic
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun IPTextInputDeletable(
@@ -48,9 +47,9 @@ fun IPTextInputDeletable(
                 modifier = Modifier.clickable{
                     onDeleteClicked()
                 },
-                painter = painterResource(R.drawable.outline_do_disturb_on),
+                painter = painterResource(R.drawable.ic_outline_delete_circle_24),
                 contentDescription = "Delete Icon",
-                tint = BackgroundDarkPurple
+                tint = MaterialColorPalette.secondary
             )
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_4dp)))
         }

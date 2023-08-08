@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -31,7 +32,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
@@ -107,8 +107,9 @@ fun IPTextInput(
         trailingIcon = {
             if (isError) {
                 Icon(
-                    painter = painterResource(id = R.drawable.error_icon),
-                    contentDescription = "Error"
+                    imageVector = Icons.Filled.Warning,
+                    contentDescription = null,
+                    tint = MaterialColorPalette.error
                 )
             } else if (inputText.isNotEmpty() && hasFocus) {
                 IconButton(
