@@ -119,9 +119,9 @@
     <string name="noti_interview_reminder_description">%1$s interview is coming up after 1 hour.</string>
 
     <string name="intro_screen_heading">InterPrep</string>
-    <string name="dashboard_title">"Manage scheduled job interviews"</string>
+    <string name="dashboard_title">"Manage your job interviews"</string>
     <string name="dashboard_description">""Effortlessly organize your interview details from a personalized dashboard""</string>
-    <string name="note_title">"Take notes on past interviews"</string>
+    <string name="note_title">"Take notes of past interviews"</string>
     <string name="note_description">"Easily access and manage your past interview notes for future reference"</string>
     <string name="resource_title">"Organize your learning resources"</string>
     <string name="resource_description">"Maximize your interview preparation with a collection of learning materials"</string>

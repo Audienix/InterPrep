@@ -2,6 +2,7 @@ package com.twain.interprep.presentation.ui.components.interview
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -19,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.constants.StringConstants
-import com.twain.interprep.presentation.ui.theme.Purple200
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.DateUtils.convertDateToMilliseconds
 import com.twain.interprep.utils.DateUtils.getCurrentDateAsString
 import java.util.Date
@@ -48,6 +49,22 @@ fun IPDatePicker(
         DatePickerDialog(
             modifier = modifier,
             onDismissRequest = { openDatePicker = false },
+            colors = DatePickerDefaults.colors(
+                containerColor = MaterialColorPalette.surfaceContainerHigh,
+                titleContentColor = MaterialColorPalette.onSurfaceVariant,
+                headlineContentColor = MaterialColorPalette.onSurfaceVariant,
+                weekdayContentColor = MaterialColorPalette.onSurface,
+                subheadContentColor = MaterialColorPalette.onSurfaceVariant,
+                yearContentColor = MaterialColorPalette.onSurfaceVariant,
+                currentYearContentColor = MaterialColorPalette.onSurfaceVariant,
+                selectedYearContentColor = MaterialColorPalette.onPrimary,
+                selectedYearContainerColor = MaterialColorPalette.primary,
+                dayContentColor = MaterialColorPalette.onSurfaceVariant,
+                selectedDayContainerColor = MaterialColorPalette.primaryContainer,
+                selectedDayContentColor = MaterialColorPalette.onPrimaryContainer,
+                todayDateBorderColor = MaterialColorPalette.primary,
+                todayContentColor = MaterialColorPalette.onSurface,
+            ),
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -59,12 +76,21 @@ fun IPDatePicker(
                             selectedDate = formatter.format(rawDate)
                         onDatePickerDismiss(selectedDate)
                     },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = MaterialColorPalette.primary
+                    )
                 ) {
                     Text(stringResource(id = android.R.string.ok))
                 }
             },
             dismissButton = {
-                TextButton(onClick = { openDatePicker = false }) {
+                TextButton(
+                    onClick = { openDatePicker = false }, colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = MaterialColorPalette.primary
+                    )
+                ) {
                     Text(stringResource(id = android.R.string.cancel))
                 }
             }
@@ -75,8 +101,20 @@ fun IPDatePicker(
 //                    isValidDate(utcDateInMills)
 //                },
                 colors = DatePickerDefaults.colors(
-                    selectedDayContainerColor = Purple200,
-                    selectedDayContentColor = Color.Black
+                    containerColor = MaterialColorPalette.surfaceContainerHigh,
+                    titleContentColor = MaterialColorPalette.onSurfaceVariant,
+                    headlineContentColor = MaterialColorPalette.onSurfaceVariant,
+                    weekdayContentColor = MaterialColorPalette.onSurface,
+                    subheadContentColor = MaterialColorPalette.onSurfaceVariant,
+                    yearContentColor = MaterialColorPalette.onSurfaceVariant,
+                    currentYearContentColor = MaterialColorPalette.onSurfaceVariant,
+                    selectedYearContentColor = MaterialColorPalette.onPrimary,
+                    selectedYearContainerColor = MaterialColorPalette.primary,
+                    dayContentColor = MaterialColorPalette.onSurfaceVariant,
+                    selectedDayContainerColor = MaterialColorPalette.primaryContainer,
+                    selectedDayContentColor = MaterialColorPalette.onPrimaryContainer,
+                    todayDateBorderColor = MaterialColorPalette.primary,
+                    todayContentColor = MaterialColorPalette.onSurface,
                 )
             )
         }

@@ -14,8 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.constants.StringConstants
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import java.util.Calendar
 import java.util.Locale
 
@@ -63,10 +62,20 @@ fun IPTimePicker(
                 TimePicker(
                     state = timePickerState,
                     colors = TimePickerDefaults.colors(
-                        clockDialSelectedContentColor = Color.White,
-                        clockDialColor = BackgroundLightPurple,
-                        timeSelectorSelectedContainerColor = BackgroundSurface,
-                        timeSelectorUnselectedContainerColor = Color.Transparent
+                        clockDialColor = MaterialColorPalette.surfaceContainerHighest,
+                        clockDialSelectedContentColor = MaterialColorPalette.onPrimary,
+                        clockDialUnselectedContentColor = MaterialColorPalette.onSurface,
+                        selectorColor = MaterialColorPalette.primary,
+                        containerColor = MaterialColorPalette.surfaceContainerHigh,
+                        periodSelectorBorderColor = MaterialColorPalette.outline,
+                        periodSelectorSelectedContainerColor = MaterialColorPalette.tertiaryContainer,
+                        periodSelectorUnselectedContainerColor = Color.Transparent,
+                        periodSelectorSelectedContentColor = MaterialColorPalette.onTertiaryContainer,
+                        periodSelectorUnselectedContentColor = MaterialColorPalette.onSurfaceVariant,
+                        timeSelectorSelectedContainerColor = MaterialColorPalette.primaryContainer,
+                        timeSelectorUnselectedContainerColor = MaterialColorPalette.surfaceContainerHighest,
+                        timeSelectorSelectedContentColor = MaterialColorPalette.onPrimaryContainer,
+                        timeSelectorUnselectedContentColor = MaterialColorPalette.onSurface
                     )
                 )
             }

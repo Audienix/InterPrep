@@ -20,26 +20,26 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
 fun IPFilledButton(
+    modifier: Modifier = Modifier,
     text: String,
-    textColor: Color,
-    iconColor: Color,
-    backgroundColor: Color,
-    disabledContentColor: Color,
+    textColor: Color = MaterialColorPalette.onPrimary,
+    iconColor: Color = MaterialColorPalette.onPrimary,
+    backgroundColor: Color = MaterialColorPalette.primary,
+    disabledContentColor: Color = MaterialColorPalette.onSurfaceVariant,
     enabled: Boolean = true,
     contentDescription: String? = null,
     textStyle: TextStyle,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     onClick: () -> Unit,
-    @DrawableRes leadingIcon: Int? = null,
-    modifier: Modifier = Modifier
+    @DrawableRes leadingIcon: Int? = null
 ) {
     Button(
         onClick = onClick,
@@ -59,7 +59,7 @@ fun IPFilledButton(
             Icon(
                 painter = painterResource(leadingIcon),
                 contentDescription = contentDescription,
-                tint = iconColor
+                tint = if(enabled) iconColor else disabledContentColor
             )
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
         }
@@ -89,7 +89,7 @@ fun IPOutlinedButton(
             contentColor = textColor
         ),
         border = BorderStroke(
-            width = 1.dp,
+            width = dimensionResource(id = R.dimen.dimension_stroke_width_low),
             color = borderColor,
         ),
         contentPadding = contentPadding

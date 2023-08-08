@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -30,27 +31,30 @@ private fun InterPrepColorPalette(
     darkTheme: Boolean,
     content: @Composable () -> Unit
 ) {
-    val ipColorPalette =
-        if (darkTheme) DarkColorPalette
-        else LightColorPalette
+    val colorPalette = if (darkTheme) DarkColorPalette else LightColorPalette
 
+    SetStatusBarColor(colorPalette.surfaceContainerLow)
+    CompositionLocalProvider(
+        LocalIPColorPalette provides colorPalette
+    ) {
+        MaterialTheme(
+            content = content
+        )
+    }
+}
+
+@Composable
+fun SetStatusBarColor(
+    statusBarColor: Color,
+    darkTheme: Boolean = isSystemInDarkTheme()
+) {
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = ipColorPalette.surfaceContainerLow.toArgb()
+            window.statusBarColor = statusBarColor.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
-    }
-
-    CompositionLocalProvider(
-        LocalIPColorPalette provides ipColorPalette
-    ) {
-        MaterialTheme(
-//            colorScheme = colorScheme,
-//            typography = Typography,
-            content = content
-        )
     }
 }
 

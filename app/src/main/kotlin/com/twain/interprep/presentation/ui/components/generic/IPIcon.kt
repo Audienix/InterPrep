@@ -9,15 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.twain.interprep.presentation.ui.theme.Purple500
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
-fun DeleteIcon(tint: Color = Color.White, onDeleteIconClick: () -> Unit) {
+fun DeleteIcon(tint: Color = MaterialColorPalette.onSurfaceVariant, onDeleteIconClick: () -> Unit) {
     IPIcon(imageVector = Icons.Filled.Delete, tint = tint, onIconClick = onDeleteIconClick)
 }
 
 @Composable
-fun EditIcon(tint: Color = Purple500, onEditIconClick: () -> Unit) {
+fun EditIcon(tint: Color = MaterialColorPalette.onSurfaceVariant, onEditIconClick: () -> Unit) {
     IPIcon(imageVector = Icons.Filled.Edit, tint = tint, onIconClick = onEditIconClick)
 }
 

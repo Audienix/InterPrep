@@ -33,7 +33,7 @@ import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptySta
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
 import com.twain.interprep.presentation.ui.components.note.ViewNoteCard
-import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun ViewNotesScreen(
@@ -84,7 +84,7 @@ fun ViewNotesScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(BackgroundSurface)
+                            .background(MaterialColorPalette.surface)
                     ) {
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
@@ -130,6 +130,8 @@ fun ViewNotesScreen(
                         }
                     }
                 }
-            })
+            },
+            containerColor = MaterialColorPalette.surface
+        )
     }
 }

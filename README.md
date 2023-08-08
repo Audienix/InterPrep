@@ -14,9 +14,10 @@ Coming soon
 
 ## Features
 
-- [x] Manage scheduled job interviews in Dashboard
-- [ ] Keep track of questions asked in the past interviews in Notes
-- [ ] Organize learning resources/materials in Resources.
+- [x] Manage scheduled job interviews
+- [x] Filter interviews by Current, Future & Past Interviews in Dashboard
+- [x] Keep track of questions asked in the past interviews in Notes
+- [x] Organize learning resources/materials in Resources.
 
 ## Contributions
 

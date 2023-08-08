@@ -12,10 +12,12 @@ import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.navigation.BottomNavigationBar
 import com.twain.interprep.presentation.navigation.MainScreensNavGraph
-import com.twain.interprep.presentation.navigation.NavGraph
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
+import com.twain.interprep.presentation.ui.theme.SetStatusBarColor
 
 @Composable
 fun MainScreen() {
+    SetStatusBarColor(statusBarColor = MaterialColorPalette.surfaceContainerLow)
     val navController = rememberNavController()
     val currentScreen = navController.currentBackStackEntryAsState().value?.destination?.route
     Scaffold(
@@ -32,7 +34,7 @@ fun MainScreen() {
             }
         },
         // Set background color to avoid the white flashing when you switch between screens
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.surface
     )
 }
 

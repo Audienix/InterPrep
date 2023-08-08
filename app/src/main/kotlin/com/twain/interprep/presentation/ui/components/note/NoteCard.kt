@@ -32,7 +32,7 @@ import com.twain.interprep.data.ui.notesMockData
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.Purple100
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 
@@ -80,7 +80,7 @@ fun NoteCard(
                         modifier = Modifier
                             .size(dimensionResource(id = R.dimen.dimension_32dp))
                             .clip(CircleShape)
-                            .background(Purple100),
+                            .background(MaterialColorPalette.secondaryContainer),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(

@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
@@ -38,7 +37,7 @@ import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPText
 import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.TextSecondary
 import com.twain.interprep.utils.DateUtils
 import java.text.SimpleDateFormat
@@ -60,7 +59,7 @@ fun IPInterviewDetailsCard(
             topStart = dimensionResource(id = R.dimen.dimension_16dp),
             topEnd = dimensionResource(id = R.dimen.dimension_16dp)
         ),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLow),
         elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
     ) {
         InterviewDetailsHeader(interview, onEditClick, headerBackgroundColor, headerContentColor)
@@ -101,8 +100,8 @@ private fun InterviewDetailsList(interview: Interview) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = dimensionResource(id = R.dimen.dimension_4dp)),
-                thickness = 1.dp,
-                color = BackgroundSurface
+                thickness = dimensionResource(id = R.dimen.dimension_stroke_width_low),
+                color = MaterialColorPalette.outline
             )
     }
 }
@@ -125,10 +124,11 @@ private fun InterviewDetailsHeader(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
+                .align(Alignment.Center)
                 .padding(vertical = dimensionResource(id = R.dimen.dimension_8dp)),
             text = text,
             color = headerContentColor,
-            fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center
         )

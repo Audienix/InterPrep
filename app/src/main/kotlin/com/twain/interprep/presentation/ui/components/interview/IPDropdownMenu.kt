@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,7 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import com.twain.interprep.presentation.ui.theme.Purple100
+import androidx.compose.ui.window.PopupProperties
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun IPDropdownMenu(
@@ -32,19 +35,21 @@ fun IPDropdownMenu(
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
+            properties = PopupProperties(clippingEnabled = false),
             modifier = modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
-                .background(color = Purple100)
+                .background(color = MaterialColorPalette.surfaceContainer)
         ) {
             options.forEach { label ->
                 DropdownMenuItem(
+                    colors = MenuDefaults.itemColors(textColor = MaterialColorPalette.onSurface),
                     onClick = {
                         selectedText = label
                         expanded = !expanded
                         onDropdownDismiss(selectedText)
                     },
                     text = {
-                        Text(text = label)
+                        Text(text = label, style = MaterialTheme.typography.labelLarge)
                     }
                 )
             }

@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.twain.interprep.R
@@ -123,14 +122,11 @@ private fun ShowScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IPHeader(
-            stringResource(id = R.string.add_resource_header.takeUnless { isEdit }
+            text = stringResource(id = R.string.add_resource_header.takeUnless { isEdit }
                 ?: R.string.edit_resource_header),
-            MaterialColorPalette.onBackground,
-            MaterialTheme.typography.titleMedium,
-            Modifier
+            modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.dimension_16dp))
-                .align(Alignment.Start),
-            fontWeight = FontWeight.Normal
+                .align(Alignment.Start)
         )
         ResourceFormData.resourceForm.map { input ->
             IPTextInput(

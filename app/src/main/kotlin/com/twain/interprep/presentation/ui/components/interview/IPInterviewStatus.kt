@@ -2,7 +2,6 @@ package com.twain.interprep.presentation.ui.components.interview
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardDefaults.elevatedCardElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.data.model.InterviewStatus
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 
 @Composable
@@ -35,39 +34,46 @@ fun IPInterviewStatus(
     shouldHighLight: Boolean = false,
     onClick: (InterviewStatus) -> Unit
 ) {
+    val borderStroke = if (shouldHighLight)
+        BorderStroke(
+            dimensionResource(id = R.dimen.dimension_stroke_width_low),
+            status.getSecondaryColor()
+        ) else
+        BorderStroke(
+            dimensionResource(id = R.dimen.dimension_stroke_width_low),
+            MaterialColorPalette.surfaceContainerHighest
+        )
     Card(
-        modifier = modifier,
-        elevation = elevatedCardElevation(),
+        modifier = modifier
+            .widthIn(min = 100.dp)
+            .border(
+                borderStroke,
+                shape = Shapes.large
+            )
+            .clickable { onClick(status) },
         shape = Shapes.large,
-        colors = CardDefaults.cardColors(containerColor = status.getPrimaryColor()),
+        colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainer),
     ) {
+
         Row(
-            modifier = (Modifier.widthIn(min = 100.dp)
-                .border(
-                    BorderStroke(1.dp, status.getSecondaryColor()),
-                    shape = Shapes.large
-                ).takeIf { shouldHighLight } ?: Modifier).then(
-                Modifier
-                    .widthIn(min = 100.dp)
-                    .background(status.getPrimaryColor(), shape = Shapes.large)
-                    .padding(
-                        start = dimensionResource(id = R.dimen.dimension_4dp),
-                        end = dimensionResource(id = R.dimen.dimension_8dp),
-                        top = dimensionResource(id = R.dimen.dimension_4dp),
-                        bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                    )
-                    .clickable { onClick(status) }
-            ),
+            modifier = Modifier
+                .padding(
+                    start = dimensionResource(id = R.dimen.dimension_8dp),
+                    end = dimensionResource(id = R.dimen.dimension_8dp),
+                    top = dimensionResource(id = R.dimen.dimension_4dp),
+                    bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
         ) {
             Circle(
                 color = status.getSecondaryColor(),
-                size = dimensionResource(id = R.dimen.dimension_16dp)
+                size = dimensionResource(id =R.dimen.dimension_icon_size_medium)
             )
             Text(
                 text = stringResource(id = status.getResourceId()),
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialColorPalette.onSurface
             )
         }
     }

@@ -7,10 +7,11 @@
     <dimen name="dimension_24dp">24dp</dimen>
     <dimen name="dimension_32dp">32dp</dimen>
 
-    <dimen name="dimension_44dp">44dp</dimen>
-    <dimen name="dimension_200dp">200dp</dimen>
-    <dimen name="dimension_205dp">205dp</dimen>
-
     <dimen name="dimension_stroke_width_low">1dp</dimen>
+
     <dimen name="dimension_elevation_low">1dp</dimen>
+
+    <dimen name="dimension_icon_size_small">16dp</dimen>
+    <dimen name="dimension_icon_size_medium">20dp</dimen>
+    <dimen name="dimension_icon_size_regular">24dp</dimen>
 </resources>

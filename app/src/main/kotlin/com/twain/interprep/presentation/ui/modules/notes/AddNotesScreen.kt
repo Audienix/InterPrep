@@ -25,10 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.twain.interprep.R
@@ -37,14 +35,12 @@ import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
-import com.twain.interprep.presentation.ui.components.generic.IPOutlinedButton
 import com.twain.interprep.presentation.ui.components.note.AddNoteCard
 import com.twain.interprep.presentation.ui.components.note.InterviewDetailForNote
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundSurface
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun AddNotesScreen(
@@ -75,7 +71,7 @@ fun AddNotesScreen(
                         id = R.string.appbar_title_add_notes.takeUnless { isEdit }
                             ?: R.string.appbar_title_edit_notes),
                     navIcon = {
-                        IPIcon(imageVector = Icons.Filled.ArrowBack, tint = Color.White) {
+                        IPIcon(imageVector = Icons.Filled.ArrowBack, tint = MaterialColorPalette.onSurfaceVariant) {
                             handleBackPress(viewModel, navController, shouldShowAlert)
                         }
                     }
@@ -106,7 +102,6 @@ fun AddNotesScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(BackgroundSurface)
                     ) {
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
@@ -120,18 +115,16 @@ fun AddNotesScreen(
                     }
                     if (!viewModel.notes.isEmpty()) {
                         IPHeader(
-                            stringResource(id = R.string.add_note_header.takeUnless { isEdit }
+                            text = stringResource(id = R.string.add_note_header.takeUnless { isEdit }
                                 ?: R.string.edit_note_header),
-                            MaterialTheme.colorScheme.onSurfaceVariant,
-                            MaterialTheme.typography.titleMedium,
-                            Modifier.padding(
-                                start = dimensionResource(id = R.dimen.dimension_16dp),
-                                end = dimensionResource(id = R.dimen.dimension_16dp),
-                                top = dimensionResource(id = R.dimen.dimension_16dp),
-                                bottom = dimensionResource(id = R.dimen.dimension_4dp)
-                            )
-                                .align(Alignment.Start),
-                            fontWeight = FontWeight.Normal
+                            modifier = Modifier
+                                .padding(
+                                    start = dimensionResource(id = R.dimen.dimension_16dp),
+                                    end = dimensionResource(id = R.dimen.dimension_16dp),
+                                    top = dimensionResource(id = R.dimen.dimension_16dp),
+                                    bottom = dimensionResource(id = R.dimen.dimension_4dp)
+                                )
+                                .align(Alignment.Start)
                         )
                     } else {
                         FullScreenEmptyState(
@@ -176,7 +169,7 @@ fun AddNotesScreen(
                                 addQuestion = { viewModel.addQuestion(index) },
                                 deleteNote = { viewModel.deleteNote(interview, note) },
                                 deleteQuestion = { questionIndex ->
-                                    viewModel.deleteQuestion(index,questionIndex)
+                                    viewModel.deleteQuestion(index, questionIndex)
                                 },
                                 shouldValidate = shouldValidateFormFields,
                                 isEdit
@@ -189,21 +182,22 @@ fun AddNotesScreen(
                                     horizontal = dimensionResource(id = R.dimen.dimension_16dp)
                                 )
                             ) {
-                                IPOutlinedButton(
-                                    backgroundColor = BackgroundLightPurple,
+                                IPFilledButton(
+                                    backgroundColor = MaterialColorPalette.primaryContainer,
                                     text = stringResource(id = R.string.add_note),
-                                    textColor = Color.Black,
-                                    textStyle = MaterialTheme.typography.titleMedium,
+                                    textColor = MaterialColorPalette.onPrimaryContainer,
+                                    textStyle = MaterialTheme.typography.labelLarge,
                                     enabled = viewModel.addNoteEnabled(),
-                                    iconColor = BackgroundDarkPurple,
-                                    borderColor = BackgroundDarkPurple,
+                                    iconColor = MaterialColorPalette.onPrimaryContainer,
                                     leadingIcon = R.drawable.outline_add_circle,
                                     onClick = { viewModel.addNote() })
                             }
                         }
                     }
                 }
-            })
+            },
+            containerColor = MaterialColorPalette.surface
+        )
     }
 }
 

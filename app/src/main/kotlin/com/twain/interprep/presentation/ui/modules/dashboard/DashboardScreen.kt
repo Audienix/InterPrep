@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -27,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
@@ -41,7 +39,7 @@ import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptySta
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
-import com.twain.interprep.presentation.ui.components.interview.InterviewBottomSheet
+import com.twain.interprep.presentation.ui.components.interview.IPBottomSheet
 import com.twain.interprep.presentation.ui.components.interview.InterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
@@ -142,13 +140,11 @@ private fun ShowDashboardScreenContent(
                     item {
                         IPHeader(
                             text = stringResource(id = R.string.heading_label_past),
-                            textStyle = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.padding(
                                 start = dimensionResource(id = R.dimen.dimension_8dp),
                                 top = dimensionResource(id = R.dimen.dimension_8dp),
                                 end = dimensionResource(id = R.dimen.dimension_8dp),
-                            ),
-                            fontWeight = FontWeight.Normal
+                            )
                         )
                     }
                     items(interviews.data.pastInterviewList.list) { interview ->
@@ -181,7 +177,7 @@ fun ShowInterviewStatusBottomSheet(
     interviewModel: InterviewViewModel
 ) {
     if (openBottomSheet.value) {
-        InterviewBottomSheet(
+        IPBottomSheet(
             onDismissRequest = { openBottomSheet.value = false },
             bottomSheetState = bottomSheetState,
             onNewStatusSelected = {
@@ -210,13 +206,11 @@ private fun ShowComingNextInterviews(
     Column {
         IPHeader(
             text = stringResource(id = R.string.heading_label_coming_next),
-            textStyle = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(
                 start = dimensionResource(id = R.dimen.dimension_8dp),
                 end = dimensionResource(id = R.dimen.dimension_8dp),
                 top = dimensionResource(id = R.dimen.dimension_8dp)
-            ),
-            fontWeight = FontWeight.Normal
+            )
         )
         LazyRow(
             modifier = Modifier.padding(
@@ -256,13 +250,11 @@ private fun ShowUpcomingInterviews(
     Column {
         IPHeader(
             text = stringResource(id = R.string.heading_label_upcoming),
-            textStyle = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(
                 start = dimensionResource(id = R.dimen.dimension_8dp),
                 end = dimensionResource(id = R.dimen.dimension_8dp),
                 top = dimensionResource(id = R.dimen.dimension_8dp)
-            ),
-            fontWeight = FontWeight.Normal
+            )
         )
         LazyRow(
             modifier = Modifier.padding(
