@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
@@ -19,6 +21,15 @@ fun DeleteIcon(tint: Color = MaterialColorPalette.onSurfaceVariant, onDeleteIcon
 @Composable
 fun EditIcon(tint: Color = MaterialColorPalette.onSurfaceVariant, onEditIconClick: () -> Unit) {
     IPIcon(imageVector = Icons.Filled.Edit, tint = tint, onIconClick = onEditIconClick)
+}
+
+@Composable
+fun EditNoteIcon(tint: Color = MaterialColorPalette.onSurfaceVariant, onEditIconClick: () -> Unit) {
+    IPIcon(
+        painter = painterResource(id = R.drawable.ic_edit_note_24),
+        tint = tint,
+        onIconClick = onEditIconClick
+    )
 }
 
 @Composable

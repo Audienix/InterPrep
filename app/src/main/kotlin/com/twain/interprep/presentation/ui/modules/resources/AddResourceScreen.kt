@@ -193,7 +193,7 @@ private fun ShowScreenContent(
                         textStyle = MaterialTheme.typography.titleMedium,
                         enabled = viewModel.addLinkEnabled(),
                         iconColor = MaterialColorPalette.onPrimaryContainer,
-                        leadingIcon = R.drawable.link_logo,
+                        leadingIcon = R.drawable.ic_add_link,
                         disabledContentColor = MaterialColorPalette.onSurfaceVariant,
                         onClick = { viewModel.addLink() })
                 }

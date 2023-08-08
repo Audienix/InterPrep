@@ -1,13 +1,14 @@
 package com.twain.interprep.presentation.ui.components.note
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -40,11 +41,14 @@ fun AddNoteCard(
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
     ShowDeleteConfirmationDialog(showDeleteDialog, deleteNote)
-    ElevatedCard(
+    Card(
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.dimension_stroke_width_low),
+            MaterialColorPalette.surfaceContainerHigh
+        ),
         shape = Shapes.medium,
-        elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
         modifier = modifier,
-        colors = CardDefaults.elevatedCardColors(containerColor = MaterialColorPalette.surfaceContainerLow)
+        colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLow),
     ) {
         Column(
             modifier = Modifier
@@ -79,13 +83,13 @@ fun AddNoteCard(
             }
             var horizontalArrangement = Arrangement.End
             var buttonText = stringResource(id = R.string.add_note_question)
-            var buttonIcon = R.drawable.outline_add_circle
+            var buttonIcon = R.drawable.ic_outline_add_circle_24
             var clickHandler = { addQuestion() }
 
             if (isEdit) {
                 horizontalArrangement = Arrangement.Start
                 buttonText = stringResource(id = R.string.delete_note_button_text)
-                buttonIcon = R.drawable.outline_do_disturb_on
+                buttonIcon = R.drawable.ic_outline_delete_circle_24
                 clickHandler = { showDeleteDialog.value = true }
             }
 

@@ -5,9 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,9 +19,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
-import com.twain.interprep.presentation.ui.theme.TextPrimary
-import com.twain.interprep.presentation.ui.theme.TextSecondary
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -30,16 +29,16 @@ import java.util.Locale
 fun IPDateTimeBox(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Transparent,
-    borderColor: Color = Color.Transparent,
+    borderColor: Color = MaterialColorPalette.outline,
     borderWidth: Dp = dimensionResource(id = R.dimen.dimension_stroke_width_low),
-    dateTextColor: Color = TextPrimary,
-    monthYearTextColor: Color = TextSecondary,
+    dateTextColor: Color = MaterialColorPalette.onSurface,
+    monthYearTextColor: Color = MaterialColorPalette.onSurfaceVariant,
     date: Date
 ) {
     Box(
         modifier = modifier
-            .wrapContentSize(unbounded = true)
             .clip(Shapes.medium)
+            .aspectRatio(1f)
             .background(backgroundColor)
             .border(width = borderWidth, color = borderColor, shape = Shapes.medium),
     ) {
@@ -56,7 +55,7 @@ fun IPDateTimeBox(
                     Locale.getDefault()
                 ).format(date),
                 color = dateTextColor,
-                style = MaterialTheme.typography.displaySmall
+                style = MaterialTheme.typography.titleLarge
             )
             Text(
                 text = SimpleDateFormat(
