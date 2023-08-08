@@ -1,7 +1,7 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -107,21 +108,27 @@ fun NoteIndex(
     modifier: Modifier = Modifier,
     index: Int
 ) {
-    Box(
+    Card(
         modifier = modifier
-            .clip(CircleShape)
-            .background(MaterialColorPalette.secondaryContainer)
-            .border(
-                width = dimensionResource(id = R.dimen.dimension_stroke_width_low),
-                color = MaterialColorPalette.onSecondaryContainer
-            )
             .size(dimensionResource(id = R.dimen.dimension_icon_size_large)),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = index.toString(),
-            style = MaterialTheme.typography.titleLarge
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.dimension_stroke_width_low),
+            MaterialColorPalette.onSecondaryContainer
+        ),
+        shape = CircleShape,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialColorPalette.secondaryContainer
         )
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = index.toString(),
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
     }
 }
 
