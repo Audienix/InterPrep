@@ -55,9 +55,6 @@ fun NotesScreen(
                 items(interviewNotePairs) { (interview, notes) ->
                     NoteCard(
                         interviewNotePair = interview to notes,
-                        onDeleteNoteClick = {
-                            viewModel.deleteNote(interview, it)
-                        },
                         onViewNoteClick = {
                             navController.navigate(AppScreens.MainScreens.ViewNotes.withArgs(interview.interviewId)) {
                                 popUpTo(AppScreens.MainScreens.Notes.route)
@@ -70,11 +67,10 @@ fun NotesScreen(
                         },
                         onDeleteNotesForInterviewClick = {
                             viewModel.deleteNotesForInterview(interview)
-                        },
-                        onDeleteInterviewClick = {
-                            viewModel.deleteInterview(interview)
                         }
-                    )
+                    ) {
+                        viewModel.deleteInterview(interview)
+                    }
                 }
             }
         }

@@ -14,4 +14,5 @@
     <dimen name="dimension_icon_size_small">16dp</dimen>
     <dimen name="dimension_icon_size_medium">20dp</dimen>
     <dimen name="dimension_icon_size_regular">24dp</dimen>
+    <dimen name="dimension_icon_size_large">48dp</dimen>
 </resources>

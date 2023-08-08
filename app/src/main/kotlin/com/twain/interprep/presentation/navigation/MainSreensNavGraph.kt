@@ -14,6 +14,7 @@ import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
 import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScreen
 import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
+import com.twain.interprep.presentation.ui.modules.notes.ViewMoreQuestionsScreen
 import com.twain.interprep.presentation.ui.modules.notes.ViewNotesScreen
 import com.twain.interprep.presentation.ui.modules.resources.AddResourceScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
@@ -67,6 +68,26 @@ fun MainScreensNavGraph(navController: NavHostController) {
             )) { entry ->
             val interviewId = entry.arguments?.getInt(StringConstants.NAV_ARG_INTERVIEW_ID) ?: 0
             ViewNotesScreen(navController = navController, interviewId = interviewId)
+        }
+        // View More Questions
+        composable(
+            route = "${AppScreens.MainScreens.ViewMoreQuestions.route}/{noteIndex}/{noteId}",
+            arguments = listOf(
+                navArgument("noteIndex") {
+                    type = NavType.IntType
+                },
+                navArgument("noteId") {
+                    type = NavType.IntType
+                },
+            )
+        ) { entry ->
+            val noteIndex = entry.arguments?.getInt("noteIndex") ?: 0
+            val noteId = entry.arguments?.getInt("noteId") ?: 0
+            ViewMoreQuestionsScreen(
+                noteId = noteId,
+                noteIndex = noteIndex,
+                navController = navController
+            )
         }
         // Resource List Screen
         composable(AppScreens.Resources.route) {

@@ -127,6 +127,9 @@
     <string name="resource_description">"Maximize your interview preparation with a collection of learning materials"</string>
     <string name="get_started_button_text">"Get Started"</string>
     <string name="reference_link">Reference Link</string>
+
+    <string name="label_question">Questions</string>
+    <string name="label_view_more">View More …</string>
 </resources>
 
 
