@@ -21,9 +21,6 @@ interface InterviewDAO {
     @Query("SELECT * FROM interview WHERE interviewId = :id")
     fun getInterview(id: Int): Flow<Interview>
 
-    @Query("SELECT * FROM interview ORDER BY date ASC")
-    fun getAllInterviews(): Flow<List<Interview>>
-
     @Query("SELECT * FROM interview WHERE (date || time) < :dateCurr ORDER BY (date || time) LIMIT :limit OFFSET :offset")
     fun getPastInterviews(
         dateCurr: String,

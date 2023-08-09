@@ -126,8 +126,8 @@ fun AddNotesScreen(
                     )
                     if (!viewModel.notes.isEmpty()) {
                         IPHeader(
-                            text = stringResource(id = R.string.add_note_header.takeUnless { isEdit }
-                                ?: R.string.edit_note_header),
+                            text = stringResource(id = R.string.header_add_note.takeUnless { isEdit }
+                                ?: R.string.header_edit_note),
                             modifier = Modifier
                                 .padding(
                                     start = dimensionResource(id = R.dimen.dimension_16dp),
@@ -195,7 +195,7 @@ fun AddNotesScreen(
                             ) {
                                 IPFilledButton(
                                     backgroundColor = MaterialColorPalette.primaryContainer,
-                                    text = stringResource(id = R.string.add_note),
+                                    text = stringResource(id = R.string.button_add_note),
                                     textColor = MaterialColorPalette.onPrimaryContainer,
                                     textStyle = MaterialTheme.typography.labelLarge,
                                     enabled = viewModel.addNoteEnabled(),

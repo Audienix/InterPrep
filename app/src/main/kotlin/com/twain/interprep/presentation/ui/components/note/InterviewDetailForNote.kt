@@ -87,7 +87,7 @@ fun InterviewDetails(
         Text(
             text = formatRoundNumAndInterviewType(interview).ifEmpty {
                 stringResource(
-                    id = R.string.no_text_available
+                    id = R.string.label_no_text_available
                 )
             },
             color = MaterialColorPalette.onSurfaceVariant,

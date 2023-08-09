@@ -122,8 +122,8 @@ private fun ShowScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IPHeader(
-            text = stringResource(id = R.string.add_resource_header.takeUnless { isEdit }
-                ?: R.string.edit_resource_header),
+            text = stringResource(id = R.string.header_add_resource.takeUnless { isEdit }
+                ?: R.string.header_edit_resource),
             modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.dimension_16dp))
                 .align(Alignment.Start)
@@ -146,7 +146,7 @@ private fun ShowScreenContent(
                     horizontal = dimensionResource(id = R.dimen.dimension_16dp),
                 )
                 .align(Alignment.Start),
-            text = stringResource(id = R.string.reference_link),
+            text = stringResource(id = R.string.header_reference_link),
             textStyle = MaterialTheme.typography.bodyMedium,
         )
         Column(
@@ -188,7 +188,7 @@ private fun ShowScreenContent(
                 ) {
                     IPFilledButton(
                         backgroundColor = MaterialColorPalette.primaryContainer,
-                        text = stringResource(id = R.string.add_link),
+                        text = stringResource(id = R.string.button_add_link),
                         textColor = MaterialColorPalette.onPrimaryContainer,
                         textStyle = MaterialTheme.typography.titleMedium,
                         enabled = viewModel.addLinkEnabled(),

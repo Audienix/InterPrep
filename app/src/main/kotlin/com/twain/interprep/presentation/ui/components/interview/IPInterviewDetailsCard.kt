@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.components.interview
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,15 +53,15 @@ fun IPInterviewDetailsCard(
     onEditClick: () -> Unit
 ) {
     Card(
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.dimension_stroke_width_low),
+            MaterialColorPalette.surfaceContainerHigh
+        ),
         modifier = modifier
             .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.dimension_4dp)),
-        shape = RoundedCornerShape(
-            topStart = dimensionResource(id = R.dimen.dimension_16dp),
-            topEnd = dimensionResource(id = R.dimen.dimension_16dp)
-        ),
-        colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLow),
-        elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
+            .padding(dimensionResource(id = R.dimen.dimension_8dp)),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.dimension_16dp)),
+        colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLow)
     ) {
         InterviewDetailsHeader(interview, onEditClick, headerBackgroundColor, headerContentColor)
         InterviewDetailsList(interview)
@@ -101,7 +102,7 @@ private fun InterviewDetailsList(interview: Interview) {
                     .fillMaxWidth()
                     .padding(horizontal = dimensionResource(id = R.dimen.dimension_4dp)),
                 thickness = dimensionResource(id = R.dimen.dimension_stroke_width_low),
-                color = MaterialColorPalette.outline
+                color = MaterialColorPalette.outlineVariant
             )
     }
 }
@@ -125,7 +126,7 @@ private fun InterviewDetailsHeader(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.Center)
-                .padding(vertical = dimensionResource(id = R.dimen.dimension_8dp)),
+                .padding(dimensionResource(id = R.dimen.dimension_8dp)),
             text = text,
             color = headerContentColor,
             style = MaterialTheme.typography.titleMedium,

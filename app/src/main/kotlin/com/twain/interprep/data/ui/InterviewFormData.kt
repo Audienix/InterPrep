@@ -47,7 +47,7 @@ object InterviewFormData {
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_job_post,
-            errorTextId = R.string.error_url_not_valid_text,
+            errorTextId = R.string.error_message_invalid_url,
             inputType = TextInputType.TEXT,
             keyboardType = KeyboardType.Uri,
             validationType = ValidationType.URL
@@ -55,7 +55,7 @@ object InterviewFormData {
         TextInputAttributes(
             labelTextId = R.string.hint_label_company_link,
             inputType = TextInputType.TEXT,
-            errorTextId = R.string.error_url_not_valid_text,
+            errorTextId = R.string.error_message_invalid_url,
             keyboardType = KeyboardType.Uri,
             validationType = ValidationType.URL
         ),

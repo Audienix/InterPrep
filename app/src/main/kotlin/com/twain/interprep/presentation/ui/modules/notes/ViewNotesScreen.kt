@@ -57,7 +57,11 @@ fun ViewNotesScreen(
                         IconButton(onClick = {
                             navController.popBackStack()
                         }) {
-                            Icon(Icons.Filled.ArrowBack, null, tint = MaterialColorPalette.onSurfaceVariant)
+                            Icon(
+                                Icons.Filled.ArrowBack,
+                                null,
+                                tint = MaterialColorPalette.onSurfaceVariant
+                            )
                         }
                     }
                 ) {

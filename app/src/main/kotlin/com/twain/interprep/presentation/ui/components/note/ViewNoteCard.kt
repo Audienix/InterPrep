@@ -65,12 +65,11 @@ fun ViewNoteCard(
             )
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.dimension_8dp))
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp))
+                    .padding(dimensionResource(id = R.dimen.dimension_8dp))
             ) {
                 Box(
                     modifier = Modifier
@@ -90,7 +89,7 @@ fun ViewNoteCard(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
-                        .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
+                        .padding(vertical = dimensionResource(id = R.dimen.dimension_8dp)),
                     verticalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.dimension_4dp)
                     )
@@ -116,7 +115,7 @@ fun ViewNoteCard(
                             )
                         }
                 }
-                Spacer(modifier = Modifier.weight(1f))
+//                Spacer(modifier = Modifier.weight(1f))
                 IPDropdown(menuItems)
 
             }

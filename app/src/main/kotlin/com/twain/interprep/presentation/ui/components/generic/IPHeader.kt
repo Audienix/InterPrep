@@ -17,7 +17,7 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun IPHeader(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     text: String,
     textColor: Color = MaterialColorPalette.onSurfaceVariant,
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,

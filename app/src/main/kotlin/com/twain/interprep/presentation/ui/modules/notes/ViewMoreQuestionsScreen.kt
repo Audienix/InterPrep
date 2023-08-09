@@ -48,7 +48,7 @@ fun ViewMoreQuestionsScreen(
     Scaffold(
         topBar = {
             IPAppBar(
-                title = stringResource(id = R.string.label_question),
+                title = stringResource(id = R.string.appbar_title_question),
                 navIcon = {
                     IPIcon(
                         imageVector = Icons.Filled.ArrowBack,

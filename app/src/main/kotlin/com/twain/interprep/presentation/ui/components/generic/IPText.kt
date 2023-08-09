@@ -61,7 +61,7 @@ fun IPText(
         )
     } else {
         val displayText = when {
-            text.isNullOrEmpty() && link.isNullOrEmpty() -> stringResource(id = R.string.no_text_available)
+            text.isNullOrEmpty() && link.isNullOrEmpty() -> stringResource(id = R.string.label_no_text_available)
             text.isNullOrEmpty() -> link
             else -> text
         }

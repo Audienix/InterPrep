@@ -5,7 +5,7 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.text.format.DateFormat
-import com.twain.interprep.constants.NumberConstants.MILLISECONDS
+import com.twain.interprep.constants.NumberConstants.SECOND_IN_MILLISECONDS
 import com.twain.interprep.constants.NumberConstants.WEEK_IN_DAYS
 import com.twain.interprep.constants.NumberConstants.WEEK_IN_MILLISECONDS
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_HOUR_MIN
@@ -111,7 +111,7 @@ object DateUtils {
         val timeDifferenceInMillis = targetDateTime.time - currentDate.time
 
         // Convert the time difference to seconds
-        return (timeDifferenceInMillis / MILLISECONDS) - reminderTimeBefore
+        return (timeDifferenceInMillis / SECOND_IN_MILLISECONDS) - reminderTimeBefore
     }
 
     fun getDisplayedTime(context: Context, timeString: String): String = timeString.takeIf {

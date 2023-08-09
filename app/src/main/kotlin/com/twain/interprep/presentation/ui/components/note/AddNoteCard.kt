@@ -82,13 +82,13 @@ fun AddNoteCard(
                 )
             }
             var horizontalArrangement = Arrangement.End
-            var buttonText = stringResource(id = R.string.add_note_question)
+            var buttonText = stringResource(id = R.string.button_add_question)
             var buttonIcon = R.drawable.ic_outline_add_circle_24
             var clickHandler = { addQuestion() }
 
             if (isEdit) {
                 horizontalArrangement = Arrangement.Start
-                buttonText = stringResource(id = R.string.delete_note_button_text)
+                buttonText = stringResource(id = R.string.button_delete_note)
                 buttonIcon = R.drawable.ic_outline_delete_circle_24
                 clickHandler = { showDeleteDialog.value = true }
             }

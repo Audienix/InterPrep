@@ -140,7 +140,7 @@ class InterviewViewModel @Inject constructor(
         val delayInSeconds = DateUtils.calculateTimeDifferenceInSeconds(
             interviewData.date,
             interviewData.time,
-            reminderTimeBefore * NumberConstants.SECONDS
+            reminderTimeBefore * NumberConstants.MINUTE_IN_SECONDS
         )
 
         return createNotificationWorkRequest(
