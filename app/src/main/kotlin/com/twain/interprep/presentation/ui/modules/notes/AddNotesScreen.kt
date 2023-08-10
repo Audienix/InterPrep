@@ -111,7 +111,7 @@ fun AddNotesScreen(
                                 horizontal = dimensionResource(id = R.dimen.dimension_16dp)
                             ),
                             interview = interview,
-                            shouldShowDeleteButton = false,
+                            shouldShowMenuOption = false,
                             notesEmpty = viewModel.notes.isEmpty(),
                             onDeleteInterview = {}
                         ) {

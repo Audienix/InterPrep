@@ -36,7 +36,7 @@ import com.twain.interprep.utils.DateUtils
 fun InterviewDetailForNote(
     modifier: Modifier = Modifier,
     interview: Interview,
-    shouldShowDeleteButton: Boolean,
+    shouldShowMenuOption: Boolean,
     notesEmpty: Boolean,
     backgroundColor: Color = Color.Transparent,
     onDeleteInterview: () -> Unit,
@@ -54,12 +54,11 @@ fun InterviewDetailForNote(
             borderColor = MaterialColorPalette.outline,
             date = date
         )
-
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
         InterviewDetails(
             interview = interview
         )
-        if (shouldShowDeleteButton) {
+        if (shouldShowMenuOption) {
             IPDropdown(
                 items = getInterviewDropdownMenuItems(
                     notesEmpty,
@@ -76,13 +75,15 @@ fun InterviewDetails(
     interview: Interview,
 ) {
     Column(
-        modifier = Modifier.fillMaxHeight(),
+        modifier = Modifier.fillMaxHeight().fillMaxWidth(0.9f),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(
             text = interview.company,
             color = MaterialColorPalette.onSurface,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
         )
         Text(
             text = formatRoundNumAndInterviewType(interview).ifEmpty {
@@ -130,5 +131,5 @@ fun InterviewDetailForNotePreview() {
         modifier = Modifier.padding(
             dimensionResource(id = R.dimen.dimension_16dp),
             dimensionResource(id = R.dimen.dimension_12dp)
-        ), interview = interviewMockData, shouldShowDeleteButton = true, notesEmpty = false, onDeleteInterview = {}) {}
+        ), interview = interviewMockData, shouldShowMenuOption = true, notesEmpty = false, onDeleteInterview = {}) {}
 }

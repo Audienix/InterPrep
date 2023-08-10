@@ -92,7 +92,7 @@ fun ViewNotesScreen(
                         InterviewDetailForNote(
                             modifier = Modifier.padding(dimensionResource(id = R.dimen.dimension_16dp)),
                             interview = interview,
-                            shouldShowDeleteButton = false,
+                            shouldShowMenuOption = false,
                             notesEmpty = viewModel.notes.isEmpty(),
                             onDeleteInterview = {}
                         ) {

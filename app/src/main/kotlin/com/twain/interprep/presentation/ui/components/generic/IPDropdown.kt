@@ -3,7 +3,6 @@ package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -30,12 +29,11 @@ import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
-fun IPDropdown(items: List<IPDropdownItem>) {
+fun IPDropdown(modifier: Modifier = Modifier, items: List<IPDropdownItem>) {
     LocalContext.current
     val expanded = remember { mutableStateOf(false) }
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .wrapContentSize(Alignment.TopEnd)
     ) {
         IconButton(onClick = { expanded.value = !expanded.value }) {

@@ -68,7 +68,7 @@ fun IPInterviewStatus(
         ) {
             Circle(
                 color = status.getSecondaryColor(),
-                size = dimensionResource(id =R.dimen.dimension_icon_size_medium)
+                size = dimensionResource(id =R.dimen.dimension_icon_size_20)
             )
             Text(
                 text = stringResource(id = status.getResourceId()),

@@ -1,18 +1,15 @@
 package com.twain.interprep.presentation.ui.components.note
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -26,12 +23,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
+import com.twain.interprep.presentation.ui.components.generic.IPCircleIcon
 import com.twain.interprep.presentation.ui.components.generic.IPDropdown
 import com.twain.interprep.presentation.ui.components.generic.IPDropdownItem
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
@@ -40,9 +37,9 @@ import com.twain.interprep.presentation.ui.theme.Shapes
 @Composable
 fun ViewNoteCard(
     note: Note,
+    index: Int,
     onEditClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
-    index: Int,
     onViewMoreClicked: () -> Unit
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
@@ -69,27 +66,30 @@ fun ViewNoteCard(
         ) {
             Row(
                 modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.dimension_8dp))
+                    .padding(
+                        start = dimensionResource(id = R.dimen.dimension_8dp)
+                    ),
+                verticalAlignment = Alignment.Top
             ) {
-                Box(
+                IPCircleIcon(
                     modifier = Modifier
-                        .padding(vertical = dimensionResource(id = R.dimen.dimension_16dp))
-                        .size(dimensionResource(id = R.dimen.dimension_32dp))
-                        .clip(CircleShape)
-                        .background(MaterialColorPalette.secondaryContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = index.toString(),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialColorPalette.onSecondaryContainer
-                    )
-                }
+                        .padding(
+                            vertical = dimensionResource(id = R.dimen.dimension_16dp)
+                        ),
+                    text = index.toString(),
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    textColor = MaterialColorPalette.onSecondaryContainer,
+                    size = dimensionResource(id = R.dimen.dimension_icon_size_32),
+                    containerColor = MaterialColorPalette.secondaryContainer,
+                    borderColor = MaterialColorPalette.surfaceContainerLow,
+                )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_8dp)))
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .padding(vertical = dimensionResource(id = R.dimen.dimension_8dp)),
+                        .padding(
+                            vertical = dimensionResource(id = R.dimen.dimension_16dp)
+                        )
+                        .fillMaxWidth(0.8f),
                     verticalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.dimension_4dp)
                     )
@@ -106,6 +106,7 @@ fun ViewNoteCard(
                             color = MaterialColorPalette.onSurface
                         )
                     }
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
                     note.questions.subList(0, minOf(2, note.questions.size))
                         .forEachIndexed { index, question ->
                             Text(
@@ -115,9 +116,12 @@ fun ViewNoteCard(
                             )
                         }
                 }
-//                Spacer(modifier = Modifier.weight(1f))
-                IPDropdown(menuItems)
-
+                IPDropdown(
+                    modifier = Modifier
+                        .padding(
+                            vertical = dimensionResource(id = R.dimen.dimension_8dp)
+                        ), items = menuItems
+                )
             }
             if (note.questions.size > 2) {
                 Text(
@@ -129,7 +133,7 @@ fun ViewNoteCard(
                         )
                         .clickable { onViewMoreClicked() },
                     text = stringResource(id = R.string.label_view_more),
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialColorPalette.surfaceTint,
                     textAlign = TextAlign.End
                 )

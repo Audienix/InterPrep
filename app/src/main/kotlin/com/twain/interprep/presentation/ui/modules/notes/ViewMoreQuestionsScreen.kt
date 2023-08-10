@@ -1,8 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.notes
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,21 +8,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -32,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPCircleIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
@@ -135,29 +129,15 @@ fun NoteIndex(
     modifier: Modifier = Modifier,
     index: Int
 ) {
-    Card(
-        modifier = modifier
-            .size(dimensionResource(id = R.dimen.dimension_icon_size_large)),
-        border = BorderStroke(
-            dimensionResource(id = R.dimen.dimension_stroke_width_low),
-            MaterialColorPalette.onSecondaryContainer
-        ),
-        shape = CircleShape,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialColorPalette.secondaryContainer
-        )
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = index.toString(),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialColorPalette.onSecondaryContainer
-            )
-        }
-    }
+    IPCircleIcon(
+        modifier = modifier,
+        text = index.toString(),
+        textStyle = MaterialTheme.typography.titleMedium,
+        textColor = MaterialColorPalette.onSecondaryContainer,
+        size = dimensionResource(id = R.dimen.dimension_icon_size_48),
+        containerColor = MaterialColorPalette.secondaryContainer,
+        borderColor = MaterialColorPalette.onSecondaryContainer,
+    )
 }
 
 @Composable

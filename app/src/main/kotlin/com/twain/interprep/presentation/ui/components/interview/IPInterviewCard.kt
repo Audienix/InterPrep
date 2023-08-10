@@ -44,7 +44,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun InterviewCard(
+fun IPInterviewCard(
     interview: Interview,
     dashboardInterviewType: DashboardInterviewType,
     navController: NavHostController,
@@ -190,7 +190,7 @@ val interviewMockData = Interview(
 @Composable
 @Preview
 fun UpcomingInterviewCard() {
-    InterviewCard(
+    IPInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
@@ -201,7 +201,7 @@ fun UpcomingInterviewCard() {
 @Composable
 @Preview
 fun ComingNextInterviewCard() {
-    InterviewCard(
+    IPInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
@@ -212,7 +212,7 @@ fun ComingNextInterviewCard() {
 @Composable
 @Preview
 fun PastInterviewCard() {
-    InterviewCard(
+    IPInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),

@@ -123,4 +123,9 @@
     <string name="intro_note_description">"Easily access and manage your past interview notes for future reference"</string>
     <string name="intro_resource_title">"Organize your learning resources"</string>
     <string name="intro_resource_description">"Maximize your interview preparation with a collection of learning materials"</string>
+
+    <string name="time_morning">Morning</string>
+    <string name="time_afternoon">Afternoon</string>
+    <string name="time_evening">Evening</string>
+    <string name="hello">Hello</string>
 </resources>
