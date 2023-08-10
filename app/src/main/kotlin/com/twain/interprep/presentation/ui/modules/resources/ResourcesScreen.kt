@@ -83,6 +83,10 @@ private fun ShowResourcesScreenContent(
     var active by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+        // when this screen is first created, viewModel.resourceAndLinksPairs is the list of
+        // all resource and links pairs. when this screen is recomposed when the user clicked
+        // back button in the edit resource screen, viewModel.resourceAndLinksPairs is the list of
+        // resource and links pairs based on the search text stored in the view model
         viewModel.getSearchingResult(viewModel.searchText)
     }
 
@@ -119,6 +123,11 @@ private fun ShowResourcesScreenContent(
                     )
                 },
                 trailingIcon = {
+                    /** If the dismiss button is clicked with the empty searchText, the expanding sheet
+                     * of the searchBar will disappear. Then searchText is removed from the
+                     * SearchBar and ResourcesScreen will display the list of all resource and
+                     * links pairs.
+                     * **/
                     if (active) {
                         Icon(
                             modifier =
