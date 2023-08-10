@@ -36,13 +36,15 @@ import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.model.isEmpty
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
-import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
+import com.twain.interprep.presentation.ui.components.generic.IPLargeAppBar
 import com.twain.interprep.presentation.ui.components.interview.IPBottomSheet
-import com.twain.interprep.presentation.ui.components.interview.InterviewCard
+import com.twain.interprep.presentation.ui.components.interview.IPInterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
+import com.twain.interprep.utils.getNameInitials
+import com.twain.interprep.utils.getTimeOfDayGreeting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -58,7 +60,17 @@ fun DashboardScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        topBar = { IPAppBar(stringResource(id = R.string.nav_item_dashboard)) },
+        topBar = {
+            //TODO Get the username from jetpack data store & todayInterviewCount from viewmodel
+            val username = "Arighna"
+            IPLargeAppBar(
+                title = "${stringResource(R.string.hello)} $username",
+                subtitle = "Good ${getTimeOfDayGreeting()}",
+                todayInterviewCount = 3,
+                username = getNameInitials(username),
+                isInterviewDetailsVisible = true
+            )
+        },
         containerColor = MaterialColorPalette.surface,
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
@@ -148,7 +160,7 @@ private fun ShowDashboardScreenContent(
                         )
                     }
                     items(interviews.data.pastInterviewList.list) { interview ->
-                        InterviewCard(
+                        IPInterviewCard(
                             interview = interview,
                             onClick = { interviewModel.interviewData = interview },
                             navController = navController,
@@ -224,7 +236,7 @@ private fun ShowComingNextInterviews(
                 loadMore(InterviewType.COMING_NEXT)
             }
             items(interviews) { interview ->
-                InterviewCard(
+                IPInterviewCard(
                     interview = interview,
                     onClick = {
                         interviewModel.interviewData = interview
@@ -269,7 +281,7 @@ private fun ShowUpcomingInterviews(
                 loadMore(InterviewType.UPCOMING)
             }
             items(interviews) { interview ->
-                InterviewCard(
+                IPInterviewCard(
                     interview = interview,
                     onClick = {
                         interviewModel.interviewData = interview

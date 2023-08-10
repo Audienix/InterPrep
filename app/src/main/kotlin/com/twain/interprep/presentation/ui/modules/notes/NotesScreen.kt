@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
+import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.note.NoteCard
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
@@ -51,17 +53,33 @@ fun NotesScreen(
                 )
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
+            IPHeader(
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(id = R.dimen.dimension_16dp),
+                    vertical = dimensionResource(id = R.dimen.dimension_8dp)
+                ),
+                text = stringResource(id = R.string.header_view_note)
+            )
             LazyColumn {
                 items(interviewNotePairs) { (interview, notes) ->
                     NoteCard(
                         interviewNotePair = interview to notes,
                         onViewNoteClick = {
-                            navController.navigate(AppScreens.MainScreens.ViewNotes.withArgs(interview.interviewId)) {
+                            navController.navigate(
+                                AppScreens.MainScreens.ViewNotes.withArgs(
+                                    interview.interviewId
+                                )
+                            ) {
                                 popUpTo(AppScreens.MainScreens.Notes.route)
                             }
                         },
                         onAddNoteClick = {
-                            navController.navigate(AppScreens.MainScreens.AddNotes.withArgs(interview.interviewId, false)) {
+                            navController.navigate(
+                                AppScreens.MainScreens.AddNotes.withArgs(
+                                    interview.interviewId,
+                                    false
+                                )
+                            ) {
                                 popUpTo(AppScreens.MainScreens.Notes.route)
                             }
                         },

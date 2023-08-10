@@ -29,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.work.WorkManager
 import com.twain.interprep.R
-import com.twain.interprep.constants.NumberConstants.MINUTES
+import com.twain.interprep.constants.NumberConstants.HOUR_IN_MINUTES
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
 import com.twain.interprep.data.model.isPast
@@ -146,12 +146,12 @@ private fun handleBackPress(
         // We should only create notification for future interviews
         if (!viewModel.interviewData.isPast()) {
             val notificationWorkRequest = viewModel.createInterviewNotification(
-                title = context.resources.getString(R.string.noti_interview_reminder_title),
+                title = context.resources.getString(R.string.notification_reminder_title),
                 message = context.resources.getString(
-                    R.string.noti_interview_reminder_description,
+                    R.string.notification_reminder_description,
                     interviewData.company
                 ),
-                reminderTimeBefore = MINUTES
+                reminderTimeBefore = HOUR_IN_MINUTES
             )
             WorkManager.getInstance(context).enqueue(notificationWorkRequest)
         }
@@ -179,8 +179,8 @@ private fun ShowAddInterviewScreenContent(
     ) {
         IPHeader(
             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_16dp)),
-            text = stringResource(id = R.string.add_interview_header.takeUnless { isEditInterview }
-                ?: R.string.edit_interview_header)
+            text = stringResource(id = R.string.header_add_interview.takeUnless { isEditInterview }
+                ?: R.string.header_edit_interview)
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(

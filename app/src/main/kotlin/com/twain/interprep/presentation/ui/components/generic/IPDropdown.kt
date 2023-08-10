@@ -3,7 +3,6 @@ package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -29,26 +28,18 @@ import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
-data class IPDropdownItem(
-    val title: String,
-    val icon: ImageVector,
-    val action: () -> Unit,
-)
-
 @Composable
-fun IPDropdown(items: List<IPDropdownItem>) {
+fun IPDropdown(modifier: Modifier = Modifier, items: List<IPDropdownItem>) {
     LocalContext.current
     val expanded = remember { mutableStateOf(false) }
-
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .wrapContentSize(Alignment.TopEnd)
     ) {
         IconButton(onClick = { expanded.value = !expanded.value }) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
-                contentDescription = stringResource(id = R.string.icon_more_vert_content_description),
+                contentDescription = stringResource(id = R.string.accessibility_icon_more_vert),
                 tint = MaterialColorPalette.onSurfaceVariant
             )
 
@@ -84,6 +75,12 @@ fun IPDropdown(items: List<IPDropdownItem>) {
 
     }
 }
+
+data class IPDropdownItem(
+    val title: String,
+    val icon: ImageVector,
+    val action: () -> Unit,
+)
 
 @Preview(showBackground = true, device = Devices.PIXEL_XL)
 @Composable

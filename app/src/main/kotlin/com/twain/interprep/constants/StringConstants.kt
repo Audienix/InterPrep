@@ -1,6 +1,7 @@
 package com.twain.interprep.constants
 
 object StringConstants {
+    // All date & time formats supported
     const val DT_FORMAT_DATE = "dd"
     const val DT_FORMAT_MONTH_YEAR = "MMM, yyyy"
     const val DT_FORMAT_DAY = "EEE"
@@ -12,6 +13,7 @@ object StringConstants {
     const val DT_FORMAT_MM_DD_YYYY = "MM/dd/yyyy"
     const val DT_FORMAT_DD_MMMM_YYYY = "dd MMMM, yyyy"
 
+    // Database table/entity names
     const val DB_TABLE_INTERVIEW = "interview"
     const val DB_TABLE_NOTE = "note"
     const val DB_TABLE_QUESTION = "question"
@@ -21,11 +23,14 @@ object StringConstants {
     const val DB_TABLE_SUBTOPICS = "subtopic"
     const val DB_TABLE_TOPICS = "topic"
 
+    // Screen navigation arguments
     const val NAV_ARG_INTERVIEW_ID = "interviewId"
     const val NAV_ARG_PRIMARY_COLOR = "primaryColor"
     const val NAV_ARG_SECONDARY_COLOR = "secondaryColor"
     const val NAV_ARG_IS_EDIT = "isEdit"
+    const val NAV_ARG_RESOURCE_ID = "resourceId"
+
+    // Notification keys
     const val NOTIFICATION_KEY_TITLE = "title"
     const val NOTIFICATION_KEY_MESSAGE = "message"
-    const val NAV_ARG_RESOURCE_ID = "resourceId"
 }

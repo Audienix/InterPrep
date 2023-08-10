@@ -67,8 +67,8 @@ fun IPDescriptionRow(
 @Composable
 fun IPIntroductionRow1Preview() {
     IPDescriptionRow(
-        title = stringResource(id = R.string.dashboard_title),
-        body = stringResource(id = R.string.dashboard_description),
+        title = stringResource(id = R.string.intro_dashboard_title),
+        body = stringResource(id = R.string.intro_dashboard_description),
         icon = R.drawable.ic_dashboard_24,
         contentDescription = "dashboard_icon"
     )
@@ -78,8 +78,8 @@ fun IPIntroductionRow1Preview() {
 @Composable
 fun IPIntroductionRow2Preview() {
     IPDescriptionRow(
-        title = stringResource(id = R.string.note_title),
-        body = stringResource(id = R.string.note_description),
+        title = stringResource(id = R.string.intro_note_title),
+        body = stringResource(id = R.string.intro_note_description),
         icon = R.drawable.ic_note_24,
         contentDescription = "note_icon"
     )
@@ -89,8 +89,8 @@ fun IPIntroductionRow2Preview() {
 @Composable
 fun IPIntroductionRow3Preview() {
     IPDescriptionRow(
-        title = stringResource(id = R.string.resource_title),
-        body = stringResource(id = R.string.resource_description),
+        title = stringResource(id = R.string.intro_resource_title),
+        body = stringResource(id = R.string.intro_resource_description),
         icon = R.drawable.ic_resource_24,
         contentDescription = "resource_icon"
     )

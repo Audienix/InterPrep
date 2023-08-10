@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.components.interview
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,8 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,15 +37,14 @@ import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPDateTimeBox
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
-import com.twain.interprep.presentation.ui.theme.TextPrimary
-import com.twain.interprep.presentation.ui.theme.TextSecondary
 import com.twain.interprep.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun InterviewCard(
+fun IPInterviewCard(
     interview: Interview,
     dashboardInterviewType: DashboardInterviewType,
     navController: NavHostController,
@@ -62,10 +62,13 @@ fun InterviewCard(
                     .height(dimensionResource(id = R.dimen.dimension_4dp))
             )
 
-            ElevatedCard(
+            Card(
+                border = BorderStroke(
+                    dimensionResource(id = R.dimen.dimension_stroke_width_low),
+                    MaterialColorPalette.surfaceContainer
+                ),
                 shape = Shapes.medium,
-                elevation = CardDefaults.elevatedCardElevation(dimensionResource(id = R.dimen.dimension_4dp)),
-                colors = CardDefaults.cardColors(containerColor = dashboardInterviewType.cardBackgroundColor),
+                colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLowest),
                 modifier = Modifier
                     .width(cardWidth)
                     .padding(dimensionResource(id = R.dimen.dimension_8dp))
@@ -110,23 +113,23 @@ fun InterviewCard(
                             } + DateUtils.getDisplayedTime(context, interview.time),
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
-                            color = TextSecondary,
+                            color = MaterialColorPalette.onSurfaceVariant,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
                             text = interview.company,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 2,
-                            color = TextPrimary,
+                            color = MaterialColorPalette.onSurface,
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
                             text = formatRoundNumAndInterviewType(interview).ifEmpty {
                                 stringResource(
-                                    id = R.string.no_text_available
+                                    id = R.string.label_no_text_available
                                 )
                             },
-                            color = dashboardInterviewType.cardContentColor,
+                            color = MaterialColorPalette.onSurfaceVariant,
                             style = MaterialTheme.typography.bodyMedium,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
@@ -159,7 +162,7 @@ fun InterviewCard(
 fun formatRoundNumAndInterviewType(interview: Interview): String {
     val formattedRoundNum =
         if (interview.roundNum.isNotEmpty())
-            "#${interview.roundNum} "
+            "Round ${interview.roundNum} "
         else ""
     val formattedInterviewType =
         if (interview.roundNum.isNotEmpty() && interview.interviewType.isNotEmpty())
@@ -187,7 +190,7 @@ val interviewMockData = Interview(
 @Composable
 @Preview
 fun UpcomingInterviewCard() {
-    InterviewCard(
+    IPInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
@@ -198,7 +201,7 @@ fun UpcomingInterviewCard() {
 @Composable
 @Preview
 fun ComingNextInterviewCard() {
-    InterviewCard(
+    IPInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
@@ -209,7 +212,7 @@ fun ComingNextInterviewCard() {
 @Composable
 @Preview
 fun PastInterviewCard() {
-    InterviewCard(
+    IPInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),

@@ -46,12 +46,13 @@ fun IPBottomSheet(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = stringResource(R.string.interview_status), style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = stringResource(R.string.header_interview_status),
+                style = MaterialTheme.typography.titleLarge
+            )
             Row(
                 modifier = Modifier
-                    .padding(
-                        vertical = dimensionResource(id = R.dimen.dimension_24dp)
-                    )
+                    .padding(vertical = dimensionResource(id = R.dimen.dimension_24dp))
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -79,7 +80,6 @@ fun IPBottomSheet(
                     shouldHighLight = highlightedStatus == InterviewStatus.REJECTED
                 ) {
                     onNewStatusSelected(it)
-
                 }
                 IPInterviewStatus(
                     status = InterviewStatus.SELECTED,

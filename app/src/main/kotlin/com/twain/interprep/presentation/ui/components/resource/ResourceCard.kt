@@ -108,7 +108,7 @@ fun ResourceCard(
                 IconButton(
                     onClick = onEditResourceClick,
                     modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.dimension_icon_size_regular))
+                        .size(dimensionResource(id = R.dimen.dimension_icon_size_24))
                         .align(Alignment.TopEnd)
                 ) {
                     Icon(

@@ -59,7 +59,7 @@ fun AddLinkCard(
                     borderColor = MaterialColorPalette.onPrimaryContainer,
                     textColor = MaterialColorPalette.onPrimaryContainer,
                     textStyle = MaterialTheme.typography.titleMedium,
-                    text = stringResource(id = R.string.delete_link_button_text),
+                    text = stringResource(id = R.string.button_delete_link),
                     iconColor = MaterialColorPalette.onPrimaryContainer,
                     leadingIcon = R.drawable.ic_delete_cross_24,
                     onClick = { deleteLink() },

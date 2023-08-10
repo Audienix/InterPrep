@@ -47,7 +47,7 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
             IPHeader(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.intro_screen_heading),
+                text = stringResource(id = R.string.header_intro_screen),
                 textStyle = typography.headlineMedium,
                 alignTextToCenter = true
             )
@@ -63,20 +63,20 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
                 horizontalAlignment = Alignment.Start
             ) {
                 IPDescriptionRow(
-                    title = stringResource(id = R.string.dashboard_title),
-                    body = stringResource(id = R.string.dashboard_description),
+                    title = stringResource(id = R.string.intro_dashboard_title),
+                    body = stringResource(id = R.string.intro_dashboard_description),
                     icon = R.drawable.ic_dashboard_24,
                     contentDescription = "dashboard_icon"
                 )
                 IPDescriptionRow(
-                    title = stringResource(id = R.string.note_title),
-                    body = stringResource(id = R.string.note_description),
+                    title = stringResource(id = R.string.intro_note_title),
+                    body = stringResource(id = R.string.intro_note_description),
                     icon = R.drawable.ic_note_24,
                     contentDescription = "note_icon"
                 )
                 IPDescriptionRow(
-                    title = stringResource(id = R.string.resource_title),
-                    body = stringResource(id = R.string.resource_description),
+                    title = stringResource(id = R.string.intro_resource_title),
+                    body = stringResource(id = R.string.intro_resource_description),
                     icon = R.drawable.ic_resource_24,
                     contentDescription = "resource_icon"
                 )
@@ -85,7 +85,7 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
             IPFilledButton(
                 modifier = Modifier.fillMaxWidth()
                     .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
-                text = stringResource(id = R.string.get_started_button_text),
+                text = stringResource(id = R.string.button_get_started),
                 textStyle = typography.bodyLarge,
                 onClick = onGetStartedClicked
             )
