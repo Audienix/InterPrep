@@ -30,6 +30,18 @@ interface ResourceDAO {
     @Transaction
     @Query("SELECT * FROM resource where resourceId = :id")
     fun getResourceWithLinksByResourceId(id: Int): Flow<ResourceWithLinks>
+    @Transaction
+    @Query(
+        """SELECT * FROM resource
+        INNER JOIN resource_link ON resource.resourceId = resource_link.resourceId
+        WHERE resource.subtopic LIKE :searchText 
+        or resource.topic LIKE :searchText
+        or resource_link.link LIKE :searchText
+        or resource_link.linkDescription LIKE :searchText
+        GROUP BY resource.resourceId
+        """
+    )
+    fun getResourceWithLinksBySearchText(searchText: String): Flow<List<ResourceWithLinks>>
 
     data class ResourceWithLinks(
         @Embedded val resource: Resource,

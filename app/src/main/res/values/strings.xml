@@ -128,4 +128,6 @@
     <string name="time_afternoon">Afternoon</string>
     <string name="time_evening">Evening</string>
     <string name="hello">Hello</string>
+
+    <string name="search_bar_default_text">Search learning resources</string>
 </resources>
