@@ -133,7 +133,7 @@ fun ViewNoteCard(
                         )
                         .clickable { onViewMoreClicked() },
                     text = stringResource(id = R.string.label_view_more),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelLarge,
                     color = MaterialColorPalette.surfaceTint,
                     textAlign = TextAlign.End
                 )
