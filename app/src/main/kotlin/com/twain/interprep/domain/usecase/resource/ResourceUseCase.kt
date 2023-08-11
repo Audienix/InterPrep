@@ -5,5 +5,6 @@ data class ResourceUseCase(
     val upsertResourceUseCase: UpsertResourceUseCase,
     val getResourceWithLinksByResourceId: GetResourceWithLinksByResourceId,
     val deleteResourceUseCase: DeleteResourceUseCase,
+    val getResourceWithLinksBySearchText: GetResourceWithLinksBySearchTextUseCase,
 )
 

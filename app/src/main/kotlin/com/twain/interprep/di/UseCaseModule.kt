@@ -28,6 +28,7 @@ import com.twain.interprep.domain.usecase.quotes.QuoteUseCase
 import com.twain.interprep.domain.usecase.resource.DeleteResourceUseCase
 import com.twain.interprep.domain.usecase.resource.GetAllResourcesWithLinksUseCase
 import com.twain.interprep.domain.usecase.resource.GetResourceWithLinksByResourceId
+import com.twain.interprep.domain.usecase.resource.GetResourceWithLinksBySearchTextUseCase
 import com.twain.interprep.domain.usecase.resource.UpsertResourceUseCase
 import com.twain.interprep.domain.usecase.resource.ResourceUseCase
 import com.twain.interprep.domain.usecase.resourceLink.DeleteResourceLinkUseCase
@@ -92,7 +93,8 @@ class UseCaseModule {
             getAllResourcesWithLinksUseCase = GetAllResourcesWithLinksUseCase(resourceRepository),
             upsertResourceUseCase = UpsertResourceUseCase(resourceRepository),
             getResourceWithLinksByResourceId = GetResourceWithLinksByResourceId(resourceRepository),
-            deleteResourceUseCase = DeleteResourceUseCase(resourceRepository)
+            deleteResourceUseCase = DeleteResourceUseCase(resourceRepository),
+            getResourceWithLinksBySearchText = GetResourceWithLinksBySearchTextUseCase(resourceRepository)
         )
     }
 

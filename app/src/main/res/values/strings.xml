@@ -29,11 +29,13 @@
     <string name="empty_state_title_dashboard">No interview scheduled.</string>
     <string name="empty_state_title_note">No notes captured.</string>
     <string name="empty_state_title_resource">No resources added</string>
+    <string name="empty_state_title_no_match_resource">No matched resource</string>
 
     <string name="empty_state_description_dashboard">Add your first interview schedule by clicking ‘+’
         button.</string>
     <string name="empty_state_description_note">Come back after your scheduled interview to capture some quick notes.</string>
     <string name="empty_state_description_resource">Add your first resource material by clicking ‘+’ button.</string>
+    <string name="empty_state_description_no_match_resource">Try with some other search keywords</string>
 
     <string name="heading_label_upcoming">Upcoming</string>
     <string name="heading_label_coming_next">Coming Next</string>
@@ -95,6 +97,8 @@
     <string name="header_interview_status">Interview Status</string>
     <string name="header_intro_screen">InterPrep</string>
 
+    <string name="button_add_notes">Add Notes</string>
+    <string name="button_view_notes">View Notes</string>
     <string name="button_add_question">Add Question</string>
     <string name="button_add_note">Add Note</string>
     <string name="button_delete_note">Delete Note</string>
@@ -128,4 +132,6 @@
     <string name="time_afternoon">Afternoon</string>
     <string name="time_evening">Evening</string>
     <string name="hello">Hello</string>
+
+    <string name="search_bar_default_text">Search learning resources</string>
 </resources>

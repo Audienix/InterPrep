@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
@@ -124,7 +125,7 @@ fun NoteCard(
             ) {
                 IPFilledButton(
                     backgroundColor = MaterialColorPalette.primary,
-                    text = "View Notes",
+                    text = stringResource(R.string.button_view_notes),
                     textColor = MaterialColorPalette.onPrimary,
                     enabled = notes.isNotEmpty(),
                     iconColor = MaterialColorPalette.onPrimary,
@@ -136,7 +137,7 @@ fun NoteCard(
                 Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_8dp)))
                 IPFilledButton(
                     backgroundColor = MaterialColorPalette.primary,
-                    text = "Add Notes",
+                    text = stringResource(R.string.button_add_notes),
                     textColor = MaterialColorPalette.onPrimary,
                     iconColor = MaterialColorPalette.onPrimary,
                     textStyle = MaterialTheme.typography.labelLarge,

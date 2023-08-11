@@ -29,9 +29,10 @@ class ResourcesViewModel @Inject constructor(
     }
     var resource: ViewResult<Resource> by mutableStateOf(ViewResult.UnInitialized)
     val links = mutableStateListOf<ResourceLink>()
-    var resourceAndLinksPair: ViewResult<List<Pair<Resource, List<ResourceLink>>>> by mutableStateOf(
+    var resourceAndLinksPairs: ViewResult<List<Pair<Resource, List<ResourceLink>>>> by mutableStateOf(
         ViewResult.UnInitialized
     )
+    var searchText by mutableStateOf("")
 
     /**
      * Fetch all information for the list of resource and links screen  [ResourcesScreen]
@@ -40,7 +41,7 @@ class ResourcesViewModel @Inject constructor(
      */
     fun getResourceAndLinksPair() = launchCoroutineIO {
         resourceUseCase.getAllResourcesWithLinksUseCase().collect {
-            resourceAndLinksPair = ViewResult.Loaded(it)
+            resourceAndLinksPairs = ViewResult.Loaded(it)
         }
     }
 
@@ -208,4 +209,18 @@ class ResourcesViewModel @Inject constructor(
     fun areAllLinksValid() = true
 
     fun addLinkEnabled() = true
+
+    fun getSearchingResult(searchText: String = "") = launchCoroutineIO {
+        resourceUseCase.getResourceWithLinksBySearchText(searchText).collect {
+            val result = mutableListOf<Pair<Resource, List<ResourceLink>>>()
+            it.forEach { resourceAndLinks ->
+                result.add(resourceAndLinks.resource to resourceAndLinks.links)
+            }
+            resourceAndLinksPairs = ViewResult.Loaded(result)
+        }
+    }
+
+    fun updateSearchText(text: String){
+        searchText = text
+    }
 }

@@ -27,11 +27,14 @@ class ResourceRepositoryImpl(private val resourceDAO: ResourceDAO) : ResourceRep
 
     @WorkerThread
     override suspend fun updateResource(resource: Resource) {
-      resourceDAO.updateResource(resource)
+        resourceDAO.updateResource(resource)
     }
 
     override suspend fun deleteResource(resource: Resource) {
         resourceDAO.deleteResource(resource)
     }
+    @WorkerThread
+    override suspend fun getResourceWithLinksBySearchText(searchText: String) =
+        resourceDAO.getResourceWithLinksBySearchText("%$searchText%")
 }
 
