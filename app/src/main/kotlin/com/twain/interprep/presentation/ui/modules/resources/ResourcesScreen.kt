@@ -19,17 +19,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
@@ -80,7 +80,7 @@ private fun ShowResourcesScreenContent(
     viewModel: ResourcesViewModel = hiltViewModel(),
     padding: PaddingValues,
 ) {
-    var active by remember { mutableStateOf(false) }
+    var isSearchBarActive by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         // when this screen is first created, viewModel.resourceAndLinksPairs is the list of
@@ -97,16 +97,31 @@ private fun ShowResourcesScreenContent(
             query = viewModel.searchText,
             onQueryChange = { viewModel.updateSearchText(it) },
             onSearch = {
-                active = false
+                isSearchBarActive = false
                 viewModel.getSearchingResult(it)
             },
-            active = active,
-            onActiveChange = { active = it },
+            active = isSearchBarActive,
+            onActiveChange = { isSearchBarActive = it },
             placeholder = { Text(text = stringResource(id = R.string.search_bar_default_text)) },
+            colors = SearchBarDefaults.colors(
+                containerColor = MaterialColorPalette.surfaceContainerHigh,
+                inputFieldColors = SearchBarDefaults.inputFieldColors(
+                    focusedTextColor = MaterialColorPalette.onSurface,
+                    unfocusedTextColor = MaterialColorPalette.onSurface,
+                    focusedLeadingIconColor = MaterialColorPalette.onSurface,
+                    unfocusedLeadingIconColor = MaterialColorPalette.onSurface,
+                    focusedTrailingIconColor = MaterialColorPalette.onSurfaceVariant,
+                    unfocusedTrailingIconColor = MaterialColorPalette.onSurfaceVariant,
+                    focusedPlaceholderColor = MaterialColorPalette.onSurfaceVariant,
+                    unfocusedPlaceholderColor = MaterialColorPalette.onSurfaceVariant
+                ),
+                dividerColor = MaterialColorPalette.outlineVariant
+            ),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialColorPalette.onSurface
                 )
             },
             trailingIcon = {
@@ -115,18 +130,19 @@ private fun ShowResourcesScreenContent(
                  * SearchBar and ResourcesScreen will display the list of all resource and
                  * links pairs.
                  * **/
-                if (active) {
+                if (isSearchBarActive) {
                     Icon(
                         modifier =
                         Modifier.clickable {
                             if (viewModel.searchText.isEmpty()) {
-                                active = false
+                                isSearchBarActive = false
                             }
                             viewModel.updateSearchText("")
                             viewModel.getSearchingResult("")
                         },
                         imageVector = Icons.Default.Close,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialColorPalette.onSurfaceVariant
                     )
                 }
             },
@@ -135,13 +151,13 @@ private fun ShowResourcesScreenContent(
         if (viewModel.resourceAndLinksPairs is ViewResult.Loaded) {
             val resourceAndLinks =
                 (viewModel.resourceAndLinksPairs as
-                    ViewResult.Loaded<List<Pair<Resource, List<ResourceLink>>>>).data
+                        ViewResult.Loaded<List<Pair<Resource, List<ResourceLink>>>>).data
             if (resourceAndLinks.isEmpty()) {
                 FullScreenEmptyState(
                     Modifier,
-                    R.drawable.empty_state_resource,
-                    stringResource(id = R.string.empty_state_title_resource),
-                    stringResource(id = R.string.empty_state_description_resource)
+                    R.drawable.empty_state_no_match_resource,
+                    stringResource(id = R.string.empty_state_title_no_match_resource),
+                    stringResource(id = R.string.empty_state_description_no_match_resource)
                 )
             } else {
                 LazyColumn(
