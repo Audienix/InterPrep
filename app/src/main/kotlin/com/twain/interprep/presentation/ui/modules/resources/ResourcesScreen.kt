@@ -89,78 +89,75 @@ private fun ShowResourcesScreenContent(
         // resource and links pairs based on the search text stored in the view model
         viewModel.getSearchingResult(viewModel.searchText)
     }
-
-    if (viewModel.resourceAndLinksPairs is ViewResult.Loaded) {
-        val resourceAndLinks =
-            (viewModel.resourceAndLinksPairs as
-                ViewResult.Loaded<List<Pair<Resource, List<ResourceLink>>>>).data
-        if (resourceAndLinks.isEmpty()) {
-            FullScreenEmptyState(
-                Modifier,
-                R.drawable.empty_state_resource,
-                stringResource(id = R.string.empty_state_title_resource),
-                stringResource(id = R.string.empty_state_description_resource)
-            )
-        } else {
-            SearchBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(padding)
-                    .padding(dimensionResource(id = R.dimen.dimension_16dp)),
-                query = viewModel.searchText,
-                onQueryChange = { viewModel.updateSearchText(it) },
-                onSearch = {
-                    active = false
-                    viewModel.getSearchingResult(it)
-                },
-                active = active,
-                onActiveChange = { active = it },
-                placeholder = { Text(text = stringResource(id = R.string.search_bar_default_text)) },
-                leadingIcon = {
+    Column(modifier = Modifier.padding(padding)) {
+        SearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.dimension_16dp)),
+            query = viewModel.searchText,
+            onQueryChange = { viewModel.updateSearchText(it) },
+            onSearch = {
+                active = false
+                viewModel.getSearchingResult(it)
+            },
+            active = active,
+            onActiveChange = { active = it },
+            placeholder = { Text(text = stringResource(id = R.string.search_bar_default_text)) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = null
+                )
+            },
+            trailingIcon = {
+                /** If the dismiss button is clicked with the empty searchText, the expanding sheet
+                 * of the searchBar will disappear. Then searchText is removed from the
+                 * SearchBar and ResourcesScreen will display the list of all resource and
+                 * links pairs.
+                 * **/
+                if (active) {
                     Icon(
-                        imageVector = Icons.Default.Search,
+                        modifier =
+                        Modifier.clickable {
+                            if (viewModel.searchText.isEmpty()) {
+                                active = false
+                            }
+                            viewModel.updateSearchText("")
+                            viewModel.getSearchingResult("")
+                        },
+                        imageVector = Icons.Default.Close,
                         contentDescription = null
                     )
-                },
-                trailingIcon = {
-                    /** If the dismiss button is clicked with the empty searchText, the expanding sheet
-                     * of the searchBar will disappear. Then searchText is removed from the
-                     * SearchBar and ResourcesScreen will display the list of all resource and
-                     * links pairs.
-                     * **/
-                    if (active) {
-                        Icon(
-                            modifier =
-                            Modifier.clickable {
-                                if (viewModel.searchText.isEmpty()) {
-                                    active = false
-                                }
-                                viewModel.updateSearchText("")
-                                viewModel.getSearchingResult("")
-                            },
-                            imageVector = Icons.Default.Close,
-                            contentDescription = null
+                }
+            },
+        ) {
+        }
+        if (viewModel.resourceAndLinksPairs is ViewResult.Loaded) {
+            val resourceAndLinks =
+                (viewModel.resourceAndLinksPairs as
+                    ViewResult.Loaded<List<Pair<Resource, List<ResourceLink>>>>).data
+            if (resourceAndLinks.isEmpty()) {
+                FullScreenEmptyState(
+                    Modifier,
+                    R.drawable.empty_state_resource,
+                    stringResource(id = R.string.empty_state_title_resource),
+                    stringResource(id = R.string.empty_state_description_resource)
+                )
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_16dp)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
+                ) {
+                    items(resourceAndLinks) { (resource, links) ->
+                        ResourceCard(
+                            resourceAndLinks = resource to links,
+                            onEditResourceClick = {
+                                navController.navigate(
+                                    AppScreens.AddResource.withArgs(resource.resourceId)
+                                )
+                            }
                         )
                     }
-                },
-            ) {
-            }
-            LazyColumn(
-                modifier = Modifier
-                    .padding(padding)
-                    .padding(top = 76.dp),
-                contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_16dp)),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
-            ) {
-                items(resourceAndLinks) { (resource, links) ->
-                    ResourceCard(
-                        resourceAndLinks = resource to links,
-                        onEditResourceClick = {
-                            navController.navigate(
-                                AppScreens.AddResource.withArgs(resource.resourceId)
-                            )
-                        }
-                    )
                 }
             }
         }
