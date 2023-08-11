@@ -11,9 +11,6 @@ val BackgroundLightPurple = Color(0xFFEBE3FF)
 val BackgroundLightGreen = Color(0xFFF4FFE3)
 val BackgroundLightGray = Color(0xFFEBEBEB)
 
-val TextPrimary = Color(0xFF1C1B1F)
-val TextSecondary = Color(0xFF625B71)
-
 val StatusNoUpdate = Color(0xFFFF6F00)
 val StatusNextRound = Color(0xFFFBC02D)
 val StatusSelected = Color(0xFF388E3C)

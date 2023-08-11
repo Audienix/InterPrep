@@ -23,9 +23,8 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Quote
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
-import com.twain.interprep.presentation.ui.theme.TextPrimary
-import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
 fun IPQuoteCard(
@@ -50,7 +49,7 @@ fun IPQuoteCard(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = quote.quote,
-                color = TextPrimary,
+                color = MaterialColorPalette.onSurface,
                 style = MaterialTheme.typography.bodyLarge,
                 fontStyle = FontStyle.Italic
             )
@@ -58,7 +57,7 @@ fun IPQuoteCard(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "~ ${quote.author}",
-                color = TextSecondary,
+                color = MaterialColorPalette.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium,
                 fontStyle = FontStyle.Italic,
                 textAlign = TextAlign.End

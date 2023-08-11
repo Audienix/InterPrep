@@ -91,6 +91,9 @@ dependencies {
     // work manager
     implementation("androidx.work:work-runtime-ktx:$work_version")
 
+    // Google accompanist
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.30.1"
+
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

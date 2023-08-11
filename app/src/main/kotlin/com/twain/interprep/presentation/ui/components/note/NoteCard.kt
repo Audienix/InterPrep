@@ -28,7 +28,6 @@ import com.twain.interprep.presentation.ui.components.generic.IPCircleIcon
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
-import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
 fun NoteCard(
@@ -143,7 +142,7 @@ fun NoteCard(
                     textStyle = MaterialTheme.typography.labelLarge,
                     onClick = onAddNoteClick,
                     leadingIcon = R.drawable.ic_add_note_24,
-                    disabledContentColor = TextSecondary,
+                    disabledContentColor = MaterialColorPalette.onPrimaryContainer,
                     contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
                 )
             }

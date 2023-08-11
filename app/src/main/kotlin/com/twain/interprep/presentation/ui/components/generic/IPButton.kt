@@ -22,10 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.twain.interprep.R
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
+import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
-import com.twain.interprep.presentation.ui.theme.TextSecondary
 
 @Composable
 fun IPFilledButton(
@@ -63,7 +61,7 @@ fun IPFilledButton(
             Icon(
                 painter = painterResource(leadingIcon),
                 contentDescription = contentDescription,
-                tint = if(enabled) iconColor else disabledContentColor.copy(alpha = 0.12f)
+                tint = if (enabled) iconColor else disabledContentColor.copy(alpha = 0.12f)
                     .compositeOver(disabledContainerColor)
             )
             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
@@ -114,69 +112,57 @@ fun IPOutlinedButton(
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 fun FilledButtonPreview() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        IPFilledButton(
-            backgroundColor = BackgroundDarkPurple,
-            textColor = BackgroundLightPurple,
-            text = "View Notes",
-            enabled = false,
-            leadingIcon = R.drawable.ic_view_note_24,
-            onClick = {},
-            textStyle = MaterialTheme.typography.bodySmall,
-            iconColor = BackgroundLightPurple,
-            disabledContentColor = TextSecondary
-        )
-        IPFilledButton(
-            backgroundColor = BackgroundDarkPurple,
-            textColor = BackgroundLightPurple,
-            text = "View Notes",
-            leadingIcon = R.drawable.ic_view_note_24,
-            onClick = {},
-            textStyle = MaterialTheme.typography.bodySmall,
-            iconColor = BackgroundLightPurple,
-            disabledContentColor = TextSecondary
-        )
-        IPFilledButton(
-            backgroundColor = BackgroundDarkPurple,
-            textColor = BackgroundLightPurple,
-            text = "Add Notes",
-            leadingIcon = R.drawable.ic_add_note_24,
-            onClick = {},
-            textStyle = MaterialTheme.typography.bodySmall,
-            iconColor = BackgroundLightPurple,
-            disabledContentColor = TextSecondary
-        )
+    InterPrepTheme {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            IPFilledButton(
+                text = "View Notes",
+                enabled = false,
+                leadingIcon = R.drawable.ic_view_note_24,
+                onClick = {},
+                textStyle = MaterialTheme.typography.bodySmall,
+            )
+            IPFilledButton(
+                backgroundColor = MaterialColorPalette.primaryContainer,
+                textColor = MaterialColorPalette.onPrimaryContainer,
+                iconColor = MaterialColorPalette.onPrimaryContainer,
+                text = "Add Notes",
+                enabled = true,
+                leadingIcon = R.drawable.ic_add_note_24,
+                onClick = {},
+                textStyle = MaterialTheme.typography.bodySmall,
+            )
+        }
     }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 fun OutlinedButtonPreview() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        IPOutlinedButton(
-            backgroundColor = BackgroundLightPurple,
-            textColor = Color.Black,
-            text = "Add Note",
-            iconColor = BackgroundDarkPurple,
-            leadingIcon = R.drawable.ic_outline_add_circle_24,
-            onClick = {},
-            borderColor = BackgroundDarkPurple,
-            textStyle = MaterialTheme.typography.bodySmall
-        )
-        IPOutlinedButton(
-            backgroundColor = BackgroundLightPurple,
-            textColor = Color.Black,
-            text = "Delete Note",
-            iconColor = BackgroundDarkPurple,
-            leadingIcon = R.drawable.ic_outline_delete_circle_24,
-            onClick = {},
-            borderColor = BackgroundDarkPurple,
-            textStyle = MaterialTheme.typography.bodySmall
-        )
+    InterPrepTheme {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            IPOutlinedButton(
+                textColor = MaterialColorPalette.onPrimaryContainer,
+                text = "Add Note",
+                iconColor = MaterialColorPalette.onPrimaryContainer,
+                leadingIcon = R.drawable.ic_outline_add_circle_24,
+                onClick = {},
+                borderColor = MaterialColorPalette.onPrimaryContainer,
+                textStyle = MaterialTheme.typography.bodySmall
+            )
+            IPOutlinedButton(
+                textColor = MaterialColorPalette.onPrimaryContainer,
+                text = "Delete Note",
+                iconColor = MaterialColorPalette.onPrimaryContainer,
+                leadingIcon = R.drawable.ic_outline_delete_circle_24,
+                onClick = {},
+                borderColor = MaterialColorPalette.onPrimaryContainer,
+                textStyle = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
