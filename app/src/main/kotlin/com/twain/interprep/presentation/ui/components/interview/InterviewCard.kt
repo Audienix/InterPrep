@@ -37,6 +37,7 @@ import com.twain.interprep.data.model.InterviewStatus
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPDateTimeBox
+import com.twain.interprep.presentation.ui.components.generic.IPInterviewStatus
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.utils.DateUtils

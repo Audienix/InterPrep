@@ -19,7 +19,9 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -36,10 +38,10 @@ import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.model.isEmpty
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
+import com.twain.interprep.presentation.ui.components.generic.IPBottomSheet
 import com.twain.interprep.presentation.ui.components.generic.IPFAB
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPLargeAppBar
-import com.twain.interprep.presentation.ui.components.interview.IPBottomSheet
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewCard
 import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
@@ -57,6 +59,7 @@ fun DashboardScreen(
     LaunchedEffect(Unit) {
         dashboardViewModel.getInterviews()
     }
+    val todayInterviewCount = remember { mutableIntStateOf(0) }
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -66,7 +69,7 @@ fun DashboardScreen(
             IPLargeAppBar(
                 title = "${stringResource(R.string.hello)} $username",
                 subtitle = "Good ${getTimeOfDayGreeting()}",
-                todayInterviewCount = 3,
+                todayInterviewCount = todayInterviewCount,
                 username = getNameInitials(username),
                 isInterviewDetailsVisible = true
             )

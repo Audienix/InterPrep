@@ -122,7 +122,7 @@
     <string name="notification_reminder_description">%1$s interview is coming up after 1 hour.</string>
 
     <string name="intro_dashboard_title">"Manage your job interviews"</string>
-    <string name="intro_dashboard_description">""Effortlessly organize your interview details from a personalized dashboard""</string>
+    <string name="intro_dashboard_description">"Effortlessly organize your interview details from a personalized dashboard"</string>
     <string name="intro_note_title">"Take notes of past interviews"</string>
     <string name="intro_note_description">"Easily access and manage your past interview notes for future reference"</string>
     <string name="intro_resource_title">"Organize your learning resources"</string>
@@ -134,4 +134,9 @@
     <string name="hello">Hello</string>
 
     <string name="search_bar_default_text">Search learning resources</string>
+    <plurals name="interviews_today">
+        <item quantity="one">You have %1$s interview today.</item>
+        <item quantity="other">You have %1$s interviews today.</item>
+    </plurals>
+    <string name="no_interviews_today">You have no interview today.</string>
 </resources>

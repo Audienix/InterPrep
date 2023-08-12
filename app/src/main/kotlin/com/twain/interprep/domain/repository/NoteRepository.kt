@@ -5,7 +5,7 @@ import com.twain.interprep.data.model.Note
 import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
-    suspend fun getAllInterviewWithNotes(): Flow<List<Pair<Interview, List<Note>>>>
+    suspend fun getAllPastInterviewsWithNotes(): Flow<List<Pair<Interview, List<Note>>>>
 
     suspend fun getInterviewByIdWithNotes(interviewId: Int): Flow<Pair<Interview, List<Note>>>
 

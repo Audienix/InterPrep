@@ -11,6 +11,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Note
+import com.twain.interprep.utils.DateUtils
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -36,8 +37,9 @@ interface NoteDAO {
     fun getNoteById(noteId: Int): Flow<Note>
 
     @Transaction
-    @Query("SELECT * FROM interview")
-    fun getAllInterviewNoteMap(): Flow<List<InterviewWithNotes>>
+    @Query("SELECT * FROM interview WHERE (date || time) < :dateCurr ORDER BY (date || time) DESC")
+    fun getAllPastInterviewsNoteMap(dateCurr: String = DateUtils.getCurrentDateTimeAsString()):
+            Flow<List<InterviewWithNotes>>
 
     @Query("DELETE FROM note where interviewId = :interviewId")
     fun deleteInterviewNotes(interviewId: Int)

@@ -13,5 +13,5 @@ object NumberConstants {
 
     const val PENDING_INTENT_REQUEST_CODE = 123
 
-    const val INTERVIEW_PAGE_LIMIT = 10
+    const val INTERVIEW_PAGE_LIMIT = 20
 }
