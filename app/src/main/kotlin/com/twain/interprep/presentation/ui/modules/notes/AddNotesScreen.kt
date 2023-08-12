@@ -178,7 +178,7 @@ fun AddNotesScreen(
                                     )
                                 },
                                 addQuestion = { viewModel.addQuestion(index) },
-                                deleteNote = { viewModel.deleteNote(interview, note) },
+                                deleteNote = { viewModel.deleteNote(note) },
                                 deleteQuestion = { questionIndex ->
                                     viewModel.deleteQuestion(index, questionIndex)
                                 },

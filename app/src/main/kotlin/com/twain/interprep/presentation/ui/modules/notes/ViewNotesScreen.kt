@@ -133,7 +133,7 @@ fun ViewNotesScreen(
                                     }
                                 },
                                 onDeleteClicked = {
-                                    viewModel.deleteNote(interview, note)
+                                    viewModel.deleteNote(note)
                                 },
                                 index = index + 1,
                                 onViewMoreClicked = {

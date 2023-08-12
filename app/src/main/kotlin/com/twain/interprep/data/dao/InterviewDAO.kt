@@ -21,7 +21,7 @@ interface InterviewDAO {
     @Query("SELECT * FROM interview WHERE interviewId = :id")
     fun getInterview(id: Int): Flow<Interview>
 
-    @Query("SELECT * FROM interview WHERE (date || time) < :dateCurr ORDER BY (date || time) LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM interview WHERE (date || time) < :dateCurr ORDER BY (date || time) DESC LIMIT :limit OFFSET :offset")
     fun getPastInterviews(
         dateCurr: String,
         limit: Int = INTERVIEW_PAGE_LIMIT,
