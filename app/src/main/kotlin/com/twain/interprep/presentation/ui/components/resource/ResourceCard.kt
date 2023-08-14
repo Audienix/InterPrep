@@ -99,7 +99,8 @@ fun ResourceCard(
                     links.forEachIndexed { index, link ->
                         IPText(
                             text = "${index + 1}. ${link.linkDescription}",
-                            link = link.link
+                            link = link.link,
+                            textColor = MaterialColorPalette.primary
                         )
                     }
                 }

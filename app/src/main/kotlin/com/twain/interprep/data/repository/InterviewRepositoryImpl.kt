@@ -70,7 +70,12 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
             )
         }
     }
-
+    @WorkerThread
+    override suspend fun getTodayInterviews(): Flow<List<Interview>> {
+        val currentDateTime = DateUtils.getCurrentDateTimeAsString()
+        val endOfDay = DateUtils.getEndOfDayAsString()
+        return interviewDao.getTodayInterviews(currentDateTime = currentDateTime, endOfDay = endOfDay)
+    }
     @WorkerThread
     override suspend fun getInterviewById(id: Int): Flow<Interview> =
         interviewDao.getInterview(id = id)

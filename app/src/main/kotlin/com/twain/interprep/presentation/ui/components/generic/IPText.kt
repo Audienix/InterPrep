@@ -38,7 +38,7 @@ fun IPText(
     val context = LocalContext.current
     if ((link != null && isUrlValid(link))) {
         val annotatedString = buildAnnotatedString {
-            withStyle(SpanStyle(color = MaterialColorPalette.primary, textDecoration = TextDecoration.Underline)) {
+            withStyle(SpanStyle(color = textColor, textDecoration = TextDecoration.Underline)) {
                 append(text ?: link)
             }
         }
@@ -47,7 +47,6 @@ fun IPText(
             text = annotatedString,
             style = textStyle,
             modifier = modifier
-                .fillMaxWidth()
                 .clickable {
                     // Open the URL in a browser
                     try {

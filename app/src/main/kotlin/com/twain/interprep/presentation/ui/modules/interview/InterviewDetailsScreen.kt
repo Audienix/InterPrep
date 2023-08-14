@@ -42,15 +42,12 @@ import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPInterviewStatus
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
 import com.twain.interprep.presentation.ui.modules.dashboard.ShowInterviewStatusBottomSheet
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun InterviewDetailsScreen(
     navController: NavHostController,
     viewModel: InterviewViewModel = hiltViewModel(),
-    quotesViewModel: QuotesViewModel = hiltViewModel(),
     interviewId: Int?,
     primaryColor: Color,
     secondaryColor: Color
@@ -60,10 +57,6 @@ fun InterviewDetailsScreen(
     LaunchedEffect(Unit) {
         viewModel.interviewData = Interview()
         interviewId?.let { viewModel.getInterviewById(id = it) }
-    }
-    LaunchedEffect(Unit) {
-        if (quotesViewModel.currentQuote.quoteId == -1)
-            quotesViewModel.getQuotes()
     }
     Scaffold(
         modifier = Modifier
@@ -214,7 +207,7 @@ fun InterviewDetailsScreenPreview() {
     InterviewDetailsScreen(
         navController = rememberNavController(),
         interviewId = 1,
-        primaryColor = BackgroundLightPurple,
-        secondaryColor = BackgroundDarkPurple
+        primaryColor = MaterialColorPalette.surfaceContainerHighest,
+        secondaryColor = MaterialColorPalette.primaryContainer
     )
 }

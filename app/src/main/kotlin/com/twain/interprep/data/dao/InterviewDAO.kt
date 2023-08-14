@@ -28,6 +28,13 @@ interface InterviewDAO {
         offset: Int = 0
     ): Flow<List<Interview>>
 
+
+    @Query("SELECT * FROM interview WHERE date || time >= :currentDateTime AND date || time <= :endOfDay")
+    fun getTodayInterviews(
+        currentDateTime: String,
+        endOfDay: String
+    ): Flow<List<Interview>>
+
     @Query("SELECT * FROM interview WHERE (date || time) >= :dateCurr AND (date || time) <= :dateFuture ORDER BY (date || time) LIMIT :limit OFFSET :offset")
     fun getUpcomingInterviews(
         dateCurr: String,

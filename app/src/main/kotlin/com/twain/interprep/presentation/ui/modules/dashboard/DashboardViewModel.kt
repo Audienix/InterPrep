@@ -1,8 +1,10 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewListMetaData
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.ViewResult
@@ -23,23 +25,33 @@ class DashboardViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
-    var interviewListMataData: ViewResult<InterviewListMetaData> by mutableStateOf(ViewResult.UnInitialized)
+    var interviewListMetaData: ViewResult<InterviewListMetaData> by mutableStateOf(ViewResult.UnInitialized)
+
+    var todayInterviewState: ViewResult<List<Interview>> by mutableStateOf(ViewResult.UnInitialized)
+    val todayInterviews = mutableStateListOf<Interview>()
 
     var isLoading by mutableStateOf(false)
-
+    fun getTodayInterviews() = launchCoroutineIO {
+        isLoading = true
+        interviewUseCase.getTodayInterviews().collect {list->
+            todayInterviewState = ViewResult.Loaded(list)
+            todayInterviews.addAll(list)
+            isLoading = false
+        }
+    }
     fun getInterviews() = launchCoroutineIO {
         isLoading = true
         interviewUseCase.getInterviews().collect {
-            interviewListMataData = ViewResult.Loaded(it)
+            interviewListMetaData = ViewResult.Loaded(it)
             isLoading = false
         }
     }
 
     fun loadMore(type: InterviewType) = launchCoroutineIO {
 
-        if (interviewListMataData !is ViewResult.Loaded) return@launchCoroutineIO
+        if (interviewListMetaData !is ViewResult.Loaded) return@launchCoroutineIO
 
-        val currentState = (interviewListMataData as ViewResult.Loaded<InterviewListMetaData>).data
+        val currentState = (interviewListMetaData as ViewResult.Loaded<InterviewListMetaData>).data
 
         val originalList = when (type) {
             InterviewType.PAST -> currentState.pastInterviewList
@@ -53,7 +65,7 @@ class DashboardViewModel @Inject constructor(
                 page = originalList.page + 1,
                 currentState = currentState
             ).collect {
-                interviewListMataData = ViewResult.Loaded(it)
+                interviewListMetaData = ViewResult.Loaded(it)
                 isLoading = false
             }
         }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -19,11 +20,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableIntState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -33,19 +32,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.twain.interprep.R
-import com.twain.interprep.data.model.Quote
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.presentation.ui.components.interview.NoInterviewCard
+import com.twain.interprep.presentation.ui.components.interview.interviewMockData
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
+import com.twain.interprep.utils.DateUtils
 
 @Composable
 fun IPLargeAppBar(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String,
-    todayInterviewCount: MutableIntState,
+    todayInterviewList: List<Interview>,
     username: String,
     isInterviewDetailsVisible: Boolean = false
 ) {
@@ -60,11 +61,10 @@ fun IPLargeAppBar(
     ) {
         GreetingsAndProfile(title, username, subtitle)
         if (isInterviewDetailsVisible) {
-            val interviewCount = todayInterviewCount.intValue
-            if (interviewCount == 0)
+            if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
             else
-                InterviewTodayDetails(todayInterviewCount = interviewCount)
+                InterviewTodayDetails(todayInterviewList = todayInterviewList)
         }
     }
 }
@@ -113,7 +113,7 @@ private fun GreetingsAndProfile(
 }
 
 @Composable
-private fun InterviewTodayDetails(todayInterviewCount: Int) {
+private fun InterviewTodayDetails(todayInterviewList: List<Interview>) {
     Column(
         modifier = Modifier
             .padding(top = dimensionResource(id = R.dimen.dimension_8dp))
@@ -122,34 +122,18 @@ private fun InterviewTodayDetails(todayInterviewCount: Int) {
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.dimension_4dp)),
-                painter = painterResource(id = R.drawable.ic_notification_important_24),
-                contentDescription = "contentDescription",
-                tint = MaterialColorPalette.primary
+        InterviewTodayReminder(
+            message = pluralStringResource(
+                R.plurals.interviews_today,
+                todayInterviewList.size,
+                todayInterviewList.size
             )
-            Text(
-                text = pluralStringResource(
-                    R.plurals.interviews_today,
-                    todayInterviewCount,
-                    todayInterviewCount
-                ),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialColorPalette.onSurface
-            )
-        }
-        if (todayInterviewCount > 0)
+        )
+        if (todayInterviewList.isNotEmpty())
             TodayInterviewPager(
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
-                todayInterviewCount = todayInterviewCount
+                interviewList = todayInterviewList
             )
     }
 }
@@ -164,25 +148,9 @@ private fun NoInterviewTodayDetails() {
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.dimension_4dp)),
-                painter = painterResource(id = R.drawable.ic_notification_important_24),
-                contentDescription = "contentDescription",
-                tint = MaterialColorPalette.primary
-            )
-            Text(
-                text = stringResource(R.string.no_interviews_today),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialColorPalette.onSurface
-            )
-        }
+        InterviewTodayReminder(
+            message = stringResource(R.string.no_interviews_today)
+        )
         val quotesViewModel: QuotesViewModel = hiltViewModel()
         LaunchedEffect(Unit) {
             if (quotesViewModel.currentQuote.quoteId == -1)
@@ -194,13 +162,36 @@ private fun NoInterviewTodayDetails() {
     }
 }
 
+@Composable
+private fun InterviewTodayReminder(message: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            modifier = Modifier
+                .padding(start = dimensionResource(id = R.dimen.dimension_4dp)),
+            painter = painterResource(id = R.drawable.ic_notification_important_24),
+            contentDescription = "contentDescription",
+            tint = MaterialColorPalette.primary
+        )
+        Text(
+            text = message,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialColorPalette.onSurface
+        )
+    }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TodayInterviewPager(modifier: Modifier, todayInterviewCount: Int) {
+fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f,
-        pageCount = { todayInterviewCount }
+        pageCount = { interviewList.size }
     )
     Column(
         modifier = modifier
@@ -209,13 +200,13 @@ fun TodayInterviewPager(modifier: Modifier, todayInterviewCount: Int) {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
         HorizontalPager(state = pagerState) { page ->
-
+            TodayInterviewCard(interview = interviewList[pagerState.currentPage])
         }
-        if (todayInterviewCount > 1) {
+        if (interviewList.size > 1) {
             HorizontalPagerIndicator(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
-                pageCount = todayInterviewCount,
+                pageCount = interviewList.size,
                 pagerState = pagerState,
             )
         }
@@ -224,9 +215,8 @@ fun TodayInterviewPager(modifier: Modifier, todayInterviewCount: Int) {
 
 @Composable
 fun TodayInterviewCard(
-    modifier: Modifier = Modifier,
-    quote: Quote,
-    todayInterviewCount: Int
+    interview: Interview,
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
@@ -245,7 +235,7 @@ fun TodayInterviewCard(
                     )
                 ),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
         ) {
             Column(
                 modifier = Modifier
@@ -254,7 +244,7 @@ fun TodayInterviewCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_no_interview_today),
+                    painter = painterResource(id = R.drawable.ic_reminder_clock),
                     contentDescription = null
                 )
             }
@@ -263,20 +253,61 @@ fun TodayInterviewCard(
                     .fillMaxWidth()
                     .padding(dimensionResource(id = R.dimen.dimension_8dp)),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
             ) {
-                if (todayInterviewCount == 1)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.dimension_4dp)
+                    )
+                ) {
+                    Icon(
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_icon_size_16)),
+                        painter = painterResource(id = R.drawable.ic_timer_24),
+                        tint = MaterialColorPalette.tertiaryContainer,
+                        contentDescription = null
+                    )
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = quote.quote,
+                        modifier = Modifier.weight(1f),
+                        text = DateUtils.getDisplayedTime(
+                            LocalContext.current,
+                            interview.time
+                        ),
                         color = MaterialColorPalette.onPrimary,
                         style = MaterialTheme.typography.bodyMedium
                     )
+                    IPText(
+                        text = stringResource(id = R.string.join_here),
+                        link = "https://meet.google.com",
+                        textColor = MaterialColorPalette.onPrimary,
+                        textStyle = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+
+                if (interview.interviewType.isNotEmpty()) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        text = interview.interviewType,
+                        color = MaterialColorPalette.primaryContainer,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = interview.company,
+                    color = MaterialColorPalette.primaryContainer,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }
 }
-
 
 
 @Preview
@@ -286,7 +317,7 @@ fun IPLargeAppBarPreview() {
         IPLargeAppBar(
             title = "Hello Arighna",
             subtitle = "Good Morning",
-            todayInterviewCount = remember { mutableIntStateOf(2) },
+            todayInterviewList = mutableListOf(interviewMockData),
             username = "AM",
             isInterviewDetailsVisible = true
         )

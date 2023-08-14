@@ -48,7 +48,13 @@ object DateUtils {
         val timeFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())
         return timeFormat.format(currentTime)
     }
-
+    fun getEndOfDayAsString(): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())
+        return dateFormat.format(calendar.time)
+    }
     fun getWeekAfterCurrentDateAsString(): String {
         val timeString = getCurrentDateTimeAsString()
         val format = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_NO_SPACE, Locale.getDefault())

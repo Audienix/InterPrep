@@ -19,9 +19,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -57,22 +55,27 @@ fun DashboardScreen(
     interviewModel: InterviewViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
+        dashboardViewModel.getTodayInterviews()
         dashboardViewModel.getInterviews()
     }
-    val todayInterviewCount = remember { mutableIntStateOf(0) }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
             //TODO Get the username from jetpack data store & todayInterviewCount from viewmodel
             val username = "Arighna"
-            IPLargeAppBar(
-                title = "${stringResource(R.string.hello)} $username",
-                subtitle = "Good ${getTimeOfDayGreeting()}",
-                todayInterviewCount = todayInterviewCount,
-                username = getNameInitials(username),
-                isInterviewDetailsVisible = true
-            )
+            if (dashboardViewModel.todayInterviewState is ViewResult.Loaded) {
+                val todayInterviewList =
+                    (dashboardViewModel.todayInterviewState as ViewResult.Loaded<List<Interview>>).data
+                IPLargeAppBar(
+                    title = "${stringResource(R.string.hello)} $username",
+                    subtitle = "Good ${getTimeOfDayGreeting()}",
+                    todayInterviewList = todayInterviewList,
+                    username = getNameInitials(username),
+                    isInterviewDetailsVisible = true
+                )
+            }
         },
         containerColor = MaterialColorPalette.surface,
         floatingActionButtonPosition = FabPosition.End,
@@ -106,75 +109,75 @@ private fun ShowDashboardScreenContent(
     val upcomingInterviewListState = rememberLazyListState()
     val comingNextInterviewListState = rememberLazyListState()
 
-    if (dashboardViewModel.interviewListMataData is ViewResult.Loaded) {
-        val interviews = dashboardViewModel.interviewListMataData as ViewResult.Loaded
+    if (dashboardViewModel.interviewListMetaData is ViewResult.Loaded) {
+        val interviews = dashboardViewModel.interviewListMetaData as ViewResult.Loaded
         if (interviews.data.isEmpty())
             ShowEmptyState()
 
-        if (dashboardViewModel.interviewListMataData is ViewResult.Loaded) {
-            LazyColumn(
-                modifier = Modifier.padding(padding),
-                contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
-                state = pastInterviewListState
+//        if (dashboardViewModel.interviewListMetaData is ViewResult.Loaded) {
+        LazyColumn(
+            modifier = Modifier.padding(padding),
+            contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
+            state = pastInterviewListState
+        ) {
+            if (shouldLoadMore(
+                    pastInterviewListState,
+                    interviews.data.pastInterviewList.hasMore,
+                    dashboardViewModel.isLoading
+                )
             ) {
-                if (shouldLoadMore(
-                        pastInterviewListState,
-                        interviews.data.pastInterviewList.hasMore,
-                        dashboardViewModel.isLoading
+                dashboardViewModel.loadMore(InterviewType.PAST)
+            }
+            if (interviews.data.upcomingInterviewList.list.isNotEmpty()) {
+                item {
+                    ShowUpcomingInterviews(
+                        interviews.data.upcomingInterviewList.list,
+                        interviewModel,
+                        navController,
+                        listState = upcomingInterviewListState,
+                        hasMore = interviews.data.upcomingInterviewList.hasMore,
+                        isLoading = dashboardViewModel.isLoading,
+                        loadMore = dashboardViewModel::loadMore
                     )
-                ) {
-                    dashboardViewModel.loadMore(InterviewType.PAST)
                 }
-                if (interviews.data.upcomingInterviewList.list.isNotEmpty()) {
-                    item {
-                        ShowUpcomingInterviews(
-                            interviews.data.upcomingInterviewList.list,
-                            interviewModel,
-                            navController,
-                            listState = upcomingInterviewListState,
-                            hasMore = interviews.data.upcomingInterviewList.hasMore,
-                            isLoading = dashboardViewModel.isLoading,
-                            loadMore = dashboardViewModel::loadMore
-                        )
-                    }
+            }
+            if (interviews.data.comingNextInterviewList.list.isNotEmpty()) {
+                item {
+                    ShowComingNextInterviews(
+                        interviews.data.comingNextInterviewList.list,
+                        interviewModel,
+                        navController,
+                        listState = comingNextInterviewListState,
+                        hasMore = interviews.data.comingNextInterviewList.hasMore,
+                        isLoading = dashboardViewModel.isLoading,
+                        loadMore = dashboardViewModel::loadMore
+                    )
                 }
-                if (interviews.data.comingNextInterviewList.list.isNotEmpty()) {
-                    item {
-                        ShowComingNextInterviews(
-                            interviews.data.comingNextInterviewList.list,
-                            interviewModel,
-                            navController,
-                            listState = comingNextInterviewListState,
-                            hasMore = interviews.data.comingNextInterviewList.hasMore,
-                            isLoading = dashboardViewModel.isLoading,
-                            loadMore = dashboardViewModel::loadMore
+            }
+            if (interviews.data.pastInterviewList.list.isNotEmpty()) {
+                item {
+                    IPHeader(
+                        text = stringResource(id = R.string.heading_label_past),
+                        modifier = Modifier.padding(
+                            start = dimensionResource(id = R.dimen.dimension_8dp),
+                            top = dimensionResource(id = R.dimen.dimension_8dp),
+                            end = dimensionResource(id = R.dimen.dimension_8dp),
                         )
-                    }
+                    )
                 }
-                if (interviews.data.pastInterviewList.list.isNotEmpty()) {
-                    item {
-                        IPHeader(
-                            text = stringResource(id = R.string.heading_label_past),
-                            modifier = Modifier.padding(
-                                start = dimensionResource(id = R.dimen.dimension_8dp),
-                                top = dimensionResource(id = R.dimen.dimension_8dp),
-                                end = dimensionResource(id = R.dimen.dimension_8dp),
-                            )
-                        )
-                    }
-                    items(interviews.data.pastInterviewList.list) { interview ->
-                        IPInterviewCard(
-                            interview = interview,
-                            onClick = { interviewModel.interviewData = interview },
-                            navController = navController,
-                            dashboardInterviewType = DashboardInterviewType.PastInterview(),
-                            onStatusBarClicked = {
-                                interviewModel.interviewData = interview
-                                openBottomSheet.value = true
-                            }
-                        )
-                    }
+                items(interviews.data.pastInterviewList.list) { interview ->
+                    IPInterviewCard(
+                        interview = interview,
+                        onClick = { interviewModel.interviewData = interview },
+                        navController = navController,
+                        dashboardInterviewType = DashboardInterviewType.PastInterview(),
+                        onStatusBarClicked = {
+                            interviewModel.interviewData = interview
+                            openBottomSheet.value = true
+                        }
+                    )
                 }
+//                }
             }
         }
     } else {
@@ -319,7 +322,7 @@ private fun ShowLoadingState() {
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(color = MaterialColorPalette.primary)
     }
 }
 
