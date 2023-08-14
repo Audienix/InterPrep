@@ -5,22 +5,23 @@ import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
 import com.twain.interprep.domain.repository.ResourceLinkRepository
 import com.twain.interprep.domain.repository.ResourceRepository
-import com.twain.interprep.domain.usecase.note.GetNotesByInterviewIdUseCase
-import com.twain.interprep.domain.usecase.note.GetAllInterviewsWithNotesUseCase
-import com.twain.interprep.domain.usecase.note.NoteUseCase
 import com.twain.interprep.domain.usecase.interview.DeleteAllInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.DeleteInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.GetInterviewByIdUseCase
 import com.twain.interprep.domain.usecase.interview.GetInterviewListUseCase
 import com.twain.interprep.domain.usecase.interview.GetInterviewsUseCase
+import com.twain.interprep.domain.usecase.interview.GetTodayInterviewsUseCase
 import com.twain.interprep.domain.usecase.interview.InsertInterviewUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.domain.usecase.interview.UpdateInterviewUseCase
 import com.twain.interprep.domain.usecase.note.DeleteNoteUseCase
 import com.twain.interprep.domain.usecase.note.DeleteNotesForInterviewUseCase
+import com.twain.interprep.domain.usecase.note.GetAllPastInterviewsWithNotesUseCase
 import com.twain.interprep.domain.usecase.note.GetNoteByIdUseCase
+import com.twain.interprep.domain.usecase.note.GetNotesByInterviewIdUseCase
 import com.twain.interprep.domain.usecase.note.InsertAllNotesUseCase
 import com.twain.interprep.domain.usecase.note.InsertNoteUseCase
+import com.twain.interprep.domain.usecase.note.NoteUseCase
 import com.twain.interprep.domain.usecase.note.UpdateNoteUseCase
 import com.twain.interprep.domain.usecase.quotes.GetQuotesUseCase
 import com.twain.interprep.domain.usecase.quotes.InsertQuotesUseCase
@@ -29,8 +30,8 @@ import com.twain.interprep.domain.usecase.resource.DeleteResourceUseCase
 import com.twain.interprep.domain.usecase.resource.GetAllResourcesWithLinksUseCase
 import com.twain.interprep.domain.usecase.resource.GetResourceWithLinksByResourceId
 import com.twain.interprep.domain.usecase.resource.GetResourceWithLinksBySearchTextUseCase
-import com.twain.interprep.domain.usecase.resource.UpsertResourceUseCase
 import com.twain.interprep.domain.usecase.resource.ResourceUseCase
+import com.twain.interprep.domain.usecase.resource.UpsertResourceUseCase
 import com.twain.interprep.domain.usecase.resourceLink.DeleteResourceLinkUseCase
 import com.twain.interprep.domain.usecase.resourceLink.InsertAllResourceLinkUseCase
 import com.twain.interprep.domain.usecase.resourceLink.InsertResourceLinkUseCase
@@ -61,6 +62,7 @@ class UseCaseModule {
         return InterviewUseCase(
             insertInterview = InsertInterviewUseCase(interviewRepository),
             updateInterview = UpdateInterviewUseCase(interviewRepository),
+            getTodayInterviews = GetTodayInterviewsUseCase(interviewRepository),
             getInterviews = GetInterviewsUseCase(interviewRepository),
             getInterviewList = GetInterviewListUseCase(interviewRepository),
             getInterviewById = GetInterviewByIdUseCase(interviewRepository),
@@ -73,7 +75,7 @@ class UseCaseModule {
     @Provides
     fun provideNoteUseCase(noteRepository: NoteRepository): NoteUseCase {
         return NoteUseCase(
-            getAllInterviewsWithNotesUseCase = GetAllInterviewsWithNotesUseCase(noteRepository),
+            getAllPastInterviewsWithNotesUseCase = GetAllPastInterviewsWithNotesUseCase(noteRepository),
             getNotesByInterviewIdUseCase = GetNotesByInterviewIdUseCase(noteRepository),
             insertNoteUseCase = InsertNoteUseCase(noteRepository),
             insertAllNotesUseCase = InsertAllNotesUseCase(noteRepository),

@@ -3,6 +3,7 @@ package com.twain.interprep.domain.usecase.interview
 data class InterviewUseCase(
     val insertInterview: InsertInterviewUseCase,
     val updateInterview: UpdateInterviewUseCase,
+    val getTodayInterviews: GetTodayInterviewsUseCase,
     val getInterviews: GetInterviewsUseCase,
     val getInterviewList: GetInterviewListUseCase,
     val getInterviewById: GetInterviewByIdUseCase,

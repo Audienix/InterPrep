@@ -36,8 +36,6 @@ import com.twain.interprep.data.model.isPast
 import com.twain.interprep.data.ui.InterviewFormData.getTextLabelList
 import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPText
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.DateUtils
 import java.text.SimpleDateFormat
@@ -154,8 +152,8 @@ private fun InterviewDetailsHeader(
 fun InterviewDetailsCardPreview() {
     IPInterviewDetailsCard(
         interview = interviewMockData,
-        headerBackgroundColor = BackgroundDarkPurple,
-        headerContentColor = BackgroundLightPurple,
+        headerBackgroundColor = MaterialColorPalette.primaryContainer,
+        headerContentColor = MaterialColorPalette.surfaceContainerHighest,
         onEditClick = {})
 }
 

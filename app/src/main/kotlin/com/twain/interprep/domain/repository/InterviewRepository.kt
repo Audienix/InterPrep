@@ -11,6 +11,7 @@ interface InterviewRepository {
 
     suspend fun updateInterview(interview: Interview)
 
+    suspend fun getTodayInterviews(): Flow<List<Interview>>
     suspend fun getInitialInterviews(): Flow<InterviewListMetaData>
 
     suspend fun getInterviewList(type: InterviewType, page: Int): Flow<List<Interview>>

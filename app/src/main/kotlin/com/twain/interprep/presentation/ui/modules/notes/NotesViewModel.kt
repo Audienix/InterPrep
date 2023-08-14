@@ -35,13 +35,13 @@ class NotesViewModel @Inject constructor(
         ViewResult.UnInitialized
     )
 
-    fun getAllInterviewsWithNotes() = launchCoroutineIO {
-        noteUseCase.getAllInterviewsWithNotesUseCase().collect {
+    fun getAllPastInterviewsWithNotes() = launchCoroutineIO {
+        noteUseCase.getAllPastInterviewsWithNotesUseCase().collect {
             interviewNotesPair = ViewResult.Loaded(it)
         }
     }
 
-    fun deleteNote(interview: Interview, note: Note) {
+    fun deleteNote(note: Note) {
         launchCoroutineIO {
             noteUseCase.deleteNoteUseCase(note)
         }

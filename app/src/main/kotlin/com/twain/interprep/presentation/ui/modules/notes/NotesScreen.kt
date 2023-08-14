@@ -32,7 +32,7 @@ fun NotesScreen(
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getAllInterviewsWithNotes()
+        viewModel.getAllPastInterviewsWithNotes()
     }
     Column(
         modifier = Modifier

@@ -6,17 +6,22 @@ object QuoteData {
     val quotes = listOf(
         Quote(
             1,
-            "By failing to prepare, you are preparing to fail.",
-            "Benjamin Franklin"
+            "A day without interviews is a day to prepare for greatness.",
+            ""
         ),
         Quote(
             2,
-            "I will prepare and some day my chance will come.",
-            "Abraham Lincoln"
+            "No interviews, no worries – your potential remains limitless.",
+            ""
         ),
         Quote(
             3,
-            "In the fields of observation chance favors only the prepared mind.",
+            "The journey to success continues, even on interview-free days.",
+            "Louis Pasteur"
+        ),
+        Quote(
+            4,
+            "No interviews today, but your aspirations know no boundaries.",
             "Louis Pasteur"
         )
     )

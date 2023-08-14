@@ -39,19 +39,15 @@ import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
-import com.twain.interprep.presentation.ui.components.generic.IPQuoteCard
+import com.twain.interprep.presentation.ui.components.generic.IPInterviewStatus
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
-import com.twain.interprep.presentation.ui.components.interview.IPInterviewStatus
 import com.twain.interprep.presentation.ui.modules.dashboard.ShowInterviewStatusBottomSheet
-import com.twain.interprep.presentation.ui.theme.BackgroundDarkPurple
-import com.twain.interprep.presentation.ui.theme.BackgroundLightPurple
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun InterviewDetailsScreen(
     navController: NavHostController,
     viewModel: InterviewViewModel = hiltViewModel(),
-    quotesViewModel: QuotesViewModel = hiltViewModel(),
     interviewId: Int?,
     primaryColor: Color,
     secondaryColor: Color
@@ -62,10 +58,6 @@ fun InterviewDetailsScreen(
         viewModel.interviewData = Interview()
         interviewId?.let { viewModel.getInterviewById(id = it) }
     }
-    LaunchedEffect(Unit){
-        if (quotesViewModel.currentQuote.quoteId == -1)
-            quotesViewModel.getQuotes()
-    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -73,7 +65,10 @@ fun InterviewDetailsScreen(
             IPAppBar(
                 title = stringResource(id = R.string.appbar_title_interview_details),
                 navIcon = {
-                    IPIcon(imageVector = Icons.Filled.ArrowBack, tint = MaterialColorPalette.onSurfaceVariant) {
+                    IPIcon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        tint = MaterialColorPalette.onSurfaceVariant
+                    ) {
                         navController.popBackStack()
                     }
                 }
@@ -86,7 +81,6 @@ fun InterviewDetailsScreen(
             ShowInterviewDetailsScreenContent(
                 padding,
                 viewModel,
-                quotesViewModel,
                 primaryColor,
                 secondaryColor,
                 interviewId,
@@ -124,8 +118,7 @@ private fun ShowDeleteConfirmationDialog(
 @Composable
 private fun ShowInterviewDetailsScreenContent(
     padding: PaddingValues,
-    viewModel: InterviewViewModel,
-    quotesViewModel: QuotesViewModel,
+    viewModel: InterviewViewModel = hiltViewModel(),
     primaryColor: Color,
     secondaryColor: Color,
     interviewId: Int?,
@@ -141,7 +134,7 @@ private fun ShowInterviewDetailsScreenContent(
             .padding(dimensionResource(id = R.dimen.dimension_4dp))
             .verticalScroll(rememberScrollState()),
     ) {
-        ShowHeader(viewModel, openBottomSheet, quotesViewModel, primaryColor)
+        ShowPastInterviewStatus(openBottomSheet = openBottomSheet)
         ShowInterviewDetailsCard(
             viewModel,
             primaryColor,
@@ -154,22 +147,18 @@ private fun ShowInterviewDetailsScreenContent(
 }
 
 @Composable
-private fun ShowHeader(
-    viewModel: InterviewViewModel,
-    openBottomSheet: MutableState<Boolean>,
-    quotesViewModel: QuotesViewModel,
-    primaryColor: Color
+private fun ShowPastInterviewStatus(
+    viewModel: InterviewViewModel = hiltViewModel(),
+    openBottomSheet: MutableState<Boolean>
 ) {
     if (viewModel.interviewData.isPast()) {
         ShowInterviewStatus(viewModel, openBottomSheet)
-    } else {
-        ShowQuoteCard(quotesViewModel, primaryColor)
     }
 }
 
 @Composable
 private fun ShowInterviewStatus(
-    viewModel: InterviewViewModel,
+    viewModel: InterviewViewModel = hiltViewModel(),
     openBottomSheet: MutableState<Boolean>
 ) {
     Row(
@@ -181,24 +170,14 @@ private fun ShowInterviewStatus(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "Status: ", style = MaterialTheme.typography.bodyLarge, color = MaterialColorPalette.onSurface)
+        Text(
+            text = "Status: ",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialColorPalette.onSurface
+        )
         IPInterviewStatus(
             status = viewModel.interviewData.interviewStatus,
             onClick = { openBottomSheet.value = true }
-        )
-    }
-}
-
-@Composable
-private fun ShowQuoteCard(
-    quotesViewModel: QuotesViewModel,
-    primaryColor: Color
-) {
-    val quote = quotesViewModel.currentQuote
-    if (quote.quoteId != -1) {
-        IPQuoteCard(
-            quote = quote,
-            backgroundColor = primaryColor
         )
     }
 }
@@ -228,7 +207,7 @@ fun InterviewDetailsScreenPreview() {
     InterviewDetailsScreen(
         navController = rememberNavController(),
         interviewId = 1,
-        primaryColor = BackgroundLightPurple,
-        secondaryColor = BackgroundDarkPurple
+        primaryColor = MaterialColorPalette.surfaceContainerHighest,
+        secondaryColor = MaterialColorPalette.primaryContainer
     )
 }

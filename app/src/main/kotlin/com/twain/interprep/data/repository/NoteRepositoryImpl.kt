@@ -11,18 +11,19 @@ import kotlinx.coroutines.flow.map
 class NoteRepositoryImpl(private val noteDAO: NoteDAO) : NoteRepository {
 
     @WorkerThread
-    override suspend fun getAllInterviewWithNotes() = noteDAO.getAllInterviewNoteMap().map {
-        val result = mutableListOf<Pair<Interview, List<Note>>>()
-        it.forEach {
-            result.add(it.interview to it.notes)
+    override suspend fun getAllPastInterviewsWithNotes() =
+        noteDAO.getAllPastInterviewsNoteMap().map { list ->
+            val result = mutableListOf<Pair<Interview, List<Note>>>()
+            list.forEach { data ->
+                result.add(data.interview to data.notes)
+            }
+            result
         }
-        result
-    }
 
     @WorkerThread
     override suspend fun getInterviewByIdWithNotes(interviewId: Int) =
-        noteDAO.getAllInterviewNoteMap().map { map ->
-            with(map.first { entry -> entry.interview.interviewId == interviewId }){
+        noteDAO.getAllPastInterviewsNoteMap().map { map ->
+            with(map.first { entry -> entry.interview.interviewId == interviewId }) {
                 interview to notes
             }
         }
@@ -34,14 +35,17 @@ class NoteRepositoryImpl(private val noteDAO: NoteDAO) : NoteRepository {
     override suspend fun insertAllNotes(notes: List<Note>) = noteDAO.insertAllNotes(notes)
 
     @WorkerThread
-    override suspend fun updateNote(note: Note) { noteDAO.updateNote(note) }
+    override suspend fun updateNote(note: Note) {
+        noteDAO.updateNote(note)
+    }
+
     override suspend fun deleteNote(note: Note) {
         noteDAO.deleteNote(note)
     }
+
     override suspend fun deleteNotesForInterview(interview: Interview) {
         noteDAO.deleteInterviewNotes(interview.interviewId)
     }
 
     override suspend fun getNoteById(noteId: Int): Flow<Note> = noteDAO.getNoteById(noteId)
-
 }

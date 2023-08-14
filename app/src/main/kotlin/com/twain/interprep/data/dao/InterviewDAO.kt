@@ -21,11 +21,18 @@ interface InterviewDAO {
     @Query("SELECT * FROM interview WHERE interviewId = :id")
     fun getInterview(id: Int): Flow<Interview>
 
-    @Query("SELECT * FROM interview WHERE (date || time) < :dateCurr ORDER BY (date || time) LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM interview WHERE (date || time) < :dateCurr ORDER BY (date || time) DESC LIMIT :limit OFFSET :offset")
     fun getPastInterviews(
         dateCurr: String,
         limit: Int = INTERVIEW_PAGE_LIMIT,
         offset: Int = 0
+    ): Flow<List<Interview>>
+
+
+    @Query("SELECT * FROM interview WHERE date || time >= :currentDateTime AND date || time <= :endOfDay")
+    fun getTodayInterviews(
+        currentDateTime: String,
+        endOfDay: String
     ): Flow<List<Interview>>
 
     @Query("SELECT * FROM interview WHERE (date || time) >= :dateCurr AND (date || time) <= :dateFuture ORDER BY (date || time) LIMIT :limit OFFSET :offset")

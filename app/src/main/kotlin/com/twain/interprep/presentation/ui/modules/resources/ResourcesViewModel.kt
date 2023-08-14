@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.resources
 
 import androidx.annotation.StringRes
-import com.twain.interprep.domain.usecase.resourceLink.ResourceLinkUseCase
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -11,11 +10,12 @@ import com.twain.interprep.data.model.Resource
 import com.twain.interprep.data.model.ResourceLink
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.domain.usecase.resource.ResourceUseCase
+import com.twain.interprep.domain.usecase.resourceLink.ResourceLinkUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
+import javax.inject.Inject
 
 @HiltViewModel
 class ResourcesViewModel @Inject constructor(
@@ -90,7 +90,7 @@ class ResourcesViewModel @Inject constructor(
         links[index] = link.copy(linkId = linkId, resourceId = resId)
 
         // add one ResourceLink() in the view model
-        this@ResourcesViewModel.links.add(ResourceLink())
+        links.add(ResourceLink())
     }
 
     /**
