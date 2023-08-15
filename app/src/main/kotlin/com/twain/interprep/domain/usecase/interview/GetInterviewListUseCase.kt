@@ -17,7 +17,6 @@ class GetInterviewListUseCase(private val interviewRepository: InterviewReposito
             type = type,
             page = page
         ).transform { interviews ->
-
             // has more is indicated by whether the fetched list has reached the page limit or not.
             // special case: When the last item is fetched but the list size equals limit, it will
             // do one more fetch but return an empty list
@@ -34,7 +33,7 @@ class GetInterviewListUseCase(private val interviewRepository: InterviewReposito
                         )
                     )
 
-                    InterviewType.UPCOMING -> currentState.copy(
+                    InterviewType.PRESENT -> currentState.copy(
                         upcomingInterviewList = InterviewList(
                             list = currentState.upcomingInterviewList.list + interviews,
                             page = page,
@@ -42,7 +41,7 @@ class GetInterviewListUseCase(private val interviewRepository: InterviewReposito
                         )
                     )
 
-                    InterviewType.COMING_NEXT -> currentState.copy(
+                    InterviewType.FUTURE -> currentState.copy(
                         comingNextInterviewList = InterviewList(
                             list = currentState.comingNextInterviewList.list + interviews,
                             page = page,

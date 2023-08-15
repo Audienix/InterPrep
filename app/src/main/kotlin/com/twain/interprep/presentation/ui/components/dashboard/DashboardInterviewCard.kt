@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components.interview
+package com.twain.interprep.presentation.ui.components.dashboard
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,8 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -31,9 +29,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_DAY
-import com.twain.interprep.data.model.DashboardInterviewType
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
+import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPDateTimeBox
@@ -41,20 +39,20 @@ import com.twain.interprep.presentation.ui.components.generic.IPInterviewStatus
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.utils.DateUtils
+import com.twain.interprep.utils.getInterviewCardColorPair
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun IPInterviewCard(
+fun DashboardInterviewCard(
     interview: Interview,
-    dashboardInterviewType: DashboardInterviewType,
+    interviewType: InterviewType,
     navController: NavHostController,
     onClick: () -> Unit,
     onStatusBarClicked: () -> Unit = {}
 ) {
-    val configuration = LocalConfiguration.current
-    val cardWidth = configuration.screenWidthDp.dp * dashboardInterviewType.cardWidthFactor
     val context = LocalContext.current
+    val interviewCardColorPair = getInterviewCardColorPair(type = interviewType)
     Box {
         Column {
             Spacer(
@@ -71,20 +69,18 @@ fun IPInterviewCard(
                 shape = Shapes.medium,
                 colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLowest),
                 modifier = Modifier
-                    .width(cardWidth)
                     .padding(dimensionResource(id = R.dimen.dimension_8dp))
-                    .clickable(onClick = {
+                    .clickable {
                         onClick()
                         navController.navigate(
                             AppScreens.MainScreens.InterviewDetails.withArgs(
                                 interview.interviewId,
-                                dashboardInterviewType.cardBackgroundColor.toArgb(),
-                                dashboardInterviewType.cardContentColor.toArgb()
+                                interviewType,
                             )
                         ) {
                             popUpTo(AppScreens.MainScreens.Dashboard.route)
                         }
-                    })
+                    }
                     .height(106.dp), //TODO change constant height value
             ) {
                 Row(
@@ -94,10 +90,11 @@ fun IPInterviewCard(
                 ) {
                     val date = DateUtils.convertDateStringToDate(interview.date)
                     IPDateTimeBox(
-                        backgroundColor = dashboardInterviewType.cardContentColor,
                         date = date,
-                        dateTextColor = dashboardInterviewType.cardBackgroundColor,
-                        monthYearTextColor = dashboardInterviewType.cardBackgroundColor
+                        dateTextColor = interviewCardColorPair.second,
+                        monthYearTextColor = interviewCardColorPair.second,
+                        backgroundColor = interviewCardColorPair.first,
+                        borderColor = Color.Transparent
                     )
                     Column(
                         modifier = Modifier
@@ -191,32 +188,32 @@ val interviewMockData = Interview(
 @Composable
 @Preview
 fun UpcomingInterviewCard() {
-    IPInterviewCard(
+    DashboardInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
-        dashboardInterviewType = DashboardInterviewType.UpcomingInterview()
+        interviewType = InterviewType.PRESENT
     )
 }
 
 @Composable
 @Preview
 fun ComingNextInterviewCard() {
-    IPInterviewCard(
+    DashboardInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
-        dashboardInterviewType = DashboardInterviewType.NextInterview()
+        interviewType = InterviewType.FUTURE
     )
 }
 
 @Composable
 @Preview
 fun PastInterviewCard() {
-    IPInterviewCard(
+    DashboardInterviewCard(
         interview = interviewMockData,
         onClick = {},
         navController = rememberNavController(),
-        dashboardInterviewType = DashboardInterviewType.PastInterview()
+        interviewType = InterviewType.PAST
     )
 }

@@ -1,8 +1,6 @@
 package com.twain.interprep.constants
 
 object NumberConstants {
-    const val CARD_PARTIAL_WIDTH_FACTOR = 0.8f
-    const val CARD_FULL_WIDTH_FACTOR = 1f
     const val SECOND_IN_MILLISECONDS = 1000
     const val MINUTE_IN_SECONDS = 60
     const val HOUR_IN_MINUTES = 60

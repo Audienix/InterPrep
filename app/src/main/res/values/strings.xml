@@ -27,11 +27,20 @@
     <string name="menuitem_delete">Delete</string>
 
     <string name="empty_state_title_dashboard">No interview scheduled.</string>
+    <string name="empty_state_title_dashboard_current">No interview this week.</string>
+    <string name="empty_state_title_dashboard_future">No interview after this week.</string>
+    <string name="empty_state_title_dashboard_past">No interview history.</string>
     <string name="empty_state_title_note">No notes captured.</string>
     <string name="empty_state_title_resource">No resources added</string>
     <string name="empty_state_title_no_match_resource">No matched resource</string>
 
     <string name="empty_state_description_dashboard">Add your first interview schedule by clicking ‘+’
+        button.</string>
+    <string name="empty_state_description_dashboard_current">Add your next interview by clicking ‘+’
+        button.</string>
+    <string name="empty_state_description_dashboard_future">Add an upcoming interview by clicking ‘+’
+        button.</string>
+    <string name="empty_state_description_dashboard_past">Add any past interview history by clicking ‘+’
         button.</string>
     <string name="empty_state_description_note">Come back after your scheduled interview to capture some quick notes.</string>
     <string name="empty_state_description_resource">Add your first resource material by clicking ‘+’ button.</string>
@@ -115,6 +124,7 @@
 
     <string name="label_no_text_available">N/A</string>
     <string name="label_view_more">View More…</string>
+    <string name="label_status">"Status: "</string>
 
     <string name="error_no_browser_app">No browser app installed</string>
 
@@ -140,4 +150,10 @@
     </plurals>
     <string name="no_interviews_today">You have no interview today.</string>
     <string name="join_here">Join Here</string>
+
+    <string-array name="interview_filter">
+        <item>Current</item>
+        <item>Future</item>
+        <item>Past</item>
+    </string-array>
 </resources>

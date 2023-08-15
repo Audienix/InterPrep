@@ -59,12 +59,12 @@ class InterviewRepositoryImpl(private val interviewDao: InterviewDAO) : Intervie
                 dateCurr = dateCurr,
                 offset = offset
             )
-            InterviewType.UPCOMING -> interviewDao.getUpcomingInterviews(
+            InterviewType.PRESENT -> interviewDao.getUpcomingInterviews(
                 dateCurr = dateCurr,
                 dateFuture = dateFuture,
                 offset = offset
             )
-            InterviewType.COMING_NEXT -> interviewDao.getComingNextInterviews(
+            InterviewType.FUTURE -> interviewDao.getComingNextInterviews(
                 dateFuture = dateFuture,
                 offset = offset
             )

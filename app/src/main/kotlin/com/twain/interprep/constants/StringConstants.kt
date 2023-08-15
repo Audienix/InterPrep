@@ -25,8 +25,7 @@ object StringConstants {
 
     // Screen navigation arguments
     const val NAV_ARG_INTERVIEW_ID = "interviewId"
-    const val NAV_ARG_PRIMARY_COLOR = "primaryColor"
-    const val NAV_ARG_SECONDARY_COLOR = "secondaryColor"
+    const val NAV_ARG_INTERVIEW_TYPE = "interviewType"
     const val NAV_ARG_IS_EDIT = "isEdit"
     const val NAV_ARG_RESOURCE_ID = "resourceId"
 

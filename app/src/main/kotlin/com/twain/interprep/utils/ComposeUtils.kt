@@ -1,8 +1,11 @@
 package com.twain.interprep.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
+import com.twain.interprep.data.model.InterviewType
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import java.util.Calendar
 
 @Composable
@@ -23,5 +26,32 @@ fun getNameInitials(input: String): String {
         0 -> ""
         1 -> words[0].take(2).uppercase()
         else -> "${words[0].first()}${words[1].first()}".uppercase()
+    }
+}
+
+@Composable
+fun getInterviewCardColorPair(type: InterviewType): Pair<Color, Color> {
+    return when (type) {
+        InterviewType.FUTURE ->
+            MaterialColorPalette.tertiaryContainer to MaterialColorPalette.onTertiaryContainer
+        InterviewType.PRESENT ->
+            MaterialColorPalette.secondaryContainer to MaterialColorPalette.onSecondaryContainer
+        else ->
+            MaterialColorPalette.surfaceContainerHighest to MaterialColorPalette.onSurface
+    }
+}
+
+@Composable
+fun getInterviewEmptyStateTextPair(type: InterviewType): Pair<String, String> {
+    return when (type) {
+        InterviewType.FUTURE ->
+            stringResource(id = R.string.empty_state_title_dashboard_future) to
+                    stringResource(id = R.string.empty_state_description_dashboard_future)
+        InterviewType.PRESENT ->
+            stringResource(id = R.string.empty_state_title_dashboard_current) to
+                    stringResource(id = R.string.empty_state_description_dashboard_current)
+        else ->
+            stringResource(id = R.string.empty_state_title_dashboard_past) to
+                    stringResource(id = R.string.empty_state_description_dashboard_past)
     }
 }
