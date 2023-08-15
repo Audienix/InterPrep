@@ -2,15 +2,7 @@ package com.twain.interprep.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-//TODO Remove the following colors & use Material 3 theme colors
-val BackgroundDarkPurple = Color(0xFF4F378B)
-val BackgroundDarkGreen = Color(0xFF008B00)
-val BackgroundDarkGray = Color(0xFF212121)
-
-val BackgroundLightPurple = Color(0xFFEBE3FF)
-val BackgroundLightGreen = Color(0xFFF4FFE3)
-val BackgroundLightGray = Color(0xFFEBEBEB)
-
+/* Interview Status colors */
 val StatusNoUpdate = Color(0xFFFF6F00)
 val StatusNextRound = Color(0xFFFBC02D)
 val StatusSelected = Color(0xFF388E3C)

@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components.interview
+package com.twain.interprep.presentation.ui.components.dashboard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

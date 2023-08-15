@@ -1,4 +1,4 @@
-package com.twain.interprep.presentation.ui.components.interview
+package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

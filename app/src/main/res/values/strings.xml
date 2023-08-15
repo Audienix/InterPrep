@@ -140,4 +140,10 @@
     </plurals>
     <string name="no_interviews_today">You have no interview today.</string>
     <string name="join_here">Join Here</string>
+
+    <string-array name="interview_filter">
+        <item>Current</item>
+        <item>Future</item>
+        <item>Past</item>
+    </string-array>
 </resources>

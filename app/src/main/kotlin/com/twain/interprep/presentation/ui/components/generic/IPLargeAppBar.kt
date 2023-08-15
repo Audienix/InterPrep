@@ -33,8 +33,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.presentation.ui.components.interview.NoInterviewCard
-import com.twain.interprep.presentation.ui.components.interview.interviewMockData
+import com.twain.interprep.presentation.ui.components.dashboard.NoInterviewCard
+import com.twain.interprep.presentation.ui.components.dashboard.interviewMockData
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.InterviewList
 import com.twain.interprep.data.model.InterviewListMetaData
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.ViewResult
@@ -53,10 +54,10 @@ class DashboardViewModel @Inject constructor(
 
         val currentState = (interviewListMetaData as ViewResult.Loaded<InterviewListMetaData>).data
 
-        val originalList = when (type) {
+        val originalList: InterviewList = when (type) {
             InterviewType.PAST -> currentState.pastInterviewList
-            InterviewType.UPCOMING -> currentState.upcomingInterviewList
-            InterviewType.COMING_NEXT -> currentState.comingNextInterviewList
+            InterviewType.PRESENT -> currentState.upcomingInterviewList
+            InterviewType.FUTURE -> currentState.comingNextInterviewList
         }
         if (!isLoading) {
             isLoading = true
