@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -71,18 +70,17 @@ fun DashboardInterviewCard(
                 colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLowest),
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.dimension_8dp))
-                    .clickable(onClick = {
+                    .clickable {
                         onClick()
                         navController.navigate(
                             AppScreens.MainScreens.InterviewDetails.withArgs(
                                 interview.interviewId,
-                                interviewCardColorPair.first.toArgb(),
-                                interviewCardColorPair.second.toArgb()
+                                interviewType,
                             )
                         ) {
                             popUpTo(AppScreens.MainScreens.Dashboard.route)
                         }
-                    })
+                    }
                     .height(106.dp), //TODO change constant height value
             ) {
                 Row(

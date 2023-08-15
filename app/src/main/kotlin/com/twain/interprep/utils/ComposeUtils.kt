@@ -40,3 +40,18 @@ fun getInterviewCardColorPair(type: InterviewType): Pair<Color, Color> {
             MaterialColorPalette.surfaceContainerHighest to MaterialColorPalette.onSurface
     }
 }
+
+@Composable
+fun getInterviewEmptyStateTextPair(type: InterviewType): Pair<String, String> {
+    return when (type) {
+        InterviewType.FUTURE ->
+            stringResource(id = R.string.empty_state_title_dashboard_future) to
+                    stringResource(id = R.string.empty_state_description_dashboard_future)
+        InterviewType.PRESENT ->
+            stringResource(id = R.string.empty_state_title_dashboard_current) to
+                    stringResource(id = R.string.empty_state_description_dashboard_current)
+        else ->
+            stringResource(id = R.string.empty_state_title_dashboard_past) to
+                    stringResource(id = R.string.empty_state_description_dashboard_past)
+    }
+}

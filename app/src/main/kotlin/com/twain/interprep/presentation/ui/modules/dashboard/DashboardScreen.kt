@@ -45,7 +45,6 @@ import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewList
-import com.twain.interprep.data.model.InterviewListMetaData
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.model.isEmpty
@@ -60,6 +59,7 @@ import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.utils.getInterviewCardColorPair
+import com.twain.interprep.utils.getInterviewEmptyStateTextPair
 import com.twain.interprep.utils.getNameInitials
 import com.twain.interprep.utils.getTimeOfDayGreeting
 import kotlinx.coroutines.CoroutineScope
@@ -127,7 +127,10 @@ private fun ShowDashboardScreenContent(
     if (dashboardViewModel.interviewListMetaData is ViewResult.Loaded) {
         val interviews = dashboardViewModel.interviewListMetaData as ViewResult.Loaded
         if (interviews.data.isEmpty())
-            ShowEmptyState()
+            ShowEmptyState(
+                title = stringResource(id = R.string.empty_state_title_dashboard),
+                description = stringResource(id = R.string.empty_state_description_dashboard)
+            )
         else {
             LazyColumn(
                 modifier = Modifier.padding(padding),
@@ -138,15 +141,32 @@ private fun ShowDashboardScreenContent(
                 item {
                     InterviewTypeFilter(selectedFilterIndex)
                 }
-                showInterviewList(
-                    filterIndex = selectedFilterIndex.intValue,
-                    interviewListState = interviewListState,
-                    interviewState = interviews,
-                    dashboardViewModel = dashboardViewModel,
-                    interviewModel = interviewModel,
-                    navController = navController,
-                    openBottomSheet
-                )
+                val interviewList: InterviewList = when (selectedFilterIndex.intValue) {
+                    0 -> interviews.data.upcomingInterviewList
+                    1 -> interviews.data.comingNextInterviewList
+                    else -> interviews.data.pastInterviewList
+                }
+                val interviewType: InterviewType = when (selectedFilterIndex.intValue) {
+                    0 -> InterviewType.PRESENT
+                    1 -> InterviewType.FUTURE
+                    else -> InterviewType.PAST
+                }
+                if (interviewList.list.isNotEmpty()) {
+                    showInterviewList(
+                        interviewType = interviewType,
+                        interviewListState = interviewListState,
+                        interviewList = interviewList,
+                        dashboardViewModel = dashboardViewModel,
+                        interviewModel = interviewModel,
+                        navController = navController,
+                        openBottomSheet
+                    )
+                } else {
+                    item {
+                        val textPair = getInterviewEmptyStateTextPair(interviewType)
+                        ShowEmptyState(textPair.first, textPair.second)
+                    }
+                }
             }
         }
     } else {
@@ -156,7 +176,7 @@ private fun ShowDashboardScreenContent(
 }
 
 @Composable
-private fun ShowEmptyState() {
+private fun ShowEmptyState(title: String, description: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -164,8 +184,7 @@ private fun ShowEmptyState() {
         FullScreenEmptyState(
             Modifier,
             R.drawable.empty_state_dashboard,
-            stringResource(id = R.string.empty_state_title_dashboard),
-            stringResource(id = R.string.empty_state_description_dashboard)
+            title, description
         )
     }
 }
@@ -175,10 +194,10 @@ private fun ShowEmptyState() {
 private fun InterviewTypeFilter(selectedFilterIndex: MutableIntState) {
     val filterItems = stringArrayResource(id = R.array.interview_filter)
     val selectedFilterItem = remember { mutableStateOf(filterItems[0]) }
-    val interviewType: InterviewType = when (selectedFilterIndex.value) {
+    val interviewType: InterviewType = when (selectedFilterIndex.intValue) {
         0 -> InterviewType.PRESENT
         1 -> InterviewType.FUTURE
-        else ->InterviewType.PAST
+        else -> InterviewType.PAST
     }
     val interviewColorPair = getInterviewCardColorPair(type = interviewType)
     Box(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_8dp))) {
@@ -225,24 +244,14 @@ private fun InterviewTypeFilter(selectedFilterIndex: MutableIntState) {
 }
 
 private fun LazyListScope.showInterviewList(
-    filterIndex: Int,
+    interviewType: InterviewType,
     interviewListState: LazyListState,
-    interviewState: ViewResult.Loaded<InterviewListMetaData>,
+    interviewList: InterviewList,
     dashboardViewModel: DashboardViewModel,
     interviewModel: InterviewViewModel,
     navController: NavHostController,
     openBottomSheet: MutableState<Boolean>
 ) {
-    val interviewType: InterviewType = when (filterIndex) {
-        0 -> InterviewType.PRESENT
-        1 -> InterviewType.FUTURE
-        else ->InterviewType.PAST
-    }
-    val interviewList: InterviewList = when (filterIndex) {
-        0 -> interviewState.data.upcomingInterviewList
-        1 -> interviewState.data.comingNextInterviewList
-        else -> interviewState.data.pastInterviewList
-    }
     if (shouldLoadMore(
             interviewListState,
             interviewList.hasMore,
@@ -251,19 +260,17 @@ private fun LazyListScope.showInterviewList(
     ) {
         dashboardViewModel.loadMore(interviewType)
     }
-    if (interviewList.list.isNotEmpty()) {
-        items(interviewList.list) { interview ->
-            DashboardInterviewCard(
-                interview = interview,
-                onClick = { interviewModel.interviewData = interview },
-                navController = navController,
-                interviewType = interviewType,
-                onStatusBarClicked = {
-                    interviewModel.interviewData = interview
-                    openBottomSheet.value = true
-                }
-            )
-        }
+    items(interviewList.list) { interview ->
+        DashboardInterviewCard(
+            interview = interview,
+            onClick = { interviewModel.interviewData = interview },
+            navController = navController,
+            interviewType = interviewType,
+            onStatusBarClicked = {
+                interviewModel.interviewData = interview
+                openBottomSheet.value = true
+            }
+        )
     }
 }
 

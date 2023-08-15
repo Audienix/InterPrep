@@ -24,8 +24,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +33,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
@@ -43,14 +44,14 @@ import com.twain.interprep.presentation.ui.components.generic.IPInterviewStatus
 import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
 import com.twain.interprep.presentation.ui.modules.dashboard.ShowInterviewStatusBottomSheet
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
+import com.twain.interprep.utils.getInterviewCardColorPair
 
 @Composable
 fun InterviewDetailsScreen(
     navController: NavHostController,
     viewModel: InterviewViewModel = hiltViewModel(),
     interviewId: Int?,
-    primaryColor: Color,
-    secondaryColor: Color
+    interviewType: InterviewType
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
 
@@ -62,8 +63,9 @@ fun InterviewDetailsScreen(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
+            val array = stringArrayResource(id = R.array.interview_filter)
             IPAppBar(
-                title = stringResource(id = R.string.appbar_title_interview_details),
+                title = array[interviewType.ordinal],
                 navIcon = {
                     IPIcon(
                         imageVector = Icons.Filled.ArrowBack,
@@ -81,9 +83,8 @@ fun InterviewDetailsScreen(
             ShowInterviewDetailsScreenContent(
                 padding,
                 viewModel,
-                primaryColor,
-                secondaryColor,
                 interviewId,
+                interviewType,
                 navController
             )
         },
@@ -119,9 +120,8 @@ private fun ShowDeleteConfirmationDialog(
 private fun ShowInterviewDetailsScreenContent(
     padding: PaddingValues,
     viewModel: InterviewViewModel = hiltViewModel(),
-    primaryColor: Color,
-    secondaryColor: Color,
     interviewId: Int?,
+    interviewType: InterviewType,
     navController: NavHostController
 ) {
     val scope = rememberCoroutineScope()
@@ -137,9 +137,8 @@ private fun ShowInterviewDetailsScreenContent(
         ShowPastInterviewStatus(openBottomSheet = openBottomSheet)
         ShowInterviewDetailsCard(
             viewModel,
-            primaryColor,
-            secondaryColor,
             interviewId,
+            interviewType,
             navController
         )
     }
@@ -171,7 +170,7 @@ private fun ShowInterviewStatus(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Status: ",
+            text = stringResource(R.string.label_status),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialColorPalette.onSurface
         )
@@ -185,15 +184,15 @@ private fun ShowInterviewStatus(
 @Composable
 private fun ShowInterviewDetailsCard(
     viewModel: InterviewViewModel,
-    primaryColor: Color,
-    secondaryColor: Color,
     interviewId: Int?,
+    interviewType: InterviewType,
     navController: NavHostController
 ) {
+    val colorPair = getInterviewCardColorPair(type = interviewType)
     IPInterviewDetailsCard(
         interview = viewModel.interviewData,
-        headerBackgroundColor = secondaryColor,
-        headerContentColor = primaryColor,
+        headerBackgroundColor = colorPair.first,
+        headerContentColor = colorPair.second,
         onEditClick = {
             interviewId?.let {
                 navController.navigate(AppScreens.MainScreens.AddInterview.withArgs(it))
@@ -207,7 +206,6 @@ fun InterviewDetailsScreenPreview() {
     InterviewDetailsScreen(
         navController = rememberNavController(),
         interviewId = 1,
-        primaryColor = MaterialColorPalette.surfaceContainerHighest,
-        secondaryColor = MaterialColorPalette.primaryContainer
+        interviewType = InterviewType.FUTURE
     )
 }

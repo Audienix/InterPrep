@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.twain.interprep.constants.StringConstants
+import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.presentation.ui.modules.dashboard.DashboardScreen
 import com.twain.interprep.presentation.ui.modules.interview.AddInterviewScreen
 import com.twain.interprep.presentation.ui.modules.interview.InterviewDetailsScreen
@@ -43,7 +43,7 @@ fun MainScreensNavGraph(navController: NavHostController) {
         }
         // Interview Details Screen
         composable(
-            route = "${AppScreens.MainScreens.InterviewDetails.route}/{interviewId}/{primaryColor}/{secondaryColor}",
+            route = "${AppScreens.MainScreens.InterviewDetails.route}/{interviewId}/{interviewType}",
             arguments = getInterviewDetailsNavArguments()
         ) { entry ->
             NavigateToInterviewDetails(entry, navController)
@@ -102,6 +102,7 @@ fun MainScreensNavGraph(navController: NavHostController) {
         }
     }
 }
+
 @Composable
 private fun NavigateToAddNotes(
     entry: NavBackStackEntry,
@@ -131,29 +132,21 @@ private fun NavigateToInterviewDetails(
     navController: NavHostController
 ) {
     val interviewId = entry.arguments?.getInt(StringConstants.NAV_ARG_INTERVIEW_ID)
-    val primaryColor = entry.arguments?.getInt(StringConstants.NAV_ARG_PRIMARY_COLOR)?.let { Color(it) }
-    val secondaryColor = entry.arguments?.getInt(StringConstants.NAV_ARG_SECONDARY_COLOR)?.let { Color(it) }
-    primaryColor?.let { primary ->
-        secondaryColor?.let { secondary ->
-            InterviewDetailsScreen(
-                navController = navController,
-                interviewId = interviewId,
-                primaryColor = primary,
-                secondaryColor = secondary
-            )
-        }
-    }
+    val interviewType = entry.arguments?.getString(StringConstants.NAV_ARG_INTERVIEW_TYPE).toString()
+    InterviewDetailsScreen(
+        navController = navController,
+        interviewId = interviewId,
+        interviewType = InterviewType.valueOf(interviewType)
+    )
+
 }
 
 private fun getInterviewDetailsNavArguments() = listOf(
     navArgument(StringConstants.NAV_ARG_INTERVIEW_ID) {
         type = NavType.IntType
     },
-    navArgument(StringConstants.NAV_ARG_PRIMARY_COLOR) {
-        type = NavType.IntType
-    },
-    navArgument(StringConstants.NAV_ARG_SECONDARY_COLOR) {
-        type = NavType.IntType
+    navArgument(StringConstants.NAV_ARG_INTERVIEW_TYPE) {
+        type = NavType.StringType
     }
 )
 
