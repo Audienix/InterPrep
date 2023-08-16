@@ -156,7 +156,11 @@ fun NoteHeader(
             color = MaterialColorPalette.onSurface
         )
         Text(
-            text = topic,
+            text = topic.ifEmpty {
+                stringResource(
+                    id = R.string.label_no_text_available
+                )
+            },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialColorPalette.onSurfaceVariant
         )

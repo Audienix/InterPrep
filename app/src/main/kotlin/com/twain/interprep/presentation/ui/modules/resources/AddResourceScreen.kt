@@ -192,11 +192,12 @@ private fun ShowScreenContent(
                         backgroundColor = MaterialColorPalette.primaryContainer,
                         text = stringResource(id = R.string.button_add_link),
                         textColor = MaterialColorPalette.onPrimaryContainer,
-                        textStyle = MaterialTheme.typography.titleMedium,
+                        textStyle = MaterialTheme.typography.labelLarge,
                         enabled = viewModel.addLinkEnabled(),
                         iconColor = MaterialColorPalette.onPrimaryContainer,
                         leadingIcon = R.drawable.ic_add_link,
                         disabledContentColor = MaterialColorPalette.onSurfaceVariant,
+                        contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
                         onClick = { viewModel.addLink() })
                 }
             }

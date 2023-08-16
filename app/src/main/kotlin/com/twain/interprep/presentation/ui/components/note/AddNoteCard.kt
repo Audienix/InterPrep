@@ -36,8 +36,7 @@ fun AddNoteCard(
     addQuestion: () -> Unit,
     deleteNote: () -> Unit,
     deleteQuestion: (Int) -> Unit,
-    shouldValidate: Boolean,
-    isEdit: Boolean
+    shouldValidate: Boolean
 ) {
     val showDeleteDialog = remember { mutableStateOf(false) }
     ShowDeleteConfirmationDialog(showDeleteDialog, deleteNote)
@@ -81,20 +80,8 @@ fun AddNoteCard(
                     showDeleteIcon = showDeleteQuestion
                 )
             }
-            var horizontalArrangement = Arrangement.End
-            var buttonText = stringResource(id = R.string.button_add_question)
-            var buttonIcon = R.drawable.ic_outline_add_circle_24
-            var clickHandler = { addQuestion() }
-
-            if (isEdit) {
-                horizontalArrangement = Arrangement.Start
-                buttonText = stringResource(id = R.string.button_delete_note)
-                buttonIcon = R.drawable.ic_outline_delete_circle_24
-                clickHandler = { showDeleteDialog.value = true }
-            }
-
             Row(
-                horizontalArrangement = horizontalArrangement,
+                horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -104,14 +91,14 @@ fun AddNoteCard(
                 IPOutlinedButton(
                     backgroundColor = Color.Transparent,
                     textColor = MaterialColorPalette.onPrimaryContainer,
-                    text = buttonText,
+                    text = stringResource(id = R.string.button_add_question),
                     iconColor = MaterialColorPalette.onPrimaryContainer,
-                    leadingIcon = buttonIcon,
-                    onClick = clickHandler,
+                    leadingIcon = R.drawable.ic_outline_add_circle_24,
+                    onClick = { addQuestion() },
                     borderColor = MaterialColorPalette.onPrimaryContainer,
-                    textStyle = MaterialTheme.typography.titleMedium,
+                    textStyle = MaterialTheme.typography.labelLarge,
                     contentPadding = PaddingValues(
-                        horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+                        horizontal = dimensionResource(id = R.dimen.dimension_8dp)
                     )
                 )
             }

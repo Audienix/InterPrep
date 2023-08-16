@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
@@ -80,7 +82,6 @@ fun AddNotesScreen(
             },
             content = { padding ->
                 ShowBackConfirmationDialog(shouldShowAlert, navController, shouldValidateFormFields)
-
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -169,32 +170,70 @@ fun AddNotesScreen(
                                     viewModel.deleteQuestion(index, questionIndex)
                                 },
                                 shouldValidate = shouldValidateFormFields.value,
-                                isEdit
                             )
+                            ShowDeleteNoteButton(isEdit = isEdit, note = note)
                         }
-                        if (!isEdit) {
-                            Row(
-                                modifier = Modifier.padding(
-                                    vertical = dimensionResource(id = R.dimen.dimension_12dp),
-                                    horizontal = dimensionResource(id = R.dimen.dimension_16dp)
-                                )
-                            ) {
-                                IPFilledButton(
-                                    backgroundColor = MaterialColorPalette.primaryContainer,
-                                    text = stringResource(id = R.string.button_add_note),
-                                    textColor = MaterialColorPalette.onPrimaryContainer,
-                                    textStyle = MaterialTheme.typography.labelLarge,
-                                    enabled = viewModel.addNoteEnabled(),
-                                    iconColor = MaterialColorPalette.onPrimaryContainer,
-                                    leadingIcon = R.drawable.ic_outline_add_circle_24,
-                                    onClick = { viewModel.addNote() })
-                            }
-                        }
+                        ShowAddNoteButton(isEdit)
+
                     }
                 }
             },
             containerColor = MaterialColorPalette.surface
         )
+    }
+}
+
+@Composable
+private fun ShowDeleteNoteButton(
+    isEdit: Boolean,
+    note: Note,
+    viewModel: NotesViewModel = hiltViewModel()
+) {
+    if (isEdit) {
+        Row(
+            modifier = Modifier.padding(
+                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+            )
+        ) {
+
+            IPFilledButton(
+                backgroundColor = MaterialColorPalette.primaryContainer,
+                text = stringResource(id = R.string.button_delete_note),
+                textColor = MaterialColorPalette.onPrimaryContainer,
+                textStyle = MaterialTheme.typography.labelLarge,
+                iconColor = MaterialColorPalette.onPrimaryContainer,
+                leadingIcon = R.drawable.ic_outline_add_circle_24,
+                contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+                onClick = { viewModel.deleteNote(note = note) })
+        }
+
+    }
+}
+
+@Composable
+private fun ShowAddNoteButton(
+    isEdit: Boolean,
+    viewModel: NotesViewModel = hiltViewModel()
+) {
+    if (!isEdit) {
+        Row(
+            modifier = Modifier.padding(
+                vertical = dimensionResource(id = R.dimen.dimension_12dp),
+                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+            )
+        ) {
+
+            IPFilledButton(
+                backgroundColor = MaterialColorPalette.primaryContainer,
+                text = stringResource(id = R.string.button_add_note),
+                textColor = MaterialColorPalette.onPrimaryContainer,
+                textStyle = MaterialTheme.typography.labelLarge,
+                enabled = viewModel.addNoteEnabled(),
+                iconColor = MaterialColorPalette.onPrimaryContainer,
+                leadingIcon = R.drawable.ic_outline_add_circle_24,
+                contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+                onClick = { viewModel.addNote() })
+        }
     }
 }
 

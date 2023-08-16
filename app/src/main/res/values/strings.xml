@@ -153,8 +153,8 @@
     <string name="join_here">Join Here</string>
 
     <string-array name="interview_filter">
-        <item>This Week</item>
-        <item>Upcoming</item>
+        <item>Current</item>
+        <item>Future</item>
         <item>Past</item>
     </string-array>
 </resources>
