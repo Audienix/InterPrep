@@ -64,7 +64,7 @@ fun IPFilledButton(
                 tint = if (enabled) iconColor else disabledContentColor.copy(alpha = 0.12f)
                     .compositeOver(disabledContainerColor)
             )
-            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_4dp)))
         }
         Text(text = text, style = textStyle)
     }
@@ -103,7 +103,7 @@ fun IPOutlinedButton(
                 contentDescription = contentDescription,
                 tint = iconColor
             )
-            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_4dp)))
         }
         Text(text = text, style = textStyle)
     }

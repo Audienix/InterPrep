@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,24 +14,24 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.presentation.ui.components.generic.FullScreenEmptyState
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
@@ -44,14 +45,14 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun AddNotesScreen(
-    navController: NavController,
+    navController: NavHostController,
     interviewId: Int,
     isEdit: Boolean,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val shouldShowAlert = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
-    var shouldValidateFormFields by remember { mutableStateOf(false) }
+    val shouldValidateFormFields = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.getInterviewsWithNotesByInterviewId(interviewId, isEdit)
@@ -80,21 +81,7 @@ fun AddNotesScreen(
                 )
             },
             content = { padding ->
-                if (shouldShowAlert.value) {
-                    IPAlertDialog(
-                        titleResId = R.string.alert_dialog_unsaved_notes_title,
-                        contentResId = R.string.alert_dialog_unsaved_notes_text,
-                        // "OK" is clicked
-                        onPositiveButtonClick = {
-                            shouldShowAlert.value = false
-                            navController.popBackStack()
-                        },
-                        // "CANCEL" is clicked
-                        onNegativeButtonClick = {
-                            shouldShowAlert.value = false
-                            shouldValidateFormFields = true
-                        })
-                }
+                ShowBackConfirmationDialog(shouldShowAlert, navController, shouldValidateFormFields)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -118,7 +105,7 @@ fun AddNotesScreen(
                             viewModel.deleteNotesForInterview(interview)
                         }
                     }
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier
                             .fillMaxWidth(),
                         thickness = dimensionResource(id = R.dimen.dimension_stroke_width_low),
@@ -182,33 +169,71 @@ fun AddNotesScreen(
                                 deleteQuestion = { questionIndex ->
                                     viewModel.deleteQuestion(index, questionIndex)
                                 },
-                                shouldValidate = shouldValidateFormFields,
-                                isEdit
+                                shouldValidate = shouldValidateFormFields.value,
                             )
+                            ShowDeleteNoteButton(isEdit = isEdit, note = note)
                         }
-                        if (!isEdit) {
-                            Row(
-                                modifier = Modifier.padding(
-                                    vertical = dimensionResource(id = R.dimen.dimension_12dp),
-                                    horizontal = dimensionResource(id = R.dimen.dimension_16dp)
-                                )
-                            ) {
-                                IPFilledButton(
-                                    backgroundColor = MaterialColorPalette.primaryContainer,
-                                    text = stringResource(id = R.string.button_add_note),
-                                    textColor = MaterialColorPalette.onPrimaryContainer,
-                                    textStyle = MaterialTheme.typography.labelLarge,
-                                    enabled = viewModel.addNoteEnabled(),
-                                    iconColor = MaterialColorPalette.onPrimaryContainer,
-                                    leadingIcon = R.drawable.ic_outline_add_circle_24,
-                                    onClick = { viewModel.addNote() })
-                            }
-                        }
+                        ShowAddNoteButton(isEdit)
+
                     }
                 }
             },
             containerColor = MaterialColorPalette.surface
         )
+    }
+}
+
+@Composable
+private fun ShowDeleteNoteButton(
+    isEdit: Boolean,
+    note: Note,
+    viewModel: NotesViewModel = hiltViewModel()
+) {
+    if (isEdit) {
+        Row(
+            modifier = Modifier.padding(
+                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+            )
+        ) {
+
+            IPFilledButton(
+                backgroundColor = MaterialColorPalette.primaryContainer,
+                text = stringResource(id = R.string.button_delete_note),
+                textColor = MaterialColorPalette.onPrimaryContainer,
+                textStyle = MaterialTheme.typography.labelLarge,
+                iconColor = MaterialColorPalette.onPrimaryContainer,
+                leadingIcon = R.drawable.ic_outline_add_circle_24,
+                contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+                onClick = { viewModel.deleteNote(note = note) })
+        }
+
+    }
+}
+
+@Composable
+private fun ShowAddNoteButton(
+    isEdit: Boolean,
+    viewModel: NotesViewModel = hiltViewModel()
+) {
+    if (!isEdit) {
+        Row(
+            modifier = Modifier.padding(
+                vertical = dimensionResource(id = R.dimen.dimension_12dp),
+                horizontal = dimensionResource(id = R.dimen.dimension_16dp)
+            )
+        ) {
+
+            IPFilledButton(
+                backgroundColor = MaterialColorPalette.primaryContainer,
+                text = stringResource(id = R.string.button_add_note),
+                textColor = MaterialColorPalette.onPrimaryContainer,
+                textStyle = MaterialTheme.typography.labelLarge,
+                enabled = viewModel.addNoteEnabled(),
+                iconColor = MaterialColorPalette.onPrimaryContainer,
+                leadingIcon = R.drawable.ic_outline_add_circle_24,
+                contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+                onClick = { viewModel.addNote() })
+        }
     }
 }
 
@@ -221,4 +246,28 @@ private fun handleBackPress(
         viewModel.saveNotes()
         navController.popBackStack()
     } else shouldShowAlert.value = true
+}
+
+@Composable
+private fun ShowBackConfirmationDialog(
+    shouldShowAlert: MutableState<Boolean>,
+    navController: NavHostController,
+    shouldValidateFormFields: MutableState<Boolean>
+) {
+    if (shouldShowAlert.value) {
+        IPAlertDialog(
+            titleResId = R.string.alert_dialog_unsaved_notes_title,
+            contentResId = R.string.alert_dialog_unsaved_notes_text,
+            // "OK" is clicked
+            onPositiveButtonClick = {
+                shouldShowAlert.value = false
+                shouldValidateFormFields.value = false
+                navController.popBackStack()
+            },
+            // "CANCEL" is clicked
+            onNegativeButtonClick = {
+                shouldShowAlert.value = false
+                shouldValidateFormFields.value = true
+            })
+    }
 }

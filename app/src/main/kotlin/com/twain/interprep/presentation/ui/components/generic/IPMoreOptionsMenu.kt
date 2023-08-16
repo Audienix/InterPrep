@@ -29,7 +29,7 @@ import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
-fun IPDropdown(modifier: Modifier = Modifier, items: List<IPDropdownItem>) {
+fun IPMoreOptionsMenu(modifier: Modifier = Modifier, items: List<IPMoreOptionsMenuItem>) {
     LocalContext.current
     val expanded = remember { mutableStateOf(false) }
     Box(
@@ -76,7 +76,7 @@ fun IPDropdown(modifier: Modifier = Modifier, items: List<IPDropdownItem>) {
     }
 }
 
-data class IPDropdownItem(
+data class IPMoreOptionsMenuItem(
     val title: String,
     val icon: ImageVector,
     val action: () -> Unit,
@@ -84,19 +84,19 @@ data class IPDropdownItem(
 
 @Preview(showBackground = true, device = Devices.PIXEL_XL)
 @Composable
-fun IPDropdownPreview() {
-    val items = mutableListOf<IPDropdownItem>()
+fun IPMoreOptionsMenuPreview() {
+    val items = mutableListOf<IPMoreOptionsMenuItem>()
     items.add(
-        IPDropdownItem(
+        IPMoreOptionsMenuItem(
             stringResource(id = R.string.menuitem_edit_note),
             Icons.Default.Edit
         ) {})
     items.add(
-        IPDropdownItem(
+        IPMoreOptionsMenuItem(
             stringResource(id = R.string.menuitem_delete_note),
             Icons.Default.Delete
         ) {})
     InterPrepTheme {
-        IPDropdown(items = items)
+        IPMoreOptionsMenu(items = items)
     }
 }

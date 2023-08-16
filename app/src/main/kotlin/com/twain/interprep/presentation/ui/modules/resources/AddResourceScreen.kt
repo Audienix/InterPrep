@@ -29,6 +29,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.ResourceFormData
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
@@ -42,11 +43,12 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun AddResourceScreen(
-    navController: NavController,
+    navController: NavHostController,
     resourceId: Int,
     viewModel: ResourcesViewModel = hiltViewModel()
 ) {
     val shouldShowAlert = remember { mutableStateOf(false) }
+    val showDeleteDialog = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
     var shouldValidateFormFields by remember { mutableStateOf(false) }
     val isEdit = resourceId != 0
@@ -79,14 +81,14 @@ fun AddResourceScreen(
                             imageVector = Icons.Filled.Delete,
                             tint = MaterialColorPalette.onSurfaceVariant
                         ) {
-                            viewModel.deleteResource()
-                            navController.popBackStack()
+                            showDeleteDialog.value = true
                         }
                     }
                 }
             )
         },
         content = { padding ->
+            ShowDeleteConfirmationDialog(showDeleteDialog, navController, viewModel)
             if (shouldShowAlert.value) {
                 IPAlertDialog(
                     titleResId = R.string.alert_dialog_unsaved_resource_title,
@@ -190,11 +192,12 @@ private fun ShowScreenContent(
                         backgroundColor = MaterialColorPalette.primaryContainer,
                         text = stringResource(id = R.string.button_add_link),
                         textColor = MaterialColorPalette.onPrimaryContainer,
-                        textStyle = MaterialTheme.typography.titleMedium,
+                        textStyle = MaterialTheme.typography.labelLarge,
                         enabled = viewModel.addLinkEnabled(),
                         iconColor = MaterialColorPalette.onPrimaryContainer,
                         leadingIcon = R.drawable.ic_add_link,
                         disabledContentColor = MaterialColorPalette.onSurfaceVariant,
+                        contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
                         onClick = { viewModel.addLink() })
                 }
             }
@@ -211,4 +214,28 @@ private fun handleBackPress(
         viewModel.addAllLinks()
         navController.popBackStack()
     } else shouldShowAlert.value = true
+}
+
+@Composable
+private fun ShowDeleteConfirmationDialog(
+    showDeleteDialog: MutableState<Boolean>,
+    navController: NavHostController,
+    viewModel: ResourcesViewModel
+) {
+    if (showDeleteDialog.value) {
+        IPAlertDialog(
+            titleResId = R.string.alert_dialog_delete_resource_title,
+            contentResId = R.string.alert_dialog_delete_resource_text,
+            // "OK" is clicked
+            onPositiveButtonClick = {
+                viewModel.deleteResource()
+                showDeleteDialog.value = false
+                navController.popBackStack()
+            },
+            // "CANCEL" is clicked
+            onNegativeButtonClick = {
+                showDeleteDialog.value = false
+            },
+        )
+    }
 }

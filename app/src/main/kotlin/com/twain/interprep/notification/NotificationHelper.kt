@@ -31,9 +31,9 @@ class NotificationHelper(val context: Context) {
             intent,
             PendingIntent.FLAG_IMMUTABLE
         )
-//        val icon = BitmapFactory.decodeResource(context.resources, R.drawable.app_logo)
         val notification = NotificationCompat.Builder(context, ipNotificationChannel)
-            .setSmallIcon(R.drawable.app_logo)
+            .setSmallIcon(R.drawable.ic_app_notification)
+            .setColor(context.resources.getColor(R.color.primary,null))
 //            .setLargeIcon(icon)
             .setContentTitle(title)
             .setContentText(message)

@@ -75,14 +75,15 @@
     <string name="alert_dialog_unsaved_interview_title">Unsaved Interview!</string>
     <string name="alert_dialog_unsaved_interview_text">Your interview details will not be saved as you have not filled up mandatory details. Go back?</string>
     <string name="alert_dialog_delete_interview_title">Delete Interview?</string>
-    <string name="alert_dialog_delete_interview_text">You are about to delete a scheduled interview details which can not be retrieved after deletion. Proceed?</string>
+    <string name="alert_dialog_delete_interview_text">You are about to delete an interview details which can not be retrieved after deletion. Proceed?</string>
+    <string name="alert_dialog_unsaved_notes_title">Unsaved Notes!</string>
+    <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as you have not filled up mandatory details. Go back?</string>
     <string name="alert_dialog_delete_note_title">Delete Note?</string>
     <string name="alert_dialog_delete_note_text">You are about to delete an interview note which can not be retrieved after deletion. Proceed?</string>
-    <string name="alert_dialog_unsaved_notes_title">Unsaved Notes!</string>
-    <string name="alert_dialog_unsaved_notes_text">Your interview notes would not be saved as
-        you have not filled up mandatory details. Go back?</string>
     <string name="alert_dialog_unsaved_resource_title">Unsaved Resource!</string>
     <string name="alert_dialog_unsaved_resource_text">Your learning resource would not be saved as you have not filled up mandatory details. Go back?</string>
+    <string name="alert_dialog_delete_resource_title">Delete Resource?</string>
+    <string name="alert_dialog_delete_resource_text">You are about to delete a learning resource which can not be retrieved after deletion. Proceed ?</string>
 
     <string name="error_message_form_input">Mandatory field can\'t be empty</string>
     <string name="error_message_form_input_date">Date can\'t be empty</string>
