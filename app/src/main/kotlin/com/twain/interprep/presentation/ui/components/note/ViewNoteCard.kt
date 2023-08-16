@@ -29,8 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.presentation.ui.components.generic.IPCircleIcon
-import com.twain.interprep.presentation.ui.components.generic.IPDropdown
-import com.twain.interprep.presentation.ui.components.generic.IPDropdownItem
+import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenu
+import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenuItem
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 
@@ -116,7 +116,7 @@ fun ViewNoteCard(
                             )
                         }
                 }
-                IPDropdown(
+                IPMoreOptionsMenu(
                     modifier = Modifier
                         .padding(
                             vertical = dimensionResource(id = R.dimen.dimension_8dp)
@@ -147,17 +147,17 @@ fun ViewNoteCard(
 private fun getNoteDropdownMenuItems(
     onEditClicked: () -> Unit,
     showDeleteDialog: MutableState<Boolean>
-): List<IPDropdownItem> {
-    val menuItems = mutableListOf<IPDropdownItem>()
+): List<IPMoreOptionsMenuItem> {
+    val menuItems = mutableListOf<IPMoreOptionsMenuItem>()
     menuItems.add(
-        IPDropdownItem(
+        IPMoreOptionsMenuItem(
             stringResource(id = R.string.menuitem_edit_note),
             Icons.Default.Edit,
             onEditClicked
         )
     )
     menuItems.add(
-        IPDropdownItem(
+        IPMoreOptionsMenuItem(
             stringResource(id = R.string.menuitem_delete_note),
             Icons.Default.Delete
         ) { showDeleteDialog.value = true })

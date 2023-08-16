@@ -27,8 +27,8 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.presentation.ui.components.dashboard.formatRoundNumAndInterviewType
 import com.twain.interprep.presentation.ui.components.dashboard.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPDateTimeBox
-import com.twain.interprep.presentation.ui.components.generic.IPDropdown
-import com.twain.interprep.presentation.ui.components.generic.IPDropdownItem
+import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenu
+import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenuItem
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.DateUtils
 
@@ -59,8 +59,8 @@ fun InterviewDetailForNote(
             interview = interview
         )
         if (shouldShowMenuOption) {
-            IPDropdown(
-                items = getInterviewDropdownMenuItems(
+            IPMoreOptionsMenu(
+                items = getNoteCardMenuOptionItems(
                     notesEmpty,
                     onDeleteInterviewClicked = onDeleteInterview,
                     onDeleteNotesClicked = onDeleteNotes
@@ -100,14 +100,14 @@ fun InterviewDetails(
 }
 
 @Composable
-private fun getInterviewDropdownMenuItems(
+private fun getNoteCardMenuOptionItems(
     notesEmpty: Boolean,
     onDeleteInterviewClicked: () -> Unit,
     onDeleteNotesClicked: () -> Unit
-): List<IPDropdownItem> {
-    val menuItems = mutableListOf<IPDropdownItem>()
+): List<IPMoreOptionsMenuItem> {
+    val menuItems = mutableListOf<IPMoreOptionsMenuItem>()
     menuItems.add(
-        IPDropdownItem(
+        IPMoreOptionsMenuItem(
             stringResource(id = R.string.menuitem_delete_interview),
             Icons.Default.Delete,
             onDeleteInterviewClicked
@@ -115,7 +115,7 @@ private fun getInterviewDropdownMenuItems(
     )
     if (!notesEmpty)
         menuItems.add(
-            IPDropdownItem(
+            IPMoreOptionsMenuItem(
                 stringResource(id = R.string.menuitem_delete_notes),
                 Icons.Default.Delete,
                 onDeleteNotesClicked
@@ -131,5 +131,9 @@ fun InterviewDetailForNotePreview() {
         modifier = Modifier.padding(
             dimensionResource(id = R.dimen.dimension_16dp),
             dimensionResource(id = R.dimen.dimension_12dp)
-        ), interview = interviewMockData, shouldShowMenuOption = true, notesEmpty = false, onDeleteInterview = {}) {}
+        ),
+        interview = interviewMockData,
+        shouldShowMenuOption = true,
+        notesEmpty = false,
+        onDeleteInterview = {}) {}
 }
