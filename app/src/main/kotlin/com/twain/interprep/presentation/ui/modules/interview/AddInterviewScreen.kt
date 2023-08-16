@@ -54,7 +54,7 @@ fun AddInterviewScreen(
 ) {
     val context = LocalContext.current
     val isEditInterview = interviewId != 0
-    val showBackConfirmationDialog = remember { mutableStateOf(false) }
+    val showBackConfirmationAlert = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
     val isBackPressed = remember { mutableStateOf(false) }
@@ -71,12 +71,11 @@ fun AddInterviewScreen(
             viewModel,
             isEditInterview,
             navController,
-            showBackConfirmationDialog
+            showBackConfirmationAlert
         )
     }
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             IPAppBar(
                 title = stringResource(id = R.string.appbar_title_edit_interview.takeIf { isEditInterview }
@@ -91,7 +90,7 @@ fun AddInterviewScreen(
                             viewModel,
                             isEditInterview,
                             navController,
-                            showBackConfirmationDialog
+                            showBackConfirmationAlert
                         )
                     }
                 },
@@ -101,20 +100,9 @@ fun AddInterviewScreen(
             )
         },
         content = { padding ->
-            ShowConfirmationDialog(
-                showBackConfirmationDialog,
-                navController,
-                isBackPressed
-            )
-
+            ShowBackConfirmationDialog(showBackConfirmationAlert, navController, isBackPressed)
             ShowDeleteConfirmationDialog(showDeleteDialog, navController, viewModel)
-
-            ShowAddInterviewScreenContent(
-                padding,
-                isEditInterview,
-                viewModel,
-                isBackPressed
-            )
+            ShowAddInterviewScreenContent(padding, isEditInterview, viewModel, isBackPressed)
             // In Android 13+ , we require user consent for posting notification.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 CheckRuntimePermission(
@@ -229,8 +217,8 @@ private fun ShowDeleteConfirmationDialog(
             contentResId = R.string.alert_dialog_delete_interview_text,
             // "OK" is clicked
             onPositiveButtonClick = {
-                showDeleteDialog.value = false
                 viewModel.deleteInterview(viewModel.interviewData)
+                showDeleteDialog.value = false
                 navController.popBackStack(AppScreens.MainScreens.Dashboard.route, false)
             },
             // "CANCEL" is clicked
@@ -242,7 +230,7 @@ private fun ShowDeleteConfirmationDialog(
 }
 
 @Composable
-private fun ShowConfirmationDialog(
+private fun ShowBackConfirmationDialog(
     showConfirmationDialog: MutableState<Boolean>,
     navController: NavHostController,
     shouldValidateFormFields: MutableState<Boolean>

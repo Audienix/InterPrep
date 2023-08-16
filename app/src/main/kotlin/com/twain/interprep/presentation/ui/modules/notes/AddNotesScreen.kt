@@ -13,22 +13,21 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.ViewResult
@@ -44,14 +43,14 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun AddNotesScreen(
-    navController: NavController,
+    navController: NavHostController,
     interviewId: Int,
     isEdit: Boolean,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val shouldShowAlert = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
-    var shouldValidateFormFields by remember { mutableStateOf(false) }
+    val shouldValidateFormFields = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.getInterviewsWithNotesByInterviewId(interviewId, isEdit)
@@ -80,21 +79,8 @@ fun AddNotesScreen(
                 )
             },
             content = { padding ->
-                if (shouldShowAlert.value) {
-                    IPAlertDialog(
-                        titleResId = R.string.alert_dialog_unsaved_notes_title,
-                        contentResId = R.string.alert_dialog_unsaved_notes_text,
-                        // "OK" is clicked
-                        onPositiveButtonClick = {
-                            shouldShowAlert.value = false
-                            navController.popBackStack()
-                        },
-                        // "CANCEL" is clicked
-                        onNegativeButtonClick = {
-                            shouldShowAlert.value = false
-                            shouldValidateFormFields = true
-                        })
-                }
+                ShowBackConfirmationDialog(shouldShowAlert, navController, shouldValidateFormFields)
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -118,7 +104,7 @@ fun AddNotesScreen(
                             viewModel.deleteNotesForInterview(interview)
                         }
                     }
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier
                             .fillMaxWidth(),
                         thickness = dimensionResource(id = R.dimen.dimension_stroke_width_low),
@@ -182,7 +168,7 @@ fun AddNotesScreen(
                                 deleteQuestion = { questionIndex ->
                                     viewModel.deleteQuestion(index, questionIndex)
                                 },
-                                shouldValidate = shouldValidateFormFields,
+                                shouldValidate = shouldValidateFormFields.value,
                                 isEdit
                             )
                         }
@@ -221,4 +207,28 @@ private fun handleBackPress(
         viewModel.saveNotes()
         navController.popBackStack()
     } else shouldShowAlert.value = true
+}
+
+@Composable
+private fun ShowBackConfirmationDialog(
+    shouldShowAlert: MutableState<Boolean>,
+    navController: NavHostController,
+    shouldValidateFormFields: MutableState<Boolean>
+) {
+    if (shouldShowAlert.value) {
+        IPAlertDialog(
+            titleResId = R.string.alert_dialog_unsaved_notes_title,
+            contentResId = R.string.alert_dialog_unsaved_notes_text,
+            // "OK" is clicked
+            onPositiveButtonClick = {
+                shouldShowAlert.value = false
+                shouldValidateFormFields.value = false
+                navController.popBackStack()
+            },
+            // "CANCEL" is clicked
+            onNegativeButtonClick = {
+                shouldShowAlert.value = false
+                shouldValidateFormFields.value = true
+            })
+    }
 }

@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -86,7 +86,7 @@ fun ShowViewMoreQuestionsContent(
                 topic = topic
             )
         }
-        item { Divider() }
+        item { HorizontalDivider() }
 
         itemsIndexed(items = questions) { index, item ->
 
@@ -190,6 +190,6 @@ fun Question(
                 color = MaterialColorPalette.onSecondaryContainer
             )
         }
-        if (!isLast) Divider()
+        if (!isLast) HorizontalDivider()
     }
 }
