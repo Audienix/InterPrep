@@ -90,12 +90,12 @@ fun MainScreensNavGraph(navController: NavHostController) {
             )
         }
         // Resource List Screen
-        composable(AppScreens.Resources.route) {
+        composable(AppScreens.MainScreens.Resources.route) {
             ResourcesScreen(navController = navController)
         }
         // Add Resource Screen
         composable(
-            route = "${AppScreens.AddResource.route}/{resourceId}",
+            route = "${AppScreens.MainScreens.AddResource.route}/{resourceId}",
             arguments = getAddResourceNavArguments()
         ) { entry ->
             NavigateToAddResource(entry, navController)

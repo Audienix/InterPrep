@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.modules.resources
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -48,29 +46,23 @@ fun ResourcesScreen(
     navController: NavHostController,
     viewModel: ResourcesViewModel = hiltViewModel()
 ) {
-    Column(
+    Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
-    ) {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize(),
-            topBar = { IPAppBar(stringResource(id = R.string.nav_item_resources)) },
-            containerColor = MaterialColorPalette.surface,
-            floatingActionButtonPosition = FabPosition.End,
-            floatingActionButton = {
-                IPFAB {
-                    navController.navigate(AppScreens.AddResource.withArgs(0)) {
-                        popUpTo(AppScreens.Resources.route)
-                    }
+            .fillMaxSize(),
+        topBar = { IPAppBar(stringResource(id = R.string.nav_item_resources)) },
+        containerColor = MaterialColorPalette.surface,
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            IPFAB {
+                navController.navigate(AppScreens.MainScreens.AddResource.withArgs(0)) {
+                    popUpTo(AppScreens.MainScreens.Resources.route)
                 }
-            },
-            content = { padding ->
-                ShowResourcesScreenContent(navController, viewModel, padding)
             }
-        )
-    }
+        },
+        content = { padding ->
+            ShowResourcesScreenContent(navController, viewModel, padding)
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -155,9 +147,9 @@ private fun ShowResourcesScreenContent(
             if (resourceAndLinks.isEmpty()) {
                 FullScreenEmptyState(
                     Modifier,
-                    R.drawable.empty_state_no_match_resource,
-                    stringResource(id = R.string.empty_state_title_no_match_resource),
-                    stringResource(id = R.string.empty_state_description_no_match_resource)
+                    R.drawable.empty_state_resource,
+                    stringResource(id = R.string.empty_state_title_resource),
+                    stringResource(id = R.string.empty_state_description_resource)
                 )
             } else {
                 LazyColumn(
@@ -169,7 +161,7 @@ private fun ShowResourcesScreenContent(
                             resourceAndLinks = resource to links,
                             onEditResourceClick = {
                                 navController.navigate(
-                                    AppScreens.AddResource.withArgs(resource.resourceId)
+                                    AppScreens.MainScreens.AddResource.withArgs(resource.resourceId)
                                 )
                             }
                         )

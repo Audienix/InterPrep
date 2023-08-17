@@ -199,7 +199,7 @@ fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>) {
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
-        HorizontalPager(state = pagerState) { page ->
+        HorizontalPager(state = pagerState) { _ ->
             TodayInterviewCard(interview = interviewList[pagerState.currentPage])
         }
         if (interviewList.size > 1) {
@@ -279,7 +279,7 @@ fun TodayInterviewCard(
                     )
                     IPText(
                         text = stringResource(id = R.string.join_here),
-                        link = "https://meet.google.com",
+                        link = interview.meetingLink,
                         textColor = MaterialColorPalette.onPrimary,
                         textStyle = MaterialTheme.typography.bodyLarge,
                     )

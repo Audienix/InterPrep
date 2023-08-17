@@ -8,7 +8,7 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.utils.DateUtils
 
 object InterviewFormData {
-    val textInputHorizontalList = listOf(
+    val interviewFormList = listOf(
         TextInputAttributes(
             labelTextId = R.string.hint_label_date,
             bottomTextId = R.string.hint_label_month_format,
@@ -22,10 +22,7 @@ object InterviewFormData {
             errorTextId = R.string.error_message_form_input_time,
             inputType = TextInputType.TIME,
             validationType = ValidationType.REQUIRED
-        )
-    )
-
-    val textInputVerticalList = listOf(
+        ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_company,
             errorTextId = R.string.error_message_form_input_company,
@@ -33,20 +30,33 @@ object InterviewFormData {
             validationType = ValidationType.REQUIRED
         ),
         TextInputAttributes(
+            labelTextId = R.string.hint_label_meeting_link,
+            inputType = TextInputType.TEXT,
+            errorTextId = R.string.error_message_invalid_url,
+            keyboardType = KeyboardType.Uri,
+            validationType = ValidationType.URL,
+        ),
+        TextInputAttributes(
+            labelTextId = R.string.hint_label_round_count,
+            inputType = TextInputType.TEXT,
+            keyboardType = KeyboardType.Number,
+            errorTextId = R.string.error_message_invalid_number,
+            validationType = ValidationType.NUMBER
+        ),
+        TextInputAttributes(
             labelTextId = R.string.hint_label_interview_type,
             inputType = TextInputType.DROPDOWN
+        ),
+        TextInputAttributes(
+            labelTextId = R.string.hint_label_interviewer,
+            inputType = TextInputType.TEXT
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_role,
             inputType = TextInputType.DROPDOWN
         ),
         TextInputAttributes(
-            labelTextId = R.string.hint_label_round_count,
-            inputType = TextInputType.TEXT,
-            keyboardType = KeyboardType.Number
-        ),
-        TextInputAttributes(
-            labelTextId = R.string.hint_label_job_post,
+            labelTextId = R.string.hint_label_job_post_link,
             errorTextId = R.string.error_message_invalid_url,
             inputType = TextInputType.TEXT,
             keyboardType = KeyboardType.Uri,
@@ -58,10 +68,6 @@ object InterviewFormData {
             errorTextId = R.string.error_message_invalid_url,
             keyboardType = KeyboardType.Uri,
             validationType = ValidationType.URL
-        ),
-        TextInputAttributes(
-            labelTextId = R.string.hint_label_interviewer,
-            inputType = TextInputType.TEXT
         )
     )
 
@@ -74,6 +80,9 @@ object InterviewFormData {
                 R.string.hint_label_company, interview.company
             ),
             TextLabelData(
+                R.string.hint_label_meeting_link, interview.meetingLink
+            ),
+            TextLabelData(
                 R.string.hint_label_interview_type, interview.interviewType
             ),
             TextLabelData(
@@ -83,7 +92,7 @@ object InterviewFormData {
                 R.string.hint_label_round_count, interview.roundNum
             ),
             TextLabelData(
-                R.string.hint_label_job_post, interview.jobPostLink
+                R.string.hint_label_job_post_link, interview.jobPostLink
             ),
             TextLabelData(
                 R.string.hint_label_company_link, interview.companyLink
@@ -114,6 +123,7 @@ enum class TextInputType {
 enum class ValidationType {
     NONE,
     REQUIRED,
+    NUMBER,
     URL
 }
 

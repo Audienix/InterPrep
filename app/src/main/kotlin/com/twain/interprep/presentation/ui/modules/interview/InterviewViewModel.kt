@@ -35,6 +35,7 @@ class InterviewViewModel @Inject constructor(
 
     var interviewData: Interview by mutableStateOf(Interview())
 
+    // TODO think a better way to check
     fun updateInterviewField(@StringRes labelTextId: Int, value: String) {
         when (labelTextId) {
             R.string.hint_label_date -> {
@@ -55,6 +56,12 @@ class InterviewViewModel @Inject constructor(
                 )
             }
 
+            R.string.hint_label_meeting_link -> {
+                interviewData = interviewData.copy(
+                    meetingLink = value
+                )
+            }
+
             R.string.hint_label_interview_type -> {
                 interviewData = interviewData.copy(
                     interviewType = value
@@ -68,13 +75,12 @@ class InterviewViewModel @Inject constructor(
             }
 
             R.string.hint_label_round_count -> {
-                // TODO think a better way to check
                 interviewData = interviewData.copy(
                     roundNum = value
                 )
             }
 
-            R.string.hint_label_job_post -> {
+            R.string.hint_label_job_post_link -> {
                 interviewData = interviewData.copy(
                     jobPostLink = value
                 )

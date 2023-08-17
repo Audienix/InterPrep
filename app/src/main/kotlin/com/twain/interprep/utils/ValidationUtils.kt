@@ -24,11 +24,21 @@ fun isValidTextInput(
 
 private fun validateField(validationType: ValidationType, text: String) =
     when (validationType) {
-        ValidationType.REQUIRED -> { text.isNotBlank() }
+        ValidationType.REQUIRED -> {
+            text.isNotBlank()
+        }
+
         ValidationType.URL -> {
             text.isBlank() or isValidURL(text.trim())
         }
-        ValidationType.NONE -> { true }
+
+        ValidationType.NUMBER -> {
+            text.isBlank() or (text.toIntOrNull() != null)
+        }
+
+        ValidationType.NONE -> {
+            true
+        }
     }
 
 fun isValidURL(url: String): Boolean {
