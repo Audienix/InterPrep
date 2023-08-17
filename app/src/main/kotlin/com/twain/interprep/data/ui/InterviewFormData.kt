@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.KeyboardType
 import com.twain.interprep.R
+import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.utils.DateUtils
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 object InterviewFormData {
     val interviewFormList = listOf(
@@ -71,34 +74,44 @@ object InterviewFormData {
         )
     )
 
-    fun getTextLabelList(interview: Interview, context: Context): List<TextLabelData> {
+    fun getInterviewTextLabelList(interview: Interview, context: Context): List<TextLabelData> {
+        val date = "".takeIf { interview.date.isEmpty() } ?: SimpleDateFormat(
+            StringConstants.DT_FORMAT_DD_MMMM_YYYY,
+            Locale.getDefault()
+        ).format(DateUtils.convertDateStringToDate(interview.date))
         return listOf(
+            TextLabelData(
+                R.string.hint_label_meeting_link, interview.meetingLink
+            ),
+            TextLabelData(
+                R.string.hint_label_date, date
+            ),
             TextLabelData(
                 R.string.hint_label_time, DateUtils.getDisplayedTime(context, interview.time)
             ),
             TextLabelData(
                 R.string.hint_label_company, interview.company
             ),
+
             TextLabelData(
-                R.string.hint_label_meeting_link, interview.meetingLink
+                R.string.hint_label_round_count, "${interview.roundNum} - ${interview.interviewType}"
             ),
             TextLabelData(
-                R.string.hint_label_interview_type, interview.interviewType
-            ),
+                R.string.hint_label_interviewer, interview.interviewer
+            )
+        )
+    }
+
+    fun getCompanyTextLabelList(interview: Interview): List<TextLabelData> {
+        return listOf(
             TextLabelData(
                 R.string.hint_label_role, interview.role,
-            ),
-            TextLabelData(
-                R.string.hint_label_round_count, interview.roundNum
             ),
             TextLabelData(
                 R.string.hint_label_job_post_link, interview.jobPostLink
             ),
             TextLabelData(
                 R.string.hint_label_company_link, interview.companyLink
-            ),
-            TextLabelData(
-                R.string.hint_label_interviewer, interview.interviewer
             )
         )
     }

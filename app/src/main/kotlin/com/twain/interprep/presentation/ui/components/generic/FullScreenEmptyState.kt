@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
+import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
 @Composable
 fun FullScreenEmptyState(
@@ -51,12 +52,14 @@ fun FullScreenEmptyState(
             Text(
                 text = emptyStateTitle,
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialColorPalette.onSurface,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = emptyStateText,
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialColorPalette.onSurfaceVariant,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             )
