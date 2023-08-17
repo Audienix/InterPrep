@@ -11,19 +11,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.twain.interprep.helper.CoroutineContextDispatcher
-import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
 import com.twain.interprep.constants.StringConstants
-import com.twain.interprep.helper.StringPair
+import com.twain.interprep.datastore.UserPreferencesRepository
 
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     contextProvider: CoroutineContextDispatcher,
-    private val prefManager: PrefManager
+    private val userPreferencesRepository: UserPreferencesRepository
 ): BaseViewModel(contextProvider) {
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -39,23 +38,10 @@ class ProfileViewModel @Inject constructor(
         )
     )
 
-    fun setProfileSettings() {
-
-        profileSettings = ProfileSettings(
-
-            userName = prefManager.getString(StringPair.UserName),
-
-            preferredLanguage = Language.values().first {
-                it.code == prefManager.getString(StringPair.Language)
-            },
-
-            appTheme = AppTheme.values().first {
-                it.dropDownName == prefManager.getString(StringPair.AppTheme)
-            },
-
-            notificationReminder = prefManager.getString(StringPair.Notification)
-        )
-
+    fun setProfileSettings() = launchCoroutineIO {
+        userPreferencesRepository.getProfileSettings().collect {
+            profileSettings = it
+        }
     }
 
     fun getDisplayedName(): String {

@@ -1,6 +1,12 @@
 package com.twain.interprep.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.twain.interprep.data.dao.InterviewDAO
 import com.twain.interprep.data.dao.NoteDAO
@@ -54,4 +60,14 @@ class DatabaseModule {
     fun provideResourceLinkDao(database: DBManager): ResourceLinkDAO {
         return database.resourceLinkDao()
     }
+
+    @Singleton
+    @Provides
+    fun providePreferenceDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
+            produceFile = { context.preferencesDataStoreFile("user") }
+        )
+    }
+
 }
