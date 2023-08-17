@@ -3,6 +3,7 @@ package com.twain.interprep.presentation.ui.components.generic
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,7 +49,8 @@ fun IPLargeAppBar(
     subtitle: String,
     todayInterviewList: List<Interview>,
     username: String,
-    isInterviewDetailsVisible: Boolean = false
+    isInterviewDetailsVisible: Boolean = false,
+    onAvatarClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -59,7 +61,7 @@ fun IPLargeAppBar(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
     ) {
-        GreetingsAndProfile(title, username, subtitle)
+        GreetingsAndProfile(title, username, subtitle, onAvatarClick)
         if (isInterviewDetailsVisible) {
             if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
@@ -73,7 +75,8 @@ fun IPLargeAppBar(
 private fun GreetingsAndProfile(
     title: String,
     username: String,
-    subtitle: String
+    subtitle: String,
+    onAvatarClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -94,7 +97,9 @@ private fun GreetingsAndProfile(
         IPCircleTextIcon(
             modifier = Modifier
                 .weight(0.1f)
-                .aspectRatio(1f),
+                .aspectRatio(1f)
+                .clickable {
+                    onAvatarClick() },
             text = username,
             size = dimensionResource(id = R.dimen.dimension_icon_size_36),
             containerColor = MaterialColorPalette.tertiary,
@@ -319,7 +324,8 @@ fun IPLargeAppBarPreview() {
             subtitle = "Good Morning",
             todayInterviewList = mutableListOf(interviewMockData),
             username = "AM",
-            isInterviewDetailsVisible = true
+            isInterviewDetailsVisible = true,
+            onAvatarClick = {}
         )
     }
 }

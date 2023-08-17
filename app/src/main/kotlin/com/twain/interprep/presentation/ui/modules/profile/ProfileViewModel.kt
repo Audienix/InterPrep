@@ -1,8 +1,11 @@
 package com.twain.interprep.presentation.ui.modules.profile
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -78,6 +81,30 @@ class ProfileViewModel @Inject constructor(
                 title = "Preferred Language",
                 label = profileSettings.preferredLanguage.label,
                 clickAction = ClickAction.PREFERRED_LANGUAGE
+            ),
+            ProfileRowData(
+                imageVector = Icons.Filled.Info,
+                title = "App Theme",
+                label = profileSettings.appTheme.label,
+                clickAction = ClickAction.APP_THEME
+            ),
+            ProfileRowData(
+                imageVector = Icons.Filled.Notifications,
+                title = "Notification Reminder",
+                label = profileSettings.notificationReminder,
+                clickAction = ClickAction.NOTIFICATION_REMINDER
+            ),
+            ProfileRowData(
+                imageVector = Icons.Filled.Star,
+                title = "Rate & Feedback",
+                label = "Click to rate us in Google Play",
+                clickAction = ClickAction.RATING_FEEDBACK
+            ),
+            ProfileRowData(
+                imageVector = Icons.Filled.CheckCircle,
+                title = "Privacy Policy",
+                label = "Click to see privacy policy",
+                clickAction = ClickAction.PRIVACY_POLICY
             )
         )
 
@@ -88,6 +115,7 @@ class ProfileViewModel @Inject constructor(
             ClickAction.APP_THEME -> TODO()
             ClickAction.NOTIFICATION_REMINDER -> TODO()
             ClickAction.RATING_FEEDBACK -> TODO()
+            ClickAction.PRIVACY_POLICY -> TODO()
         }
     }
 }
@@ -127,5 +155,6 @@ enum class ClickAction {
     PREFERRED_LANGUAGE,
     APP_THEME,
     NOTIFICATION_REMINDER,
-    RATING_FEEDBACK
+    RATING_FEEDBACK,
+    PRIVACY_POLICY
 }

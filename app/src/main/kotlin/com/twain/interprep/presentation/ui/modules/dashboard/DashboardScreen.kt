@@ -90,7 +90,12 @@ fun DashboardScreen(
                     subtitle = "Good ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(username),
-                    isInterviewDetailsVisible = true
+                    isInterviewDetailsVisible = true,
+                    onAvatarClick = {
+                        navController.navigate(AppScreens.MainScreens.Profile.route) {
+                            popUpTo(AppScreens.MainScreens.Dashboard.route)
+                        }
+                    }
                 )
             }
         },

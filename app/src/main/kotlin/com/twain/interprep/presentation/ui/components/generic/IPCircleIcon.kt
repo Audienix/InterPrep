@@ -63,7 +63,7 @@ fun IPCircleTextIcon(
     textStyle: TextStyle = MaterialTheme.typography.labelSmall,
     size: Dp,
     containerColor: Color = MaterialColorPalette.primaryContainer,
-    borderColor: Color = MaterialColorPalette.onPrimaryContainer,
+    borderColor: Color? = null,
     textColor: Color = MaterialColorPalette.onPrimaryContainer,
 ) {
     IPCircleIcon(
