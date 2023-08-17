@@ -1,8 +1,7 @@
 package com.twain.interprep.presentation.ui.modules.profile
 
+import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
@@ -10,19 +9,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.twain.interprep.R
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
 import com.twain.interprep.constants.StringConstants
-import com.twain.interprep.datastore.UserPreferencesRepository
+import com.twain.interprep.datastore.usecase.DataStoreUseCase
 
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     contextProvider: CoroutineContextDispatcher,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val dataStoreUseCase: DataStoreUseCase
 ): BaseViewModel(contextProvider) {
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -39,18 +39,8 @@ class ProfileViewModel @Inject constructor(
     )
 
     fun setProfileSettings() = launchCoroutineIO {
-        userPreferencesRepository.getProfileSettings().collect {
+        dataStoreUseCase.getProfileSettingsUseCase().collect {
             profileSettings = it
-        }
-    }
-
-    fun getDisplayedName(): String {
-        if (profileSettings.userName.isEmpty()) return profileSettings.userName
-        val splitName = profileSettings.userName.split(" ")
-        return if (splitName.size == 1) {
-            splitName[0][0] + ("".takeIf { splitName[0].length == 1 } ?: splitName[0][1].toString())
-        } else {
-            splitName[0][0] + splitName[1][0].toString()
         }
     }
 
@@ -58,38 +48,38 @@ class ProfileViewModel @Inject constructor(
         listOf(
             ProfileRowData(
                 imageVector = Icons.Filled.Person,
-                title = "Name",
+                title = StringConstants.NAME_TITLE,
                 label = profileSettings.userName,
                 clickAction = ClickAction.NAME
             ),
             ProfileRowData(
-                imageVector = Icons.Filled.Info,
-                title = "Preferred Language",
+                imageRes = R.drawable.ic_preferred_language,
+                title = StringConstants.PREFERRED_LANGUAGE_TITLE,
                 label = profileSettings.preferredLanguage.label,
                 clickAction = ClickAction.PREFERRED_LANGUAGE
             ),
             ProfileRowData(
-                imageVector = Icons.Filled.Info,
-                title = "App Theme",
+                imageRes = R.drawable.ic_app_theme,
+                title = StringConstants.APP_THEME_TITLE,
                 label = profileSettings.appTheme.label,
                 clickAction = ClickAction.APP_THEME
             ),
             ProfileRowData(
                 imageVector = Icons.Filled.Notifications,
-                title = "Notification Reminder",
+                title = StringConstants.NOTIFICATION_KEY_TITLE,
                 label = profileSettings.notificationReminder,
                 clickAction = ClickAction.NOTIFICATION_REMINDER
             ),
             ProfileRowData(
                 imageVector = Icons.Filled.Star,
-                title = "Rate & Feedback",
-                label = "Click to rate us in Google Play",
+                title = StringConstants.RATE_FEEDBACK_TITLE,
+                label = StringConstants.RATE_FEEDBACK_LABEL,
                 clickAction = ClickAction.RATING_FEEDBACK
             ),
             ProfileRowData(
-                imageVector = Icons.Filled.CheckCircle,
-                title = "Privacy Policy",
-                label = "Click to see privacy policy",
+                imageRes = R.drawable.ic_privacy_policy,
+                title = StringConstants.PRIVACY_POLICY_TITLE,
+                label = StringConstants.PRIVACY_POLICY_LABEL,
                 clickAction = ClickAction.PRIVACY_POLICY
             )
         )
@@ -107,7 +97,8 @@ class ProfileViewModel @Inject constructor(
 }
 
 data class ProfileRowData(
-    val imageVector: ImageVector,
+    val imageVector: ImageVector? = null,
+    @DrawableRes val imageRes: Int? = null,
     val title: String,
     val label: String,
     val clickAction: ClickAction

@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.components.generic
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.twain.interprep.R
@@ -80,19 +82,30 @@ fun IPCircleTextIcon(
     }
 }
 
+// WARNING: Just 1 of image and imageRes should be set to non null
 @Composable
 fun IPAvatar(
     modifier: Modifier = Modifier,
     size: Dp,
     containerColor: Color,
-    image: ImageVector,
+    image: ImageVector?,
+    @DrawableRes imageRes: Int?
     ) {
     IPCircleIcon(
         modifier = modifier,
         size = size,
         containerColor = containerColor
     ) {
-        IPIcon(imageVector = image, tint = MaterialColorPalette.onSurfaceVariant) {}
+        image?.let {
+            IPIcon(
+                imageVector = it,
+                tint = MaterialColorPalette.onSurfaceVariant) {}
+        }
+        imageRes?.let {
+            IPIcon(
+                painter = painterResource(id = it),
+                tint = MaterialColorPalette.onSurfaceVariant) {}
+        }
     }
 }
 

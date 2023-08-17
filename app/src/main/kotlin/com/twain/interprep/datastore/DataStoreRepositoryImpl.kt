@@ -8,12 +8,9 @@ import com.twain.interprep.presentation.ui.modules.profile.Language
 import com.twain.interprep.presentation.ui.modules.profile.ProfileSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class UserPreferencesRepository @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
-) {
-    fun getProfileSettings(): Flow<ProfileSettings> = dataStore.data.map { preferences ->
+class DataStoreRepositoryImpl(private val dataStore: DataStore<Preferences>): DataStoreRepository {
+    override fun getProfileSettings(): Flow<ProfileSettings> = dataStore.data.map { preferences ->
         ProfileSettings(
             userName = preferences[PreferenceKeys.USER_NAME] ?: "",
             preferredLanguage = preferences[PreferenceKeys.PREFERRED_LANGUAGE]?.let {

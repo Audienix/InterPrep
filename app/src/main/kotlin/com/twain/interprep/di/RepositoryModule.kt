@@ -1,11 +1,15 @@
 package com.twain.interprep.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.twain.interprep.data.db.DBManager
 import com.twain.interprep.data.repository.InterviewRepositoryImpl
 import com.twain.interprep.data.repository.NoteRepositoryImpl
 import com.twain.interprep.data.repository.QuoteRepositoryImpl
 import com.twain.interprep.data.repository.ResourceLinkRepositoryImpl
 import com.twain.interprep.data.repository.ResourceRepositoryImpl
+import com.twain.interprep.datastore.DataStoreRepository
+import com.twain.interprep.datastore.DataStoreRepositoryImpl
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
@@ -49,5 +53,11 @@ class RepositoryModule {
     @Singleton
     fun providesResourceLinkRepository(database: DBManager): ResourceLinkRepository {
         return ResourceLinkRepositoryImpl(database.resourceLinkDao())
+    }
+
+    @Provides
+    @Singleton
+    fun providesDataStoreRepository(dataStore: DataStore<Preferences>) : DataStoreRepository {
+        return DataStoreRepositoryImpl(dataStore)
     }
 }

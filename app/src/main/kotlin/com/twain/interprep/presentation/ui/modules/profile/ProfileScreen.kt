@@ -31,6 +31,7 @@ import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
+import com.twain.interprep.utils.getNameInitials
 
 @Composable
 fun ProfileScreen(
@@ -42,7 +43,7 @@ fun ProfileScreen(
     }
 
     Scaffold(
-        topBar = { ProfileTopBar(viewModel.getDisplayedName()) {
+        topBar = { ProfileTopBar(getNameInitials(input = viewModel.profileSettings.userName)) {
             navController.popBackStack()
         } }
     ) { paddingValues ->
@@ -125,7 +126,8 @@ fun ProfileColumnItem(
             IPAvatar(
                 size = dimensionResource(id = R.dimen.dimension_icon_size_40),
                 containerColor = MaterialColorPalette.secondaryContainer,
-                image = data.imageVector
+                image = data.imageVector,
+                imageRes = data.imageRes
             )
             Column(
                 modifier = Modifier.weight(1f)
