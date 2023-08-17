@@ -120,7 +120,8 @@ private fun ShowScreenContent(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .padding(paddingValues = padding),
+            .padding(paddingValues = padding)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IPHeader(
@@ -153,8 +154,7 @@ private fun ShowScreenContent(
         )
         Column(
             modifier = Modifier
-                .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
-                .verticalScroll(rememberScrollState()),
+                .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp)),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             viewModel.links.forEachIndexed { index, link ->

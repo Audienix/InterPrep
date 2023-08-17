@@ -280,7 +280,7 @@ fun ShowInterviewStatusBottomSheet(
     openBottomSheet: MutableState<Boolean>,
     bottomSheetState: SheetState,
     scope: CoroutineScope,
-    interviewModel: InterviewViewModel
+    interviewModel: InterviewViewModel = hiltViewModel()
 ) {
     if (openBottomSheet.value) {
         IPBottomSheet(

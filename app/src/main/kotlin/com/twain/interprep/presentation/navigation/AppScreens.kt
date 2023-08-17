@@ -18,9 +18,9 @@ sealed class AppScreens(val route: String) {
         object ViewMoreQuestions: AppScreens("view_more_questions")
 
         object Resources : AppScreens("resources_screen")
+        object AddResource : AppScreens("add_resource_screen")
     }
-    object Resources : AppScreens("resources_screen")
-    object AddResource : AppScreens("add_resource_screen")
+
 
     fun withArgs(vararg args: Any): String{
         return buildString { append(route)

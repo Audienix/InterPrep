@@ -85,7 +85,8 @@ fun AddNotesScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues = padding),
+                        .padding(paddingValues = padding)
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
@@ -134,8 +135,7 @@ fun AddNotesScreen(
                     }
                     Column(
                         modifier = Modifier
-                            .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp))
-                            .verticalScroll(rememberScrollState()),
+                            .padding(bottom = dimensionResource(id = R.dimen.dimension_16dp)),
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         viewModel.notes.forEachIndexed { index, note ->

@@ -21,6 +21,7 @@ data class Interview(
     val date: String = "",
     val time: String = "",
     val company: String = "",
+    val meetingLink: String = "",
     val interviewType: String = "",
     val role: String = "",
     val roundNum: String = "",
@@ -57,18 +58,21 @@ enum class InterviewStatus(
 
 fun Interview.isValid(): Boolean {
     val requiredInfoValid = listOf(date, time, company).all { it.isNotEmpty() }
-    val linksValid = listOf(jobPostLink, companyLink).all { it.isBlank() or isValidURL(it) }
-    return requiredInfoValid and linksValid
+    val linksValid =
+        listOf(meetingLink, jobPostLink, companyLink).all { it.isBlank() or isValidURL(it) }
+    val numberValid = roundNum.isBlank() or (roundNum.toIntOrNull() != null)
+    return requiredInfoValid and linksValid and numberValid
 }
 
 fun Interview.getInterviewField(@StringRes labelTextId: Int) = when (labelTextId) {
     R.string.hint_label_date -> date
     R.string.hint_label_time -> time
     R.string.hint_label_company -> company
+    R.string.hint_label_meeting_link -> meetingLink
     R.string.hint_label_interview_type -> interviewType
     R.string.hint_label_role -> role
     R.string.hint_label_round_count -> roundNum
-    R.string.hint_label_job_post -> jobPostLink
+    R.string.hint_label_job_post_link -> jobPostLink
     R.string.hint_label_company_link -> companyLink
     R.string.hint_label_interviewer -> interviewer
     else -> {

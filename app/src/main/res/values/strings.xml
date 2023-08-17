@@ -53,10 +53,11 @@
     <string name="hint_label_date">Date</string>
     <string name="hint_label_time">Time</string>
     <string name="hint_label_company">Company</string>
+    <string name="hint_label_meeting_link">Meeting Link</string>
     <string name="hint_label_interview_type">Interview Type</string>
     <string name="hint_label_role">Role/Position</string>
-    <string name="hint_label_round_count">Round #</string>
-    <string name="hint_label_job_post">Job Post Link</string>
+    <string name="hint_label_round_count">Round</string>
+    <string name="hint_label_job_post_link">Job Post Link</string>
     <string name="hint_label_company_link">Company Link</string>
     <string name="hint_label_interviewer">Interviewer</string>
     <string name="hint_label_month_format">MM/DD/YYYY</string>
@@ -95,8 +96,9 @@
     <string name="error_message_form_input_link_description">Link description can\'t be empty</string>
     <string name="error_message_form_input_link">Link can\'t be empty</string>
     <string name="error_message_invalid_url">URL is not valid</string>
+    <string name="error_message_invalid_number">Number is not valid</string>
 
-    <string name="header_add_interview">Add your scheduled interview details.</string>
+    <string name="header_add_interview">Add your interview information here.</string>
     <string name="header_edit_interview">Update your scheduled interview details.</string>
     <string name="header_add_note">Add your interview notes</string>
     <string name="header_edit_note">Update your interview notes</string>
@@ -126,6 +128,8 @@
     <string name="label_no_text_available">N/A</string>
     <string name="label_view_more">View More…</string>
     <string name="label_status">"Status: "</string>
+    <string name="label_interview_details">"Interview Details"</string>
+    <string name="label_company_details">"Company Details"</string>
 
     <string name="error_no_browser_app">No browser app installed</string>
 

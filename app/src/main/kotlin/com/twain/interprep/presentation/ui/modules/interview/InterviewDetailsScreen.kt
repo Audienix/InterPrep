@@ -24,6 +24,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -35,13 +37,15 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.isPast
+import com.twain.interprep.data.ui.InterviewFormData
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
+import com.twain.interprep.presentation.ui.components.generic.EditIcon
 import com.twain.interprep.presentation.ui.components.generic.IPAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPInterviewStatus
-import com.twain.interprep.presentation.ui.components.interview.IPInterviewDetailsCard
+import com.twain.interprep.presentation.ui.components.interview.InterviewDetailsCard
 import com.twain.interprep.presentation.ui.modules.dashboard.ShowInterviewStatusBottomSheet
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.getInterviewCardColorPair
@@ -75,18 +79,17 @@ fun InterviewDetailsScreen(
                     }
                 }
             ) {
+                EditIcon {
+                    interviewId?.let {
+                        navController.navigate(AppScreens.MainScreens.AddInterview.withArgs(it))
+                    }
+                }
                 DeleteIcon { showDeleteDialog.value = true }
             }
         },
         content = { padding ->
-            ShowDeleteConfirmationDialog(showDeleteDialog, viewModel, navController)
-            ShowInterviewDetailsScreenContent(
-                padding,
-                viewModel,
-                interviewId,
-                interviewType,
-                navController
-            )
+            ShowDeleteConfirmationDialog(showDeleteDialog, navController)
+            ShowInterviewDetailsScreenContent(padding, interviewType)
         },
         containerColor = MaterialColorPalette.surface
     )
@@ -95,8 +98,8 @@ fun InterviewDetailsScreen(
 @Composable
 private fun ShowDeleteConfirmationDialog(
     showDeleteDialog: MutableState<Boolean>,
-    viewModel: InterviewViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: InterviewViewModel = hiltViewModel()
 ) {
     if (showDeleteDialog.value) {
         IPAlertDialog(
@@ -119,10 +122,7 @@ private fun ShowDeleteConfirmationDialog(
 @Composable
 private fun ShowInterviewDetailsScreenContent(
     padding: PaddingValues,
-    viewModel: InterviewViewModel = hiltViewModel(),
-    interviewId: Int?,
-    interviewType: InterviewType,
-    navController: NavHostController
+    interviewType: InterviewType
 ) {
     val scope = rememberCoroutineScope()
     val openBottomSheet = rememberSaveable { mutableStateOf(false) }
@@ -135,14 +135,12 @@ private fun ShowInterviewDetailsScreenContent(
             .verticalScroll(rememberScrollState()),
     ) {
         ShowPastInterviewStatus(openBottomSheet = openBottomSheet)
-        ShowInterviewDetailsCard(
-            viewModel,
-            interviewId,
-            interviewType,
-            navController
-        )
+
+        val colorPair = getInterviewCardColorPair(type = interviewType)
+        ShowInterviewDetailsCard(colorPair = colorPair)
+        ShowCompanyDetailsCard(colorPair = colorPair)
     }
-    ShowInterviewStatusBottomSheet(openBottomSheet, bottomSheetState, scope, viewModel)
+    ShowInterviewStatusBottomSheet(openBottomSheet, bottomSheetState, scope)
 }
 
 @Composable
@@ -183,21 +181,32 @@ private fun ShowInterviewStatus(
 
 @Composable
 private fun ShowInterviewDetailsCard(
-    viewModel: InterviewViewModel,
-    interviewId: Int?,
-    interviewType: InterviewType,
-    navController: NavHostController
+    colorPair: Pair<Color, Color>,
+    viewModel: InterviewViewModel = hiltViewModel()
 ) {
-    val colorPair = getInterviewCardColorPair(type = interviewType)
-    IPInterviewDetailsCard(
-        interview = viewModel.interviewData,
+    val context = LocalContext.current
+    val labelList = InterviewFormData.getInterviewTextLabelList(viewModel.interviewData, context)
+
+    InterviewDetailsCard(
+        labelList = labelList,
+        headerText = stringResource(id = R.string.label_interview_details),
         headerBackgroundColor = colorPair.first,
         headerContentColor = colorPair.second,
-        onEditClick = {
-            interviewId?.let {
-                navController.navigate(AppScreens.MainScreens.AddInterview.withArgs(it))
-            }
-        })
+    )
+}
+
+@Composable
+private fun ShowCompanyDetailsCard(
+    colorPair: Pair<Color, Color>,
+    viewModel: InterviewViewModel = hiltViewModel()
+) {
+    val labelList = InterviewFormData.getCompanyTextLabelList(viewModel.interviewData)
+    InterviewDetailsCard(
+        headerText = stringResource(id = R.string.label_company_details),
+        headerContentColor = colorPair.second,
+        headerBackgroundColor = colorPair.first,
+        labelList = labelList
+    )
 }
 
 @Preview

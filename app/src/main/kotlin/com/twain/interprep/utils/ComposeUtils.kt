@@ -35,7 +35,7 @@ fun getInterviewCardColorPair(type: InterviewType): Pair<Color, Color> {
         InterviewType.FUTURE ->
             MaterialColorPalette.tertiaryContainer to MaterialColorPalette.onTertiaryContainer
         InterviewType.PRESENT ->
-            MaterialColorPalette.secondaryContainer to MaterialColorPalette.onSecondaryContainer
+            MaterialColorPalette.primaryContainer to MaterialColorPalette.onPrimaryContainer
         else ->
             MaterialColorPalette.surfaceContainerHighest to MaterialColorPalette.onSurface
     }
