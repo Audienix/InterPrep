@@ -25,7 +25,7 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.Note
 import com.twain.interprep.data.ui.interviewMockData
 import com.twain.interprep.data.ui.notesMockData
-import com.twain.interprep.presentation.ui.components.generic.IPCircleIcon
+import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
@@ -77,7 +77,7 @@ fun NoteCard(
                 Row(
                     modifier = Modifier
                 ) {
-                    IPCircleIcon(
+                    IPCircleTextIcon(
                         modifier = Modifier
                             .padding(
                                 vertical = dimensionResource(id = R.dimen.dimension_16dp)

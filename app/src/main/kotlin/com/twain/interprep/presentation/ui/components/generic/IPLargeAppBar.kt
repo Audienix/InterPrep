@@ -91,7 +91,7 @@ private fun GreetingsAndProfile(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        IPCircleIcon(
+        IPCircleTextIcon(
             modifier = Modifier
                 .weight(0.1f)
                 .aspectRatio(1f),
