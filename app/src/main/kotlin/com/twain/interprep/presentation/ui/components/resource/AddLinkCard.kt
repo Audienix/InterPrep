@@ -50,6 +50,7 @@ fun AddLinkCard(
                     onTextUpdate = {
                         updateLinkField(input.labelTextId, it)
                     },
+                    isBackPressed = shouldValidate
                 )
             }
             // we will hide the delete button in the adding mode and when there are more than

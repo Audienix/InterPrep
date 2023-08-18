@@ -141,6 +141,7 @@ private fun ShowScreenContent(
                 onTextUpdate = {
                     viewModel.updateResourceField(input.labelTextId, it)
                 },
+                isBackPressed = shouldValidateFormFields
             )
         }
         IPHeader(
@@ -210,7 +211,7 @@ private fun handleBackPress(
     navController: NavController,
     shouldShowAlert: MutableState<Boolean>
 ) {
-    if (viewModel.isResourceValid() && viewModel.areAllLinksValid()) {
+    if (viewModel.isResourceAndLinksValid()) {
         viewModel.addAllLinks()
         navController.popBackStack()
     } else shouldShowAlert.value = true
