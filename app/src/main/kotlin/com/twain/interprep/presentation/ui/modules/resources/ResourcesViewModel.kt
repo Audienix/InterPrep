@@ -206,14 +206,14 @@ class ResourcesViewModel @Inject constructor(
     fun isResourceAndLinksValid(): Boolean {
         val resourceData = (resource as ViewResult.Loaded<Resource>).data
         val resourceValid = resourceData.topic.isNotEmpty()
-        val linksValid = !links.any { link -> !isLinkValid(link) } // if any of link is not valid, links is not valid
+        val linksValid =
+            !links.any { link -> !isLinkValid(link) } // if any of link is not valid, links is not valid
         return resourceValid && linksValid
     }
 
-    private fun isLinkValid(link: ResourceLink) =
-        isValidTextInput(true, link.linkDescription, linkForm[0])
-            && isValidTextInput(true, link.link, linkForm[1]
-        )
+    private fun isLinkValid(link: ResourceLink) = isValidTextInput(
+        true, link.link, linkForm[1]
+    )
 
     fun addLinkEnabled() = links.isEmpty() || isLinkValid(links.last())
 
@@ -227,7 +227,7 @@ class ResourcesViewModel @Inject constructor(
         }
     }
 
-    fun updateSearchText(text: String){
+    fun updateSearchText(text: String) {
         searchText = text
     }
 }

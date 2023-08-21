@@ -178,7 +178,6 @@ private fun ShowScreenContent(
                     },
                     deleteLink = { viewModel.deleteLink(link) },
                     shouldValidate = shouldValidateFormFields,
-                    isEdit = isEdit,
                     numberOfCurrentLinks = viewModel.links.size
                 )
             }

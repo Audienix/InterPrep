@@ -98,7 +98,7 @@ fun ResourceCard(
                 if (isExpanded) {
                     links.forEachIndexed { index, link ->
                         IPText(
-                            text = "${index + 1}. ${link.linkDescription}",
+                            text = "${index + 1}. ${link.linkDescription.ifEmpty { link.link }}",
                             link = link.link,
                             textColor = MaterialColorPalette.primary
                         )
