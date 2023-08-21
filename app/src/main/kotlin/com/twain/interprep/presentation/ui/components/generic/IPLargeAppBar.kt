@@ -269,7 +269,7 @@ fun TodayInterviewCard(
                         contentDescription = null
                     )
                     Text(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier,
                         text = DateUtils.getDisplayedTime(
                             LocalContext.current,
                             interview.time

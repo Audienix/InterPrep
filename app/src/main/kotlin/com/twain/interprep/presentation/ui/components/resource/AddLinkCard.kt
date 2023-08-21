@@ -26,7 +26,6 @@ fun AddLinkCard(
     updateLinkField: (Int, String) -> Unit,
     deleteLink: () -> Unit,
     shouldValidate: Boolean,
-    isEdit: Boolean,
     numberOfCurrentLinks: Int
 ) {
     Card(
@@ -50,11 +49,11 @@ fun AddLinkCard(
                     onTextUpdate = {
                         updateLinkField(input.labelTextId, it)
                     },
+                    isBackPressed = shouldValidate
                 )
             }
-            // we will hide the delete button in the adding mode and when there are more than
-            // one link on the screen
-            if (isEdit && numberOfCurrentLinks > 1) {
+            // we will show the delete button when there are more than one link on the screen
+            if (numberOfCurrentLinks > 1) {
                 IPOutlinedButton(
                     borderColor = MaterialColorPalette.onPrimaryContainer,
                     textColor = MaterialColorPalette.onPrimaryContainer,

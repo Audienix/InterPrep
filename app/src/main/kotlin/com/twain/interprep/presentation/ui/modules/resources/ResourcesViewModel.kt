@@ -9,10 +9,12 @@ import com.twain.interprep.R
 import com.twain.interprep.data.model.Resource
 import com.twain.interprep.data.model.ResourceLink
 import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.data.ui.ResourceFormData.linkForm
 import com.twain.interprep.domain.usecase.resource.ResourceUseCase
 import com.twain.interprep.domain.usecase.resourceLink.ResourceLinkUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
+import com.twain.interprep.utils.isValidTextInput
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
@@ -201,14 +203,19 @@ class ResourcesViewModel @Inject constructor(
         }
     }
 
-    fun isResourceValid(): Boolean {
-        val data = (resource as ViewResult.Loaded<Resource>).data
-        return data.topic.isNotEmpty()
+    fun isResourceAndLinksValid(): Boolean {
+        val resourceData = (resource as ViewResult.Loaded<Resource>).data
+        val resourceValid = resourceData.topic.isNotEmpty()
+        val linksValid =
+            !links.any { link -> !isLinkValid(link) } // if any of link is not valid, links is not valid
+        return resourceValid && linksValid
     }
 
-    fun areAllLinksValid() = true
+    private fun isLinkValid(link: ResourceLink) = isValidTextInput(
+        true, link.link, linkForm[1]
+    )
 
-    fun addLinkEnabled() = true
+    fun addLinkEnabled() = links.isEmpty() || isLinkValid(links.last())
 
     fun getSearchingResult(searchText: String = "") = launchCoroutineIO {
         resourceUseCase.getResourceWithLinksBySearchText(searchText).collect {
@@ -220,7 +227,7 @@ class ResourcesViewModel @Inject constructor(
         }
     }
 
-    fun updateSearchText(text: String){
+    fun updateSearchText(text: String) {
         searchText = text
     }
 }
