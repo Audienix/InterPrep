@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.R
 import com.twain.interprep.presentation.ui.components.generic.IPAppBar
-import com.twain.interprep.presentation.ui.components.generic.IPCircleIcon
+import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 
@@ -129,7 +129,7 @@ fun NoteIndex(
     modifier: Modifier = Modifier,
     index: Int
 ) {
-    IPCircleIcon(
+    IPCircleTextIcon(
         modifier = modifier,
         text = index.toString(),
         textStyle = MaterialTheme.typography.titleMedium,

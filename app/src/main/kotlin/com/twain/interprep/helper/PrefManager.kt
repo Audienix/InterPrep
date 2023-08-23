@@ -23,10 +23,12 @@ class PrefManager @Inject constructor(
         editor.putBoolean(key, value).apply()
     }
 
-    fun getString(pair: StringPair) = preferences.getString(pair.key, pair.default)
-
     fun putString(key: String, value: String){
         editor.putString(key, value).apply()
+    }
+
+    fun register() {
+        preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->  }
     }
 
     companion object {
@@ -48,8 +50,3 @@ sealed class BooleanPair(
 ) {
     object IsIntroScreenShown: BooleanPair(PrefManager.IS_INTRO_SHOWN, false)
 }
-
-sealed class StringPair(
-    val key: String,
-    val default: String
-)

@@ -90,7 +90,13 @@ fun DashboardScreen(
                     subtitle = "Good ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(username),
-                    isInterviewDetailsVisible = true
+                    isInterviewDetailsVisible = true,
+                    navController = navController,
+                    onAvatarClick = {
+                        navController.navigate(AppScreens.MainScreens.Profile.route) {
+                            popUpTo(AppScreens.MainScreens.Dashboard.route)
+                        }
+                    }
                 )
             }
         },
@@ -126,21 +132,18 @@ private fun ShowDashboardScreenContent(
     val interviewListState = rememberLazyListState()
     if (dashboardViewModel.interviewListMetaData is ViewResult.Loaded) {
         val interviews = dashboardViewModel.interviewListMetaData as ViewResult.Loaded
-        if (interviews.data.isEmpty())
-            ShowEmptyState(
-                title = stringResource(id = R.string.empty_state_title_dashboard),
-                description = stringResource(id = R.string.empty_state_description_dashboard)
-            )
-        else {
-            LazyColumn(
-                modifier = Modifier.padding(padding),
-                contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
-                state = interviewListState,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                item {
-                    InterviewTypeFilter(selectedFilterIndex)
-                }
+        Column(
+            modifier = Modifier.padding(padding),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            if (interviews.data.isEmpty())
+                ShowEmptyState(
+                    title = stringResource(id = R.string.empty_state_title_dashboard),
+                    description = stringResource(id = R.string.empty_state_description_dashboard)
+                )
+            else {
+                InterviewTypeFilter(selectedFilterIndex)
                 val interviewList: InterviewList = when (selectedFilterIndex.intValue) {
                     0 -> interviews.data.upcomingInterviewList
                     1 -> interviews.data.comingNextInterviewList
@@ -152,23 +155,32 @@ private fun ShowDashboardScreenContent(
                     else -> InterviewType.PAST
                 }
                 if (interviewList.list.isNotEmpty()) {
-                    showInterviewList(
-                        interviewType = interviewType,
-                        interviewListState = interviewListState,
-                        interviewList = interviewList,
-                        dashboardViewModel = dashboardViewModel,
-                        interviewModel = interviewModel,
-                        navController = navController,
-                        openBottomSheet
-                    )
-                } else {
-                    item {
-                        val textPair = getInterviewEmptyStateTextPair(interviewType)
-                        ShowEmptyState(textPair.first, textPair.second)
+                    LazyColumn(
+                        contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
+                        state = interviewListState,
+                    ) {
+
+                        showInterviewList(
+                            interviewType = interviewType,
+                            interviewListState = interviewListState,
+                            interviewList = interviewList,
+                            dashboardViewModel = dashboardViewModel,
+                            interviewModel = interviewModel,
+                            navController = navController,
+                            openBottomSheet
+                        )
                     }
+                } else {
+                    val textPair = getInterviewEmptyStateTextPair(interviewType)
+                    ShowEmptyState(
+                        modifier = Modifier.padding(
+                            bottom = dimensionResource(id = R.dimen.dimension_24dp)),
+                        textPair.first, textPair.second)
                 }
+
             }
         }
+
     } else {
         ShowLoadingState()
     }
@@ -176,9 +188,12 @@ private fun ShowDashboardScreenContent(
 }
 
 @Composable
-private fun ShowEmptyState(title: String, description: String) {
+private fun ShowEmptyState(
+    modifier: Modifier = Modifier,
+    title: String,
+    description: String) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
     ) {
         FullScreenEmptyState(
@@ -266,7 +281,7 @@ private fun LazyListScope.showInterviewList(
             onClick = { interviewModel.interviewData = interview },
             navController = navController,
             interviewType = interviewType,
-            onStatusBarClicked = {
+            onInterviewStatusClicked = {
                 interviewModel.interviewData = interview
                 openBottomSheet.value = true
             }

@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Note
-import com.twain.interprep.presentation.ui.components.generic.IPCircleIcon
+import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenu
 import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenuItem
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
@@ -71,7 +71,7 @@ fun ViewNoteCard(
                     ),
                 verticalAlignment = Alignment.Top
             ) {
-                IPCircleIcon(
+                IPCircleTextIcon(
                     modifier = Modifier
                         .padding(
                             vertical = dimensionResource(id = R.dimen.dimension_16dp)
@@ -151,14 +151,14 @@ private fun getNoteDropdownMenuItems(
     val menuItems = mutableListOf<IPMoreOptionsMenuItem>()
     menuItems.add(
         IPMoreOptionsMenuItem(
-            stringResource(id = R.string.menuitem_edit_note),
+            stringResource(id = R.string.menu_item_edit_note),
             Icons.Default.Edit,
             onEditClicked
         )
     )
     menuItems.add(
         IPMoreOptionsMenuItem(
-            stringResource(id = R.string.menuitem_delete_note),
+            stringResource(id = R.string.menu_item_delete_note),
             Icons.Default.Delete
         ) { showDeleteDialog.value = true })
     return menuItems

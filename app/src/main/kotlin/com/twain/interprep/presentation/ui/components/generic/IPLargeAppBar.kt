@@ -3,7 +3,9 @@ package com.twain.interprep.presentation.ui.components.generic
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
@@ -30,10 +33,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
+import com.twain.interprep.data.model.InterviewType
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.dashboard.NoInterviewCard
+import com.twain.interprep.presentation.ui.components.dashboard.formatRoundNumAndInterviewType
 import com.twain.interprep.presentation.ui.components.dashboard.interviewMockData
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
@@ -48,7 +56,9 @@ fun IPLargeAppBar(
     subtitle: String,
     todayInterviewList: List<Interview>,
     username: String,
-    isInterviewDetailsVisible: Boolean = false
+    isInterviewDetailsVisible: Boolean = false,
+    navController: NavHostController,
+    onAvatarClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -59,12 +69,12 @@ fun IPLargeAppBar(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
     ) {
-        GreetingsAndProfile(title, username, subtitle)
+        GreetingsAndProfile(title, username, subtitle, onAvatarClick)
         if (isInterviewDetailsVisible) {
             if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
             else
-                InterviewTodayDetails(todayInterviewList = todayInterviewList)
+                InterviewTodayDetails(todayInterviewList = todayInterviewList, navController = navController)
         }
     }
 }
@@ -73,7 +83,8 @@ fun IPLargeAppBar(
 private fun GreetingsAndProfile(
     title: String,
     username: String,
-    subtitle: String
+    subtitle: String,
+    onAvatarClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -91,10 +102,13 @@ private fun GreetingsAndProfile(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        IPCircleIcon(
+        IPCircleTextIcon(
             modifier = Modifier
                 .weight(0.1f)
-                .aspectRatio(1f),
+                .aspectRatio(1f)
+                .clickable {
+                    onAvatarClick()
+                },
             text = username,
             size = dimensionResource(id = R.dimen.dimension_icon_size_36),
             containerColor = MaterialColorPalette.tertiary,
@@ -113,7 +127,7 @@ private fun GreetingsAndProfile(
 }
 
 @Composable
-private fun InterviewTodayDetails(todayInterviewList: List<Interview>) {
+private fun InterviewTodayDetails(todayInterviewList: List<Interview>, navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(top = dimensionResource(id = R.dimen.dimension_8dp))
@@ -124,7 +138,7 @@ private fun InterviewTodayDetails(todayInterviewList: List<Interview>) {
     ) {
         InterviewTodayReminder(
             message = pluralStringResource(
-                R.plurals.interviews_today,
+                R.plurals.label_interviews_today,
                 todayInterviewList.size,
                 todayInterviewList.size
             )
@@ -133,7 +147,8 @@ private fun InterviewTodayDetails(todayInterviewList: List<Interview>) {
             TodayInterviewPager(
                 modifier = Modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
-                interviewList = todayInterviewList
+                interviewList = todayInterviewList,
+                navController = navController
             )
     }
 }
@@ -149,7 +164,7 @@ private fun NoInterviewTodayDetails() {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
         InterviewTodayReminder(
-            message = stringResource(R.string.no_interviews_today)
+            message = stringResource(R.string.label_no_interviews_today)
         )
         val quotesViewModel: QuotesViewModel = hiltViewModel()
         LaunchedEffect(Unit) {
@@ -187,7 +202,7 @@ private fun InterviewTodayReminder(message: String) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>) {
+fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>, navController: NavHostController) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f,
@@ -200,7 +215,7 @@ fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>) {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
         HorizontalPager(state = pagerState) { _ ->
-            TodayInterviewCard(interview = interviewList[pagerState.currentPage])
+            TodayInterviewCard(interview = interviewList[pagerState.currentPage], navController = navController)
         }
         if (interviewList.size > 1) {
             HorizontalPagerIndicator(
@@ -216,12 +231,22 @@ fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>) {
 @Composable
 fun TodayInterviewCard(
     interview: Interview,
-    modifier: Modifier = Modifier
+    navController: NavHostController
 ) {
     Card(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .clickable {
+                navController.navigate(
+                    AppScreens.MainScreens.InterviewDetails.withArgs(
+                        interview.interviewId,
+                        InterviewType.PRESENT,
+                    )
+                ) {
+                    popUpTo(AppScreens.MainScreens.Dashboard.route)
+                }
+            },
         colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.primary),
         shape = Shapes.medium,
     ) {
@@ -255,30 +280,38 @@ fun TodayInterviewCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.dimension_4dp)
-                    )
-                ) {
-                    Icon(
-                        modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_icon_size_16)),
-                        painter = painterResource(id = R.drawable.ic_timer_24),
-                        tint = MaterialColorPalette.tertiaryContainer,
-                        contentDescription = null
-                    )
-                    Text(
-                        modifier = Modifier,
-                        text = DateUtils.getDisplayedTime(
-                            LocalContext.current,
-                            interview.time
-                        ),
-                        color = MaterialColorPalette.onPrimary,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .align(Alignment.CenterStart),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(
+                            dimensionResource(id = R.dimen.dimension_4dp)
+                        )
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_icon_size_16)),
+                            painter = painterResource(id = R.drawable.ic_timer_24),
+                            tint = MaterialColorPalette.tertiaryContainer,
+                            contentDescription = null
+                        )
+                        Text(
+                            modifier = Modifier,
+                            text = DateUtils.getDisplayedTime(
+                                LocalContext.current,
+                                interview.time
+                            ),
+                            color = MaterialColorPalette.onPrimary,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+
                     IPText(
-                        text = stringResource(id = R.string.join_here),
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .align(Alignment.CenterEnd),
+                        text = stringResource(id = R.string.label_join_here),
                         link = interview.meetingLink,
                         textColor = MaterialColorPalette.onPrimary,
                         textStyle = MaterialTheme.typography.bodyLarge,
@@ -289,7 +322,11 @@ fun TodayInterviewCard(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        text = interview.interviewType,
+                        text = formatRoundNumAndInterviewType(interview).ifEmpty {
+                            stringResource(
+                                id = R.string.label_no_text_available
+                            )
+                        },
                         color = MaterialColorPalette.primaryContainer,
                         style = MaterialTheme.typography.bodyMedium,
                         maxLines = 1,
@@ -319,7 +356,9 @@ fun IPLargeAppBarPreview() {
             subtitle = "Good Morning",
             todayInterviewList = mutableListOf(interviewMockData),
             username = "AM",
-            isInterviewDetailsVisible = true
+            isInterviewDetailsVisible = true,
+            onAvatarClick = {},
+            navController = rememberNavController()
         )
     }
 }

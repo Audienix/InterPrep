@@ -16,6 +16,7 @@ import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.ViewMoreQuestionsScreen
 import com.twain.interprep.presentation.ui.modules.notes.ViewNotesScreen
+import com.twain.interprep.presentation.ui.modules.profile.ProfileScreen
 import com.twain.interprep.presentation.ui.modules.resources.AddResourceScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
 
@@ -99,6 +100,13 @@ fun MainScreensNavGraph(navController: NavHostController) {
             arguments = getAddResourceNavArguments()
         ) { entry ->
             NavigateToAddResource(entry, navController)
+        }
+
+        // Profile
+        composable(
+            route = AppScreens.MainScreens.Profile.route
+        ) {
+            ProfileScreen(navController = navController)
         }
     }
 }

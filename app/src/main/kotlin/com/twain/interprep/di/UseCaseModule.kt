@@ -1,5 +1,8 @@
 package com.twain.interprep.di
 
+import com.twain.interprep.datastore.DataStoreRepository
+import com.twain.interprep.datastore.usecase.DataStoreUseCase
+import com.twain.interprep.datastore.usecase.GetProfileSettingsUseCase
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
@@ -108,6 +111,14 @@ class UseCaseModule {
             insertResourceLinkUseCase = InsertResourceLinkUseCase(resourceLinkRepository),
             updateResourceLinkUseCase = UpdateResourceLinkUseCase(resourceLinkRepository),
             deleteResourceLinkUseCase = DeleteResourceLinkUseCase(resourceLinkRepository)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideDataStoreUseCase(dataStoreRepository: DataStoreRepository): DataStoreUseCase {
+        return DataStoreUseCase(
+            GetProfileSettingsUseCase(dataStoreRepository)
         )
     }
 }

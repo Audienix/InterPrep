@@ -108,7 +108,7 @@ private fun getNoteCardMenuOptionItems(
     val menuItems = mutableListOf<IPMoreOptionsMenuItem>()
     menuItems.add(
         IPMoreOptionsMenuItem(
-            stringResource(id = R.string.menuitem_delete_interview),
+            stringResource(id = R.string.menu_item_delete_interview),
             Icons.Default.Delete,
             onDeleteInterviewClicked
         )
@@ -116,7 +116,7 @@ private fun getNoteCardMenuOptionItems(
     if (!notesEmpty)
         menuItems.add(
             IPMoreOptionsMenuItem(
-                stringResource(id = R.string.menuitem_delete_notes),
+                stringResource(id = R.string.menu_item_delete_notes),
                 Icons.Default.Delete,
                 onDeleteNotesClicked
             )
