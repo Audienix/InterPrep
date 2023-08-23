@@ -1,9 +1,9 @@
 package com.twain.interprep.datastore
 
-import com.twain.interprep.presentation.ui.modules.profile.ProfileSettings
+import com.twain.interprep.data.ui.ProfileSettingsData
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {
 
-    fun getProfileSettings() : Flow<ProfileSettings>
+    fun getProfileSettings() : Flow<ProfileSettingsData.ProfileSettings>
 }

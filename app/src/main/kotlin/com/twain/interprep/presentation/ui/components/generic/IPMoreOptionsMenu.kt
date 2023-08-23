@@ -88,12 +88,12 @@ fun IPMoreOptionsMenuPreview() {
     val items = mutableListOf<IPMoreOptionsMenuItem>()
     items.add(
         IPMoreOptionsMenuItem(
-            stringResource(id = R.string.menuitem_edit_note),
+            stringResource(id = R.string.menu_item_edit_note),
             Icons.Default.Edit
         ) {})
     items.add(
         IPMoreOptionsMenuItem(
-            stringResource(id = R.string.menuitem_delete_note),
+            stringResource(id = R.string.menu_item_delete_note),
             Icons.Default.Delete
         ) {})
     InterPrepTheme {

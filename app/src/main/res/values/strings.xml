@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">InterPrep</string>
 
+    <string name="intro_dashboard_title">"Manage your job interviews"</string>
+    <string name="intro_dashboard_description">"Effortlessly organize your interview details from a personalized dashboard"</string>
+    <string name="intro_note_title">"Take notes of past interviews"</string>
+    <string name="intro_note_description">"Easily access and manage your past interview notes for future reference"</string>
+    <string name="intro_resource_title">"Organize your learning resources"</string>
+    <string name="intro_resource_description">"Maximize your interview preparation with a collection of learning materials"</string>
+
     <string name="nav_item_dashboard">Dashboard</string>
     <string name="nav_item_notes">Notes</string>
     <string name="nav_item_resources">Resources</string>
@@ -20,11 +27,11 @@
     <string name="appbar_title_edit_resource">Edit Resource</string>
     <string name="appbar_title_question">Questions</string>
 
-    <string name="menuitem_edit_note">Edit Note</string>
-    <string name="menuitem_delete_note">Delete Note</string>
-    <string name="menuitem_delete_interview">Delete Interview</string>
-    <string name="menuitem_delete_notes">Delete Notes</string>
-    <string name="menuitem_delete">Delete</string>
+    <string name="menu_item_edit_note">Edit Note</string>
+    <string name="menu_item_delete_note">Delete Note</string>
+    <string name="menu_item_delete_interview">Delete Interview</string>
+    <string name="menu_item_delete_notes">Delete Notes</string>
+    <string name="menu_item_delete">Delete</string>
 
     <string name="empty_state_title_dashboard">No interview scheduled.</string>
     <string name="empty_state_title_dashboard_current">No interview this week.</string>
@@ -71,6 +78,8 @@
     <string name="hint_label_link_description">Link Description</string>
     <string name="hint_label_link">Link</string>
 
+    <string name="hint_label_search_resource">Search learning resources</string>
+
     <string name="time_picker_title">Enter Time</string>
 
     <string name="alert_dialog_unsaved_interview_title">Unsaved Interview!</string>
@@ -107,7 +116,6 @@
     <string name="header_edit_resource">Update your learning resource material.</string>
     <string name="header_reference_link">Reference Link</string>
     <string name="header_interview_status">Interview Status</string>
-    <string name="header_intro_screen">InterPrep</string>
 
     <string name="button_add_notes">Add Notes</string>
     <string name="button_view_notes">View Notes</string>
@@ -130,35 +138,37 @@
     <string name="label_status">"Status: "</string>
     <string name="label_interview_details">"Interview Details"</string>
     <string name="label_company_details">"Company Details"</string>
+    <plurals name="label_interviews_today">
+        <item quantity="one">You have %1$s interview today.</item>
+        <item quantity="other">You have %1$s interviews today.</item>
+    </plurals>
+    <string name="label_no_interviews_today">You have no interview today.</string>
+    <string name="label_join_here">Join Here</string>
 
     <string name="error_no_browser_app">No browser app installed</string>
 
     <string name="notification_reminder_title">Upcoming Interview</string>
     <string name="notification_reminder_description">%1$s interview is coming up after 1 hour.</string>
 
-    <string name="intro_dashboard_title">"Manage your job interviews"</string>
-    <string name="intro_dashboard_description">"Effortlessly organize your interview details from a personalized dashboard"</string>
-    <string name="intro_note_title">"Take notes of past interviews"</string>
-    <string name="intro_note_description">"Easily access and manage your past interview notes for future reference"</string>
-    <string name="intro_resource_title">"Organize your learning resources"</string>
-    <string name="intro_resource_description">"Maximize your interview preparation with a collection of learning materials"</string>
-
     <string name="time_morning">Morning</string>
     <string name="time_afternoon">Afternoon</string>
     <string name="time_evening">Evening</string>
     <string name="hello">Hello</string>
-
-    <string name="search_bar_default_text">Search learning resources</string>
-    <plurals name="interviews_today">
-        <item quantity="one">You have %1$s interview today.</item>
-        <item quantity="other">You have %1$s interviews today.</item>
-    </plurals>
-    <string name="no_interviews_today">You have no interview today.</string>
-    <string name="join_here">Join Here</string>
 
     <string-array name="interview_filter">
         <item>Current</item>
         <item>Future</item>
         <item>Past</item>
     </string-array>
+
+    <string name="label_setting_name">Name</string>
+    <string name="label_setting_language">Preferred Language</string>
+    <string name="label_setting_theme">App Theme</string>
+    <string name="label_setting_notification">Notification Reminder</string>
+    <string name="label_setting_rating">Rating &amp; Feedback</string>
+    <string name="label_setting_rating_description">Click to rate us in Google Play</string>
+    <string name="label_setting_privacy_policy">Privacy Policy</string>
+    <string name="label_setting_privacy_policy_description">Click to see our privacy policy</string>
+    <string name="label_setting_app_version">App Version : </string>
+
 </resources>

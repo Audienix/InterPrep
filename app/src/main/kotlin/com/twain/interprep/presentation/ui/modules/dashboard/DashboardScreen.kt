@@ -91,6 +91,7 @@ fun DashboardScreen(
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(username),
                     isInterviewDetailsVisible = true,
+                    navController = navController,
                     onAvatarClick = {
                         navController.navigate(AppScreens.MainScreens.Profile.route) {
                             popUpTo(AppScreens.MainScreens.Dashboard.route)
@@ -280,7 +281,7 @@ private fun LazyListScope.showInterviewList(
             onClick = { interviewModel.interviewData = interview },
             navController = navController,
             interviewType = interviewType,
-            onStatusBarClicked = {
+            onInterviewStatusClicked = {
                 interviewModel.interviewData = interview
                 openBottomSheet.value = true
             }

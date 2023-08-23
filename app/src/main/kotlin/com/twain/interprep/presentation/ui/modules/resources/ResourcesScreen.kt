@@ -94,7 +94,7 @@ private fun ShowResourcesScreenContent(
             },
             active = isSearchBarActive,
             onActiveChange = { isSearchBarActive = it },
-            placeholder = { Text(text = stringResource(id = R.string.search_bar_default_text)) },
+            placeholder = { Text(text = stringResource(id = R.string.hint_label_search_resource)) },
             colors = SearchBarDefaults.colors(
                 containerColor = MaterialColorPalette.surfaceContainerHigh,
                 inputFieldColors = SearchBarDefaults.inputFieldColors(

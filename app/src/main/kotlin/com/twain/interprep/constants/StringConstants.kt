@@ -33,18 +33,6 @@ object StringConstants {
     const val NOTIFICATION_KEY_TITLE = "title"
     const val NOTIFICATION_KEY_MESSAGE = "message"
 
-    // Profile
-
-    const val NAME_TITLE = "Name"
-    const val PREFERRED_LANGUAGE_TITLE = "Preferred Language"
-    const val APP_THEME_TITLE = "App Theme"
-    const val NOTIFICATION_REMINDER_TITLE = "Notification Reminder"
-    const val RATE_FEEDBACK_TITLE = "Rate & Feedback"
-    const val RATE_FEEDBACK_LABEL = "Click to rate us in Google Play"
-    const val PRIVACY_POLICY_TITLE = "Privacy Policy"
-    const val PRIVACY_POLICY_LABEL = "Click to see privacy policy"
-
-
     // Language
     const val ENGLISH_US_CODE = "en_US"
     const val ENGLISH_US_DROPDOWN_NAME = "English (US)"

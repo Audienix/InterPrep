@@ -49,7 +49,7 @@ fun DashboardInterviewCard(
     interviewType: InterviewType,
     navController: NavHostController,
     onClick: () -> Unit,
-    onStatusBarClicked: () -> Unit = {}
+    onInterviewStatusClicked: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val interviewCardColorPair = getInterviewCardColorPair(type = interviewType)
@@ -141,7 +141,7 @@ fun DashboardInterviewCard(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(end = dimensionResource(id = R.dimen.dimension_16dp)),
-                onClick = { onStatusBarClicked() })
+                onClick = { onInterviewStatusClicked() })
         }
     }
 }

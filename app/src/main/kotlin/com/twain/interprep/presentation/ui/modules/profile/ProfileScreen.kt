@@ -23,10 +23,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.BuildConfig
 import com.twain.interprep.R
+import com.twain.interprep.data.ui.ProfileSettingsData.ClickAction
+import com.twain.interprep.data.ui.ProfileSettingsData.PreferenceItemData
+import com.twain.interprep.data.ui.ProfileSettingsData.getPreferenceItemDataList
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
@@ -43,14 +47,16 @@ fun ProfileScreen(
     }
 
     Scaffold(
-        topBar = { ProfileTopBar(getNameInitials(input = viewModel.profileSettings.userName)) {
-            navController.popBackStack()
-        } }
+        topBar = {
+            ProfileTopBar(getNameInitials(input = viewModel.profileSettings.userName)) {
+                navController.popBackStack()
+            }
+        }
     ) { paddingValues ->
 
         ProfileColumn(
             modifier = Modifier.padding(paddingValues),
-            items = viewModel.getProfileRowData(),
+            items = getPreferenceItemDataList(),
             onItemClick = viewModel::handleAction
         )
     }
@@ -92,7 +98,7 @@ fun ProfileTopBar(
 @Composable
 fun ProfileColumn(
     modifier: Modifier,
-    items: List<ProfileRowData>,
+    items: List<PreferenceItemData>,
     onItemClick: (ClickAction) -> Unit
 ) {
     LazyColumn(
@@ -115,7 +121,7 @@ fun ProfileColumn(
 
 @Composable
 fun ProfileColumnItem(
-    data: ProfileRowData,
+    data: PreferenceItemData,
     onClick: (ClickAction) -> Unit
 ) {
     Column {
@@ -133,19 +139,22 @@ fun ProfileColumnItem(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = data.title,
+                    text = stringResource(id = data.title),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialColorPalette.onSurface
                 )
-                Text(
-                    text = data.label,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialColorPalette.onSurfaceVariant
-                )
+                if (data.label != null) {
+                    Text(
+                        text = stringResource(id = data.label),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialColorPalette.onSurfaceVariant
+                    )
+                }
             }
             IPIcon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
-                tint = MaterialColorPalette.onSurfaceVariant) { onClick(data.clickAction) }
+                tint = MaterialColorPalette.onSurfaceVariant
+            ) { onClick(data.clickAction) }
         }
         HorizontalDivider()
     }
@@ -153,10 +162,10 @@ fun ProfileColumnItem(
 
 @Composable
 fun AppVersion() {
-    Row {
-        Spacer(modifier = Modifier.weight(1f))
+    Box(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "App Version: ${BuildConfig.VERSION_NAME}",
+            modifier = Modifier.align(Alignment.CenterEnd),
+            text = "${stringResource(id = R.string.label_setting_app_version)}${BuildConfig.VERSION_NAME}",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialColorPalette.onSurfaceVariant
         )

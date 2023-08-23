@@ -151,14 +151,14 @@ private fun getNoteDropdownMenuItems(
     val menuItems = mutableListOf<IPMoreOptionsMenuItem>()
     menuItems.add(
         IPMoreOptionsMenuItem(
-            stringResource(id = R.string.menuitem_edit_note),
+            stringResource(id = R.string.menu_item_edit_note),
             Icons.Default.Edit,
             onEditClicked
         )
     )
     menuItems.add(
         IPMoreOptionsMenuItem(
-            stringResource(id = R.string.menuitem_delete_note),
+            stringResource(id = R.string.menu_item_delete_note),
             Icons.Default.Delete
         ) { showDeleteDialog.value = true })
     return menuItems

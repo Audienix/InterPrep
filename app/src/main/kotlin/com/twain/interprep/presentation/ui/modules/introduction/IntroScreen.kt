@@ -47,7 +47,7 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
             IPHeader(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.header_intro_screen),
+                text = stringResource(id = R.string.app_name),
                 textStyle = typography.headlineMedium,
                 alignTextToCenter = true
             )
