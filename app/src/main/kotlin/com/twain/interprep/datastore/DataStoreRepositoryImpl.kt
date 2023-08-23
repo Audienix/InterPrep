@@ -1,24 +1,26 @@
 package com.twain.interprep.datastore
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.twain.interprep.constants.StringConstants.NO_NOTIFICATION
+import com.twain.interprep.R
+import com.twain.interprep.data.ui.ProfileSettingsData.PreferenceItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import com.twain.interprep.data.ui.ProfileSettingsData.ProfileSettings
-import com.twain.interprep.data.ui.ProfileSettingsData.Language
-import com.twain.interprep.data.ui.ProfileSettingsData.AppTheme
 
-class DataStoreRepositoryImpl(private val dataStore: DataStore<Preferences>): DataStoreRepository {
-    override fun getProfileSettings(): Flow<ProfileSettings> = dataStore.data.map { preferences ->
-        ProfileSettings(
+class DataStoreRepositoryImpl(
+    private val dataStore: DataStore<Preferences>,
+    private val context: Context
+) : DataStoreRepository {
+    override fun getProfileSettings(): Flow<PreferenceItem> = dataStore.data.map { preferences ->
+        PreferenceItem(
             userName = preferences[PreferenceKeys.USER_NAME] ?: "",
-            preferredLanguage = preferences[PreferenceKeys.PREFERRED_LANGUAGE]?.let {
-                Language.valueOf(it) } ?: Language.ENGLISH_US,
-            appTheme = preferences[PreferenceKeys.APP_THEME]?.let { AppTheme.valueOf(it) }
-                ?: AppTheme.SYSTEM,
+            preferredLanguage = preferences[PreferenceKeys.PREFERRED_LANGUAGE]
+                ?: context.resources.getStringArray(R.array.language_option)[0],
+            appTheme = preferences[PreferenceKeys.APP_THEME]
+                ?: context.resources.getStringArray(R.array.theme_option)[2],
             notificationReminder = preferences[PreferenceKeys.NOTIFICATION_REMINDER]
-                ?: NO_NOTIFICATION
+                ?: context.resources.getStringArray(R.array.notification_reminder_option)[3]
         )
     }
 

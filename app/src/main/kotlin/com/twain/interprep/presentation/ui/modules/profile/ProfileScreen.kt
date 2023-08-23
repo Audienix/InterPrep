@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,8 +30,7 @@ import androidx.navigation.NavHostController
 import com.twain.interprep.BuildConfig
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.ProfileSettingsData.ClickAction
-import com.twain.interprep.data.ui.ProfileSettingsData.PreferenceItemData
-import com.twain.interprep.data.ui.ProfileSettingsData.getPreferenceItemDataList
+import com.twain.interprep.data.ui.ProfileSettingsData.ProfileSettingsItemData
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
@@ -48,15 +48,15 @@ fun ProfileScreen(
 
     Scaffold(
         topBar = {
-            ProfileTopBar(getNameInitials(input = viewModel.profileSettings.userName)) {
+            ProfileTopBar(getNameInitials(input = viewModel.preferenceItem.userName)) {
                 navController.popBackStack()
             }
         }
     ) { paddingValues ->
-
+        val context = LocalContext.current
         ProfileColumn(
             modifier = Modifier.padding(paddingValues),
-            items = getPreferenceItemDataList(),
+            items = viewModel.getProfileSettingsItemDataList(context),
             onItemClick = viewModel::handleAction
         )
     }
@@ -98,7 +98,7 @@ fun ProfileTopBar(
 @Composable
 fun ProfileColumn(
     modifier: Modifier,
-    items: List<PreferenceItemData>,
+    items: List<ProfileSettingsItemData>,
     onItemClick: (ClickAction) -> Unit
 ) {
     LazyColumn(
@@ -110,18 +110,16 @@ fun ProfileColumn(
         items(items = items) {
             ProfileColumnItem(data = it, onClick = onItemClick)
         }
-
         item {
             AppVersion()
         }
-
     }
 }
 
 
 @Composable
 fun ProfileColumnItem(
-    data: PreferenceItemData,
+    data: ProfileSettingsItemData,
     onClick: (ClickAction) -> Unit
 ) {
     Column {
@@ -145,7 +143,7 @@ fun ProfileColumnItem(
                 )
                 if (data.label != null) {
                     Text(
-                        text = stringResource(id = data.label),
+                        text = data.label,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialColorPalette.onSurfaceVariant
                     )

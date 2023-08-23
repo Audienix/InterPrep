@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {
 
-    fun getProfileSettings() : Flow<ProfileSettingsData.ProfileSettings>
+    fun getProfileSettings() : Flow<ProfileSettingsData.PreferenceItem>
 }

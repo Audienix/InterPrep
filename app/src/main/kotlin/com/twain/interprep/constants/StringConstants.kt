@@ -32,25 +32,4 @@ object StringConstants {
     // Notification keys
     const val NOTIFICATION_KEY_TITLE = "title"
     const val NOTIFICATION_KEY_MESSAGE = "message"
-
-    // Language
-    const val ENGLISH_US_CODE = "en_US"
-    const val ENGLISH_US_DROPDOWN_NAME = "English (US)"
-    const val ENGLISH_US_LABEL = "English"
-
-    // AppTheme
-    const val SYSTEM_NAME = "System"
-    const val DARK_MODE_NAME = "Dark"
-    const val LIGHT_MODE_NAME = "Light"
-
-    const val SYSTEM_LABEL = "Sync with System"
-    const val DARK_MODE_LABEL = "Dark Mode"
-    const val LIGHT_MODE_LABEL = "Light Mode"
-
-    // notification
-    const val MIN_15_BEFORE = "15 minutes before"
-    const val MIN_30_BEFORE = "30 minutes before"
-    const val HOUR_1_BEFORE = "1 hour before"
-    const val NO_NOTIFICATION = "No notification"
-
 }

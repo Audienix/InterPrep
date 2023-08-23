@@ -1,5 +1,6 @@
 package com.twain.interprep.di
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.twain.interprep.data.db.DBManager
@@ -18,6 +19,7 @@ import com.twain.interprep.domain.repository.ResourceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -57,7 +59,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesDataStoreRepository(dataStore: DataStore<Preferences>) : DataStoreRepository {
-        return DataStoreRepositoryImpl(dataStore)
+    fun providesDataStoreRepository(
+        dataStore: DataStore<Preferences>,
+        @ApplicationContext context: Context
+    ): DataStoreRepository {
+        return DataStoreRepositoryImpl(dataStore, context)
     }
 }

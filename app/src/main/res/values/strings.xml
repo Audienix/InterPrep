@@ -155,12 +155,6 @@
     <string name="time_evening">Evening</string>
     <string name="hello">Hello</string>
 
-    <string-array name="interview_filter">
-        <item>Current</item>
-        <item>Future</item>
-        <item>Past</item>
-    </string-array>
-
     <string name="label_setting_name">Name</string>
     <string name="label_setting_language">Preferred Language</string>
     <string name="label_setting_theme">App Theme</string>
@@ -170,5 +164,30 @@
     <string name="label_setting_privacy_policy">Privacy Policy</string>
     <string name="label_setting_privacy_policy_description">Click to see our privacy policy</string>
     <string name="label_setting_app_version">App Version : </string>
+
+    <string-array name="interview_filter">
+        <item>Current</item>
+        <item>Future</item>
+        <item>Past</item>
+    </string-array>
+
+    <string-array name="language_option">
+        <item>English (US)</item>
+        <item>Español (Spanish)</item>
+        <item>简体中文 (Chinese, Simplified)</item>
+    </string-array>
+
+    <string-array name="theme_option">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System</item>
+    </string-array>
+
+    <string-array name="notification_reminder_option">
+        <item>15 minutes before</item>
+        <item>30 minutes before</item>
+        <item>1 hour before</item>
+        <item>No Reminder</item>
+    </string-array>
 
 </resources>
