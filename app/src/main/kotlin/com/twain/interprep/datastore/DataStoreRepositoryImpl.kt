@@ -3,6 +3,7 @@ package com.twain.interprep.datastore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.ProfileSettingsData.PreferenceItem
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,12 @@ class DataStoreRepositoryImpl(
             notificationReminder = preferences[PreferenceKeys.NOTIFICATION_REMINDER]
                 ?: context.resources.getStringArray(R.array.notification_reminder_option)[3]
         )
+    }
+
+    override suspend fun setUsername(username: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferenceKeys.USER_NAME] = username
+        }
     }
 
 }
