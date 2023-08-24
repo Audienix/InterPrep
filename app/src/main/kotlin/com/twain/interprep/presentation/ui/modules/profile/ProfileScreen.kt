@@ -60,7 +60,8 @@ fun ProfileScreen(
             ProfileTopBar(getNameInitials(input = viewModel.preferenceItem.userName)) {
                 navController.popBackStack()
             }
-        }
+        },
+        containerColor = MaterialColorPalette.surface
     ) { paddingValues ->
         val context = LocalContext.current
 

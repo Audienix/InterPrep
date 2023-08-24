@@ -72,6 +72,7 @@ fun DashboardScreen(
     interviewModel: InterviewViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
+        dashboardViewModel.getUsername()
         dashboardViewModel.getTodayInterviews()
         dashboardViewModel.getInterviews()
     }
@@ -80,16 +81,14 @@ fun DashboardScreen(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            //TODO Get the username from jetpack data store & todayInterviewCount from viewmodel
-            val username = "Arighna"
             if (dashboardViewModel.todayInterviewState is ViewResult.Loaded) {
                 val todayInterviewList =
                     (dashboardViewModel.todayInterviewState as ViewResult.Loaded<List<Interview>>).data
                 IPLargeAppBar(
-                    title = "${stringResource(R.string.hello)} $username",
+                    title = "${stringResource(R.string.hello)} ${dashboardViewModel.username}",
                     subtitle = "Good ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
-                    username = getNameInitials(username),
+                    username = getNameInitials(dashboardViewModel.username),
                     isInterviewDetailsVisible = true,
                     navController = navController,
                     onAvatarClick = {

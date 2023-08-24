@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {
 
-    fun getProfileSettings() : Flow<ProfileSettingsData.PreferenceItem>
+    suspend fun getProfileSettings() : Flow<ProfileSettingsData.PreferenceItem>
 
     suspend fun setUsername(username: String)
+
+    suspend fun getUsername() : Flow<String>
 }

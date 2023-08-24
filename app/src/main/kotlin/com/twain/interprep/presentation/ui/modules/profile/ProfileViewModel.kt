@@ -50,9 +50,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun setAction(action: ClickAction?, idValue: String?) {
+    fun setAction(action: ClickAction?, value: String?) {
         this.action = action
-        idValue?.let { currentPopupValue = it }
+        value?.let { currentPopupValue = it }
     }
 
     fun setName(name: String) {

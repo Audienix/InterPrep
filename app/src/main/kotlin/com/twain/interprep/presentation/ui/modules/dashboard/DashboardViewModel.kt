@@ -9,6 +9,7 @@ import com.twain.interprep.data.model.InterviewList
 import com.twain.interprep.data.model.InterviewListMetaData
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     contextProvider: CoroutineContextDispatcher,
     private val interviewUseCase: InterviewUseCase,
+    private val dataStoreUseCase: DataStoreUseCase
 ) : BaseViewModel(contextProvider) {
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -30,8 +32,15 @@ class DashboardViewModel @Inject constructor(
 
     var todayInterviewState: ViewResult<List<Interview>> by mutableStateOf(ViewResult.UnInitialized)
     val todayInterviews = mutableStateListOf<Interview>()
+    var username by mutableStateOf("")
 
     var isLoading by mutableStateOf(false)
+
+    fun getUsername() = launchCoroutineIO {
+        dataStoreUseCase.getUsernameUseCase().collect {
+            username = it
+        }
+    }
     fun getTodayInterviews() = launchCoroutineIO {
         isLoading = true
         interviewUseCase.getTodayInterviews().collect {list->

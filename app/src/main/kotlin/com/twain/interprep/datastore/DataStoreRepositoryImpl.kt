@@ -13,7 +13,7 @@ class DataStoreRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
     private val context: Context
 ) : DataStoreRepository {
-    override fun getProfileSettings(): Flow<PreferenceItem> = dataStore.data.map { preferences ->
+    override suspend fun getProfileSettings(): Flow<PreferenceItem> = dataStore.data.map { preferences ->
         PreferenceItem(
             userName = preferences[PreferenceKeys.USER_NAME] ?: "",
             preferredLanguage = preferences[PreferenceKeys.PREFERRED_LANGUAGE]
@@ -29,6 +29,10 @@ class DataStoreRepositoryImpl(
         dataStore.edit { preferences ->
             preferences[PreferenceKeys.USER_NAME] = username
         }
+    }
+
+    override suspend fun getUsername(): Flow<String> = dataStore.data.map {
+        it[PreferenceKeys.USER_NAME] ?: ""
     }
 
 }

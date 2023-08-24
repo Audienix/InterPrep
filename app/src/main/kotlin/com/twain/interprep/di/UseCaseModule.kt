@@ -3,6 +3,7 @@ package com.twain.interprep.di
 import com.twain.interprep.datastore.DataStoreRepository
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.datastore.usecase.GetProfileSettingsUseCase
+import com.twain.interprep.datastore.usecase.GetUsernameUseCase
 import com.twain.interprep.datastore.usecase.SetUsernameUseCase
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
@@ -120,7 +121,8 @@ class UseCaseModule {
     fun provideDataStoreUseCase(dataStoreRepository: DataStoreRepository): DataStoreUseCase {
         return DataStoreUseCase(
             getProfileSettingsUseCase = GetProfileSettingsUseCase(dataStoreRepository),
-            setUsernameUseCase = SetUsernameUseCase(dataStoreRepository)
+            setUsernameUseCase = SetUsernameUseCase(dataStoreRepository),
+            getUsernameUseCase = GetUsernameUseCase(dataStoreRepository)
         )
     }
 }

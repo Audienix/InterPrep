@@ -2,12 +2,8 @@ package com.twain.interprep.datastore.usecase
 
 import com.twain.interprep.datastore.DataStoreRepository
 
-class SetUsernameUseCase(
+class GetUsernameUseCase(
     private val dataStoreRepository: DataStoreRepository
 ) {
-    suspend operator fun invoke(
-        username: String
-    ) {
-        dataStoreRepository.setUsername(username)
-    }
+    suspend operator fun invoke() = dataStoreRepository.getUsername()
 }
