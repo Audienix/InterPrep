@@ -107,7 +107,7 @@ fun ProfileTopBar(
 fun ProfileColumn(
     modifier: Modifier,
     items: List<ProfileSettingsItemData>,
-    onItemClick: (ClickAction, String?) -> Unit
+    onItemClick: (ClickAction, String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -128,7 +128,7 @@ fun ProfileColumn(
 @Composable
 fun ProfileColumnItem(
     data: ProfileSettingsItemData,
-    onClick: (ClickAction, String?) -> Unit
+    onClick: (ClickAction, String) -> Unit
 ) {
     Column {
         Row(
@@ -149,13 +149,11 @@ fun ProfileColumnItem(
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialColorPalette.onSurface
                 )
-                if (data.label != null) {
-                    Text(
-                        text = data.label,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialColorPalette.onSurfaceVariant
-                    )
-                }
+                Text(
+                    text = data.label,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialColorPalette.onSurfaceVariant
+                )
             }
             IPIcon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
@@ -181,6 +179,7 @@ fun AppVersion() {
 @Composable
 fun HandleAction(action: ClickAction, viewModel: ProfileViewModel) {
     when (action) {
+        ClickAction.NONE -> {}
         ClickAction.NAME -> HandleNameClick(viewModel)
         ClickAction.PREFERRED_LANGUAGE -> TODO()
         ClickAction.APP_THEME -> TODO()
@@ -201,7 +200,7 @@ fun HandleNameClick(viewModel: ProfileViewModel) {
         textInputAttributes = TextInputAttributes(
             labelTextId = R.string.label_setting_name
         ),
-        onCancelClick =  { viewModel.setAction(null, "")},
+        onCancelClick =  { viewModel.setAction(ClickAction.NONE, "")},
         onConfirmClick = { viewModel.setName(viewModel.currentPopupValue) }
     )
 }

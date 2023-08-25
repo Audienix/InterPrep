@@ -23,6 +23,7 @@ object ProfileSettingsData {
     )
 
     enum class ClickAction {
+        NONE,
         NAME,
         PREFERRED_LANGUAGE,
         APP_THEME,
