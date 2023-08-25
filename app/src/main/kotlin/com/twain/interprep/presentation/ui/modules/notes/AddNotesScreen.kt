@@ -126,12 +126,17 @@ fun AddNotesScreen(
                                 .align(Alignment.Start)
                         )
                     } else {
-                        FullScreenEmptyState(
-                            modifier = Modifier.fillMaxHeight(),
-                            R.drawable.empty_state_notes,
-                            stringResource(id = R.string.empty_state_title_note),
-                            stringResource(id = R.string.empty_state_description_note)
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            FullScreenEmptyState(
+                                modifier = Modifier.fillMaxHeight(),
+                                R.drawable.empty_state_notes,
+                                stringResource(id = R.string.empty_state_title_note),
+                                stringResource(id = R.string.empty_state_description_note)
+                            )
+                        }
                     }
                     Column(
                         modifier = Modifier
