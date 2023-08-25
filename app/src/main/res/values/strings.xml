@@ -164,7 +164,9 @@
     <string name="label_setting_privacy_policy">Privacy Policy</string>
     <string name="label_setting_privacy_policy_description">Click to see our privacy policy</string>
     <string name="label_setting_app_version">App Version : </string>
-    <string name="name">Name</string>
+
+    <string name="button_cancel">Cancel</string>
+    <string name="button_confirm">OK</string>
 
     <string-array name="interview_filter">
         <item>Current</item>

@@ -1,11 +1,9 @@
 package com.twain.interprep.presentation.ui.modules.profile
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,14 +14,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -41,9 +35,8 @@ import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
-import com.twain.interprep.presentation.ui.components.generic.IPTextInput
+import com.twain.interprep.presentation.ui.components.generic.IPTextInputDialog
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
-import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.utils.getNameInitials
 
 @Composable
@@ -200,63 +193,16 @@ fun HandleAction(action: ClickAction, viewModel: ProfileViewModel) {
 @Composable
 fun HandleNameClick(viewModel: ProfileViewModel) {
     IPTextInputDialog(
-        titleRes = R.string.name,
+        titleRes = R.string.label_setting_name,
+        cancelButtonRes = R.string.button_cancel,
+        confirmButtonRes = R.string.button_confirm,
         inputText = viewModel.currentPopupValue,
         onTextUpdate = { viewModel.currentPopupValue = it  },
         textInputAttributes = TextInputAttributes(
-            labelTextId = R.string.name
+            labelTextId = R.string.label_setting_name
         ),
         onCancelClick =  { viewModel.setAction(null, "")},
         onConfirmClick = { viewModel.setName(viewModel.currentPopupValue) }
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun IPTextInputDialog(
-    @StringRes titleRes: Int,
-    inputText: String,
-    onTextUpdate: (String) -> Unit,
-    textInputAttributes: TextInputAttributes,
-    onCancelClick: () -> Unit,
-    onConfirmClick: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = {}) {
-        Surface(
-            shape = Shapes.extraLarge,
-            color = MaterialColorPalette.surfaceContainerHigh,
-            tonalElevation = dimensionResource(id = R.dimen.dimension_6dp),
-        ) {
-            Column(
-                modifier = Modifier.padding(
-                    PaddingValues(all = dimensionResource(
-                    id = R.dimen.dimension_24dp))
-                )
-            ) {
-                Text(
-                    text = stringResource(id = titleRes),
-                    color = MaterialColorPalette.onSurface,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_16dp)))
-                IPTextInput(
-                    inputText = inputText,
-                    textInputAttributes = textInputAttributes,
-                    onTextUpdate = onTextUpdate
-                )
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_20dp)))
-                Row(
-                ) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    TextButton(onClick = onCancelClick) {
-                        Text(text = "Cancel")
-                    }
-                    TextButton(onClick = onConfirmClick) {
-                        Text(text = "Ok")
-                    }
-                }
-            }
-        }
-    }
-}
