@@ -42,10 +42,7 @@ fun IPDescriptionRow(
             Column(
                 modifier = modifier
                     .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(
-                    dimensionResource(R.dimen.dimension_8dp),
-                    Alignment.Top
-                ),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_8dp)),
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(

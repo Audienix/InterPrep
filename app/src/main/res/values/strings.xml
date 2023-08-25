@@ -164,6 +164,7 @@
     <string name="label_setting_privacy_policy">Privacy Policy</string>
     <string name="label_setting_privacy_policy_description">Click to see our privacy policy</string>
     <string name="label_setting_app_version">App Version : </string>
+    <string name="label_interview_segment_1">1</string>
 
     <string name="button_cancel">Cancel</string>
     <string name="button_confirm">OK</string>

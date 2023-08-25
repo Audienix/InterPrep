@@ -3,6 +3,7 @@ package com.twain.interprep.presentation.ui.modules.introduction
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,59 +32,62 @@ import com.twain.interprep.presentation.ui.theme.SetStatusBarColor
 fun IntroScreen(onGetStartedClicked: () -> Unit) {
     InterPrepTheme {
         SetStatusBarColor(statusBarColor = MaterialColorPalette.surface)
-        Column(
+        Box(
             modifier = Modifier
-                .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp))
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
+                .fillMaxSize()
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.dimension_16dp),
+                    vertical = dimensionResource(id = R.dimen.dimension_24dp)
+                )
         ) {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_16dp)))
-            Image(
-                painter = painterResource(id = R.drawable.ic_intro),
-                contentDescription = "Intro Screen Image"
-            )
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
-            IPHeader(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.app_name),
-                textStyle = typography.headlineMedium,
-                alignTextToCenter = true
-            )
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_8dp)))
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
-                verticalArrangement = Arrangement.spacedBy(
-                    dimensionResource(R.dimen.dimension_16dp),
-                    Alignment.Top
-                ),
-                horizontalAlignment = Alignment.Start
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_24dp))
             ) {
-                IPDescriptionRow(
-                    title = stringResource(id = R.string.intro_dashboard_title),
-                    body = stringResource(id = R.string.intro_dashboard_description),
-                    icon = R.drawable.ic_dashboard_24,
-                    contentDescription = "dashboard_icon"
+                Image(
+                    painter = painterResource(id = R.drawable.ic_intro),
+                    contentDescription = "Intro Screen Image"
                 )
-                IPDescriptionRow(
-                    title = stringResource(id = R.string.intro_note_title),
-                    body = stringResource(id = R.string.intro_note_description),
-                    icon = R.drawable.ic_note_24,
-                    contentDescription = "note_icon"
+                IPHeader(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.app_name),
+                    textStyle = typography.headlineMedium,
+                    alignTextToCenter = true
                 )
-                IPDescriptionRow(
-                    title = stringResource(id = R.string.intro_resource_title),
-                    body = stringResource(id = R.string.intro_resource_description),
-                    icon = R.drawable.ic_resource_24,
-                    contentDescription = "resource_icon"
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dimension_24dp)),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    IPDescriptionRow(
+                        title = stringResource(id = R.string.intro_dashboard_title),
+                        body = stringResource(id = R.string.intro_dashboard_description),
+                        icon = R.drawable.ic_dashboard_24,
+                        contentDescription = "dashboard_icon"
+                    )
+                    IPDescriptionRow(
+                        title = stringResource(id = R.string.intro_note_title),
+                        body = stringResource(id = R.string.intro_note_description),
+                        icon = R.drawable.ic_note_24,
+                        contentDescription = "note_icon"
+                    )
+                    IPDescriptionRow(
+                        title = stringResource(id = R.string.intro_resource_title),
+                        body = stringResource(id = R.string.intro_resource_description),
+                        icon = R.drawable.ic_resource_24,
+                        contentDescription = "resource_icon"
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dimension_16dp)))
             IPFilledButton(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
                     .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
                 text = stringResource(id = R.string.button_get_started),
                 textStyle = typography.bodyLarge,

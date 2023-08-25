@@ -11,15 +11,15 @@ object ProfileSettingsData {
         val imageVector: ImageVector? = null,
         @DrawableRes val imageRes: Int? = null,
         @StringRes val title: Int,
-        val label: String? = null,
+        val label: String,
         val clickAction: ClickAction
     )
 
     data class PreferenceItem(
-        val userName: String,
-        val preferredLanguage: String,
-        val appTheme: String,
-        val notificationReminder: String
+        val userName: String = "",
+        val preferredLanguage: String = "",
+        val appTheme: String = "",
+        val notificationReminder: String = ""
     )
 
     enum class ClickAction {
