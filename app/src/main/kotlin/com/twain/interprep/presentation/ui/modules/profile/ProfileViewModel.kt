@@ -30,6 +30,11 @@ class ProfileViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
+    var action: ClickAction? by mutableStateOf(null)
+        private set
+
+    var currentPopupValue by mutableStateOf("")
+
     var preferenceItem by mutableStateOf(
         PreferenceItem(
             userName = "",
@@ -45,14 +50,19 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun handleAction(action: ClickAction) {
-        when (action) {
-            ClickAction.NAME -> TODO()
-            ClickAction.PREFERRED_LANGUAGE -> TODO()
-            ClickAction.APP_THEME -> TODO()
-            ClickAction.NOTIFICATION_REMINDER -> TODO()
-            ClickAction.RATING_FEEDBACK -> TODO()
-            ClickAction.PRIVACY_POLICY -> TODO()
+    fun setAction(action: ClickAction?, value: String?) {
+        this.action = action
+        value?.let { currentPopupValue = it }
+    }
+
+    fun setName(name: String) {
+        preferenceItem = preferenceItem.copy(
+            userName = name
+        )
+        action = null
+
+        launchCoroutineIO {
+            dataStoreUseCase.setUsernameUseCase(name)
         }
     }
 

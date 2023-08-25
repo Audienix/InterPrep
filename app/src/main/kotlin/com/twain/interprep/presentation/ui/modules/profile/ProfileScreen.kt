@@ -31,9 +31,11 @@ import com.twain.interprep.BuildConfig
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.ProfileSettingsData.ClickAction
 import com.twain.interprep.data.ui.ProfileSettingsData.ProfileSettingsItemData
+import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
+import com.twain.interprep.presentation.ui.components.generic.IPTextInputDialog
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.getNameInitials
 
@@ -51,13 +53,19 @@ fun ProfileScreen(
             ProfileTopBar(getNameInitials(input = viewModel.preferenceItem.userName)) {
                 navController.popBackStack()
             }
-        }
+        },
+        containerColor = MaterialColorPalette.surface
     ) { paddingValues ->
         val context = LocalContext.current
+
+        viewModel.action?.let {
+            HandleAction(action = it, viewModel = viewModel)
+        }
+
         ProfileColumn(
             modifier = Modifier.padding(paddingValues),
             items = viewModel.getProfileSettingsItemDataList(context),
-            onItemClick = viewModel::handleAction
+            onItemClick = viewModel::setAction
         )
     }
 }
@@ -99,7 +107,7 @@ fun ProfileTopBar(
 fun ProfileColumn(
     modifier: Modifier,
     items: List<ProfileSettingsItemData>,
-    onItemClick: (ClickAction) -> Unit
+    onItemClick: (ClickAction, String?) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -120,7 +128,7 @@ fun ProfileColumn(
 @Composable
 fun ProfileColumnItem(
     data: ProfileSettingsItemData,
-    onClick: (ClickAction) -> Unit
+    onClick: (ClickAction, String?) -> Unit
 ) {
     Column {
         Row(
@@ -152,7 +160,7 @@ fun ProfileColumnItem(
             IPIcon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 tint = MaterialColorPalette.onSurfaceVariant
-            ) { onClick(data.clickAction) }
+            ) { onClick(data.clickAction, data.label) }
         }
         HorizontalDivider()
     }
@@ -169,3 +177,32 @@ fun AppVersion() {
         )
     }
 }
+
+@Composable
+fun HandleAction(action: ClickAction, viewModel: ProfileViewModel) {
+    when (action) {
+        ClickAction.NAME -> HandleNameClick(viewModel)
+        ClickAction.PREFERRED_LANGUAGE -> TODO()
+        ClickAction.APP_THEME -> TODO()
+        ClickAction.NOTIFICATION_REMINDER -> TODO()
+        ClickAction.RATING_FEEDBACK -> TODO()
+        ClickAction.PRIVACY_POLICY -> TODO()
+    }
+}
+
+@Composable
+fun HandleNameClick(viewModel: ProfileViewModel) {
+    IPTextInputDialog(
+        titleRes = R.string.label_setting_name,
+        cancelButtonRes = R.string.button_cancel,
+        confirmButtonRes = R.string.button_confirm,
+        inputText = viewModel.currentPopupValue,
+        onTextUpdate = { viewModel.currentPopupValue = it  },
+        textInputAttributes = TextInputAttributes(
+            labelTextId = R.string.label_setting_name
+        ),
+        onCancelClick =  { viewModel.setAction(null, "")},
+        onConfirmClick = { viewModel.setName(viewModel.currentPopupValue) }
+    )
+}
+
