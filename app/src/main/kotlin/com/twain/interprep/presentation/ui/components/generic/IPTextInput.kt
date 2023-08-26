@@ -36,6 +36,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.twain.interprep.R
+import com.twain.interprep.data.ui.InterviewFormData.getInterviewRoleList
+import com.twain.interprep.data.ui.InterviewFormData.getInterviewTypeList
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.data.ui.ValidationType
@@ -89,10 +91,14 @@ fun IPTextInput(
             isError = !isValidTextInput(false, it, textInputAttributes)
         },
         interactionSource = source,
-        singleLine = true,
+        singleLine = textInputAttributes.singleLine,
         label = { Text(text = label) },
         isError = isError,
-        keyboardOptions = KeyboardOptions(keyboardType = textInputAttributes.keyboardType),
+        keyboardActions = textInputAttributes.keyboardActions,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = textInputAttributes.keyboardType,
+            imeAction = textInputAttributes.imeAction
+        ),
         supportingText = {
             if (isError) {
                 Text(
@@ -168,15 +174,10 @@ private fun HandleComponentInteraction(
             TextInputType.DROPDOWN -> {
                 var dropdownOptions = emptyList<String>()
                 if (textInputAttributes.labelTextId == R.string.hint_label_interview_type)
-                    dropdownOptions =
-                        listOf("Recruiter", "Hiring Manager", "Technical", "Behavioral")
+                    dropdownOptions = getInterviewTypeList()
+
                 else if (textInputAttributes.labelTextId == R.string.hint_label_role)
-                    dropdownOptions = listOf(
-                        "Software Engineer",
-                        "Sr. Software Engineer",
-                        "Staff Engineer",
-                        "Engineering Manager"
-                    )
+                    dropdownOptions = getInterviewRoleList()
 
                 IPDropdownMenu(
                     modifier = modifier.fillMaxWidth(),
@@ -185,7 +186,6 @@ private fun HandleComponentInteraction(
                     onDropdownDismiss = { onTextUpdate(it) }
                 )
             }
-
             else -> {}
         }
     }

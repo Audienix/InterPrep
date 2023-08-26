@@ -38,8 +38,8 @@ fun AddNoteCard(
     deleteQuestion: (Int) -> Unit,
     shouldValidate: Boolean
 ) {
-    val showDeleteDialog = remember { mutableStateOf(false) }
-    ShowDeleteConfirmationDialog(showDeleteDialog, deleteNote)
+    val showDeleteAlert = remember { mutableStateOf(false) }
+    ShowDeleteConfirmationDialog(showDeleteAlert, deleteNote)
     Card(
         border = BorderStroke(
             dimensionResource(id = R.dimen.dimension_stroke_width_low),

@@ -21,7 +21,7 @@ class DataStoreRepositoryImpl(
             appTheme = preferences[PreferenceKeys.APP_THEME]
                 ?: context.resources.getStringArray(R.array.theme_option)[2],
             notificationReminder = preferences[PreferenceKeys.NOTIFICATION_REMINDER]
-                ?: context.resources.getStringArray(R.array.notification_reminder_option)[3]
+                ?: context.resources.getStringArray(R.array.notification_reminder_option)[2]
         )
     }
 

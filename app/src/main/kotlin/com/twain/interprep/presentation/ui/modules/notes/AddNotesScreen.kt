@@ -126,12 +126,17 @@ fun AddNotesScreen(
                                 .align(Alignment.Start)
                         )
                     } else {
-                        FullScreenEmptyState(
-                            modifier = Modifier.fillMaxHeight(),
-                            R.drawable.empty_state_notes,
-                            stringResource(id = R.string.empty_state_title_note),
-                            stringResource(id = R.string.empty_state_description_note)
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            FullScreenEmptyState(
+                                modifier = Modifier.fillMaxHeight(),
+                                R.drawable.empty_state_notes,
+                                stringResource(id = R.string.empty_state_title_note),
+                                stringResource(id = R.string.empty_state_description_note)
+                            )
+                        }
                     }
                     Column(
                         modifier = Modifier
@@ -184,18 +189,15 @@ fun AddNotesScreen(
 }
 
 @Composable
-private fun ShowDeleteNoteButton(
-    isEdit: Boolean,
-    note: Note,
-    viewModel: NotesViewModel = hiltViewModel()
-) {
+private fun ShowDeleteNoteButton(isEdit: Boolean, note: Note) {
+    val showDeleteNoteAlert = remember { mutableStateOf(false) }
+    ShowDeleteConfirmationDialog(showDeleteDialog = showDeleteNoteAlert, note = note)
     if (isEdit) {
         Row(
             modifier = Modifier.padding(
                 horizontal = dimensionResource(id = R.dimen.dimension_16dp)
             )
         ) {
-
             IPFilledButton(
                 backgroundColor = MaterialColorPalette.primaryContainer,
                 text = stringResource(id = R.string.button_delete_note),
@@ -204,7 +206,7 @@ private fun ShowDeleteNoteButton(
                 iconColor = MaterialColorPalette.onPrimaryContainer,
                 leadingIcon = R.drawable.ic_outline_add_circle_24,
                 contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
-                onClick = { viewModel.deleteNote(note = note) })
+                onClick = { showDeleteNoteAlert.value = true })
         }
 
     }
@@ -269,5 +271,28 @@ private fun ShowBackConfirmationDialog(
                 shouldShowAlert.value = false
                 shouldValidateFormFields.value = true
             })
+    }
+}
+
+@Composable
+private fun ShowDeleteConfirmationDialog(
+    showDeleteDialog: MutableState<Boolean>,
+    note: Note,
+    viewModel: NotesViewModel = hiltViewModel()
+) {
+    if (showDeleteDialog.value) {
+        IPAlertDialog(
+            titleResId = R.string.alert_dialog_delete_note_title,
+            contentResId = R.string.alert_dialog_delete_note_text,
+            // "OK" is clicked
+            onPositiveButtonClick = {
+                viewModel.deleteNote(note = note)
+                showDeleteDialog.value = false
+            },
+            // "CANCEL" is clicked
+            onNegativeButtonClick = {
+                showDeleteDialog.value = false
+            },
+        )
     }
 }

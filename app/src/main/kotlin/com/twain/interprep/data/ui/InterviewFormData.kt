@@ -2,6 +2,8 @@ package com.twain.interprep.data.ui
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
@@ -30,6 +32,7 @@ object InterviewFormData {
             labelTextId = R.string.hint_label_company,
             errorTextId = R.string.error_message_form_input_company,
             inputType = TextInputType.TEXT,
+            imeAction = ImeAction.Next,
             validationType = ValidationType.REQUIRED
         ),
         TextInputAttributes(
@@ -37,6 +40,7 @@ object InterviewFormData {
             inputType = TextInputType.TEXT,
             errorTextId = R.string.error_message_invalid_url,
             keyboardType = KeyboardType.Uri,
+            imeAction = ImeAction.Next,
             validationType = ValidationType.URL,
         ),
         TextInputAttributes(
@@ -44,25 +48,30 @@ object InterviewFormData {
             inputType = TextInputType.TEXT,
             keyboardType = KeyboardType.Number,
             errorTextId = R.string.error_message_invalid_number,
+            imeAction = ImeAction.Next,
             validationType = ValidationType.NUMBER
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_interview_type,
-            inputType = TextInputType.DROPDOWN
+            inputType = TextInputType.DROPDOWN,
+            imeAction = ImeAction.Next
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_interviewer,
+            imeAction = ImeAction.Next,
             inputType = TextInputType.TEXT
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_role,
-            inputType = TextInputType.DROPDOWN
+            inputType = TextInputType.DROPDOWN,
+            imeAction = ImeAction.Next,
         ),
         TextInputAttributes(
             labelTextId = R.string.hint_label_job_post_link,
             errorTextId = R.string.error_message_invalid_url,
             inputType = TextInputType.TEXT,
             keyboardType = KeyboardType.Uri,
+            imeAction = ImeAction.Next,
             validationType = ValidationType.URL
         ),
         TextInputAttributes(
@@ -70,6 +79,7 @@ object InterviewFormData {
             inputType = TextInputType.TEXT,
             errorTextId = R.string.error_message_invalid_url,
             keyboardType = KeyboardType.Uri,
+            imeAction = ImeAction.Done,
             validationType = ValidationType.URL
         )
     )
@@ -94,7 +104,8 @@ object InterviewFormData {
             ),
 
             TextLabelData(
-                R.string.hint_label_round_count, "${interview.roundNum} - ${interview.interviewType}"
+                R.string.hint_label_round_count,
+                "${interview.roundNum} - ${interview.interviewType}"
             ),
             TextLabelData(
                 R.string.hint_label_interviewer, interview.interviewer
@@ -115,14 +126,47 @@ object InterviewFormData {
             )
         )
     }
+
+    fun getInterviewTypeList(): List<String> =
+        listOf(
+            "Recruiter",
+            "Hiring Manager",
+            "Technical",
+            "Coding Interview",
+            "System Design",
+            "Architecture & Design",
+            "Pair Programming"
+        )
+
+    fun getInterviewRoleList(): List<String> = listOf(
+        "Software Engineer",
+        "Sr. Software Engineer",
+        "Staff Engineer",
+        "Engineering Manager",
+        "Backend Developer",
+        "Full Stack Developer",
+        "Mobile App Developer",
+        "Web Developer",
+        "DevOps Engineer",
+        "Data Scientist",
+        "Machine Learning Engineer",
+        "AI Developer",
+        "Game Developer",
+        "UI / UX Designer",
+        "Quality Assurance Engineer",
+        "Systems Analyst"
+    )
 }
 
 data class TextInputAttributes(
     @StringRes val labelTextId: Int,
     @StringRes val bottomTextId: Int? = null,
     @StringRes val errorTextId: Int? = null,
+    val singleLine: Boolean = false,
     val inputType: TextInputType = TextInputType.TEXT,
+    val imeAction: ImeAction = ImeAction.Default,
     val keyboardType: KeyboardType = KeyboardType.Text,
+    val keyboardActions: KeyboardActions = KeyboardActions.Default,
     val validationType: ValidationType = ValidationType.NONE
 )
 

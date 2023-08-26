@@ -106,8 +106,8 @@ fun AddInterviewScreen(
         },
         content = { padding ->
             ShowBackConfirmationDialog(showBackConfirmationAlert, navController, isBackPressed)
-            ShowDeleteConfirmationDialog(showDeleteDialog, navController, viewModel)
-            ShowAddInterviewScreenContent(padding, isEditInterview, viewModel, isBackPressed)
+            ShowDeleteConfirmationDialog(showDeleteDialog, navController)
+            ShowAddInterviewScreenContent(padding, isEditInterview, isBackPressed)
             // In Android 13+ , we require user consent for posting notification.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 CheckRuntimePermission(
@@ -159,8 +159,8 @@ private fun handleBackPress(
 private fun ShowAddInterviewScreenContent(
     padding: PaddingValues,
     isEditInterview: Boolean,
-    viewModel: InterviewViewModel,
-    isBackPressed: MutableState<Boolean>
+    isBackPressed: MutableState<Boolean>,
+    viewModel: InterviewViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -385,7 +385,7 @@ private fun CompanySectionHeader() {
 private fun ShowDeleteConfirmationDialog(
     showDeleteDialog: MutableState<Boolean>,
     navController: NavHostController,
-    viewModel: InterviewViewModel
+    viewModel: InterviewViewModel = hiltViewModel()
 ) {
     if (showDeleteDialog.value) {
         IPAlertDialog(

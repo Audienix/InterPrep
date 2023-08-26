@@ -21,11 +21,11 @@ fun getTimeOfDayGreeting(): String {
 
 @Composable
 fun getNameInitials(input: String): String {
-    val words = input.trim().split(" ")
+    val words = input.trim().split(" ").filter { it.isNotEmpty() }
     return when (words.size) {
         0 -> ""
         1 -> words[0].take(2).uppercase()
-        else -> "${words[0].first()}${words[1].first()}".uppercase()
+        else -> "${words[0].first()}${words.last().first()}".uppercase()
     }
 }
 

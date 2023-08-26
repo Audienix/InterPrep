@@ -35,14 +35,7 @@ class ProfileViewModel @Inject constructor(
 
     var currentPopupValue by mutableStateOf("")
 
-    var preferenceItem by mutableStateOf(
-        PreferenceItem(
-            userName = "",
-            preferredLanguage = "",
-            appTheme = "",
-            notificationReminder = ""
-        )
-    )
+    var preferenceItem by mutableStateOf(PreferenceItem())
 
     fun setProfileSettings() = launchCoroutineIO {
         dataStoreUseCase.getProfileSettingsUseCase().collect {
@@ -50,9 +43,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun setAction(action: ClickAction?, value: String?) {
+    fun setAction(action: ClickAction, value: String) {
         this.action = action
-        value?.let { currentPopupValue = it }
+        value.let { currentPopupValue = it }
     }
 
     fun setName(name: String) {
