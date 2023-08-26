@@ -147,7 +147,7 @@ private fun ShowResourcesScreenContent(
             if (resourceAndLinks.isEmpty()) {
                 FullScreenEmptyState(
                     Modifier,
-                    R.drawable.empty_state_resource,
+                    R.drawable.ic_empty_resources,
                     stringResource(id = R.string.empty_state_title_resource),
                     stringResource(id = R.string.empty_state_description_resource)
                 )

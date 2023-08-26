@@ -197,7 +197,7 @@ private fun ShowEmptyState(
     ) {
         FullScreenEmptyState(
             Modifier,
-            R.drawable.empty_state_dashboard,
+            R.drawable.ic_empty_dashboard,
             title, description
         )
     }

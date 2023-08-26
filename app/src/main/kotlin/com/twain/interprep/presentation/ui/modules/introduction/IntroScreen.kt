@@ -5,11 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.typography
@@ -47,15 +50,26 @@ fun IntroScreen(onGetStartedClicked: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_24dp))
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_intro),
+                    painter = painterResource(id = R.drawable.ic_welcome),
                     contentDescription = "Intro Screen Image"
                 )
-                IPHeader(
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.app_name),
-                    textStyle = typography.headlineMedium,
-                    alignTextToCenter = true
-                )
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.dimension_icon_size_48)),
+                        painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                        contentDescription = stringResource(id = R.string.app_name),
+                    )
+                    IPHeader(
+                        modifier = Modifier.wrapContentWidth(),
+                        text = stringResource(id = R.string.app_name),
+                        textStyle = typography.headlineMedium,
+                        alignTextToCenter = true
+                    )
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()

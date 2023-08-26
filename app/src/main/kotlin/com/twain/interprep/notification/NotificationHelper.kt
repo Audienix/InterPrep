@@ -33,7 +33,7 @@ class NotificationHelper(val context: Context) {
         )
         val notification = NotificationCompat.Builder(context, ipNotificationChannel)
             .setSmallIcon(R.drawable.ic_app_notification)
-            .setColor(context.resources.getColor(R.color.primary,null))
+            .setColor(context.resources.getColor(R.color.m3_primary,null))
 //            .setLargeIcon(icon)
             .setContentTitle(title)
             .setContentText(message)
