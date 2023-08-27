@@ -78,8 +78,7 @@ fun DashboardScreen(
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             if (dashboardViewModel.todayInterviewState is ViewResult.Loaded) {
                 val todayInterviewList =
@@ -173,8 +172,10 @@ private fun ShowDashboardScreenContent(
                     val textPair = getInterviewEmptyStateTextPair(interviewType)
                     ShowEmptyState(
                         modifier = Modifier.padding(
-                            bottom = dimensionResource(id = R.dimen.dimension_24dp)),
-                        textPair.first, textPair.second)
+                            bottom = dimensionResource(id = R.dimen.dimension_24dp)
+                        ),
+                        textPair.first, textPair.second
+                    )
                 }
 
             }
@@ -190,7 +191,8 @@ private fun ShowDashboardScreenContent(
 private fun ShowEmptyState(
     modifier: Modifier = Modifier,
     title: String,
-    description: String) {
+    description: String
+) {
     Column(
         modifier = modifier
             .fillMaxSize()

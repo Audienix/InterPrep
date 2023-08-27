@@ -1,8 +1,11 @@
 package com.twain.interprep.presentation.navigation
 
 sealed class AppScreens(val route: String) {
-    //Route for Intro Screen
-    object IntroScreen : AppScreens("introduction_screen")
+    //Route for Onboarding Screens
+    object OnboardingScreens : AppScreens("onboarding"){
+        object Introduction: AppScreens("introduction_screen")
+        object Greetings : AppScreens("greetings_screen")
+    }
 
     // Nested Route for Main Application Screens (Dashboard, Notes, Resources)
     object MainScreens : AppScreens("main") {
@@ -12,13 +15,10 @@ sealed class AppScreens(val route: String) {
 
         object Notes : AppScreens("notes_screen")
         object AddNotes : AppScreens("add_notes_screen")
-
         object ViewNotes : AppScreens("view_notes_screen")
-
         object ViewMoreQuestions : AppScreens("view_more_questions")
 
         object Resources : AppScreens("resources_screen")
-
         object AddResource : AppScreens("add_resource_screen")
 
         object Profile : AppScreens("profile")
