@@ -37,7 +37,7 @@ class DashboardViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
 
     fun getUsername() = launchCoroutineIO {
-        dataStoreUseCase.getUsernameUseCase().collect {
+        dataStoreUseCase.usernameUseCase.getUsername().collect {
             username = it
         }
     }

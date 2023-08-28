@@ -23,7 +23,7 @@ object ContextModule {
 
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("missing_seven", Context.MODE_PRIVATE)
+        return context.getSharedPreferences("interprep_shared_pref", Context.MODE_PRIVATE)
     }
 
     @Provides

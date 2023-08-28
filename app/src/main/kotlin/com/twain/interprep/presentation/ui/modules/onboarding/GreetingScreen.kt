@@ -15,14 +15,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
+import com.twain.interprep.data.ui.TextInputType
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
@@ -31,21 +41,29 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.SetStatusBarColor
 
 @Composable
-fun GreetingScreen(onGetStartedClicked: () -> Unit) {
+fun GreetingScreen(
+    navController: NavHostController
+) {
     InterPrepTheme {
         SetStatusBarColor(statusBarColor = MaterialColorPalette.surface)
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             containerColor = MaterialColorPalette.surface,
             content = { padding ->
-                GreetingScreenContent(padding, onGetStartedClicked)
+                GreetingScreenContent(padding, navController)
             }
         )
     }
 }
 
 @Composable
-private fun GreetingScreenContent(padding: PaddingValues, onGetStartedClicked: () -> Unit) {
+private fun GreetingScreenContent(
+    padding: PaddingValues,
+    navController: NavHostController,
+    onboardingViewModel: OnboardingViewModel = hiltViewModel(),
+) {
+    var username by rememberSaveable { mutableStateOf("") }
+    var language by rememberSaveable { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -83,17 +101,31 @@ private fun GreetingScreenContent(padding: PaddingValues, onGetStartedClicked: (
                     modifier = Modifier
                         .fillMaxWidth(),
                     textInputAttributes =
-                    TextInputAttributes(labelTextId = R.string.label_setting_name),
-                    inputText = "",
-                    onTextUpdate = {}
+                    TextInputAttributes(
+                        labelTextId = R.string.label_setting_name,
+                        inputType = TextInputType.TEXT,
+                        imeAction = ImeAction.Done,
+                        singleLine = true
+                    ),
+                    inputText = username,
+                    onTextUpdate = { text ->
+                        username = text
+                    }
                 )
                 IPTextInput(
                     modifier = Modifier
                         .fillMaxWidth(),
                     textInputAttributes =
-                    TextInputAttributes(labelTextId = R.string.label_setting_language),
-                    inputText = "",
-                    onTextUpdate = {}
+                    TextInputAttributes(
+                        labelTextId = R.string.label_setting_language,
+                        inputType = TextInputType.DROPDOWN,
+                        imeAction = ImeAction.Done,
+                        singleLine = true
+                    ),
+                    inputText = language,
+                    onTextUpdate = {text->
+                        language = text
+                    }
                 )
             }
         }
@@ -104,7 +136,15 @@ private fun GreetingScreenContent(padding: PaddingValues, onGetStartedClicked: (
                 .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
             text = stringResource(id = R.string.button_next),
             textStyle = typography.bodyLarge,
-            onClick = onGetStartedClicked
+            onClick = {
+                onboardingViewModel.setUsername(username)
+                onboardingViewModel.setLanguage(language)
+                onboardingViewModel.setOnboardingStatus(true)
+                // Open Dashboard, and remove the Intro Screen from Stack
+                navController.navigate(AppScreens.MainScreens.route) {
+                    popUpTo(AppScreens.OnboardingScreens.Greetings.route) { inclusive = true }
+                }
+            }
         )
     }
 }
@@ -113,7 +153,7 @@ private fun GreetingScreenContent(padding: PaddingValues, onGetStartedClicked: (
 @Composable
 fun GreetingScreenPreview() {
     InterPrepTheme {
-        GreetingScreen {}
+        GreetingScreen(navController = rememberNavController())
     }
 
 }

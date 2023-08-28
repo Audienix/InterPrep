@@ -58,6 +58,7 @@ import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
+import com.twain.interprep.utils.getFirstName
 import com.twain.interprep.utils.getInterviewCardColorPair
 import com.twain.interprep.utils.getInterviewEmptyStateTextPair
 import com.twain.interprep.utils.getNameInitials
@@ -84,7 +85,7 @@ fun DashboardScreen(
                 val todayInterviewList =
                     (dashboardViewModel.todayInterviewState as ViewResult.Loaded<List<Interview>>).data
                 IPLargeAppBar(
-                    title = "${stringResource(R.string.hello)} ${dashboardViewModel.username}",
+                    title = "${stringResource(R.string.hello)} ${getFirstName(input = dashboardViewModel.username)}",
                     subtitle = "Good ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),

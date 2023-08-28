@@ -32,6 +32,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
@@ -88,7 +89,8 @@ fun IPTextInput(
         value = displayedText,
         onValueChange = {
             onTextUpdate(it)
-            isError = !isValidTextInput(false, it, textInputAttributes)
+            if (textInputAttributes.validationType != ValidationType.NONE)
+                isError = !isValidTextInput(false, it, textInputAttributes)
         },
         interactionSource = source,
         singleLine = textInputAttributes.singleLine,
@@ -175,9 +177,11 @@ private fun HandleComponentInteraction(
                 var dropdownOptions = emptyList<String>()
                 if (textInputAttributes.labelTextId == R.string.hint_label_interview_type)
                     dropdownOptions = getInterviewTypeList()
-
                 else if (textInputAttributes.labelTextId == R.string.hint_label_role)
                     dropdownOptions = getInterviewRoleList()
+                else if (textInputAttributes.labelTextId == R.string.label_setting_language)
+                    dropdownOptions =
+                        stringArrayResource(id = R.array.language_option).toCollection(ArrayList())
 
                 IPDropdownMenu(
                     modifier = modifier.fillMaxWidth(),
@@ -186,6 +190,7 @@ private fun HandleComponentInteraction(
                     onDropdownDismiss = { onTextUpdate(it) }
                 )
             }
+
             else -> {}
         }
     }

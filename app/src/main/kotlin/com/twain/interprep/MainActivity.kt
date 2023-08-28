@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialColorPalette.surface
                 ) {
                     val navController = rememberNavController()
-                    OnboardingNavGraph(navController = navController, prefManager)
+                    OnboardingNavGraph(navController = navController)
                 }
             }
         }

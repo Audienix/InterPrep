@@ -55,7 +55,7 @@ class ProfileViewModel @Inject constructor(
         action = null
 
         launchCoroutineIO {
-            dataStoreUseCase.setUsernameUseCase(name)
+            dataStoreUseCase.usernameUseCase.setUsername(name)
         }
     }
 
