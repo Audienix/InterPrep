@@ -53,9 +53,10 @@ class DataStoreRepositoryImpl(
         it[PreferenceKeys.USER_NAME] ?: ""
     }
 
-    override suspend fun setLanguage(language: String) {
+    override suspend fun setLanguage(language: String, langCode: String) {
         dataStore.edit { preferences ->
             preferences[PreferenceKeys.PREFERRED_LANGUAGE] = language
+            preferences[PreferenceKeys.PREFERRED_LANGUAGE_CODE] = langCode
         }
     }
 

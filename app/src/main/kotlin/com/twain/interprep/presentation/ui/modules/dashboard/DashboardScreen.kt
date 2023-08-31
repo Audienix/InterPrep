@@ -86,7 +86,7 @@ fun DashboardScreen(
                     (dashboardViewModel.todayInterviewState as ViewResult.Loaded<List<Interview>>).data
                 IPLargeAppBar(
                     title = "${stringResource(R.string.hello)} ${getFirstName(input = dashboardViewModel.username)}",
-                    subtitle = "Good ${getTimeOfDayGreeting()}",
+                    subtitle = "${stringResource(R.string.good)} ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),
                     isInterviewDetailsVisible = true,

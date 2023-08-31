@@ -1,6 +1,7 @@
 package com.twain.interprep.presentation.ui.modules.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -25,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.BuildConfig
@@ -32,6 +35,8 @@ import com.twain.interprep.R
 import com.twain.interprep.data.ui.ProfileSettingsData.ClickAction
 import com.twain.interprep.data.ui.ProfileSettingsData.ProfileSettingsItemData
 import com.twain.interprep.data.ui.TextInputAttributes
+import com.twain.interprep.data.ui.TextInputType
+import com.twain.interprep.helper.LocalizationViewModel
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
@@ -132,7 +137,9 @@ fun ProfileColumnItem(
 ) {
     Column {
         Row(
-            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.dimension_8dp)),
+            modifier = Modifier
+                .padding(vertical = dimensionResource(id = R.dimen.dimension_8dp))
+                .clickable { onClick(data.clickAction, data.label) },
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_16dp))
         ) {
             IPAvatar(
@@ -155,10 +162,11 @@ fun ProfileColumnItem(
                     color = MaterialColorPalette.onSurfaceVariant
                 )
             }
-            IPIcon(
+            Icon(
                 imageVector = Icons.Filled.KeyboardArrowRight,
+                contentDescription = "",
                 tint = MaterialColorPalette.onSurfaceVariant
-            ) { onClick(data.clickAction, data.label) }
+            )
         }
         HorizontalDivider()
     }
@@ -180,8 +188,8 @@ fun AppVersion() {
 fun HandleAction(action: ClickAction, viewModel: ProfileViewModel) {
     when (action) {
         ClickAction.NONE -> {}
-        ClickAction.NAME -> HandleNameClick(viewModel)
-        ClickAction.PREFERRED_LANGUAGE -> TODO()
+        ClickAction.NAME -> HandleNameClick(viewModel = viewModel)
+        ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick(viewModel = viewModel)
         ClickAction.APP_THEME -> TODO()
         ClickAction.NOTIFICATION_REMINDER -> TODO()
         ClickAction.RATING_FEEDBACK -> TODO()
@@ -196,12 +204,38 @@ fun HandleNameClick(viewModel: ProfileViewModel) {
         cancelButtonRes = R.string.button_cancel,
         confirmButtonRes = R.string.button_confirm,
         inputText = viewModel.currentPopupValue,
-        onTextUpdate = { viewModel.currentPopupValue = it  },
+        onTextUpdate = { viewModel.currentPopupValue = it },
         textInputAttributes = TextInputAttributes(
             labelTextId = R.string.label_setting_name
         ),
-        onCancelClick =  { viewModel.setAction(ClickAction.NONE, "")},
+        onCancelClick = { viewModel.setAction(ClickAction.NONE, "") },
         onConfirmClick = { viewModel.setName(viewModel.currentPopupValue) }
     )
 }
 
+@Composable
+fun HandleLanguageClick(
+    viewModel: ProfileViewModel = hiltViewModel(),
+    localizationViewModel: LocalizationViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
+    IPTextInputDialog(
+        titleRes = R.string.label_setting_language,
+        cancelButtonRes = R.string.button_cancel,
+        confirmButtonRes = R.string.button_confirm,
+        inputText = viewModel.currentPopupValue,
+        onTextUpdate = { viewModel.currentPopupValue = it },
+        textInputAttributes = TextInputAttributes(
+            labelTextId = R.string.label_setting_language,
+            inputType = TextInputType.DROPDOWN,
+            imeAction = ImeAction.Done,
+            singleLine = true
+        ),
+        onCancelClick = { viewModel.setAction(ClickAction.NONE, "") },
+        onConfirmClick = {
+            val langCode = localizationViewModel.getLanguageCode(viewModel.currentPopupValue)
+            viewModel.setLanguage(viewModel.currentPopupValue, langCode)
+            localizationViewModel.setLocale(context, langCode, false)
+        }
+    )
+}

@@ -21,17 +21,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
+import com.twain.interprep.helper.LocalizationViewModel
+import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
@@ -42,7 +43,8 @@ import com.twain.interprep.presentation.ui.theme.SetStatusBarColor
 
 @Composable
 fun GreetingScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    prefManager: PrefManager
 ) {
     InterPrepTheme {
         SetStatusBarColor(statusBarColor = MaterialColorPalette.surface)
@@ -50,7 +52,11 @@ fun GreetingScreen(
             modifier = Modifier.fillMaxSize(),
             containerColor = MaterialColorPalette.surface,
             content = { padding ->
-                GreetingScreenContent(padding, navController)
+                GreetingScreenContent(
+                    padding = padding,
+                    navController = navController,
+                    prefManager = prefManager
+                )
             }
         )
     }
@@ -60,10 +66,13 @@ fun GreetingScreen(
 private fun GreetingScreenContent(
     padding: PaddingValues,
     navController: NavHostController,
-    onboardingViewModel: OnboardingViewModel = hiltViewModel(),
+    prefManager: PrefManager,
+    localizationViewModel: LocalizationViewModel = hiltViewModel(),
+    onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
     var username by rememberSaveable { mutableStateOf("") }
     var language by rememberSaveable { mutableStateOf("") }
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -123,7 +132,7 @@ private fun GreetingScreenContent(
                         singleLine = true
                     ),
                     inputText = language,
-                    onTextUpdate = {text->
+                    onTextUpdate = { text ->
                         language = text
                     }
                 )
@@ -137,23 +146,15 @@ private fun GreetingScreenContent(
             text = stringResource(id = R.string.button_next),
             textStyle = typography.bodyLarge,
             onClick = {
+                val langCode = localizationViewModel.getLanguageCode(language)
                 onboardingViewModel.setUsername(username)
-                onboardingViewModel.setLanguage(language)
-                onboardingViewModel.setOnboardingStatus(true)
-                // Open Dashboard, and remove the Intro Screen from Stack
+                onboardingViewModel.setLanguage(language, langCode)
+                prefManager.putBoolean(PrefManager.HAS_ONBOARDED, true)
+                localizationViewModel.setLocale(context, langCode, false)
                 navController.navigate(AppScreens.MainScreens.route) {
                     popUpTo(AppScreens.OnboardingScreens.Greetings.route) { inclusive = true }
                 }
             }
         )
     }
-}
-
-@Preview(showBackground = true, device = "id:pixel_5")
-@Composable
-fun GreetingScreenPreview() {
-    InterPrepTheme {
-        GreetingScreen(navController = rememberNavController())
-    }
-
 }

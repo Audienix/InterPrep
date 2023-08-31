@@ -9,6 +9,6 @@ interface DataStoreRepository {
     suspend fun getProfileSettings(): Flow<ProfileSettingsData.PreferenceItem>
     suspend fun setUsername(username: String)
     suspend fun getUsername(): Flow<String>
-    suspend fun setLanguage(language: String)
+    suspend fun setLanguage(language: String, langCode: String)
     suspend fun getLanguage(): Flow<String>
 }

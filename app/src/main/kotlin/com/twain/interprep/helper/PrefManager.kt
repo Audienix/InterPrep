@@ -17,12 +17,15 @@ class PrefManager @Inject constructor(
         editor.putInt(key, value).apply()
     }
 
-    fun register() {
-        preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->  }
+    fun getBoolean(pair: BooleanPair) = preferences.getBoolean(pair.key, pair.default)
+
+    fun putBoolean(key: String, value: Boolean){
+        editor.putBoolean(key, value).apply()
     }
 
     companion object {
         const val NUM_QUOTE_INSERTED = "NUM_QUOTE_INSERTED"
+        const val HAS_ONBOARDED = "HAS_ONBOARDED"
     }
 }
 
@@ -31,4 +34,10 @@ sealed class IntPair(
     val default: Int
 ) {
     object CurrentTotalQuoteCount: IntPair(PrefManager.NUM_QUOTE_INSERTED, 0)
+}
+sealed class BooleanPair(
+    val key: String,
+    val default: Boolean
+) {
+    object HasOnboarded: BooleanPair(PrefManager.HAS_ONBOARDED, false)
 }

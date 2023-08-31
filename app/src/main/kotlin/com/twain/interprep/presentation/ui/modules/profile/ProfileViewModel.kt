@@ -59,6 +59,17 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun setLanguage(language: String, langCode: String) {
+        preferenceItem = preferenceItem.copy(
+            preferredLanguage = language
+        )
+        action = null
+
+        launchCoroutineIO {
+            dataStoreUseCase.languageUseCase.setLanguage(language, langCode)
+        }
+    }
+
     fun getProfileSettingsItemDataList(context: Context) =
         listOf(
             ProfileSettingsData.ProfileSettingsItemData(

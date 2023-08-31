@@ -10,6 +10,7 @@ object PreferenceKeys {
     // String Preference keys
     val USER_NAME = stringPreferencesKey("USER_NAME")
     val PREFERRED_LANGUAGE = stringPreferencesKey("PREFERRED_LANGUAGE")
+    val PREFERRED_LANGUAGE_CODE = stringPreferencesKey("PREFERRED_LANGUAGE_CODE")
     val APP_THEME = stringPreferencesKey("APP_THEME")
     val NOTIFICATION_REMINDER = stringPreferencesKey("NOTIFICATION_REMINDER")
 
