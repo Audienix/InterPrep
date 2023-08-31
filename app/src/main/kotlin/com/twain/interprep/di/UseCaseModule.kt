@@ -83,7 +83,9 @@ class UseCaseModule {
     @Provides
     fun provideNoteUseCase(noteRepository: NoteRepository): NoteUseCase {
         return NoteUseCase(
-            getAllPastInterviewsWithNotesUseCase = GetAllPastInterviewsWithNotesUseCase(noteRepository),
+            getAllPastInterviewsWithNotesUseCase = GetAllPastInterviewsWithNotesUseCase(
+                noteRepository
+            ),
             getNotesByInterviewIdUseCase = GetNotesByInterviewIdUseCase(noteRepository),
             insertNoteUseCase = InsertNoteUseCase(noteRepository),
             insertAllNotesUseCase = InsertAllNotesUseCase(noteRepository),
@@ -104,7 +106,9 @@ class UseCaseModule {
             upsertResourceUseCase = UpsertResourceUseCase(resourceRepository),
             getResourceWithLinksByResourceId = GetResourceWithLinksByResourceId(resourceRepository),
             deleteResourceUseCase = DeleteResourceUseCase(resourceRepository),
-            getResourceWithLinksBySearchText = GetResourceWithLinksBySearchTextUseCase(resourceRepository)
+            getResourceWithLinksBySearchText = GetResourceWithLinksBySearchTextUseCase(
+                resourceRepository
+            )
         )
     }
 

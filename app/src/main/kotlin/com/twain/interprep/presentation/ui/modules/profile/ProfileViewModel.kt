@@ -140,4 +140,21 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+
+    fun onAppThemeSelected(index: Int) {
+        currentPopupValue = appThemeOptions[index]
+    }
+
+    fun getSelectedAppThemeIndex() = appThemeOptions.indexOf(currentPopupValue)
+
+    fun setAppTheme() {
+        if (appThemeOptions.contains(currentPopupValue)) {
+            launchCoroutineIO {
+                dataStoreUseCase.setAppThemeUseCase(currentPopupValue)
+                action = ClickAction.NONE
+                currentPopupValue = ""
+            }
+        }
+    }
 }

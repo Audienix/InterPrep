@@ -52,8 +52,8 @@ fun ProfileScreen(
 ) {
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel.getAppThemeOptions(context)
         viewModel.setProfileSettings()
+        viewModel.getAppThemeOptions(context)
     }
 
     Scaffold(

@@ -9,6 +9,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -17,8 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
-import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.helper.LocalizationViewModel
+import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.navigation.OnboardingNavGraph
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
@@ -34,7 +38,6 @@ class MainActivity : ComponentActivity() {
     lateinit var prefManager: PrefManager
     @Inject
     lateinit var localizationViewModel: LocalizationViewModel
-
     @Inject
     lateinit var dataStoreUseCase: DataStoreUseCase
 
@@ -46,7 +49,7 @@ class MainActivity : ComponentActivity() {
             InterPrepTheme {
                 localizationViewModel.initialize(this)
 
-                var appTheme: ViewResult<Int> by remember {
+                var appTheme: ViewResult<Int> by rememberSaveable {
                     mutableStateOf(ViewResult.UnInitialized)
                 }
                 LaunchedEffect(Unit) {
