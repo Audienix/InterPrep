@@ -4,5 +4,7 @@ data class DataStoreUseCase(
     val onboardingUseCase: OnboardingUseCase,
     val getProfileSettingsUseCase: GetProfileSettingsUseCase,
     val usernameUseCase: UsernameUseCase,
-    val languageUseCase: PreferredLanguageUseCase
+    val languageUseCase: PreferredLanguageUseCase,
+    val setAppThemeUseCase: SetAppThemeUseCase,
+    val getAppThemeUseCase: GetAppThemeUseCase
 )

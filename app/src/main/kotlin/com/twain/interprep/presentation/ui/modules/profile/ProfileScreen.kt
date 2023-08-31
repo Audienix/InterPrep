@@ -40,6 +40,7 @@ import com.twain.interprep.helper.LocalizationViewModel
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
+import com.twain.interprep.presentation.ui.components.generic.IPMultipleChoiceAlertDialog
 import com.twain.interprep.presentation.ui.components.generic.IPTextInputDialog
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.getNameInitials
@@ -49,8 +50,10 @@ fun ProfileScreen(
     navController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.setProfileSettings()
+        viewModel.getAppThemeOptions(context)
     }
 
     Scaffold(
@@ -61,7 +64,6 @@ fun ProfileScreen(
         },
         containerColor = MaterialColorPalette.surface
     ) { paddingValues ->
-        val context = LocalContext.current
 
         viewModel.action?.let {
             HandleAction(action = it, viewModel = viewModel)
@@ -188,9 +190,9 @@ fun AppVersion() {
 fun HandleAction(action: ClickAction, viewModel: ProfileViewModel) {
     when (action) {
         ClickAction.NONE -> {}
-        ClickAction.NAME -> HandleNameClick(viewModel = viewModel)
         ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick(viewModel = viewModel)
-        ClickAction.APP_THEME -> TODO()
+        ClickAction.NAME -> HandleNameClick(viewModel)
+        ClickAction.APP_THEME -> HandleThemeCLick(viewModel)
         ClickAction.NOTIFICATION_REMINDER -> TODO()
         ClickAction.RATING_FEEDBACK -> TODO()
         ClickAction.PRIVACY_POLICY -> TODO()
@@ -239,3 +241,17 @@ fun HandleLanguageClick(
         }
     )
 }
+@Composable
+fun HandleThemeCLick(viewModel: ProfileViewModel) {
+    IPMultipleChoiceAlertDialog(
+        titleRes = R.string.label_setting_theme,
+        cancelButtonRes = R.string.button_cancel,
+        confirmButtonRes = R.string.button_confirm,
+        onCancelClick =  { viewModel.setAction(ClickAction.NONE, "")},
+        onConfirmClick = { viewModel.setAppTheme() },
+        options = viewModel.appThemeOptions,
+        onChoiceSelected = viewModel::onAppThemeSelected,
+        selectedIndex = viewModel.getSelectedAppThemeIndex()
+    )
+}
+

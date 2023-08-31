@@ -30,12 +30,19 @@ class ProfileViewModel @Inject constructor(
 //        val message = ExceptionHandler.parse(exception)
     }
 
+    lateinit var appThemeOptions: List<String>
+        private set
+
     var action: ClickAction? by mutableStateOf(null)
         private set
 
     var currentPopupValue by mutableStateOf("")
 
     var preferenceItem by mutableStateOf(PreferenceItem())
+
+    fun getAppThemeOptions(context: Context) {
+        appThemeOptions = context.resources.getStringArray(R.array.theme_option).toList()
+    }
 
     fun setProfileSettings() = launchCoroutineIO {
         dataStoreUseCase.getProfileSettingsUseCase().collect {
@@ -109,4 +116,21 @@ class ProfileViewModel @Inject constructor(
                 clickAction = ClickAction.PRIVACY_POLICY
             )
         )
+
+
+    fun onAppThemeSelected(index: Int) {
+        currentPopupValue = appThemeOptions[index]
+    }
+
+    fun getSelectedAppThemeIndex() = appThemeOptions.indexOf(currentPopupValue)
+
+    fun setAppTheme() {
+        if (appThemeOptions.contains(currentPopupValue)) {
+            launchCoroutineIO {
+                dataStoreUseCase.setAppThemeUseCase(currentPopupValue)
+                action = ClickAction.NONE
+                currentPopupValue = ""
+            }
+        }
+    }
 }

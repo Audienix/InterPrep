@@ -2,10 +2,12 @@ package com.twain.interprep.di
 
 import com.twain.interprep.datastore.DataStoreRepository
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
+import com.twain.interprep.datastore.usecase.GetAppThemeUseCase
 import com.twain.interprep.datastore.usecase.GetProfileSettingsUseCase
 import com.twain.interprep.datastore.usecase.OnboardingUseCase
 import com.twain.interprep.datastore.usecase.PreferredLanguageUseCase
 import com.twain.interprep.datastore.usecase.UsernameUseCase
+import com.twain.interprep.datastore.usecase.SetAppThemeUseCase
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
@@ -124,7 +126,9 @@ class UseCaseModule {
             onboardingUseCase = OnboardingUseCase(dataStoreRepository),
             getProfileSettingsUseCase = GetProfileSettingsUseCase(dataStoreRepository),
             usernameUseCase = UsernameUseCase(dataStoreRepository),
-            languageUseCase = PreferredLanguageUseCase((dataStoreRepository))
+            languageUseCase = PreferredLanguageUseCase((dataStoreRepository)),
+            setAppThemeUseCase = SetAppThemeUseCase(dataStoreRepository),
+            getAppThemeUseCase = GetAppThemeUseCase(dataStoreRepository)
         )
     }
 }

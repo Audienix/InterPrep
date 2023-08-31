@@ -53,6 +53,16 @@ class DataStoreRepositoryImpl(
         it[PreferenceKeys.USER_NAME] ?: ""
     }
 
+    override suspend fun getAppTheme(): Flow<String> = dataStore.data.map {
+        it[PreferenceKeys.APP_THEME] ?: context.resources.getStringArray(R.array.theme_option)[2]
+    }
+
+    override suspend fun setAppTheme(appTheme: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferenceKeys.APP_THEME] = appTheme
+        }
+    }
+
     override suspend fun setLanguage(language: String, langCode: String) {
         dataStore.edit { preferences ->
             preferences[PreferenceKeys.PREFERRED_LANGUAGE] = language

@@ -3,14 +3,20 @@ package com.twain.interprep
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.data.ui.QuoteData
+import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.helper.LocalizationViewModel
 import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.navigation.OnboardingNavGraph
@@ -26,6 +32,8 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var prefManager: PrefManager
     @Inject lateinit var localizationViewModel: LocalizationViewModel
 
+    @Inject lateinit var dataStoreUseCase: DataStoreUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -33,6 +41,23 @@ class MainActivity : ComponentActivity() {
         setContent {
             InterPrepTheme {
                 localizationViewModel.initialize(this)
+
+            var dakTheme by rememberSaveable {
+                mutableStateOf("System")
+            }
+            LaunchedEffect(Unit) {
+                dataStoreUseCase.getAppThemeUseCase().collect {
+                    dakTheme = it
+                }
+            }
+
+            InterPrepTheme(
+                darkTheme = when (dakTheme) {
+                    "System" -> isSystemInDarkTheme()
+                    "Dark" -> true
+                    else -> false
+                }
+            ) {
                 // Insert quotes into DB
                 val quotesViewModel: QuotesViewModel = hiltViewModel()
                 LaunchedEffect(Unit) {
