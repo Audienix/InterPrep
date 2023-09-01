@@ -193,9 +193,9 @@ fun AppVersion() {
 fun HandleAction(action: ClickAction, viewModel: ProfileViewModel, navController: NavHostController) {
     when (action) {
         ClickAction.NONE -> {}
-        ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick(viewModel = viewModel)
-        ClickAction.NAME -> HandleNameClick(viewModel)
-        ClickAction.APP_THEME -> HandleThemeCLick(viewModel)
+        ClickAction.NAME -> HandleNameClick()
+        ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick()
+        ClickAction.APP_THEME -> HandleThemeCLick()
         ClickAction.NOTIFICATION_REMINDER -> TODO()
         ClickAction.RATING_FEEDBACK -> HandleAppReview()
         ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(viewModel, navController)
@@ -203,7 +203,7 @@ fun HandleAction(action: ClickAction, viewModel: ProfileViewModel, navController
 }
 
 @Composable
-fun HandleNameClick(viewModel: ProfileViewModel) {
+fun HandleNameClick(viewModel: ProfileViewModel = hiltViewModel()) {
     IPTextInputDialog(
         titleRes = R.string.label_setting_name,
         cancelButtonRes = R.string.button_cancel,
@@ -245,7 +245,7 @@ fun HandleLanguageClick(
     )
 }
 @Composable
-fun HandleThemeCLick(viewModel: ProfileViewModel) {
+fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
     IPMultipleChoiceAlertDialog(
         titleRes = R.string.label_setting_theme,
         cancelButtonRes = R.string.button_cancel,
@@ -273,4 +273,3 @@ fun HandlePrivacyPolicyClick(
         navController.navigate(AppScreens.MainScreens.PrivacyPolicy.route)
     }
 }
-
