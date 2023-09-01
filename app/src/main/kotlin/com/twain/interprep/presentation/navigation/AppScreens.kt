@@ -22,6 +22,8 @@ sealed class AppScreens(val route: String) {
         object AddResource : AppScreens("add_resource_screen")
 
         object Profile : AppScreens("profile")
+
+        object PrivacyPolicy: AppScreens("privacy_policy")
     }
 
     fun withArgs(vararg args: Any): String {

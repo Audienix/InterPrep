@@ -37,6 +37,8 @@ import com.twain.interprep.data.ui.ProfileSettingsData.ProfileSettingsItemData
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.helper.LocalizationViewModel
+import com.twain.interprep.presentation.navigation.AppScreens
+import com.twain.interprep.presentation.ui.components.generic.IPAppReview
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
@@ -66,7 +68,7 @@ fun ProfileScreen(
     ) { paddingValues ->
 
         viewModel.action?.let {
-            HandleAction(action = it, viewModel = viewModel)
+            HandleAction(action = it, viewModel = viewModel, navController = navController)
         }
 
         ProfileColumn(
@@ -187,15 +189,15 @@ fun AppVersion() {
 }
 
 @Composable
-fun HandleAction(action: ClickAction, viewModel: ProfileViewModel) {
+fun HandleAction(action: ClickAction, viewModel: ProfileViewModel, navController: NavHostController) {
     when (action) {
         ClickAction.NONE -> {}
         ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick(viewModel = viewModel)
         ClickAction.NAME -> HandleNameClick(viewModel)
         ClickAction.APP_THEME -> HandleThemeCLick(viewModel)
         ClickAction.NOTIFICATION_REMINDER -> TODO()
-        ClickAction.RATING_FEEDBACK -> TODO()
-        ClickAction.PRIVACY_POLICY -> TODO()
+        ClickAction.RATING_FEEDBACK -> HandleAppReview()
+        ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(viewModel, navController)
     }
 }
 
@@ -247,11 +249,25 @@ fun HandleThemeCLick(viewModel: ProfileViewModel) {
         titleRes = R.string.label_setting_theme,
         cancelButtonRes = R.string.button_cancel,
         confirmButtonRes = R.string.button_confirm,
-        onCancelClick =  { viewModel.setAction(ClickAction.NONE, "")},
+        onCancelClick =  { viewModel.setAction(ClickAction.NONE)},
         onConfirmClick = { viewModel.setAppTheme() },
         options = viewModel.appThemeOptions,
         onChoiceSelected = viewModel::onAppThemeSelected,
         selectedIndex = viewModel.getSelectedAppThemeIndex()
     )
+}
+
+@Composable
+fun HandleAppReview() {
+    IPAppReview()
+}
+
+@Composable
+fun HandlePrivacyPolicyClick(
+    viewModel: ProfileViewModel,
+    navController: NavHostController
+) {
+    viewModel.setAction(ClickAction.NONE)
+    navController.navigate(AppScreens.MainScreens.PrivacyPolicy.route)
 }
 
