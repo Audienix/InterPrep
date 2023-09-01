@@ -32,14 +32,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.BuildConfig
 import com.twain.interprep.R
+import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.ui.ProfileSettingsData.ClickAction
 import com.twain.interprep.data.ui.ProfileSettingsData.ProfileSettingsItemData
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.helper.LocalizationViewModel
 import com.twain.interprep.presentation.navigation.AppScreens
-import com.twain.interprep.presentation.ui.components.generic.IPAppReview
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
+import com.twain.interprep.presentation.ui.components.generic.IPChromeTab
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPMultipleChoiceAlertDialog
@@ -259,7 +260,7 @@ fun HandleThemeCLick(viewModel: ProfileViewModel) {
 
 @Composable
 fun HandleAppReview() {
-    IPAppReview()
+    // IPAppReview()
 }
 
 @Composable
@@ -268,6 +269,8 @@ fun HandlePrivacyPolicyClick(
     navController: NavHostController
 ) {
     viewModel.setAction(ClickAction.NONE)
-    navController.navigate(AppScreens.MainScreens.PrivacyPolicy.route)
+    IPChromeTab(context = LocalContext.current, url = StringConstants.PRIVACY_POLICY_WEBSITE) {
+        navController.navigate(AppScreens.MainScreens.PrivacyPolicy.route)
+    }
 }
 

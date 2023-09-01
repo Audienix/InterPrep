@@ -32,4 +32,10 @@ object StringConstants {
     // Notification keys
     const val NOTIFICATION_KEY_TITLE = "title"
     const val NOTIFICATION_KEY_MESSAGE = "message"
+
+    // Chrome Package
+    const val CHROME_PACKAGE_NAME = "com.android.chrome"
+
+    // Privacy Policy Website
+    const val PRIVACY_POLICY_WEBSITE = "https://google.com"
 }
