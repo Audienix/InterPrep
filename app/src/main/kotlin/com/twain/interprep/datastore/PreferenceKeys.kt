@@ -1,6 +1,7 @@
 package com.twain.interprep.datastore
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 object PreferenceKeys {
@@ -11,8 +12,8 @@ object PreferenceKeys {
     val USER_NAME = stringPreferencesKey("USER_NAME")
     val PREFERRED_LANGUAGE = stringPreferencesKey("PREFERRED_LANGUAGE")
     val PREFERRED_LANGUAGE_CODE = stringPreferencesKey("PREFERRED_LANGUAGE_CODE")
-    val APP_THEME = stringPreferencesKey("APP_THEME")
     val NOTIFICATION_REMINDER = stringPreferencesKey("NOTIFICATION_REMINDER")
 
     // Integer Preference keys
+    val APP_THEME = intPreferencesKey("APP_THEME")
 }

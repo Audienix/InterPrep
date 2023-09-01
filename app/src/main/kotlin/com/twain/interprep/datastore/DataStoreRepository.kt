@@ -12,8 +12,8 @@ interface DataStoreRepository {
     suspend fun getUsername() : Flow<String>
     suspend fun setUsername(username: String)
 
-    suspend fun getAppTheme() : Flow<String>
-    suspend fun setAppTheme(appTheme: String)
+    suspend fun getAppTheme() : Flow<Int>
+    suspend fun setAppTheme(appTheme: Int)
 
     suspend fun setLanguage(language: String, langCode: String)
     suspend fun getLanguage(): Flow<String>

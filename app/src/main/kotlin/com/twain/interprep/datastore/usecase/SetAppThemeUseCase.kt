@@ -6,7 +6,7 @@ class SetAppThemeUseCase(
     private val dataStoreRepository: DataStoreRepository
 ) {
     suspend operator fun invoke(
-        appTheme: String
+        appTheme: Int
     ) {
         dataStoreRepository.setAppTheme(appTheme)
     }

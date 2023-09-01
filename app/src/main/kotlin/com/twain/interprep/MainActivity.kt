@@ -9,12 +9,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.helper.LocalizationViewModel
@@ -42,27 +43,29 @@ class MainActivity : ComponentActivity() {
             InterPrepTheme {
                 localizationViewModel.initialize(this)
 
-            var dakTheme by rememberSaveable {
-                mutableStateOf("System")
+            var appTheme: ViewResult<Int> by remember {
+                mutableStateOf(ViewResult.UnInitialized)
             }
             LaunchedEffect(Unit) {
                 dataStoreUseCase.getAppThemeUseCase().collect {
-                    dakTheme = it
+                    appTheme = ViewResult.Loaded(it)
                 }
             }
 
-            InterPrepTheme(
-                darkTheme = when (dakTheme) {
-                    "System" -> isSystemInDarkTheme()
-                    "Dark" -> true
+            if (appTheme is ViewResult.Loaded) {
+                val isDarkTheme = when((appTheme as ViewResult.Loaded<Int>).data) {
+                    2 -> isSystemInDarkTheme()
+                    1 -> true
                     else -> false
                 }
-            ) {
-                // Insert quotes into DB
-                val quotesViewModel: QuotesViewModel = hiltViewModel()
-                LaunchedEffect(Unit) {
-                    quotesViewModel.insertQuotes(QuoteData.quotes)
-                }
+                InterPrepTheme(
+                    darkTheme = isDarkTheme
+                ) {
+                    // Insert quotes into DB
+                    val quotesViewModel: QuotesViewModel = hiltViewModel()
+                    LaunchedEffect(Unit) {
+                        quotesViewModel.insertQuotes(QuoteData.quotes)
+                    }
 
                 // A surface container using the 'background' color from the theme
                 Surface(

@@ -94,7 +94,7 @@ class ProfileViewModel @Inject constructor(
             ProfileSettingsData.ProfileSettingsItemData(
                 imageRes = R.drawable.ic_app_theme,
                 title = R.string.label_setting_theme,
-                label = preferenceItem.appTheme,
+                label = getAppThemeLabel(preferenceItem.appTheme),
                 clickAction = ClickAction.APP_THEME
             ),
             ProfileSettingsData.ProfileSettingsItemData(
@@ -117,6 +117,11 @@ class ProfileViewModel @Inject constructor(
             )
         )
 
+    fun getAppThemeLabel(index: Int): String {
+        if (!this::appThemeOptions.isInitialized) return ""
+        return appThemeOptions[index]
+    }
+
 
     fun onAppThemeSelected(index: Int) {
         currentPopupValue = appThemeOptions[index]
@@ -125,9 +130,11 @@ class ProfileViewModel @Inject constructor(
     fun getSelectedAppThemeIndex() = appThemeOptions.indexOf(currentPopupValue)
 
     fun setAppTheme() {
-        if (appThemeOptions.contains(currentPopupValue)) {
+        getSelectedAppThemeIndex().run {
+            if (this == -1) return
+
             launchCoroutineIO {
-                dataStoreUseCase.setAppThemeUseCase(currentPopupValue)
+                dataStoreUseCase.setAppThemeUseCase(this@run)
                 action = ClickAction.NONE
                 currentPopupValue = ""
             }
