@@ -30,12 +30,23 @@ fun getNameInitials(input: String): String {
 }
 
 @Composable
+fun getFirstName(input: String): String {
+    val words = input.trim().split(" ").filter { it.isNotEmpty() }
+    return when (words.size) {
+        0 -> ""
+        else -> words[0]
+    }
+}
+
+@Composable
 fun getInterviewCardColorPair(type: InterviewType): Pair<Color, Color> {
     return when (type) {
         InterviewType.FUTURE ->
             MaterialColorPalette.tertiaryContainer to MaterialColorPalette.onTertiaryContainer
+
         InterviewType.PRESENT ->
             MaterialColorPalette.primaryContainer to MaterialColorPalette.onPrimaryContainer
+
         else ->
             MaterialColorPalette.surfaceContainerHighest to MaterialColorPalette.onSurface
     }
@@ -47,9 +58,11 @@ fun getInterviewEmptyStateTextPair(type: InterviewType): Pair<String, String> {
         InterviewType.FUTURE ->
             stringResource(id = R.string.empty_state_title_dashboard_future) to
                     stringResource(id = R.string.empty_state_description_dashboard_future)
+
         InterviewType.PRESENT ->
             stringResource(id = R.string.empty_state_title_dashboard_current) to
                     stringResource(id = R.string.empty_state_description_dashboard_current)
+
         else ->
             stringResource(id = R.string.empty_state_title_dashboard_past) to
                     stringResource(id = R.string.empty_state_description_dashboard_past)

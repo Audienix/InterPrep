@@ -1,0 +1,205 @@
+<resources>
+    <string name="app_name">InterPrep</string>
+
+    <string name="intro_dashboard_title">Gestiona tus entrevistas de trabajo</string>
+    <string name="intro_dashboard_description">Organiza fácilmente los detalles de tu entrevista desde un panel personalizado</string>
+    <string name="intro_note_title">Toma notas de entrevistas pasadas</string>
+    <string name="intro_note_description">Acceda y administre fácilmente las notas de sus entrevistas anteriores para referencia futura</string>
+    <string name="intro_resource_title">Organiza tus recursos de aprendizaje</string>
+    <string name="intro_resource_description">Maximiza la preparación de tu entrevista con una colección de materiales de aprendizaje</string>
+
+    <string name="nav_item_dashboard">Panel</string>
+    <string name="nav_item_notes">Notas</string>
+    <string name="nav_item_resources">Recursos</string>
+
+    <string name="dashboard_empty_interview_subtitle">Agregue su primera agenda de entrevistas haciendo clic en \'+\'
+        botón.</string>
+    <string name="dashboard_empty_note_subtitle">Vuelva después de la entrevista programada para tomar algunas notas rápidas.</string>
+    <string name="dashboard_empty_resource_subtitle">Agregue su primer material de recurso haciendo clic en el botón \"+\".</string>
+
+    <string name="appbar_title_add_interview">Agregar entrevista</string>
+    <string name="appbar_title_edit_interview">Editar entrevista</string>
+    <string name="appbar_title_view_notes">Ver notas</string>
+    <string name="appbar_title_add_notes">Agregar notas</string>
+    <string name="appbar_title_edit_notes">Editar notas</string>
+    <string name="appbar_title_add_resource">Agregar recurso</string>
+    <string name="appbar_title_edit_resource">Editar recurso</string>
+    <string name="appbar_title_question">Preguntas</string>
+
+    <string name="menu_item_edit_note">Editar nota</string>
+    <string name="menu_item_delete_note">Borrar nota</string>
+    <string name="menu_item_delete_interview">Eliminar entrevista</string>
+    <string name="menu_item_delete_notes">Eliminar notas</string>
+    <string name="menu_item_delete">Borrar</string>
+
+    <string name="empty_state_title_dashboard">No hay entrevista programada.</string>
+    <string name="empty_state_title_dashboard_current">Ninguna entrevista esta semana.</string>
+    <string name="empty_state_title_dashboard_future">No habrá entrevista después de esta semana.</string>
+    <string name="empty_state_title_dashboard_past">Sin historial de entrevistas.</string>
+    <string name="empty_state_title_note">No se capturaron notas.</string>
+    <string name="empty_state_title_resource">No se agregaron recursos</string>
+    <string name="empty_state_title_no_match_resource">Ningún recurso coincidente</string>
+
+    <string name="empty_state_description_dashboard">Agregue su primera agenda de entrevistas haciendo clic en \'+\'
+        botón.</string>
+    <string name="empty_state_description_dashboard_current">Añade tu próxima entrevista haciendo clic en \'+\'
+        botón.</string>
+    <string name="empty_state_description_dashboard_future">Agregue una próxima entrevista haciendo clic en \'+\'
+        botón.</string>
+    <string name="empty_state_description_dashboard_past">Agregue cualquier historial de entrevistas pasadas haciendo clic en \'+\'
+        botón.</string>
+    <string name="empty_state_description_note">Vuelva después de la entrevista programada para tomar algunas notas rápidas.</string>
+    <string name="empty_state_description_resource">Agregue su primer material de recurso haciendo clic en el botón \"+\".</string>
+    <string name="empty_state_description_no_match_resource">Pruebe con otras palabras clave de búsqueda</string>
+
+    <string name="heading_label_upcoming">Próximo</string>
+    <string name="heading_label_coming_next">Vendrá después</string>
+    <string name="heading_label_past">Entrevistas pasadas</string>
+
+    <string name="hint_label_date">Fecha</string>
+    <string name="hint_label_time">Tiempo</string>
+    <string name="hint_label_company">Compañía</string>
+    <string name="hint_label_meeting_link">Enlace de reunión</string>
+    <string name="hint_label_interview_type">Tipo de entrevista</string>
+    <string name="hint_label_role">Rol/Posición</string>
+    <string name="hint_label_round_count">Redondo</string>
+    <string name="hint_label_job_post_link">Enlace a la publicación de empleo</string>
+    <string name="hint_label_company_link">Enlace de la empresa</string>
+    <string name="hint_label_interviewer">Entrevistador</string>
+    <string name="hint_label_month_format">DD/MM/AAAA</string>
+    <string name="hint_label_time_format">HH:MM</string>
+
+    <string name="hint_label_interview_segment">Segmento de entrevista</string>
+    <string name="hint_label_topic">Tema</string>
+    <string name="hint_label_question">Pregunta</string>
+
+    <string name="hint_label_subtopic">Subtema</string>
+    <string name="hint_label_link_description">direccion de enlace en la descripcion</string>
+    <string name="hint_label_link">Enlace</string>
+
+    <string name="hint_label_search_resource">Buscar recursos de aprendizaje</string>
+
+    <string name="time_picker_title">Introduzca la hora</string>
+
+    <string name="alert_dialog_unsaved_interview_title">¡Entrevista no guardada!</string>
+    <string name="alert_dialog_unsaved_interview_text">Los detalles de su entrevista no se guardarán ya que no ha completado los detalles obligatorios. ¿Regresa\?</string>
+    <string name="alert_dialog_delete_interview_title">¿Eliminar entrevista\?</string>
+    <string name="alert_dialog_delete_interview_text">Está a punto de eliminar los detalles de una entrevista que no se pueden recuperar después de la eliminación. ¿Proceder\?</string>
+    <string name="alert_dialog_unsaved_notes_title">¡Notas no guardadas!</string>
+    <string name="alert_dialog_unsaved_notes_text">Las notas de su entrevista no se guardarán porque no completó los detalles obligatorios. ¿Regresa\?</string>
+    <string name="alert_dialog_delete_note_title">¿Borrar nota\?</string>
+    <string name="alert_dialog_delete_note_text">Está a punto de eliminar una nota de entrevista que no se puede recuperar después de eliminarla. ¿Proceder\?</string>
+    <string name="alert_dialog_unsaved_resource_title">¡Recurso no guardado!</string>
+    <string name="alert_dialog_unsaved_resource_text">Su recurso de aprendizaje no se guardará porque no ha completado los detalles obligatorios. ¿Regresa\?</string>
+    <string name="alert_dialog_delete_resource_title">¿Eliminar recurso\?</string>
+    <string name="alert_dialog_delete_resource_text">Está a punto de eliminar un recurso de aprendizaje que no se puede recuperar después de eliminarlo. Proceder \?</string>
+
+    <string name="error_message_form_input">El campo obligatorio no puede estar vacío</string>
+    <string name="error_message_form_input_date">La fecha no puede estar vacía</string>
+    <string name="error_message_form_input_time">El tiempo no puede estar vacío.</string>
+    <string name="error_message_form_input_company">La empresa no puede estar vacía.</string>
+    <string name="error_message_form_input_interview_segment">El segmento de entrevista no puede estar vacío</string>
+    <string name="error_message_form_input_question">La pregunta no puede estar vacía</string>
+    <string name="error_message_form_input_topic">El tema no puede estar vacío.</string>
+    <string name="error_message_form_input_link_description">La descripción del enlace no puede estar vacía</string>
+    <string name="error_message_form_input_link">El enlace no puede estar vacío.</string>
+    <string name="error_message_invalid_url">La URL no es válida</string>
+    <string name="error_message_invalid_number">El número no es válido</string>
+
+    <string name="header_greeting_screen">¿Cómo te gustaría que te saludáramos\?</string>
+    <string name="header_add_interview">Agregue la información de su entrevista aquí.</string>
+    <string name="header_edit_interview">Actualice los detalles de su entrevista programada.</string>
+    <string name="header_add_note">Añade tus notas de entrevista</string>
+    <string name="header_edit_note">Actualiza tus notas de entrevista</string>
+    <string name="header_view_note">Revise las notas de sus entrevistas anteriores</string>
+    <string name="header_add_resource">Agregue su material de recursos de aprendizaje.</string>
+    <string name="header_edit_resource">Actualice su material de recursos de aprendizaje.</string>
+    <string name="header_reference_link">Link de referencia</string>
+    <string name="header_interview_status">Estado de la entrevista</string>
+
+    <string name="button_add_notes">Agregar notas</string>
+    <string name="button_view_notes">Ver notas</string>
+    <string name="button_add_question">Agregar pregunta</string>
+    <string name="button_add_note">Añadir la nota</string>
+    <string name="button_delete_note">Borrar nota</string>
+    <string name="button_add_link">Añadir enlace</string>
+    <string name="button_delete_link">Eliminar enlace</string>
+    <string name="button_get_started">\"Empezar\"</string>
+    <string name="button_next">Próximo</string>
+
+    <string name="interview_status_no_update">Ninguna actualización</string>
+    <string name="interview_status_next_round">Proxima ronda</string>
+    <string name="interview_status_selected">Seleccionado</string>
+    <string name="interview_status_rejected">Rechazado</string>
+
+    <string name="accessibility_icon_more_vert">Mas opciones</string>
+
+    <string name="label_no_text_available">N / A</string>
+    <string name="label_view_more">Ver más…</string>
+    <string name="label_status">"Estado: </string>
+    <string name="label_interview_details">Detalles de la entrevista</string>
+    <string name="label_company_details">Detalles de la compañía</string>
+    <plurals name="label_interviews_today">
+        <item quantity="one">Tienes %1$s entrevista hoy.</item>
+        <item quantity="many">Tienes %1$s entrevistas hoy.</item>
+        <item quantity="other">Tienes %1$s entrevistas hoy.</item>
+    </plurals>
+    <string name="label_no_interviews_today">No tienes entrevista hoy.</string>
+    <string name="label_join_here">Únete aquí</string>
+
+    <string name="error_no_browser_app">No browser app installed</string>
+
+    <string name="notification_reminder_title">Entrevista Próxima</string>
+    <string name="notification_reminder_description">%1$s La entrevista se llevará a cabo en 1 hora.</string>
+
+    <string name="time_morning">Días</string>
+    <string name="time_afternoon">Tardes</string>
+    <string name="time_evening">Noches</string>
+    <string name="hello">Hola</string>
+    <string name="good">Buenas</string>
+
+    <string name="label_setting_name">Nombre</string>
+    <string name="label_setting_language">Idioma Preferido</string>
+    <string name="label_setting_theme">Tema de la Aplicación</string>
+    <string name="label_setting_notification">Recordatorio de Notificacionesr</string>
+    <string name="label_setting_rating">Calificación y Comentarios</string>
+    <string name="label_setting_rating_description">Haz clic para calificarnos en Google Play</string>
+    <string name="label_setting_privacy_policy">Política de Privacidad</string>
+    <string name="label_setting_privacy_policy_description">Haz clic para ver nuestra política de privacidad</string>
+    <string name="label_setting_app_version">Versión de la Aplicación : </string>
+
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_confirm">Aceptar</string>
+
+    <string-array name="interview_filter">
+        <item>Actual</item>
+        <item>Futura</item>
+        <item>Pasada</item>
+    </string-array>
+
+    <string-array name="language_option">
+        <item>English (US)</item>
+        <item>Español (Spanish)</item>
+        <item>简体中文 (Chinese, Simplified)</item>
+    </string-array>
+
+    <string-array name="language_code">
+        <item>en</item>
+        <item>es</item>
+        <item>zh</item>
+    </string-array>
+
+    <string-array name="theme_option">
+        <item>Claro</item>
+        <item>Oscuro</item>
+        <item>Sistema</item>
+    </string-array>
+
+    <string-array name="notification_reminder_option">
+        <item>15 minutos antese</item>
+        <item>30 minutos antes</item>
+        <item>1 hora antes</item>
+        <item>Sin recordatorio</item>
+    </string-array>
+
+</resources>

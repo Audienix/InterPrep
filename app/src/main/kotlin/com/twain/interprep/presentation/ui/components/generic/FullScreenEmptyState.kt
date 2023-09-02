@@ -5,9 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,8 +43,7 @@ fun FullScreenEmptyState(
             Image(
                 //TODO change constant height value
                 modifier = Modifier
-                    .height(240.dp)
-                    .width(290.dp),
+                    .size(200.dp),
                 painter = painterResource(id = imageId),
                 contentDescription = "No data"
             )
@@ -72,7 +70,7 @@ fun FullScreenEmptyState(
 fun FullScreenEmptyStateInterview() {
     FullScreenEmptyState(
         Modifier,
-        R.drawable.empty_state_dashboard,
+        R.drawable.ic_empty_dashboard,
         stringResource(id = R.string.empty_state_title_dashboard),
         stringResource(id = R.string.empty_state_description_dashboard)
     )
@@ -83,7 +81,7 @@ fun FullScreenEmptyStateInterview() {
 fun FullScreenEmptyStateResource() {
     FullScreenEmptyState(
         Modifier,
-        R.drawable.empty_state_resource,
+        R.drawable.ic_empty_resources,
         stringResource(id = R.string.empty_state_title_resource),
         stringResource(id = R.string.empty_state_description_resource)
     )
@@ -94,7 +92,7 @@ fun FullScreenEmptyStateResource() {
 fun FullScreenEmptyStateNotes() {
     FullScreenEmptyState(
         Modifier,
-        R.drawable.empty_state_notes,
+        R.drawable.ic_empty_notes,
         stringResource(id = R.string.empty_state_title_note),
         stringResource(id = R.string.empty_state_description_note)
     )

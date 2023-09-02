@@ -108,7 +108,7 @@ fun ViewNotesScreen(
                     if (viewModel.notes.isEmpty()) {
                         FullScreenEmptyState(
                             modifier = Modifier.fillMaxHeight(),
-                            R.drawable.empty_state_notes,
+                            R.drawable.ic_empty_notes,
                             stringResource(id = R.string.empty_state_title_note),
                             stringResource(id = R.string.empty_state_description_note)
                         )

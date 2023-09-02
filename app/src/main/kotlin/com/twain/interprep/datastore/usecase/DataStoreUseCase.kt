@@ -1,7 +1,8 @@
 package com.twain.interprep.datastore.usecase
 
 data class DataStoreUseCase(
+    val onboardingUseCase: OnboardingUseCase,
     val getProfileSettingsUseCase: GetProfileSettingsUseCase,
-    val setUsernameUseCase: SetUsernameUseCase,
-    val getUsernameUseCase: GetUsernameUseCase
+    val usernameUseCase: UsernameUseCase,
+    val languageUseCase: PreferredLanguageUseCase
 )

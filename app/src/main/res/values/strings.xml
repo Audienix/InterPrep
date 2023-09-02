@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">InterPrep</string>
 
-    <string name="intro_dashboard_title">"Manage your job interviews"</string>
-    <string name="intro_dashboard_description">"Effortlessly organize your interview details from a personalized dashboard"</string>
-    <string name="intro_note_title">"Take notes of past interviews"</string>
-    <string name="intro_note_description">"Easily access and manage your past interview notes for future reference"</string>
-    <string name="intro_resource_title">"Organize your learning resources"</string>
-    <string name="intro_resource_description">"Maximize your interview preparation with a collection of learning materials"</string>
+    <string name="intro_dashboard_title">Manage your job interviews</string>
+    <string name="intro_dashboard_description">Effortlessly organize your interview details from a personalized dashboard</string>
+    <string name="intro_note_title">Take notes of past interviews</string>
+    <string name="intro_note_description">Easily access and manage your past interview notes for future reference</string>
+    <string name="intro_resource_title">Organize your learning resources</string>
+    <string name="intro_resource_description">Maximize your interview preparation with a collection of learning materials</string>
 
     <string name="nav_item_dashboard">Dashboard</string>
     <string name="nav_item_notes">Notes</string>
@@ -19,7 +19,6 @@
 
     <string name="appbar_title_add_interview">Add Interview</string>
     <string name="appbar_title_edit_interview">Edit Interview</string>
-    <string name="appbar_title_interview_details">Interview Details</string>
     <string name="appbar_title_view_notes">View Notes</string>
     <string name="appbar_title_add_notes">Add Notes</string>
     <string name="appbar_title_edit_notes">Edit Notes</string>
@@ -107,6 +106,7 @@
     <string name="error_message_invalid_url">URL is not valid</string>
     <string name="error_message_invalid_number">Number is not valid</string>
 
+    <string name="header_greeting_screen">How would you like us to greet you ?</string>
     <string name="header_add_interview">Add your interview information here.</string>
     <string name="header_edit_interview">Update your scheduled interview details.</string>
     <string name="header_add_note">Add your interview notes</string>
@@ -125,6 +125,7 @@
     <string name="button_add_link">Add Link</string>
     <string name="button_delete_link">Delete Link</string>
     <string name="button_get_started">"Get Started"</string>
+    <string name="button_next">Next</string>
 
     <string name="interview_status_no_update">No Update</string>
     <string name="interview_status_next_round">Next Round</string>
@@ -135,9 +136,9 @@
 
     <string name="label_no_text_available">N/A</string>
     <string name="label_view_more">View More…</string>
-    <string name="label_status">"Status: "</string>
-    <string name="label_interview_details">"Interview Details"</string>
-    <string name="label_company_details">"Company Details"</string>
+    <string name="label_status">Status: </string>
+    <string name="label_interview_details">Interview Details</string>
+    <string name="label_company_details">Company Details</string>
     <plurals name="label_interviews_today">
         <item quantity="one">You have %1$s interview today.</item>
         <item quantity="other">You have %1$s interviews today.</item>
@@ -154,6 +155,7 @@
     <string name="time_afternoon">Afternoon</string>
     <string name="time_evening">Evening</string>
     <string name="hello">Hello</string>
+    <string name="good">Good</string>
 
     <string name="label_setting_name">Name</string>
     <string name="label_setting_language">Preferred Language</string>
@@ -164,7 +166,6 @@
     <string name="label_setting_privacy_policy">Privacy Policy</string>
     <string name="label_setting_privacy_policy_description">Click to see our privacy policy</string>
     <string name="label_setting_app_version">App Version : </string>
-    <string name="label_interview_segment_1">1</string>
 
     <string name="button_cancel">Cancel</string>
     <string name="button_confirm">OK</string>
@@ -179,6 +180,12 @@
         <item>English (US)</item>
         <item>Español (Spanish)</item>
         <item>简体中文 (Chinese, Simplified)</item>
+    </string-array>
+
+    <string-array name="language_code">
+        <item>en</item>
+        <item>es</item>
+        <item>zh</item>
     </string-array>
 
     <string-array name="theme_option">

@@ -1,0 +1,198 @@
+<resources>
+    <string name="app_name">InterPrep</string>
+
+    <string name="intro_dashboard_title">管理你的面试</string>
+    <string name="intro_dashboard_description">轻松从个性化的仪表板中组织你的面试详细信息</string>
+    <string name="intro_note_title">创建面试记录</string>
+    <string name="intro_note_description">轻松访问和管理你的过去面试笔记，以供将来参考</string>
+    <string name="intro_resource_title">管理你的学习资料</string>
+    <string name="intro_resource_description">通过整理和复习学习材料，最大程度地准备面试</string>
+
+    <string name="nav_item_dashboard">面试</string>
+    <string name="nav_item_notes">笔记</string>
+    <string name="nav_item_resources">资料</string>
+
+    <string name="dashboard_empty_interview_subtitle">通过单击“+”按钮添加你的第一个面试安排。</string>
+    <string name="dashboard_empty_note_subtitle">在添加面试后，你就可以添加对应的笔记了。</string>
+    <string name="dashboard_empty_resource_subtitle">通过单击“+”按钮添加你的第一个学习资料。</string>
+
+    <string name="appbar_title_add_interview">添加面试</string>
+    <string name="appbar_title_edit_interview">编辑面试</string>
+    <string name="appbar_title_view_notes">查看笔记</string>
+    <string name="appbar_title_add_notes">添加笔记</string>
+    <string name="appbar_title_edit_notes">编辑笔记</string>
+    <string name="appbar_title_add_resource">添加资料</string>
+    <string name="appbar_title_edit_resource">编辑资料</string>
+    <string name="appbar_title_question">问题</string>
+
+    <string name="menu_item_edit_note">编辑笔记</string>
+    <string name="menu_item_delete_note">删除笔记</string>
+    <string name="menu_item_delete_interview">删除面试</string>
+    <string name="menu_item_delete_notes">删除笔记</string>
+    <string name="menu_item_delete">删除</string>
+
+    <string name="empty_state_title_dashboard">没有面试。</string>
+    <string name="empty_state_title_dashboard_current">本周没有面试。</string>
+    <string name="empty_state_title_dashboard_future">本周之后没有面试。</string>
+    <string name="empty_state_title_dashboard_past">没有面试记录。</string>
+    <string name="empty_state_title_note">没有笔记。</string>
+    <string name="empty_state_title_resource">没有学习资料</string>
+    <string name="empty_state_title_no_match_resource">没有匹配的学习资料</string>
+
+    <string name="empty_state_description_dashboard">通过单击“+”按钮添加你的第一个面试安排。</string>
+    <string name="empty_state_description_dashboard_current">通过单击“+”按钮添加你的下一个面试。</string>
+    <string name="empty_state_description_dashboard_future">通过单击“+”按钮添加即将到来的面试。</string>
+    <string name="empty_state_description_dashboard_past">通过单击“+”按钮添加过去的面试。</string>
+    <string name="empty_state_description_note">在添加面试后，你就可以添加对应的笔记了。</string>
+    <string name="empty_state_description_resource">通过单击“+”按钮添加你的第一个学习资料。</string>
+    <string name="empty_state_description_no_match_resource">尝试使用其他搜索关键字</string>
+
+    <string name="heading_label_upcoming">即将到来的</string>
+    <string name="heading_label_coming_next">接下来的</string>
+    <string name="heading_label_past">过去的面试</string>
+
+    <string name="hint_label_date">日期</string>
+    <string name="hint_label_time">时间</string>
+    <string name="hint_label_company">公司</string>
+    <string name="hint_label_meeting_link">会议链接</string>
+    <string name="hint_label_interview_type">面试类型</string>
+    <string name="hint_label_role">角色/职位</string>
+    <string name="hint_label_round_count">轮次</string>
+    <string name="hint_label_job_post_link">职位发布链接</string>
+    <string name="hint_label_company_link">公司链接</string>
+    <string name="hint_label_interviewer">面试官姓名</string>
+    <string name="hint_label_month_format">MM/DD/YYYY</string>
+    <string name="hint_label_time_format">HH:MM</string>
+
+    <string name="hint_label_interview_segment">面试环节</string>
+    <string name="hint_label_topic">主题</string>
+    <string name="hint_label_question">问题</string>
+
+    <string name="hint_label_subtopic">子主题</string>
+    <string name="hint_label_link_description">链接描述</string>
+    <string name="hint_label_link">链接</string>
+
+    <string name="hint_label_search_resource">搜索学习资料</string>
+
+    <string name="time_picker_title">输入时间</string>
+
+    <string name="alert_dialog_unsaved_interview_title">未保存的面试！</string>
+    <string name="alert_dialog_unsaved_interview_text">由于你尚未填写必填细节，此面试信息将不会被保存。返回吗？</string>
+    <string name="alert_dialog_delete_interview_title">删除面试？</string>
+    <string name="alert_dialog_delete_interview_text">你即将删除此面试的相关信息和对应的笔记，在删除后将无法恢复。继续吗？</string>
+    <string name="alert_dialog_unsaved_notes_title">未保存的笔记！</string>
+    <string name="alert_dialog_unsaved_notes_text">由于你尚未填写必填细节，此笔记将不会被保存。返回吗？</string>
+    <string name="alert_dialog_delete_note_title">删除笔记？</string>
+    <string name="alert_dialog_delete_note_text">你即将删除此面试笔记，在删除后将无法恢复。继续吗？</string>
+    <string name="alert_dialog_unsaved_resource_title">未保存的资料！</string>
+    <string name="alert_dialog_unsaved_resource_text">由于你尚未填写必填细节，此学习资料将不会被保存。返回吗？</string>
+    <string name="alert_dialog_delete_resource_title">删除资料？</string>
+    <string name="alert_dialog_delete_resource_text">你即将删除此学习资料，在删除后将无法恢复。继续吗？</string>
+
+    <string name="error_message_form_input">必填字段不能为空</string>
+    <string name="error_message_form_input_date">日期不能为空</string>
+    <string name="error_message_form_input_time">时间不能为空</string>
+    <string name="error_message_form_input_company">公司不能为空</string>
+    <string name="error_message_form_input_interview_segment">面试环节不能为空</string>
+    <string name="error_message_form_input_question">问题不能为空</string>
+    <string name="error_message_form_input_topic">主题不能为空</string>
+    <string name="error_message_form_input_link_description">链接描述不能为空</string>
+    <string name="error_message_form_input_link">链接不能为空</string>
+    <string name="error_message_invalid_url">链接不是有效的</string>
+    <string name="error_message_invalid_number">输入数字无效</string>
+
+    <string name="header_greeting_screen">你想设置怎样的打招呼信息？</string>
+    <string name="header_add_interview">在此处添加你的面试细节。</string>
+    <string name="header_edit_interview">更新你的面试细节。</string>
+    <string name="header_add_note">添加你过去的面试笔记</string>
+    <string name="header_edit_note">更新你过去的面试笔记</string>
+    <string name="header_view_note">查看你过去的面试的笔记</string>
+    <string name="header_add_resource">添加你的学习资料。</string>
+    <string name="header_edit_resource">更新你的学习资料。</string>
+    <string name="header_reference_link">参考链接</string>
+    <string name="header_interview_status">面试进展</string>
+
+    <string name="button_add_notes">添加笔记</string>
+    <string name="button_view_notes">查看笔记</string>
+    <string name="button_add_question">添加问题</string>
+    <string name="button_add_note">添加笔记</string>
+    <string name="button_delete_note">删除笔记</string>
+    <string name="button_add_link">添加链接</string>
+    <string name="button_delete_link">删除链接</string>
+    <string name="button_get_started">开始</string>
+    <string name="button_next">下一步</string>
+
+    <string name="interview_status_no_update">无更新</string>
+    <string name="interview_status_next_round">下一轮</string>
+    <string name="interview_status_selected">已被选中</string>
+    <string name="interview_status_rejected">已拒绝</string>
+
+    <string name="accessibility_icon_more_vert">更多选项</string>
+
+    <string name="label_no_text_available">N/A</string>
+    <string name="label_view_more">查看更多…</string>
+    <string name="label_status">状态： </string>
+    <string name="label_interview_details">面试细节</string>
+    <string name="label_company_details">公司细节</string>
+    <plurals name="label_interviews_today">
+        <item quantity="other">今天你有 %1$s 次面试。</item>
+    </plurals>
+    <string name="label_no_interviews_today">今天没有面试。</string>
+    <string name="label_join_here">在此处加入</string>
+
+    <string name="error_no_browser_app">未安装浏览器应用程序</string>
+
+    <string name="notification_reminder_title">即将面试</string>
+    <string name="notification_reminder_description">%1$s 将在 1 小时后开始。</string>
+
+    <string name="time_morning">早上</string>
+    <string name="time_afternoon">下午</string>
+    <string name="time_evening">晚上</string>
+    <string name="hello">你好</string>
+    <string name="good">好</string>
+
+    <string name="label_setting_name">用户名</string>
+    <string name="label_setting_language">语言</string>
+    <string name="label_setting_theme">应用主题</string>
+    <string name="label_setting_notification">通知提醒</string>
+    <string name="label_setting_rating">评分与反馈</string>
+    <string name="label_setting_rating_description">点击在 Google Play 上评分</string>
+    <string name="label_setting_privacy_policy">隐私政策</string>
+    <string name="label_setting_privacy_policy_description">点击查看我们的隐私政策</string>
+    <string name="label_setting_app_version">应用版本： </string>
+
+    <string name="button_cancel">取消</string>
+    <string name="button_confirm">确定</string>
+
+    <string-array name="interview_filter">
+        <item>本周</item>
+        <item>未来</item>
+        <item>过去</item>
+    </string-array>
+
+    <string-array name="language_option" translatable="false">
+        <item>English (US)</item>
+        <item>Español (Spanish)</item>
+        <item>简体中文 (Chinese, Simplified)</item>
+    </string-array>
+
+    <string-array name="language_code" translatable="false">
+        <item>en</item>
+        <item>es</item>
+        <item>zh</item>
+    </string-array>
+
+    <string-array name="theme_option">
+        <item>浅色</item>
+        <item>深色</item>
+        <item>默认</item>
+    </string-array>
+
+    <string-array name="notification_reminder_option">
+        <item>开始前 15 分钟</item>
+        <item>开始前 30 分钟</item>
+        <item>开始前 1 小时</item>
+        <item>无提醒</item>
+    </string-array>
+
+</resources>

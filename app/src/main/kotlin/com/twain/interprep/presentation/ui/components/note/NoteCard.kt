@@ -82,7 +82,7 @@ fun NoteCard(
                             .padding(
                                 vertical = dimensionResource(id = R.dimen.dimension_16dp)
                             ),
-                        text = stringResource(R.string.label_interview_segment_1),
+                        text = "1",
                         textStyle = MaterialTheme.typography.titleSmall,
                         textColor = MaterialColorPalette.onSecondaryContainer,
                         size = dimensionResource(id = R.dimen.dimension_icon_size_32),

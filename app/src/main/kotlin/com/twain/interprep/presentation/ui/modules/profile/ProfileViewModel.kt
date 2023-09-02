@@ -55,7 +55,18 @@ class ProfileViewModel @Inject constructor(
         action = null
 
         launchCoroutineIO {
-            dataStoreUseCase.setUsernameUseCase(name)
+            dataStoreUseCase.usernameUseCase.setUsername(name)
+        }
+    }
+
+    fun setLanguage(language: String, langCode: String) {
+        preferenceItem = preferenceItem.copy(
+            preferredLanguage = language
+        )
+        action = null
+
+        launchCoroutineIO {
+            dataStoreUseCase.languageUseCase.setLanguage(language, langCode)
         }
     }
 

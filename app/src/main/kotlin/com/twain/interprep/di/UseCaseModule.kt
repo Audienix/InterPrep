@@ -3,8 +3,9 @@ package com.twain.interprep.di
 import com.twain.interprep.datastore.DataStoreRepository
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.datastore.usecase.GetProfileSettingsUseCase
-import com.twain.interprep.datastore.usecase.GetUsernameUseCase
-import com.twain.interprep.datastore.usecase.SetUsernameUseCase
+import com.twain.interprep.datastore.usecase.OnboardingUseCase
+import com.twain.interprep.datastore.usecase.PreferredLanguageUseCase
+import com.twain.interprep.datastore.usecase.UsernameUseCase
 import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.repository.NoteRepository
 import com.twain.interprep.domain.repository.QuoteRepository
@@ -120,9 +121,10 @@ class UseCaseModule {
     @Provides
     fun provideDataStoreUseCase(dataStoreRepository: DataStoreRepository): DataStoreUseCase {
         return DataStoreUseCase(
+            onboardingUseCase = OnboardingUseCase(dataStoreRepository),
             getProfileSettingsUseCase = GetProfileSettingsUseCase(dataStoreRepository),
-            setUsernameUseCase = SetUsernameUseCase(dataStoreRepository),
-            getUsernameUseCase = GetUsernameUseCase(dataStoreRepository)
+            usernameUseCase = UsernameUseCase(dataStoreRepository),
+            languageUseCase = PreferredLanguageUseCase((dataStoreRepository))
         )
     }
 }

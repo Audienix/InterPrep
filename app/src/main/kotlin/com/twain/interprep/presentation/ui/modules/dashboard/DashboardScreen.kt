@@ -58,6 +58,7 @@ import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
+import com.twain.interprep.utils.getFirstName
 import com.twain.interprep.utils.getInterviewCardColorPair
 import com.twain.interprep.utils.getInterviewEmptyStateTextPair
 import com.twain.interprep.utils.getNameInitials
@@ -78,15 +79,14 @@ fun DashboardScreen(
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             if (dashboardViewModel.todayInterviewState is ViewResult.Loaded) {
                 val todayInterviewList =
                     (dashboardViewModel.todayInterviewState as ViewResult.Loaded<List<Interview>>).data
                 IPLargeAppBar(
-                    title = "${stringResource(R.string.hello)} ${dashboardViewModel.username}",
-                    subtitle = "Good ${getTimeOfDayGreeting()}",
+                    title = "${stringResource(R.string.hello)} ${getFirstName(input = dashboardViewModel.username)}",
+                    subtitle = "${stringResource(R.string.good)} ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),
                     isInterviewDetailsVisible = true,
@@ -173,8 +173,10 @@ private fun ShowDashboardScreenContent(
                     val textPair = getInterviewEmptyStateTextPair(interviewType)
                     ShowEmptyState(
                         modifier = Modifier.padding(
-                            bottom = dimensionResource(id = R.dimen.dimension_24dp)),
-                        textPair.first, textPair.second)
+                            bottom = dimensionResource(id = R.dimen.dimension_24dp)
+                        ),
+                        textPair.first, textPair.second
+                    )
                 }
 
             }
@@ -190,14 +192,15 @@ private fun ShowDashboardScreenContent(
 private fun ShowEmptyState(
     modifier: Modifier = Modifier,
     title: String,
-    description: String) {
+    description: String
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
     ) {
         FullScreenEmptyState(
             Modifier,
-            R.drawable.empty_state_dashboard,
+            R.drawable.ic_empty_dashboard,
             title, description
         )
     }

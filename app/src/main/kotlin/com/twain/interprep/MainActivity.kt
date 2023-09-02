@@ -11,8 +11,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.data.ui.QuoteData
+import com.twain.interprep.helper.LocalizationViewModel
 import com.twain.interprep.helper.PrefManager
-import com.twain.interprep.presentation.navigation.NavGraph
+import com.twain.interprep.presentation.navigation.OnboardingNavGraph
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject lateinit var prefManager: PrefManager
+    @Inject lateinit var localizationViewModel: LocalizationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -30,6 +32,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             InterPrepTheme {
+                localizationViewModel.initialize(this)
                 // Insert quotes into DB
                 val quotesViewModel: QuotesViewModel = hiltViewModel()
                 LaunchedEffect(Unit) {
@@ -42,7 +45,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialColorPalette.surface
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController, prefManager)
+                    OnboardingNavGraph(navController = navController, prefManager = prefManager)
                 }
             }
         }
