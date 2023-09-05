@@ -30,10 +30,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var prefManager: PrefManager
-    @Inject lateinit var localizationViewModel: LocalizationViewModel
+    @Inject
+    lateinit var prefManager: PrefManager
+    @Inject
+    lateinit var localizationViewModel: LocalizationViewModel
 
-    @Inject lateinit var dataStoreUseCase: DataStoreUseCase
+    @Inject
+    lateinit var dataStoreUseCase: DataStoreUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -43,37 +46,42 @@ class MainActivity : ComponentActivity() {
             InterPrepTheme {
                 localizationViewModel.initialize(this)
 
-            var appTheme: ViewResult<Int> by remember {
-                mutableStateOf(ViewResult.UnInitialized)
-            }
-            LaunchedEffect(Unit) {
-                dataStoreUseCase.getAppThemeUseCase().collect {
-                    appTheme = ViewResult.Loaded(it)
+                var appTheme: ViewResult<Int> by remember {
+                    mutableStateOf(ViewResult.UnInitialized)
                 }
-            }
-
-            if (appTheme is ViewResult.Loaded) {
-                val isDarkTheme = when((appTheme as ViewResult.Loaded<Int>).data) {
-                    2 -> isSystemInDarkTheme()
-                    1 -> true
-                    else -> false
-                }
-                InterPrepTheme(
-                    darkTheme = isDarkTheme
-                ) {
-                    // Insert quotes into DB
-                    val quotesViewModel: QuotesViewModel = hiltViewModel()
-                    LaunchedEffect(Unit) {
-                        quotesViewModel.insertQuotes(QuoteData.quotes)
+                LaunchedEffect(Unit) {
+                    dataStoreUseCase.getAppThemeUseCase().collect {
+                        appTheme = ViewResult.Loaded(it)
                     }
+                }
 
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialColorPalette.surface
-                ) {
-                    val navController = rememberNavController()
-                    OnboardingNavGraph(navController = navController, prefManager = prefManager)
+                if (appTheme is ViewResult.Loaded) {
+                    val isDarkTheme = when ((appTheme as ViewResult.Loaded<Int>).data) {
+                        2 -> isSystemInDarkTheme()
+                        1 -> true
+                        else -> false
+                    }
+                    InterPrepTheme(
+                        darkTheme = isDarkTheme
+                    ) {
+                        // Insert quotes into DB
+                        val quotesViewModel: QuotesViewModel = hiltViewModel()
+                        LaunchedEffect(Unit) {
+                            quotesViewModel.insertQuotes(QuoteData.quotes)
+                        }
+
+                        // A surface container using the 'background' color from the theme
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialColorPalette.surface
+                        ) {
+                            val navController = rememberNavController()
+                            OnboardingNavGraph(
+                                navController = navController,
+                                prefManager = prefManager
+                            )
+                        }
+                    }
                 }
             }
         }
