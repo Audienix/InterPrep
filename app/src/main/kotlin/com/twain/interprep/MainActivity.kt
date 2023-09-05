@@ -6,14 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -23,6 +20,7 @@ import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.helper.LocalizationViewModel
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
+import com.twain.interprep.helper.BooleanPair
 import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.navigation.OnboardingNavGraph
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
@@ -46,47 +44,45 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            InterPrepTheme {
-                localizationViewModel.initialize(this)
-
-                var appTheme: ViewResult<Int> by rememberSaveable {
-                    mutableStateOf(ViewResult.UnInitialized)
-                }
-                LaunchedEffect(Unit) {
-                    dataStoreUseCase.getAppThemeUseCase().collect {
-                        appTheme = ViewResult.Loaded(it)
-                    }
-                }
-
-                if (appTheme is ViewResult.Loaded) {
-                    val isDarkTheme = when ((appTheme as ViewResult.Loaded<Int>).data) {
-                        2 -> isSystemInDarkTheme()
-                        1 -> true
-                        else -> false
-                    }
-                    InterPrepTheme(
-                        darkTheme = isDarkTheme
-                    ) {
-                        // Insert quotes into DB
-                        val quotesViewModel: QuotesViewModel = hiltViewModel()
-                        LaunchedEffect(Unit) {
-                            quotesViewModel.insertQuotes(QuoteData.quotes)
-                        }
-
-                        // A surface container using the 'background' color from the theme
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialColorPalette.surface
-                        ) {
-                            val navController = rememberNavController()
-                            OnboardingNavGraph(
-                                navController = navController,
-                                prefManager = prefManager
-                            )
-                        }
-                    }
+            val themeArray = resources.getStringArray(R.array.theme_option)
+            var dakTheme by rememberSaveable { mutableStateOf(themeArray[2]) }
+            LaunchedEffect(Unit) {
+                dataStoreUseCase.getAppThemeUseCase().collect {
+                    dakTheme = it
                 }
             }
+            InterPrepTheme(
+                darkTheme = when (dakTheme) {
+                    themeArray[1] -> true
+                    themeArray[2] -> isSystemInDarkTheme()
+                    else -> false
+                }
+            ) {
+                localizationViewModel.initialize(this)
+                InsertQuotesInDB()
+
+                // A surface container using the 'surface' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialColorPalette.surface
+                ) {
+                    val navController = rememberNavController()
+                    OnboardingNavGraph(
+                        navController = navController, hasOnboarded = prefManager.getBoolean(
+                            BooleanPair.HasOnboarded
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun InsertQuotesInDB() {
+        // Insert quotes into DB
+        val quotesViewModel: QuotesViewModel = hiltViewModel()
+        LaunchedEffect(Unit) {
+            quotesViewModel.insertQuotes(QuoteData.quotes)
         }
     }
 }

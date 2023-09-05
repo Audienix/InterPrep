@@ -1,6 +1,8 @@
 package com.twain.interprep.constants
 
 object StringConstants {
+    const val SHARED_PREF_NAME = "interprep_shared_pref"
+
     // All date & time formats supported
     const val DT_FORMAT_DATE = "dd"
     const val DT_FORMAT_MONTH_YEAR = "MMM, yyyy"

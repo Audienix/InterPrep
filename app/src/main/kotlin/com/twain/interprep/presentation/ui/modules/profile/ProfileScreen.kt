@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -69,7 +69,7 @@ fun ProfileScreen(
     ) { paddingValues ->
 
         viewModel.action?.let {
-            HandleAction(action = it, viewModel = viewModel, navController = navController)
+            HandleAction(action = it, navController = navController)
         }
 
         ProfileColumn(
@@ -190,7 +190,10 @@ fun AppVersion() {
 }
 
 @Composable
-fun HandleAction(action: ClickAction, viewModel: ProfileViewModel, navController: NavHostController) {
+fun HandleAction(
+    action: ClickAction,
+    navController: NavHostController
+) {
     when (action) {
         ClickAction.NONE -> {}
         ClickAction.NAME -> HandleNameClick()
@@ -198,7 +201,7 @@ fun HandleAction(action: ClickAction, viewModel: ProfileViewModel, navController
         ClickAction.APP_THEME -> HandleThemeCLick()
         ClickAction.NOTIFICATION_REMINDER -> TODO()
         ClickAction.RATING_FEEDBACK -> HandleAppReview()
-        ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(viewModel, navController)
+        ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(navController = navController)
     }
 }
 
@@ -244,13 +247,14 @@ fun HandleLanguageClick(
         }
     )
 }
+
 @Composable
 fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
     IPMultipleChoiceAlertDialog(
         titleRes = R.string.label_setting_theme,
         cancelButtonRes = R.string.button_cancel,
         confirmButtonRes = R.string.button_confirm,
-        onCancelClick =  { viewModel.setAction(ClickAction.NONE)},
+        onCancelClick = { viewModel.setAction(ClickAction.NONE) },
         onConfirmClick = { viewModel.setAppTheme() },
         options = viewModel.appThemeOptions,
         onChoiceSelected = viewModel::onAppThemeSelected,
@@ -265,7 +269,7 @@ fun HandleAppReview() {
 
 @Composable
 fun HandlePrivacyPolicyClick(
-    viewModel: ProfileViewModel,
+    viewModel: ProfileViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     viewModel.setAction(ClickAction.NONE)

@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.twain.interprep.helper.BooleanPair
-import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.ui.modules.common.MainScreen
 import com.twain.interprep.presentation.ui.modules.onboarding.GreetingScreen
 import com.twain.interprep.presentation.ui.modules.onboarding.IntroScreen
@@ -13,13 +11,13 @@ import com.twain.interprep.presentation.ui.modules.onboarding.IntroScreen
 @Composable
 fun OnboardingNavGraph (
     navController: NavHostController,
-    prefManager: PrefManager
+    hasOnboarded: Boolean
 ) {
     NavHost(
         navController = navController,
         route = AppScreens.OnboardingScreens.route,
         startDestination = AppScreens.OnboardingScreens.Introduction.route.takeUnless {
-            prefManager.getBoolean(BooleanPair.HasOnboarded)
+            hasOnboarded
         }
             ?: AppScreens.MainScreens.route) {
         composable(AppScreens.OnboardingScreens.Introduction.route) {
@@ -30,7 +28,7 @@ fun OnboardingNavGraph (
             }
         }
         composable(AppScreens.OnboardingScreens.Greetings.route) {
-            GreetingScreen(navController = navController, prefManager = prefManager)
+            GreetingScreen(navController = navController)
         }
         // MainScreen will have its own NavGraph to manage the bottom bar
         composable(AppScreens.MainScreens.route) {

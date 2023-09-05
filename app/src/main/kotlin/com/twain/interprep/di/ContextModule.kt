@@ -3,9 +3,9 @@ package com.twain.interprep.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.twain.interprep.constants.StringConstants.SHARED_PREF_NAME
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.helper.CoroutineContextDispatcherImp
-import com.twain.interprep.helper.PrefManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,11 +23,8 @@ object ContextModule {
 
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("interprep_shared_pref", Context.MODE_PRIVATE)
+        return context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
     }
-
-    @Provides
-    fun providePrefManager(preferences: SharedPreferences) = PrefManager(preferences)
 
     @Provides
     fun provideCoroutineDispatcherContext(coroutineContextProvider: CoroutineContextDispatcherImp):

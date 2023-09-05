@@ -32,7 +32,6 @@ import com.twain.interprep.R
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.helper.LocalizationViewModel
-import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPFilledButton
 import com.twain.interprep.presentation.ui.components.generic.IPHeader
@@ -43,8 +42,7 @@ import com.twain.interprep.presentation.ui.theme.SetStatusBarColor
 
 @Composable
 fun GreetingScreen(
-    navController: NavHostController,
-    prefManager: PrefManager
+    navController: NavHostController
 ) {
     InterPrepTheme {
         SetStatusBarColor(statusBarColor = MaterialColorPalette.surface)
@@ -54,8 +52,7 @@ fun GreetingScreen(
             content = { padding ->
                 GreetingScreenContent(
                     padding = padding,
-                    navController = navController,
-                    prefManager = prefManager
+                    navController = navController
                 )
             }
         )
@@ -66,7 +63,6 @@ fun GreetingScreen(
 private fun GreetingScreenContent(
     padding: PaddingValues,
     navController: NavHostController,
-    prefManager: PrefManager,
     localizationViewModel: LocalizationViewModel = hiltViewModel(),
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
@@ -149,7 +145,7 @@ private fun GreetingScreenContent(
                 val langCode = localizationViewModel.getLanguageCode(language)
                 onboardingViewModel.setUsername(username)
                 onboardingViewModel.setLanguage(language, langCode)
-                prefManager.putBoolean(PrefManager.HAS_ONBOARDED, true)
+                onboardingViewModel.setOnboardingStatus(status = true)
                 localizationViewModel.setLocale(context, langCode, false)
                 navController.navigate(AppScreens.MainScreens.route) {
                     popUpTo(AppScreens.OnboardingScreens.Greetings.route) { inclusive = true }
