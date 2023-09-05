@@ -20,35 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
-import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 
-@Composable
-fun IPTextInputDialog(
-    @StringRes titleRes: Int,
-    @StringRes cancelButtonRes: Int,
-    @StringRes confirmButtonRes: Int,
-    inputText: String,
-    onTextUpdate: (String) -> Unit,
-    textInputAttributes: TextInputAttributes,
-    onCancelClick: () -> Unit,
-    onConfirmClick: () -> Unit
-) {
-    IPCustomAlertDialog(
-        titleRes = titleRes,
-        onCancelClick = onCancelClick,
-        onConfirmClick = onConfirmClick,
-        cancelButtonRes = cancelButtonRes,
-        confirmButtonRes = confirmButtonRes
-    ) {
-        IPTextInput(
-            inputText = inputText,
-            textInputAttributes = textInputAttributes,
-            onTextUpdate = onTextUpdate
-        )
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -18,7 +18,7 @@ object ProfileSettingsData {
     data class PreferenceItem(
         val userName: String = "",
         val preferredLanguage: String = "",
-        val appTheme: String = "",
+        val appTheme: Int = 2,
         val notificationReminder: String = ""
     )
 
