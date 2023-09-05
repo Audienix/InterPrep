@@ -16,6 +16,7 @@ import com.twain.interprep.presentation.ui.modules.notes.AddNotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.NotesScreen
 import com.twain.interprep.presentation.ui.modules.notes.ViewMoreQuestionsScreen
 import com.twain.interprep.presentation.ui.modules.notes.ViewNotesScreen
+import com.twain.interprep.presentation.ui.modules.profile.PrivacyPolicyScreen
 import com.twain.interprep.presentation.ui.modules.profile.ProfileScreen
 import com.twain.interprep.presentation.ui.modules.resources.AddResourceScreen
 import com.twain.interprep.presentation.ui.modules.resources.ResourcesScreen
@@ -107,6 +108,13 @@ fun MainScreensNavGraph(navController: NavHostController) {
             route = AppScreens.MainScreens.Profile.route
         ) {
             ProfileScreen(navController = navController)
+        }
+
+        // privacy policy
+        composable(
+            route = AppScreens.MainScreens.PrivacyPolicy.route
+        ) {
+            PrivacyPolicyScreen()
         }
     }
 }

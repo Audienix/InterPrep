@@ -33,7 +33,7 @@ private fun InterPrepColorPalette(
 ) {
     val colorPalette = if (darkTheme) DarkColorPalette else LightColorPalette
 
-    SetStatusBarColor(colorPalette.surfaceContainerLow)
+    SetStatusBarColor(colorPalette.surfaceContainerLow, darkTheme)
     CompositionLocalProvider(
         LocalIPColorPalette provides colorPalette
     ) {

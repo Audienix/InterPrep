@@ -176,7 +176,7 @@
         <item>Past</item>
     </string-array>
 
-    <string-array name="language_option">
+    <string-array name="language_option" translatable="false">
         <item>English (US)</item>
         <item>Español (Spanish)</item>
         <item>简体中文 (Chinese, Simplified)</item>

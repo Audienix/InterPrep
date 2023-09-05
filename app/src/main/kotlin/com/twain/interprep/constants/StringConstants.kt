@@ -1,6 +1,8 @@
 package com.twain.interprep.constants
 
 object StringConstants {
+    const val SHARED_PREF_NAME = "interprep_shared_pref"
+
     // All date & time formats supported
     const val DT_FORMAT_DATE = "dd"
     const val DT_FORMAT_MONTH_YEAR = "MMM, yyyy"
@@ -32,4 +34,10 @@ object StringConstants {
     // Notification keys
     const val NOTIFICATION_KEY_TITLE = "title"
     const val NOTIFICATION_KEY_MESSAGE = "message"
+
+    // Chrome Package
+    const val CHROME_PACKAGE_NAME = "com.android.chrome"
+
+    // Privacy Policy Website
+    const val PRIVACY_POLICY_WEBSITE = "https://google.com"
 }

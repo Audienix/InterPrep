@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,12 +32,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.twain.interprep.BuildConfig
 import com.twain.interprep.R
+import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.ui.ProfileSettingsData.ClickAction
 import com.twain.interprep.data.ui.ProfileSettingsData.ProfileSettingsItemData
 import com.twain.interprep.data.ui.TextInputAttributes
 import com.twain.interprep.data.ui.TextInputType
 import com.twain.interprep.helper.LocalizationViewModel
+import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.IPAvatar
+import com.twain.interprep.presentation.ui.components.generic.IPChromeTab
 import com.twain.interprep.presentation.ui.components.generic.IPCircleTextIcon
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPMultipleChoiceAlertDialog
@@ -52,8 +55,8 @@ fun ProfileScreen(
 ) {
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel.getAppThemeOptions(context)
         viewModel.setProfileSettings()
+        viewModel.getAppThemeOptions(context)
     }
 
     Scaffold(
@@ -66,7 +69,7 @@ fun ProfileScreen(
     ) { paddingValues ->
 
         viewModel.action?.let {
-            HandleAction(action = it, viewModel = viewModel)
+            HandleAction(action = it, navController = navController)
         }
 
         ProfileColumn(
@@ -187,20 +190,23 @@ fun AppVersion() {
 }
 
 @Composable
-fun HandleAction(action: ClickAction, viewModel: ProfileViewModel) {
+fun HandleAction(
+    action: ClickAction,
+    navController: NavHostController
+) {
     when (action) {
         ClickAction.NONE -> {}
-        ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick(viewModel = viewModel)
-        ClickAction.NAME -> HandleNameClick(viewModel)
-        ClickAction.APP_THEME -> HandleThemeCLick(viewModel)
+        ClickAction.NAME -> HandleNameClick()
+        ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick()
+        ClickAction.APP_THEME -> HandleThemeCLick()
         ClickAction.NOTIFICATION_REMINDER -> TODO()
-        ClickAction.RATING_FEEDBACK -> TODO()
-        ClickAction.PRIVACY_POLICY -> TODO()
+        ClickAction.RATING_FEEDBACK -> HandleAppReview()
+        ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(navController = navController)
     }
 }
 
 @Composable
-fun HandleNameClick(viewModel: ProfileViewModel) {
+fun HandleNameClick(viewModel: ProfileViewModel = hiltViewModel()) {
     IPTextInputDialog(
         titleRes = R.string.label_setting_name,
         cancelButtonRes = R.string.button_cancel,
@@ -241,13 +247,14 @@ fun HandleLanguageClick(
         }
     )
 }
+
 @Composable
-fun HandleThemeCLick(viewModel: ProfileViewModel) {
+fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
     IPMultipleChoiceAlertDialog(
         titleRes = R.string.label_setting_theme,
         cancelButtonRes = R.string.button_cancel,
         confirmButtonRes = R.string.button_confirm,
-        onCancelClick =  { viewModel.setAction(ClickAction.NONE, "")},
+        onCancelClick = { viewModel.setAction(ClickAction.NONE) },
         onConfirmClick = { viewModel.setAppTheme() },
         options = viewModel.appThemeOptions,
         onChoiceSelected = viewModel::onAppThemeSelected,
@@ -255,3 +262,18 @@ fun HandleThemeCLick(viewModel: ProfileViewModel) {
     )
 }
 
+@Composable
+fun HandleAppReview() {
+    // IPAppReview()
+}
+
+@Composable
+fun HandlePrivacyPolicyClick(
+    viewModel: ProfileViewModel = hiltViewModel(),
+    navController: NavHostController
+) {
+    viewModel.setAction(ClickAction.NONE)
+    IPChromeTab(context = LocalContext.current, url = StringConstants.PRIVACY_POLICY_WEBSITE) {
+        navController.navigate(AppScreens.MainScreens.PrivacyPolicy.route)
+    }
+}

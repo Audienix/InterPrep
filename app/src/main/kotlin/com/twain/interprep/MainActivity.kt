@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.twain.interprep.data.model.ViewResult
 import com.twain.interprep.data.ui.QuoteData
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
+import com.twain.interprep.helper.BooleanPair
 import com.twain.interprep.helper.LocalizationViewModel
 import com.twain.interprep.helper.PrefManager
 import com.twain.interprep.presentation.navigation.OnboardingNavGraph
@@ -32,6 +34,7 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var prefManager: PrefManager
+
     @Inject
     lateinit var localizationViewModel: LocalizationViewModel
 
@@ -43,47 +46,49 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            InterPrepTheme {
-                localizationViewModel.initialize(this)
-
-                var appTheme: ViewResult<Int> by remember {
-                    mutableStateOf(ViewResult.UnInitialized)
+            var appTheme: ViewResult<Int> by remember {
+                mutableStateOf(ViewResult.UnInitialized)
+            }
+            LaunchedEffect(Unit) {
+                dataStoreUseCase.getAppThemeUseCase().collect {
+                    appTheme = ViewResult.Loaded(it)
                 }
-                LaunchedEffect(Unit) {
-                    dataStoreUseCase.getAppThemeUseCase().collect {
-                        appTheme = ViewResult.Loaded(it)
-                    }
+            }
+            if (appTheme is ViewResult.Loaded) {
+                val isDarkTheme = when ((appTheme as ViewResult.Loaded<Int>).data) {
+                    1 -> true
+                    2 -> isSystemInDarkTheme()
+                    else -> false
                 }
+                InterPrepTheme(
+                    darkTheme = isDarkTheme
+                ) {
+                    localizationViewModel.initialize(this)
+                    InsertQuotesInDB()
 
-                if (appTheme is ViewResult.Loaded) {
-                    val isDarkTheme = when ((appTheme as ViewResult.Loaded<Int>).data) {
-                        2 -> isSystemInDarkTheme()
-                        1 -> true
-                        else -> false
-                    }
-                    InterPrepTheme(
-                        darkTheme = isDarkTheme
+                    // A surface container using the 'surface' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialColorPalette.surface
                     ) {
-                        // Insert quotes into DB
-                        val quotesViewModel: QuotesViewModel = hiltViewModel()
-                        LaunchedEffect(Unit) {
-                            quotesViewModel.insertQuotes(QuoteData.quotes)
-                        }
-
-                        // A surface container using the 'background' color from the theme
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialColorPalette.surface
-                        ) {
-                            val navController = rememberNavController()
-                            OnboardingNavGraph(
-                                navController = navController,
-                                prefManager = prefManager
+                        val navController = rememberNavController()
+                        OnboardingNavGraph(
+                            navController = navController, hasOnboarded = prefManager.getBoolean(
+                                BooleanPair.HasOnboarded
                             )
-                        }
+                        )
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun InsertQuotesInDB() {
+        // Insert quotes into DB
+        val quotesViewModel: QuotesViewModel = hiltViewModel()
+        LaunchedEffect(Unit) {
+            quotesViewModel.insertQuotes(QuoteData.quotes)
         }
     }
 }
