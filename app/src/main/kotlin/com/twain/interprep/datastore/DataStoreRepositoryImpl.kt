@@ -36,8 +36,7 @@ class DataStoreRepositoryImpl(
                 userName = preferences[PreferenceKeys.USER_NAME] ?: "",
                 preferredLanguage = preferences[PreferenceKeys.PREFERRED_LANGUAGE]
                     ?: context.resources.getStringArray(R.array.language_option)[0],
-                appTheme = preferences[PreferenceKeys.APP_THEME]
-                    ?: context.resources.getStringArray(R.array.theme_option)[2],
+                appTheme = preferences[PreferenceKeys.APP_THEME] ?: 2,
                 notificationReminder = preferences[PreferenceKeys.NOTIFICATION_REMINDER]
                     ?: context.resources.getStringArray(R.array.notification_reminder_option)[2]
             )
