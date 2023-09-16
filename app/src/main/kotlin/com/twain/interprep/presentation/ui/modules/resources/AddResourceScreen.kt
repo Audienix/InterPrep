@@ -50,7 +50,6 @@ fun AddResourceScreen(
     val shouldShowAlert = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
     // Flag to check if we should highlight any empty mandatory input field by showing an error message
-    var shouldValidateFormFields by remember { mutableStateOf(false) }
     val isEdit = resourceId != 0
 
     LaunchedEffect(Unit) {
@@ -88,35 +87,66 @@ fun AddResourceScreen(
             )
         },
         content = { padding ->
-            ShowDeleteConfirmationDialog(showDeleteDialog, navController, viewModel)
-            if (shouldShowAlert.value) {
-                IPAlertDialog(
-                    titleResId = R.string.alert_dialog_unsaved_resource_title,
-                    contentResId = R.string.alert_dialog_unsaved_resource_text,
-                    // "OK" is clicked
-                    onPositiveButtonClick = {
-                        shouldShowAlert.value = false
-                        navController.popBackStack()
-                    },
-                    // "CANCEL" is clicked
-                    onNegativeButtonClick = {
-                        shouldShowAlert.value = false
-                        shouldValidateFormFields = true
-                    })
-            }
-            ShowScreenContent(padding, isEdit, viewModel, shouldValidateFormFields)
+            ShowDeleteConfirmationDialog(
+                showDeleteDialog = showDeleteDialog,
+                navController = navController
+            )
+            ShowScreenContent(
+                padding = padding,
+                isEdit = isEdit,
+                shouldShowAlert = shouldShowAlert,
+                navController = navController
+            )
         },
         containerColor = MaterialColorPalette.surface,
     )
+}
+
+private fun handleBackPress(
+    viewModel: ResourcesViewModel,
+    navController: NavController,
+    shouldShowAlert: MutableState<Boolean>
+) {
+    if (viewModel.isResourceAndLinksValid()) {
+        viewModel.addAllLinks()
+        navController.popBackStack()
+    } else shouldShowAlert.value = true
+}
+
+@Composable
+private fun showBackConfirmationDialog(
+    shouldShowAlert: MutableState<Boolean>,
+    navController: NavHostController,
+    shouldValidateFormFields: Boolean
+): Boolean {
+    var shouldValidateFormFields1 = shouldValidateFormFields
+    if (shouldShowAlert.value) {
+        IPAlertDialog(
+            titleResId = R.string.alert_dialog_unsaved_resource_title,
+            contentResId = R.string.alert_dialog_unsaved_resource_text,
+            // "OK" is clicked
+            onPositiveButtonClick = {
+                shouldShowAlert.value = false
+                navController.popBackStack()
+            },
+            // "CANCEL" is clicked
+            onNegativeButtonClick = {
+                shouldShowAlert.value = false
+                shouldValidateFormFields1 = true
+            })
+    }
+    return shouldValidateFormFields1
 }
 
 @Composable
 private fun ShowScreenContent(
     padding: PaddingValues,
     isEdit: Boolean,
-    viewModel: ResourcesViewModel,
-    shouldValidateFormFields: Boolean
+    shouldShowAlert: MutableState<Boolean>,
+    navController: NavHostController,
+    viewModel: ResourcesViewModel = hiltViewModel()
 ) {
+    var shouldValidateFormFields by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -203,24 +233,16 @@ private fun ShowScreenContent(
             }
         }
     }
-}
 
-private fun handleBackPress(
-    viewModel: ResourcesViewModel,
-    navController: NavController,
-    shouldShowAlert: MutableState<Boolean>
-) {
-    if (viewModel.isResourceAndLinksValid()) {
-        viewModel.addAllLinks()
-        navController.popBackStack()
-    } else shouldShowAlert.value = true
+    shouldValidateFormFields =
+        showBackConfirmationDialog(shouldShowAlert, navController, shouldValidateFormFields)
 }
 
 @Composable
 private fun ShowDeleteConfirmationDialog(
     showDeleteDialog: MutableState<Boolean>,
     navController: NavHostController,
-    viewModel: ResourcesViewModel
+    viewModel: ResourcesViewModel = hiltViewModel()
 ) {
     if (showDeleteDialog.value) {
         IPAlertDialog(
