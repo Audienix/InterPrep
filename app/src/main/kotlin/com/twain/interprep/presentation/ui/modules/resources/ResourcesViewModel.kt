@@ -116,6 +116,7 @@ class ResourcesViewModel @Inject constructor(
     fun deleteLink(link: ResourceLink) {
         launchCoroutineIO {
             resourceLinkUseCase.deleteResourceLinkUseCase(link)
+            links.removeIf { it.linkId == link.linkId }
         }
     }
 
