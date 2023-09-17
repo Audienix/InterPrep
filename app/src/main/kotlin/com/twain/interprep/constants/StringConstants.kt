@@ -39,5 +39,5 @@ object StringConstants {
     const val CHROME_PACKAGE_NAME = "com.android.chrome"
 
     // Privacy Policy Website
-    const val PRIVACY_POLICY_WEBSITE = "https://google.com"
+    const val PRIVACY_POLICY_WEBSITE = "https://medium.com/@team.interprep/interprep-privacy-policy-9a270cb96626"
 }
