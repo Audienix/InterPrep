@@ -1,10 +1,10 @@
 # InterPrep
 
-[Work in progress 🚧] An Android App that manages your interview schedule and preparation.
+An Android Application that manages your interview schedule and preparation.
 
-It is built with Jetpack Compose, Material Design 3, Room, Navigation Components, Kotlin Coroutines,
+It is built completely with Jetpack Compose, Material Design 3, Room, Navigation Components, Kotlin Coroutines,
 Hilt using the recommended <a href="https://developer.android.com/topic/architecture">Android
-Architecture Guidelines</a>.
+CLEAN Architecture Guidelines</a>.
 
 ## Screenshots
 Coming soon
@@ -21,7 +21,7 @@ Coming soon
 
 ## Contributions
 
-If you've found an error in the project, please file an issue.
+If you've found an error in the project, please file an issue in Github.
 
 Patches are encouraged and may be submitted by forking this project and submitting a pull request.
 Since this project is still in its very early stages, if your change is substantial, please raise an
