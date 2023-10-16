@@ -41,6 +41,7 @@ import com.twain.interprep.presentation.ui.theme.Shapes
 @Composable
 fun ResourceCard(
     resourceAndLinks: Pair<Resource, List<ResourceLink>>,
+    showEditIcon: Boolean = true,
     onEditResourceClick: () -> Unit,
 ) {
     var isExpanded by remember { mutableStateOf(true) }
@@ -81,6 +82,7 @@ fun ResourceCard(
             }
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimension_16dp)))
             Column(
+                modifier = Modifier.weight(8f),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
             ) {
                 Text(
@@ -105,17 +107,19 @@ fun ResourceCard(
                     }
                 }
             }
-            Box(modifier = Modifier.fillMaxWidth()) {
-                IconButton(
-                    onClick = onEditResourceClick,
-                    modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.dimension_icon_size_24))
-                        .align(Alignment.TopEnd)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Edit, contentDescription = "",
-                        tint = MaterialColorPalette.onSurfaceVariant,
-                    )
+            if (showEditIcon) {
+                Box(modifier = Modifier.weight(1f)) {
+                    IconButton(
+                        onClick = onEditResourceClick,
+                        modifier = Modifier
+                            .size(dimensionResource(id = R.dimen.dimension_icon_size_24))
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit, contentDescription = "",
+                            tint = MaterialColorPalette.onSurfaceVariant,
+                        )
+                    }
                 }
             }
         }

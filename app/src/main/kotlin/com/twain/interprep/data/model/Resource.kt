@@ -3,7 +3,6 @@ package com.twain.interprep.data.model
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.constants.StringConstants.DB_TABLE_RESOURCE
 import com.twain.interprep.constants.StringConstants.DB_TABLE_RESOURCE_LINKS
 

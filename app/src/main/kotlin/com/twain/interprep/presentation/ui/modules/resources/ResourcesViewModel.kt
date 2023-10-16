@@ -31,21 +31,14 @@ class ResourcesViewModel @Inject constructor(
     }
     var resource: ViewResult<Resource> by mutableStateOf(ViewResult.UnInitialized)
     val links = mutableStateListOf<ResourceLink>()
-    var resourceAndLinksPairs: ViewResult<List<Pair<Resource, List<ResourceLink>>>> by mutableStateOf(
+    var allResourcesWithLinks: ViewResult<List<Pair<Resource, List<ResourceLink>>>> by mutableStateOf(
+        ViewResult.UnInitialized
+    )
+    var filteredResources: ViewResult<List<Pair<Resource, List<ResourceLink>>>> by mutableStateOf(
         ViewResult.UnInitialized
     )
     var searchText by mutableStateOf("")
 
-    /**
-     * Fetch all information for the list of resource and links screen  [ResourcesScreen]
-     *
-     * @return pairs of Resource and its associated ResourceLinks
-     */
-    fun getResourceAndLinksPair() = launchCoroutineIO {
-        resourceUseCase.getAllResourcesWithLinksUseCase().collect {
-            resourceAndLinksPairs = ViewResult.Loaded(it)
-        }
-    }
 
     /**
      * Fetch all information for resource adding and editing screen [AddResourceScreen]
@@ -218,13 +211,24 @@ class ResourcesViewModel @Inject constructor(
 
     fun addLinkEnabled() = links.isEmpty() || isLinkValid(links.last())
 
-    fun getSearchingResult(searchText: String = "") = launchCoroutineIO {
+    /**
+     * Fetch all information for the list of resource and links screen  [ResourcesScreen]
+     *
+     * @return pairs of Resource and its associated ResourceLinks
+     */
+    fun getAllResources() = launchCoroutineIO {
+        resourceUseCase.getAllResourcesWithLinksUseCase().collect {
+            allResourcesWithLinks = ViewResult.Loaded(it)
+        }
+    }
+    fun getSearchResultResources(searchText: String = "") = launchCoroutineIO {
+        filteredResources = ViewResult.UnInitialized
         resourceUseCase.getResourceWithLinksBySearchText(searchText).collect {
             val result = mutableListOf<Pair<Resource, List<ResourceLink>>>()
             it.forEach { resourceAndLinks ->
                 result.add(resourceAndLinks.resource to resourceAndLinks.links)
             }
-            resourceAndLinksPairs = ViewResult.Loaded(result)
+            filteredResources = ViewResult.Loaded(result)
         }
     }
 
