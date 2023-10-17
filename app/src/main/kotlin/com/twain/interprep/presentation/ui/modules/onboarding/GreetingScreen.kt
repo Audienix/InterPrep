@@ -68,6 +68,7 @@ private fun GreetingScreenContent(
 ) {
     var username by rememberSaveable { mutableStateOf("") }
     var language by rememberSaveable { mutableStateOf("") }
+    var isButtonEnabled by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     Box(
         modifier = Modifier
@@ -115,6 +116,7 @@ private fun GreetingScreenContent(
                     inputText = username,
                     onTextUpdate = { text ->
                         username = text
+                        isButtonEnabled = (username.isNotEmpty() && language.isNotEmpty())
                     }
                 )
                 IPTextInput(
@@ -130,6 +132,7 @@ private fun GreetingScreenContent(
                     inputText = language,
                     onTextUpdate = { text ->
                         language = text
+                        isButtonEnabled = (username.isNotEmpty() && language.isNotEmpty())
                     }
                 )
             }
@@ -141,6 +144,7 @@ private fun GreetingScreenContent(
                 .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
             text = stringResource(id = R.string.button_next),
             textStyle = typography.bodyLarge,
+            enabled = isButtonEnabled,
             onClick = {
                 val langCode = localizationViewModel.getLanguageCode(language)
                 onboardingViewModel.setUsername(username)
