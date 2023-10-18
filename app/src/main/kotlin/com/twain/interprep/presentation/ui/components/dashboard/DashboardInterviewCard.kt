@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,85 +53,79 @@ fun DashboardInterviewCard(
     val context = LocalContext.current
     val interviewCardColorPair = getInterviewCardColorPair(type = interviewType)
     Box {
-        Column {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.dimension_4dp))
-            )
-
-            Card(
-                border = BorderStroke(
-                    dimensionResource(id = R.dimen.dimension_stroke_width_low),
-                    MaterialColorPalette.surfaceContainer
-                ),
-                shape = Shapes.medium,
-                colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLowest),
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.dimension_8dp))
-                    .clickable {
-                        onClick()
-                        navController.navigate(
-                            AppScreens.MainScreens.InterviewDetails.withArgs(
-                                interview.interviewId,
-                                interviewType,
-                            )
-                        ) {
-                            popUpTo(AppScreens.MainScreens.Dashboard.route)
-                        }
+        Card(
+            border = BorderStroke(
+                dimensionResource(id = R.dimen.dimension_stroke_width_low),
+                MaterialColorPalette.surfaceContainer
+            ),
+            shape = Shapes.medium,
+            colors = CardDefaults.cardColors(containerColor = MaterialColorPalette.surfaceContainerLowest),
+            modifier = Modifier
+                .padding(vertical = dimensionResource(id = R.dimen.dimension_4dp))
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.dimension_8dp))
+                .clickable {
+                    onClick()
+                    navController.navigate(
+                        AppScreens.MainScreens.InterviewDetails.withArgs(
+                            interview.interviewId,
+                            interviewType,
+                        )
+                    ) {
+                        popUpTo(AppScreens.MainScreens.Dashboard.route)
                     }
-                    .height(106.dp), //TODO change constant height value
+                }
+                .height(106.dp), //TODO change constant height value
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(dimensionResource(id = R.dimen.dimension_16dp))
             ) {
-                Row(
+                val date = DateUtils.convertDateStringToDate(interview.date)
+                IPDateTimeBox(
+                    date = date,
+                    dateTextColor = interviewCardColorPair.second,
+                    monthYearTextColor = interviewCardColorPair.second,
+                    backgroundColor = interviewCardColorPair.first,
+                    borderColor = Color.Transparent
+                )
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(dimensionResource(id = R.dimen.dimension_16dp))
+                        .padding(start = dimensionResource(id = R.dimen.dimension_16dp)),
+                    verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    val date = DateUtils.convertDateStringToDate(interview.date)
-                    IPDateTimeBox(
-                        date = date,
-                        dateTextColor = interviewCardColorPair.second,
-                        monthYearTextColor = interviewCardColorPair.second,
-                        backgroundColor = interviewCardColorPair.first,
-                        borderColor = Color.Transparent
+                    Text(
+                        text = SimpleDateFormat(
+                            DT_FORMAT_DAY,
+                            Locale.getDefault()
+                        ).format(date).uppercase() + buildString {
+                            append(", ")
+                        } + DateUtils.getDisplayedTime(context, interview.time),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                        color = MaterialColorPalette.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall
                     )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = dimensionResource(id = R.dimen.dimension_16dp)),
-                        verticalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        Text(
-                            text = SimpleDateFormat(
-                                DT_FORMAT_DAY,
-                                Locale.getDefault()
-                            ).format(date).uppercase() + buildString {
-                                append(", ")
-                            } + DateUtils.getDisplayedTime(context, interview.time),
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
-                            color = MaterialColorPalette.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = interview.company,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 2,
-                            color = MaterialColorPalette.onSurface,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = formatRoundNumAndInterviewType(interview).ifEmpty {
-                                stringResource(
-                                    id = R.string.label_no_text_available
-                                )
-                            },
-                            color = MaterialColorPalette.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodyMedium,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-                    }
+                    Text(
+                        text = interview.company,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 2,
+                        color = MaterialColorPalette.onSurface,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = formatRoundNumAndInterviewType(interview).ifEmpty {
+                            stringResource(
+                                id = R.string.label_no_text_available
+                            )
+                        },
+                        color = MaterialColorPalette.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodyMedium,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
                 }
             }
         }
