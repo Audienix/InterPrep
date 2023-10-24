@@ -129,28 +129,34 @@ object InterviewFormData {
 
     fun getInterviewTypeList(): List<String> =
         listOf(
-            "Recruiter",
+            "Recruiter Screening",
             "Hiring Manager",
-            "Technical",
-            "Coding Interview",
+            "Technical Screening",
+            "Online Coding Test",
             "System Design",
-            "Architecture & Design",
-            "Pair Programming"
+            "Take-Home Assignment",
+            "HR/Behavioral",
+            "Panel Interview",
+            "Cultural Fit"
         )
 
     fun getInterviewRoleList(): List<String> = listOf(
+        "Jr. Software Engineer",
         "Software Engineer",
         "Sr. Software Engineer",
         "Staff Engineer",
+        "Sr. Staff Engineer",
+        "Principal Engineer",
         "Engineering Manager",
-        "Backend Developer",
-        "Full Stack Developer",
-        "Mobile App Developer",
-        "Web Developer",
+        "Backend Engineer",
+        "Full Stack Engineer",
+        "Android Engineer",
+        "iOS Engineer",
+        "Web Engineer",
         "DevOps Engineer",
         "Data Scientist",
         "Machine Learning Engineer",
-        "AI Developer",
+        "AI Prompt Engineer",
         "Game Developer",
         "UI / UX Designer",
         "Quality Assurance Engineer",

@@ -184,7 +184,6 @@ private fun HandleComponentInteraction(
                         stringArrayResource(id = R.array.language_option).toCollection(ArrayList())
 
                 IPDropdownMenu(
-                    modifier = modifier.fillMaxWidth(),
                     options = dropdownOptions,
                     textFieldSize = textFieldSize,
                     onDropdownDismiss = { onTextUpdate(it) }
