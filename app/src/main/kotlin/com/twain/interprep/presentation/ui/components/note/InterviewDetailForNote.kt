@@ -24,13 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.twain.interprep.R
 import com.twain.interprep.data.model.Interview
-import com.twain.interprep.presentation.ui.components.dashboard.formatRoundNumAndInterviewType
 import com.twain.interprep.presentation.ui.components.dashboard.interviewMockData
 import com.twain.interprep.presentation.ui.components.generic.IPDateTimeBox
 import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenu
 import com.twain.interprep.presentation.ui.components.generic.IPMoreOptionsMenuItem
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.utils.DateUtils
+import com.twain.interprep.utils.formatRoundNumAndInterviewType
 
 @Composable
 fun InterviewDetailForNote(

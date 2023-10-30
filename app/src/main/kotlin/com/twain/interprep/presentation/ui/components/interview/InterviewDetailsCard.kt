@@ -56,21 +56,19 @@ private fun InterviewDetailsList(labelList: List<TextLabelData>) {
         Column(
             modifier = Modifier
                 .wrapContentHeight()
-                .padding(dimensionResource(id = R.dimen.dimension_8dp))
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.dimension_16dp),
+                    vertical = dimensionResource(id = R.dimen.dimension_8dp)
+                )
         ) {
             Text(
-                modifier = Modifier
-                    .padding(horizontal = dimensionResource(id = R.dimen.dimension_8dp)),
                 text = stringResource(id = textLabelData.labelTextId),
                 color = MaterialColorPalette.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium,
             )
             IPText(
                 modifier = Modifier
-                    .padding(
-                        horizontal = dimensionResource(id = R.dimen.dimension_8dp),
-                        vertical = dimensionResource(id = R.dimen.dimension_4dp)
-                    ),
+                    .padding(vertical = dimensionResource(id = R.dimen.dimension_4dp)),
                 text = textLabelData.labelValue,
                 link = textLabelData.labelValue,
                 textColor = MaterialColorPalette.onSurface,

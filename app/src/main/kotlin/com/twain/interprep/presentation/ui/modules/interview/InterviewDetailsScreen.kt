@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -72,7 +73,7 @@ fun InterviewDetailsScreen(
                 title = array[interviewType.ordinal],
                 navIcon = {
                     IPIcon(
-                        imageVector = Icons.Filled.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         tint = MaterialColorPalette.onSurfaceVariant
                     ) {
                         navController.popBackStack()
@@ -165,7 +166,8 @@ private fun ShowInterviewStatus(
                 horizontal = dimensionResource(id = R.dimen.dimension_8dp),
                 vertical = dimensionResource(id = R.dimen.dimension_16dp)
             ),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
     ) {
         Text(
             text = stringResource(R.string.label_status),

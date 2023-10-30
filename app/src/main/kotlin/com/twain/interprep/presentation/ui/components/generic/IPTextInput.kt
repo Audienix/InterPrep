@@ -143,7 +143,7 @@ fun IPTextInput(
             unfocusedLabelColor = MaterialColorPalette.onSurfaceVariant
         )
     )
-    HandleComponentInteraction(source, textInputAttributes, modifier, inputText, textFieldSize) {
+    HandleComponentInteraction(source, textInputAttributes, inputText, textFieldSize) {
         isError = false
         onTextUpdate(it)
     }
@@ -153,7 +153,6 @@ fun IPTextInput(
 private fun HandleComponentInteraction(
     source: MutableInteractionSource,
     textInputAttributes: TextInputAttributes,
-    modifier: Modifier,
     fieldText: String,
     textFieldSize: Size,
     onTextUpdate: (text: String) -> Unit
@@ -175,13 +174,12 @@ private fun HandleComponentInteraction(
 
             TextInputType.DROPDOWN -> {
                 var dropdownOptions = emptyList<String>()
-                if (textInputAttributes.labelTextId == R.string.hint_label_interview_type)
-                    dropdownOptions = getInterviewTypeList()
-                else if (textInputAttributes.labelTextId == R.string.hint_label_role)
-                    dropdownOptions = getInterviewRoleList()
-                else if (textInputAttributes.labelTextId == R.string.label_setting_language)
-                    dropdownOptions =
+                when (textInputAttributes.labelTextId) {
+                    R.string.hint_label_interview_type -> dropdownOptions = getInterviewTypeList()
+                    R.string.hint_label_role -> dropdownOptions = getInterviewRoleList()
+                    R.string.label_setting_language -> dropdownOptions =
                         stringArrayResource(id = R.array.language_option).toCollection(ArrayList())
+                }
 
                 IPDropdownMenu(
                     options = dropdownOptions,

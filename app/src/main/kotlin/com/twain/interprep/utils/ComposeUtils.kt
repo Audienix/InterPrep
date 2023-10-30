@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.twain.interprep.R
+import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import java.util.Calendar
@@ -67,4 +68,30 @@ fun getInterviewEmptyStateTextPair(type: InterviewType): Pair<String, String> {
             stringResource(id = R.string.empty_state_title_dashboard_past) to
                     stringResource(id = R.string.empty_state_description_dashboard_past)
     }
+}
+
+/**
+ * Format the roundNum and interviewType of the given interview so that when roundNum is empty,
+ * only interviewType is shown and when interviewType is empty, only roundNum is shown and if
+ * both are empty show "N/A".
+ * The result can only be one of the following
+ * "N/A"
+ * "#${interview.roundNum}" or "${interview.interviewType}"
+ * or "#${interview.roundNum} - ${interview.interviewType}".
+ *
+ * @return the formatted string
+ */
+@Composable
+fun formatRoundNumAndInterviewType(interview: Interview): String {
+    val formattedRoundNum =
+        if (interview.roundNum.isNotEmpty())
+            "Round ${interview.roundNum} "
+        else ""
+    val formattedInterviewType =
+        if (interview.roundNum.isNotEmpty() && interview.interviewType.isNotEmpty())
+            "- ${interview.interviewType}"
+        else interview.interviewType
+    return if (formattedRoundNum.isEmpty() && formattedInterviewType.isEmpty()) ""
+    else
+        formattedRoundNum + formattedInterviewType
 }

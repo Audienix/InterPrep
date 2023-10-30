@@ -3,12 +3,14 @@ package com.twain.interprep.data.ui
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.twain.interprep.R
 import com.twain.interprep.constants.StringConstants
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.utils.DateUtils
+import com.twain.interprep.utils.formatRoundNumAndInterviewType
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -83,7 +85,7 @@ object InterviewFormData {
             validationType = ValidationType.URL
         )
     )
-
+    @Composable
     fun getInterviewTextLabelList(interview: Interview, context: Context): List<TextLabelData> {
         val date = "".takeIf { interview.date.isEmpty() } ?: SimpleDateFormat(
             StringConstants.DT_FORMAT_DD_MMMM_YYYY,
@@ -105,7 +107,7 @@ object InterviewFormData {
 
             TextLabelData(
                 R.string.hint_label_round_count,
-                "${interview.roundNum} - ${interview.interviewType}"
+                formatRoundNumAndInterviewType(interview = interview)
             ),
             TextLabelData(
                 R.string.hint_label_interviewer, interview.interviewer

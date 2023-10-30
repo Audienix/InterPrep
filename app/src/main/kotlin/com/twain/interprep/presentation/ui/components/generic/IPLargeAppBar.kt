@@ -41,13 +41,13 @@ import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewType
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.dashboard.NoInterviewCard
-import com.twain.interprep.presentation.ui.components.dashboard.formatRoundNumAndInterviewType
 import com.twain.interprep.presentation.ui.components.dashboard.interviewMockData
 import com.twain.interprep.presentation.ui.modules.interview.QuotesViewModel
 import com.twain.interprep.presentation.ui.theme.InterPrepTheme
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.utils.DateUtils
+import com.twain.interprep.utils.formatRoundNumAndInterviewType
 
 @Composable
 fun IPLargeAppBar(

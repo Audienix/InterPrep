@@ -1,7 +1,6 @@
 package com.twain.interprep.presentation.ui.components.generic
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DropdownMenu
@@ -30,29 +29,27 @@ fun IPDropdownMenu(
 ) {
     var expanded by remember { mutableStateOf(true) }
     var selectedText by remember { mutableStateOf("") }
-
-    Column {
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            properties = PopupProperties(clippingEnabled = false),
-            modifier = modifier
-                .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
-                .background(color = MaterialColorPalette.surfaceContainer)
-        ) {
-            options.forEach { label ->
-                DropdownMenuItem(
-                    colors = MenuDefaults.itemColors(textColor = MaterialColorPalette.onSurface),
-                    onClick = {
-                        selectedText = label
-                        expanded = !expanded
-                        onDropdownDismiss(selectedText)
-                    },
-                    text = {
-                        Text(text = label, style = MaterialTheme.typography.labelLarge)
-                    }
-                )
-            }
+    //TODO Change to ExposedDropDownMenu
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+        properties = PopupProperties(clippingEnabled = false),
+        modifier = modifier
+            .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+            .background(color = MaterialColorPalette.surfaceContainer)
+    ) {
+        options.forEach { label ->
+            DropdownMenuItem(
+                colors = MenuDefaults.itemColors(textColor = MaterialColorPalette.onSurface),
+                onClick = {
+                    selectedText = label
+                    expanded = !expanded
+                    onDropdownDismiss(selectedText)
+                },
+                text = {
+                    Text(text = label, style = MaterialTheme.typography.labelLarge)
+                }
+            )
         }
     }
 }
