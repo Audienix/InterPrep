@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
+import kotlin.collections.emptyList as emptyList
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -77,7 +78,10 @@ fun DashboardScreen(
         dashboardViewModel.getTodayInterviews()
         dashboardViewModel.getInterviews()
     }
-
+    val interviewListState = rememberLazyListState()
+    val selectedInterviewList = remember {
+        mutableStateOf(emptyList<Interview>())
+    }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -89,7 +93,7 @@ fun DashboardScreen(
                     subtitle = "${stringResource(R.string.good)} ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),
-                    isInterviewDetailsVisible = true,
+                    isInterviewDetailsVisible = selectedInterviewList.value.size <=3 ||interviewListState.firstVisibleItemScrollOffset == 0,
                     navController = navController,
                     onAvatarClick = {
                         navController.navigate(AppScreens.MainScreens.Profile.route) {
@@ -110,7 +114,7 @@ fun DashboardScreen(
             }
         },
         content = { padding ->
-            ShowDashboardScreenContent(dashboardViewModel, padding, interviewModel, navController)
+            ShowDashboardScreenContent(dashboardViewModel, padding, interviewModel, navController, interviewListState, selectedInterviewList)
         }
     )
 }
@@ -121,14 +125,15 @@ private fun ShowDashboardScreenContent(
     dashboardViewModel: DashboardViewModel,
     padding: PaddingValues,
     interviewModel: InterviewViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    interviewListState: LazyListState,
+    selectedInterviewList: MutableState<List<Interview>>
 ) {
     val openBottomSheet = rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState()
     val selectedFilterIndex = remember { mutableIntStateOf(0) }
 
-    val interviewListState = rememberLazyListState()
     if (dashboardViewModel.interviewListMetaData is ViewResult.Loaded) {
         val interviews = dashboardViewModel.interviewListMetaData as ViewResult.Loaded
         Column(
@@ -148,6 +153,7 @@ private fun ShowDashboardScreenContent(
                     1 -> interviews.data.comingNextInterviewList
                     else -> interviews.data.pastInterviewList
                 }
+                selectedInterviewList.value  = interviewList.list
                 val interviewType: InterviewType = when (selectedFilterIndex.intValue) {
                     0 -> InterviewType.PRESENT
                     1 -> InterviewType.FUTURE

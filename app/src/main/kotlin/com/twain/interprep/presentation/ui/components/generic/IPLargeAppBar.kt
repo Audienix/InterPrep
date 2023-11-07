@@ -56,7 +56,7 @@ fun IPLargeAppBar(
     subtitle: String,
     todayInterviewList: List<Interview>,
     username: String,
-    isInterviewDetailsVisible: Boolean = false,
+    isInterviewDetailsVisible: Boolean,
     navController: NavHostController,
     onAvatarClick: () -> Unit
 ) {
@@ -69,7 +69,7 @@ fun IPLargeAppBar(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
     ) {
-        GreetingsAndProfile(title, username, subtitle, onAvatarClick)
+        GreetingsAndProfile(title, username, if(isInterviewDetailsVisible)subtitle else "", onAvatarClick)
         if (isInterviewDetailsVisible) {
             if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
@@ -116,14 +116,16 @@ private fun GreetingsAndProfile(
             textColor = MaterialColorPalette.onTertiary,
         )
     }
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
-        text = subtitle,
-        style = MaterialTheme.typography.bodyLarge,
-        color = MaterialColorPalette.onSurfaceVariant
-    )
+    if(subtitle.isNotEmpty()) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+            text = subtitle,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialColorPalette.onSurfaceVariant
+        )
+    }
 }
 
 @Composable
