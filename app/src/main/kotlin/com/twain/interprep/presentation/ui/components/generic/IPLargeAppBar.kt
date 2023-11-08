@@ -308,7 +308,10 @@ fun TodayInterviewCard(
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
-                    if(interview.meetingLink.isNotEmpty()) {
+                }
+
+                if(interview.meetingLink.isNotEmpty()) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
                         IPText(
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
