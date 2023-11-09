@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
-import kotlin.collections.emptyList as emptyList
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -79,9 +79,6 @@ fun DashboardScreen(
         dashboardViewModel.getInterviews()
     }
     val interviewListState = rememberLazyListState()
-    val selectedInterviewList = remember {
-        mutableStateOf(emptyList<Interview>())
-    }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -93,14 +90,13 @@ fun DashboardScreen(
                     subtitle = "${stringResource(R.string.good)} ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),
-                    isInterviewDetailsVisible = selectedInterviewList.value.size <=3 ||interviewListState.firstVisibleItemScrollOffset == 0,
-                    navController = navController,
-                    onAvatarClick = {
-                        navController.navigate(AppScreens.MainScreens.Profile.route) {
-                            popUpTo(AppScreens.MainScreens.Dashboard.route)
-                        }
+                    isInterviewDetailsVisible = remember { derivedStateOf { interviewListState.firstVisibleItemScrollOffset <= 1 && !interviewListState.isScrollInProgress} },
+                    navController = navController
+                ) {
+                    navController.navigate(AppScreens.MainScreens.Profile.route) {
+                        popUpTo(AppScreens.MainScreens.Dashboard.route)
                     }
-                )
+                }
             }
         },
         containerColor = MaterialColorPalette.surface,
@@ -114,7 +110,7 @@ fun DashboardScreen(
             }
         },
         content = { padding ->
-            ShowDashboardScreenContent(dashboardViewModel, padding, interviewModel, navController, interviewListState, selectedInterviewList)
+            ShowDashboardScreenContent(dashboardViewModel, padding, interviewModel, navController, interviewListState)
         }
     )
 }
@@ -126,8 +122,7 @@ private fun ShowDashboardScreenContent(
     padding: PaddingValues,
     interviewModel: InterviewViewModel,
     navController: NavHostController,
-    interviewListState: LazyListState,
-    selectedInterviewList: MutableState<List<Interview>>
+    interviewListState: LazyListState
 ) {
     val openBottomSheet = rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -140,7 +135,6 @@ private fun ShowDashboardScreenContent(
             modifier = Modifier.padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             if (interviews.data.isEmpty())
                 ShowEmptyState(
                     title = stringResource(id = R.string.empty_state_title_dashboard),
@@ -153,7 +147,6 @@ private fun ShowDashboardScreenContent(
                     1 -> interviews.data.comingNextInterviewList
                     else -> interviews.data.pastInterviewList
                 }
-                selectedInterviewList.value  = interviewList.list
                 val interviewType: InterviewType = when (selectedFilterIndex.intValue) {
                     0 -> InterviewType.PRESENT
                     1 -> InterviewType.FUTURE
@@ -329,7 +322,7 @@ private fun shouldLoadMore(
 ): Boolean {
     if (!hasMore) return false
     return listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ==
-            listState.layoutInfo.totalItemsCount - 1 && !isLoading
+        listState.layoutInfo.totalItemsCount - 1 && !isLoading
 }
 
 @Preview

@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.components.generic
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +24,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -56,7 +59,7 @@ fun IPLargeAppBar(
     subtitle: String,
     todayInterviewList: List<Interview>,
     username: String,
-    isInterviewDetailsVisible: Boolean,
+    isInterviewDetailsVisible: State<Boolean>,
     navController: NavHostController,
     onAvatarClick: () -> Unit
 ) {
@@ -69,8 +72,8 @@ fun IPLargeAppBar(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
     ) {
-        GreetingsAndProfile(title, username, if(isInterviewDetailsVisible)subtitle else "", onAvatarClick)
-        if (isInterviewDetailsVisible) {
+        GreetingsAndProfile(title, username, subtitle, onAvatarClick)
+        if (isInterviewDetailsVisible.value) {
             if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
             else
@@ -116,16 +119,14 @@ private fun GreetingsAndProfile(
             textColor = MaterialColorPalette.onTertiary,
         )
     }
-    if(subtitle.isNotEmpty()) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
-            text = subtitle,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialColorPalette.onSurfaceVariant
-        )
-    }
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensionResource(id = R.dimen.dimension_16dp)),
+        text = subtitle,
+        style = MaterialTheme.typography.bodyLarge,
+        color = MaterialColorPalette.onSurfaceVariant
+    )
 }
 
 @Composable
@@ -350,6 +351,7 @@ fun TodayInterviewCard(
 }
 
 
+@SuppressLint("UnrememberedMutableState")
 @Preview
 @Composable
 fun IPLargeAppBarPreview() {
@@ -359,7 +361,7 @@ fun IPLargeAppBarPreview() {
             subtitle = "Good Morning",
             todayInterviewList = mutableListOf(interviewMockData),
             username = "AM",
-            isInterviewDetailsVisible = true,
+            isInterviewDetailsVisible = mutableStateOf(true),
             onAvatarClick = {},
             navController = rememberNavController()
         )
