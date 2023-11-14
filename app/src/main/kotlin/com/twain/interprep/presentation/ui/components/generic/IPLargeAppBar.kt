@@ -1,6 +1,7 @@
 package com.twain.interprep.presentation.ui.components.generic
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +60,7 @@ fun IPLargeAppBar(
     subtitle: String,
     todayInterviewList: List<Interview>,
     username: String,
-    isInterviewDetailsVisible: State<Boolean>,
+    isInterviewDetailsVisible: MutableState<Boolean>,
     navController: NavHostController,
     onAvatarClick: () -> Unit
 ) {
@@ -73,7 +74,7 @@ fun IPLargeAppBar(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
     ) {
         GreetingsAndProfile(title, username, subtitle, onAvatarClick)
-        if (isInterviewDetailsVisible.value) {
+        AnimatedVisibility(isInterviewDetailsVisible.value) {
             if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
             else
