@@ -5,7 +5,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 
 // Define an enumeration representing scroll directions
-enum class ScrollDirection{ UP, DOWN}
+enum class ScrollDirection { UP, DOWN }
 
 // Class to encapsulate the logic for determining scroll direction based on LazyListState
 class DirectionalLazyListState(lazyListState: LazyListState) {
@@ -16,5 +16,5 @@ class DirectionalLazyListState(lazyListState: LazyListState) {
             ScrollDirection.UP
         else
             ScrollDirection.DOWN
-        }
+    }
 }

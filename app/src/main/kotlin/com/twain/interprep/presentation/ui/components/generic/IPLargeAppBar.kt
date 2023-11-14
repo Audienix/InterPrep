@@ -78,7 +78,10 @@ fun IPLargeAppBar(
             if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
             else
-                InterviewTodayDetails(todayInterviewList = todayInterviewList, navController = navController)
+                InterviewTodayDetails(
+                    todayInterviewList = todayInterviewList,
+                    navController = navController
+                )
         }
     }
 }
@@ -131,7 +134,10 @@ private fun GreetingsAndProfile(
 }
 
 @Composable
-private fun InterviewTodayDetails(todayInterviewList: List<Interview>, navController: NavHostController) {
+private fun InterviewTodayDetails(
+    todayInterviewList: List<Interview>,
+    navController: NavHostController
+) {
     Column(
         modifier = Modifier
             .padding(top = dimensionResource(id = R.dimen.dimension_8dp))
@@ -206,7 +212,11 @@ private fun InterviewTodayReminder(message: String) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>, navController: NavHostController) {
+fun TodayInterviewPager(
+    modifier: Modifier,
+    interviewList: List<Interview>,
+    navController: NavHostController
+) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f,
@@ -219,7 +229,10 @@ fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>, navC
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
         HorizontalPager(state = pagerState) { _ ->
-            TodayInterviewCard(interview = interviewList[pagerState.currentPage], navController = navController)
+            TodayInterviewCard(
+                interview = interviewList[pagerState.currentPage],
+                navController = navController
+            )
         }
         if (interviewList.size > 1) {
             HorizontalPagerIndicator(
@@ -310,7 +323,7 @@ fun TodayInterviewCard(
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
-                    if(interview.meetingLink.isNotEmpty()) {
+                    if (interview.meetingLink.isNotEmpty()) {
                         IPText(
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)

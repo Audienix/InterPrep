@@ -85,11 +85,11 @@ fun DashboardScreen(
         mutableStateOf(emptyList<Interview>())
     }
 
-    val isScrollingUp = remember { mutableStateOf(false)}
-        when (directionalLazyListState.scrollDirection) {
-            ScrollDirection.UP -> isScrollingUp.value = true
-            ScrollDirection.DOWN -> isScrollingUp.value = false
-        }
+    val isScrollingUp = remember { mutableStateOf(false) }
+    when (directionalLazyListState.scrollDirection) {
+        ScrollDirection.UP -> isScrollingUp.value = true
+        ScrollDirection.DOWN -> isScrollingUp.value = false
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
