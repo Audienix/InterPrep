@@ -177,7 +177,7 @@ private fun ShowDashboardScreenContent(
                 }
                 if (interviewList.list.isNotEmpty()) {
                     LazyColumn(
-                        contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
+                        contentPadding = PaddingValues(top = dimensionResource(id = R.dimen.dimension_8dp)),
                         state = interviewListState,
                     ) {
 
@@ -216,6 +216,7 @@ private fun ShowEmptyState(
     title: String,
     description: String
 ) {
+    val color = MaterialTheme.colorScheme.background
     Column(
         modifier = modifier
             .fillMaxSize()
