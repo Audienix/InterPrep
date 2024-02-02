@@ -216,7 +216,6 @@ private fun ShowEmptyState(
     title: String,
     description: String
 ) {
-    val color = MaterialTheme.colorScheme.background
     Column(
         modifier = modifier
             .fillMaxSize()
