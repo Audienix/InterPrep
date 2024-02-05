@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.components.generic
 
+import android.Manifest
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -71,6 +72,20 @@ import androidx.compose.ui.unit.sp
 import java.util.*
 import kotlin.concurrent.timerTask
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+
+
 
 @Composable
 fun IPLargeAppBar(
@@ -81,7 +96,7 @@ fun IPLargeAppBar(
     username: String,
     isInterviewDetailsVisible: MutableState<Boolean>,
     navController: NavHostController,
-    onAvatarClick: () -> Unit
+    onAvatarClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -110,7 +125,7 @@ private fun GreetingsAndProfile(
     title: String,
     username: String,
     subtitle: String,
-    onAvatarClick: () -> Unit
+    onAvatarClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -155,6 +170,7 @@ private fun GreetingsAndProfile(
 @Composable
 fun countTimer(timeString: String) {
     var remainingTime by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     fun getRemainingTime(targetTime: Long): String {
         val currentTime = System.currentTimeMillis()
@@ -201,6 +217,7 @@ fun countTimer(timeString: String) {
                 dimensionResource(id = R.dimen.dimension_20dp)
             )
         )
+        showTimeUpNotification(context)
     }
     Text(
         text = "Remaining: $remainingTime",
@@ -209,7 +226,59 @@ fun countTimer(timeString: String) {
     )
 }
 
+fun showTimeUpNotification(context: Context) {
+    val channelId = "timer_channel_id"
+    val notificationId = 1
 
+
+    // Create a channel for API 26+ (Oreo and above)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = "Timer Channel"
+        val descriptionText = "Channel for timer notification"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, name, importance).apply {
+            description = descriptionText
+        }
+
+
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+
+
+    // Create an intent that relaunches the app when tapped
+    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+
+    val builder = NotificationCompat.Builder(context, channelId)
+        .setSmallIcon(R.drawable.ic_launcher_foreground) // Replace with your app icon
+        .setContentTitle("Timer Notification")
+        .setContentText("your interview is scheduled to start now!")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setContentIntent(pendingIntent)
+        .setAutoCancel(true)
+
+
+    with(NotificationManagerCompat.from(context)) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        notify(notificationId, builder.build())
+    }
+}
 
 object DateUtils {
     fun getRemainingTime(seconds: Long): String {
@@ -223,7 +292,7 @@ object DateUtils {
 @Composable
 private fun InterviewTodayDetails(
     todayInterviewList: List<Interview>,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     Column(
         modifier = Modifier
@@ -302,7 +371,7 @@ private fun InterviewTodayReminder(message: String) {
 fun TodayInterviewPager(
     modifier: Modifier,
     interviewList: List<Interview>,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -335,7 +404,7 @@ fun TodayInterviewPager(
 @Composable
 fun TodayInterviewCard(
     interview: Interview,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     Card(
         modifier = Modifier
