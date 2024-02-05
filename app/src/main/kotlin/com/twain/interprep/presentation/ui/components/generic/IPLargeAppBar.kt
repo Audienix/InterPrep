@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,9 +25,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +57,20 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.utils.DateUtils
 import com.twain.interprep.utils.formatRoundNumAndInterviewType
+
+import androidx.compose.ui.unit.sp
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.concurrent.timerTask
+import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import java.util.*
+import kotlin.concurrent.timerTask
+
 
 @Composable
 fun IPLargeAppBar(
@@ -131,6 +150,74 @@ private fun GreetingsAndProfile(
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialColorPalette.onSurfaceVariant
     )
+}
+
+@Composable
+fun countTimer(timeString: String) {
+    var remainingTime by remember { mutableStateOf("") }
+
+    fun getRemainingTime(targetTime: Long): String {
+        val currentTime = System.currentTimeMillis()
+        val diff = targetTime - currentTime
+        if (diff <= 0) {
+            return "Time is up"
+        }
+        val seconds = diff / 1000
+        val minutes = seconds / 60
+        val hours = minutes / 60
+        return String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60)
+    }
+
+    fun parseTimeString(timeString: String): Long {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("yyyy-MM-dd h:mm a", Locale.getDefault())
+        val date = dateFormat.format(Date()) + " " + timeString
+        return timeFormat.parse(date)?.time ?: 0
+    }
+
+    val targetTime = parseTimeString(timeString)
+
+    DisposableEffect(Unit) {
+        val timer = Timer()
+        val timerTask = timerTask {
+            remainingTime = getRemainingTime(targetTime)
+        }
+
+        timer.scheduleAtFixedRate(timerTask, 0, 1000)
+
+        onDispose {
+            timer.cancel()
+        }
+    }
+    if (remainingTime != "Time is up") {
+        Spacer(
+            modifier = Modifier.width(
+                dimensionResource(id = R.dimen.dimension_32dp)
+            )
+        )
+    } else {
+        Spacer(
+            modifier = Modifier.width(
+                dimensionResource(id = R.dimen.dimension_20dp)
+            )
+        )
+    }
+    Text(
+        text = "Remaining: $remainingTime",
+        color = MaterialColorPalette.onPrimary,
+        style = MaterialTheme.typography.bodyMedium,
+    )
+}
+
+
+
+object DateUtils {
+    fun getRemainingTime(seconds: Long): String {
+        val hours = seconds / 3600
+        val minutes = (seconds % 3600) / 60
+        val secs = seconds % 60
+        return String.format("%02d:%02d:%02d", hours, minutes, secs)
+    }
 }
 
 @Composable
@@ -301,7 +388,8 @@ fun TodayInterviewCard(
                     Row(
                         modifier = Modifier
                             .wrapContentWidth()
-                            .align(Alignment.CenterStart),
+                            .align(Alignment.CenterStart)
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(
                             dimensionResource(id = R.dimen.dimension_4dp)
@@ -322,6 +410,11 @@ fun TodayInterviewCard(
                             color = MaterialColorPalette.onPrimary,
                             style = MaterialTheme.typography.bodyMedium
                         )
+
+                        countTimer(DateUtils.getDisplayedTime(
+                            LocalContext.current,
+                            interview.time
+                        ))
                     }
                     if (interview.meetingLink.isNotEmpty()) {
                         IPText(
