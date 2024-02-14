@@ -77,6 +77,19 @@ fun DashboardScreen(
         dashboardViewModel.getTodayInterviews()
         dashboardViewModel.getInterviews()
     }
+    val interviewListState = rememberLazyListState()
+    val directionalLazyListState = rememberDirectionalLazyListState(
+        interviewListState
+    )
+    val selectedInterviewList = remember {
+        mutableStateOf(emptyList<Interview>())
+    }
+
+    val isScrollingUp = remember { mutableStateOf(false) }
+    when (directionalLazyListState.scrollDirection) {
+        ScrollDirection.UP -> isScrollingUp.value = true
+        ScrollDirection.DOWN -> isScrollingUp.value = false
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -89,7 +102,7 @@ fun DashboardScreen(
                     subtitle = "${stringResource(R.string.good)} ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),
-                    isInterviewDetailsVisible = true,
+                    isInterviewDetailsVisible = isScrollingUp,
                     navController = navController,
                     onAvatarClick = {
                         navController.navigate(AppScreens.MainScreens.Profile.route) {
@@ -110,7 +123,14 @@ fun DashboardScreen(
             }
         },
         content = { padding ->
-            ShowDashboardScreenContent(dashboardViewModel, padding, interviewModel, navController)
+            ShowDashboardScreenContent(
+                dashboardViewModel,
+                padding,
+                interviewModel,
+                navController,
+                interviewListState,
+                selectedInterviewList
+            )
         }
     )
 }
@@ -121,14 +141,15 @@ private fun ShowDashboardScreenContent(
     dashboardViewModel: DashboardViewModel,
     padding: PaddingValues,
     interviewModel: InterviewViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    interviewListState: LazyListState,
+    selectedInterviewList: MutableState<List<Interview>>
 ) {
     val openBottomSheet = rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState()
     val selectedFilterIndex = remember { mutableIntStateOf(0) }
 
-    val interviewListState = rememberLazyListState()
     if (dashboardViewModel.interviewListMetaData is ViewResult.Loaded) {
         val interviews = dashboardViewModel.interviewListMetaData as ViewResult.Loaded
         Column(
@@ -148,6 +169,7 @@ private fun ShowDashboardScreenContent(
                     1 -> interviews.data.comingNextInterviewList
                     else -> interviews.data.pastInterviewList
                 }
+                selectedInterviewList.value = interviewList.list
                 val interviewType: InterviewType = when (selectedFilterIndex.intValue) {
                     0 -> InterviewType.PRESENT
                     1 -> InterviewType.FUTURE
@@ -155,7 +177,7 @@ private fun ShowDashboardScreenContent(
                 }
                 if (interviewList.list.isNotEmpty()) {
                     LazyColumn(
-                        contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
+                        contentPadding = PaddingValues(top = dimensionResource(id = R.dimen.dimension_8dp)),
                         state = interviewListState,
                     ) {
 
@@ -335,5 +357,14 @@ fun InterviewTypeFilterPreview() {
                 InterviewTypeFilter(remember { mutableIntStateOf(0) })
             }
         }
+    }
+}
+
+@Composable
+fun rememberDirectionalLazyListState(
+    lazyListState: LazyListState,
+): DirectionalLazyListState {
+    return remember {
+        DirectionalLazyListState(lazyListState)
     }
 }

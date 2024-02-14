@@ -1,5 +1,7 @@
 package com.twain.interprep.presentation.ui.components.generic
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -56,7 +60,7 @@ fun IPLargeAppBar(
     subtitle: String,
     todayInterviewList: List<Interview>,
     username: String,
-    isInterviewDetailsVisible: Boolean = false,
+    isInterviewDetailsVisible: MutableState<Boolean>,
     navController: NavHostController,
     onAvatarClick: () -> Unit
 ) {
@@ -70,11 +74,14 @@ fun IPLargeAppBar(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
     ) {
         GreetingsAndProfile(title, username, subtitle, onAvatarClick)
-        if (isInterviewDetailsVisible) {
+        AnimatedVisibility(isInterviewDetailsVisible.value) {
             if (todayInterviewList.isEmpty())
                 NoInterviewTodayDetails()
             else
-                InterviewTodayDetails(todayInterviewList = todayInterviewList, navController = navController)
+                InterviewTodayDetails(
+                    todayInterviewList = todayInterviewList,
+                    navController = navController
+                )
         }
     }
 }
@@ -127,7 +134,10 @@ private fun GreetingsAndProfile(
 }
 
 @Composable
-private fun InterviewTodayDetails(todayInterviewList: List<Interview>, navController: NavHostController) {
+private fun InterviewTodayDetails(
+    todayInterviewList: List<Interview>,
+    navController: NavHostController
+) {
     Column(
         modifier = Modifier
             .padding(top = dimensionResource(id = R.dimen.dimension_8dp))
@@ -202,7 +212,11 @@ private fun InterviewTodayReminder(message: String) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>, navController: NavHostController) {
+fun TodayInterviewPager(
+    modifier: Modifier,
+    interviewList: List<Interview>,
+    navController: NavHostController
+) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f,
@@ -215,7 +229,10 @@ fun TodayInterviewPager(modifier: Modifier, interviewList: List<Interview>, navC
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_8dp))
     ) {
         HorizontalPager(state = pagerState) { _ ->
-            TodayInterviewCard(interview = interviewList[pagerState.currentPage], navController = navController)
+            TodayInterviewCard(
+                interview = interviewList[pagerState.currentPage],
+                navController = navController
+            )
         }
         if (interviewList.size > 1) {
             HorizontalPagerIndicator(
@@ -306,7 +323,7 @@ fun TodayInterviewCard(
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
-                    if(interview.meetingLink.isNotEmpty()) {
+                    if (interview.meetingLink.isNotEmpty()) {
                         IPText(
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
@@ -348,6 +365,7 @@ fun TodayInterviewCard(
 }
 
 
+@SuppressLint("UnrememberedMutableState")
 @Preview
 @Composable
 fun IPLargeAppBarPreview() {
@@ -357,7 +375,7 @@ fun IPLargeAppBarPreview() {
             subtitle = "Good Morning",
             todayInterviewList = mutableListOf(interviewMockData),
             username = "AM",
-            isInterviewDetailsVisible = true,
+            isInterviewDetailsVisible = mutableStateOf(true),
             onAvatarClick = {},
             navController = rememberNavController()
         )
