@@ -85,8 +85,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-
-
 @Composable
 fun IPLargeAppBar(
     modifier: Modifier = Modifier,
@@ -181,7 +179,12 @@ fun countTimer(timeString: String) {
         val seconds = diff / 1000
         val minutes = seconds / 60
         val hours = minutes / 60
-        return String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60)
+        if (hours >=1){
+            return String.format("%02d:%02d", hours, minutes % 60)
+        }
+        else{
+            return String.format("%02d:%02d", minutes % 60, seconds)
+        }
     }
 
     fun parseTimeString(timeString: String): Long {
@@ -208,13 +211,14 @@ fun countTimer(timeString: String) {
     if (remainingTime != "Time is up") {
         Spacer(
             modifier = Modifier.width(
-                dimensionResource(id = R.dimen.dimension_32dp)
+                dimensionResource(id = R.dimen.dimension_32dp) +
+                    dimensionResource(id = R.dimen.dimension_24dp)
             )
         )
     } else {
         Spacer(
             modifier = Modifier.width(
-                dimensionResource(id = R.dimen.dimension_20dp)
+                dimensionResource(id = R.dimen.dimension_24dp)
             )
         )
         showTimeUpNotification(context)
@@ -230,8 +234,6 @@ fun showTimeUpNotification(context: Context) {
     val channelId = "timer_channel_id"
     val notificationId = 1
 
-
-    // Create a channel for API 26+ (Oreo and above)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val name = "Timer Channel"
         val descriptionText = "Channel for timer notification"
@@ -277,15 +279,6 @@ fun showTimeUpNotification(context: Context) {
             return
         }
         notify(notificationId, builder.build())
-    }
-}
-
-object DateUtils {
-    fun getRemainingTime(seconds: Long): String {
-        val hours = seconds / 3600
-        val minutes = (seconds % 3600) / 60
-        val secs = seconds % 60
-        return String.format("%02d:%02d:%02d", hours, minutes, secs)
     }
 }
 
@@ -453,6 +446,7 @@ fun TodayInterviewCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dimension_4dp))
             ) {
+                // first row
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         modifier = Modifier
@@ -485,19 +479,9 @@ fun TodayInterviewCard(
                             interview.time
                         ))
                     }
-                    if (interview.meetingLink.isNotEmpty()) {
-                        IPText(
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .wrapContentWidth(),
-                            text = stringResource(id = R.string.label_join_here),
-                            link = interview.meetingLink,
-                            textColor = MaterialColorPalette.onPrimary,
-                            textStyle = MaterialTheme.typography.bodyLarge,
-                        )
-                    }
                 }
 
+                // second row
                 if (interview.interviewType.isNotEmpty()) {
                     Text(
                         modifier = Modifier
@@ -513,14 +497,41 @@ fun TodayInterviewCard(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = interview.company,
-                    color = MaterialColorPalette.primaryContainer,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+
+                // third row
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .wrapContentWidth()
+//                            .align(Alignment.CenterStart)
+                            .fillMaxWidth()
+                            ,
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        horizontalArrangement = Arrangement.spacedBy(
+//                            dimensionResource(id = R.dimen.dimension_4dp)
+//                        )
+                    ) {
+                        Text(
+                            text = interview.company,
+                            color = MaterialColorPalette.primaryContainer,
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        if (interview.meetingLink.isNotEmpty()) {
+                            IPText(
+                                modifier = Modifier.padding(end = dimensionResource(id = R.dimen.dimension_8dp)),
+                                text = stringResource(id = R.string.label_join_here),
+                                link = interview.meetingLink,
+                                textColor = MaterialColorPalette.onPrimary,
+                                textStyle = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                    }
+                }
             }
         }
     }

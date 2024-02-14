@@ -78,6 +78,7 @@ fun DashboardInterviewCard(
             Row(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.dimension_16dp))
+                    .padding(dimensionResource(id = R.dimen.dimension_16dp))
             ) {
                 val date = DateUtils.convertDateStringToDate(interview.date)
                 IPDateTimeBox(
