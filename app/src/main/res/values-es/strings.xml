@@ -146,6 +146,8 @@
     </plurals>
     <string name="label_no_interviews_today">No tienes entrevista hoy.</string>
     <string name="label_join_here">Únete aquí</string>
+    <string name="remaining_time">que queda</string>
+
 
     <string name="error_no_browser_app">No browser app installed</string>
 
