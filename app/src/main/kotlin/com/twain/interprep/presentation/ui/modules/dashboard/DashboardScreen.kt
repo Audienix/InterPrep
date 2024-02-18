@@ -1,5 +1,6 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,6 +68,7 @@ import com.twain.interprep.utils.getTimeOfDayGreeting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
@@ -86,6 +89,7 @@ fun DashboardScreen(
     }
 
     val isScrollingUp = remember { mutableStateOf(false) }
+
     when (directionalLazyListState.scrollDirection) {
         ScrollDirection.UP -> isScrollingUp.value = true
         ScrollDirection.DOWN -> isScrollingUp.value = false
@@ -102,14 +106,15 @@ fun DashboardScreen(
                     subtitle = "${stringResource(R.string.good)} ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),
-                    isInterviewDetailsVisible = isScrollingUp,
-                    navController = navController,
-                    onAvatarClick = {
-                        navController.navigate(AppScreens.MainScreens.Profile.route) {
-                            popUpTo(AppScreens.MainScreens.Dashboard.route)
-                        }
+                    isInterviewDetailsVisible = derivedStateOf {
+                        isScrollingUp.value || selectedInterviewList.value.size <= 3
+                    },
+                    navController = navController
+                ) {
+                    navController.navigate(AppScreens.MainScreens.Profile.route) {
+                        popUpTo(AppScreens.MainScreens.Dashboard.route)
                     }
-                )
+                }
             }
         },
         containerColor = MaterialColorPalette.surface,
@@ -177,7 +182,7 @@ private fun ShowDashboardScreenContent(
                 }
                 if (interviewList.list.isNotEmpty()) {
                     LazyColumn(
-                        contentPadding = PaddingValues(top = dimensionResource(id = R.dimen.dimension_8dp)),
+                        contentPadding = PaddingValues(top =dimensionResource(id = R.dimen.dimension_8dp)),
                         state = interviewListState,
                     ) {
 
