@@ -182,7 +182,7 @@ private fun ShowDashboardScreenContent(
                 }
                 if (interviewList.list.isNotEmpty()) {
                     LazyColumn(
-                        contentPadding = PaddingValues(top =dimensionResource(id = R.dimen.dimension_8dp)),
+                        contentPadding = PaddingValues(top = dimensionResource(id = R.dimen.dimension_8dp)),
                         state = interviewListState,
                     ) {
 
