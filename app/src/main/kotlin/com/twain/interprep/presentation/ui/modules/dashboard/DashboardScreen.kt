@@ -109,12 +109,13 @@ fun DashboardScreen(
                     isInterviewDetailsVisible = derivedStateOf {
                         isScrollingUp.value || selectedInterviewList.value.size <= 3
                     },
-                    navController = navController
-                ) {
-                    navController.navigate(AppScreens.MainScreens.Profile.route) {
-                        popUpTo(AppScreens.MainScreens.Dashboard.route)
+                    navController = navController,
+                    onAvatarClick = {
+                        navController.navigate(AppScreens.MainScreens.Profile.route) {
+                            popUpTo(AppScreens.MainScreens.Dashboard.route)
+                        }
                     }
-                }
+                )
             }
         },
         containerColor = MaterialColorPalette.surface,
