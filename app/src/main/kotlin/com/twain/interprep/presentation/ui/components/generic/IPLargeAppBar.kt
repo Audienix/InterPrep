@@ -33,6 +33,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -97,7 +99,7 @@ fun IPLargeAppBar(
     subtitle: String,
     todayInterviewList: List<Interview>,
     username: String,
-    isInterviewDetailsVisible: MutableState<Boolean>,
+    isInterviewDetailsVisible: State<Boolean>,
     navController: NavHostController,
     onAvatarClick: () -> Unit,
 ) {
@@ -309,10 +311,11 @@ fun showTimeUpNotification(context: Context) {
     }
 }
 
-@Composable
+
 private fun InterviewTodayDetails(
     todayInterviewList: List<Interview>,
-    navController: NavHostController,
+    navController: NavHostController
+
 ) {
     Column(
         modifier = Modifier
@@ -391,7 +394,7 @@ private fun InterviewTodayReminder(message: String) {
 fun TodayInterviewPager(
     modifier: Modifier,
     interviewList: List<Interview>,
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -500,11 +503,21 @@ fun TodayInterviewCard(
                             color = MaterialColorPalette.primaryContainer,
                             style = MaterialTheme.typography.bodyMedium
                         )
-
                         countTimer(DateUtils.getDisplayedTime(
                             LocalContext.current,
                             interview.time
                         ))
+                    }
+                    if (interview.meetingLink.isNotEmpty()) {
+                        IPText(
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .wrapContentWidth(),
+                            text = stringResource(id = R.string.label_join_here),
+                            link = interview.meetingLink,
+                            textColor = MaterialColorPalette.onPrimary,
+                            textStyle = MaterialTheme.typography.bodyLarge,
+                        )
                     }
                 }
 
