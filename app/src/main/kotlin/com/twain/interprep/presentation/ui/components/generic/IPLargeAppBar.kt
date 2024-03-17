@@ -238,7 +238,7 @@ fun countTimer(timeString: String) {
     if (remainingTime != timeUpMessage) {
         Spacer(
             modifier = Modifier.width(
-                dimensionResource(id = R.dimen.dimension_14dp)
+                dimensionResource(id = R.dimen.dimension_12dp) + dimensionResource(id = R.dimen.dimension_2dp)
             )
         )
     } else {
@@ -312,6 +312,7 @@ fun showTimeUpNotification(context: Context) {
 }
 
 
+@Composable
 private fun InterviewTodayDetails(
     todayInterviewList: List<Interview>,
     navController: NavHostController
