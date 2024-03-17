@@ -148,6 +148,8 @@
     <string name="label_join_here">Únete aquí</string>
     <string name="remaining_time">que queda</string>
     <string name="time_up">tiempo ha acabado</string>
+    <string name="timer_notification_title">notificación del temporizador</string>
+    <string name="timer_notification_content">Su entrevista está programada para comenzar ahora!</string>
 
     <string name="error_no_browser_app">No browser app installed</string>
 

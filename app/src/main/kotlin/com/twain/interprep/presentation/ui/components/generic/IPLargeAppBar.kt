@@ -258,7 +258,7 @@ fun countTimer(timeString: String) {
         style = MaterialTheme.typography.bodyMedium,
     )
 }
-
+@Composable
 fun showTimeUpNotification(context: Context) {
     val channelId = "timer_channel_id"
     val notificationId = 1
@@ -282,11 +282,10 @@ fun showTimeUpNotification(context: Context) {
     val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
     val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
-
     val builder = NotificationCompat.Builder(context, channelId)
         .setSmallIcon(R.drawable.ic_launcher_foreground) // Replace with your app icon
-        .setContentTitle("Timer Notification")
-        .setContentText("your interview is scheduled to start now!")
+        .setContentTitle(stringResource(id = R.string.timer_notification_title))
+        .setContentText(stringResource(id = R.string.timer_notification_content))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
