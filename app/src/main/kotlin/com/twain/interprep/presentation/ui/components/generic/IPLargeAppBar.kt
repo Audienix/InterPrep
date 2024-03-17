@@ -87,6 +87,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.compose.animation.core.*
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.ui.draw.alpha
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
+import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_A
 
 @Composable
 fun IPLargeAppBar(
@@ -210,8 +212,8 @@ fun countTimer(timeString: String) {
     }
 
     fun parseTimeString(timeString: String): Long {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val timeFormat = SimpleDateFormat("yyyy-MM-dd h:mm a", Locale.getDefault())
+        val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+        val timeFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_A, Locale.getDefault())
         val date = dateFormat.format(Date()) + " " + timeString
         return timeFormat.parse(date)?.time ?: 0
     }
