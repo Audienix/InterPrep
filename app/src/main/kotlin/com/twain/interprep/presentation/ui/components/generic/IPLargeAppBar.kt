@@ -171,10 +171,12 @@ private fun GreetingsAndProfile(
 @Composable
 fun countTimer(timeString: String) {
     var remainingTime by remember { mutableStateOf("") }
-    var shouldBlink by remember { mutableStateOf(false)}
+    var shouldBlink by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    // Define animation for blinking effect when less than 1 hour remains
+    val timeUpMessage = stringResource(id = R.string.time_up)
+
+    // define animation for blinking effect when less than 1 hour remains
     val blinkAnimation = rememberInfiniteTransition(label = "")
     val animatedAlpha by blinkAnimation.animateFloat(
         initialValue = 0f,
@@ -189,11 +191,11 @@ fun countTimer(timeString: String) {
         ), label = ""
     )
 
-    fun getRemainingTime(targetTime: Long): String {
+    fun getRemainingTime(targetTime: Long, timeUpMessage: String): String {
         val currentTime = System.currentTimeMillis()
         val diff = targetTime - currentTime
         if (diff <= 0) {
-            return "Time is up"
+            return timeUpMessage
         }
         val seconds = diff / 1000
         val minutes = seconds / 60
@@ -219,16 +221,17 @@ fun countTimer(timeString: String) {
     DisposableEffect(Unit) {
         val timer = Timer()
         val timerTask = timerTask {
-            remainingTime = getRemainingTime(targetTime)
+            // Pass 'timeUpMessage' to 'getRemainingTime'
+            remainingTime = getRemainingTime(targetTime, timeUpMessage)
         }
-
         timer.scheduleAtFixedRate(timerTask, 0, 1000)
 
         onDispose {
             timer.cancel()
         }
     }
-    if (remainingTime != "Time is up") {
+
+    if (remainingTime != timeUpMessage) {
         Spacer(
             modifier = Modifier.width(
                 dimensionResource(id = R.dimen.dimension_14dp)
