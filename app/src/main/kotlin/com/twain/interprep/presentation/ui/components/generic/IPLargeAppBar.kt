@@ -91,6 +91,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.ui.draw.alpha
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
 import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_A
+import com.twain.interprep.notification.NotificationHelper
 
 @Composable
 fun IPLargeAppBar(
@@ -172,144 +173,105 @@ private fun GreetingsAndProfile(
     )
 }
 
-@Composable
-fun countTimer(timeString: String) {
-    var remainingTime by remember { mutableStateOf("") }
-    var shouldBlink by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-
-    val timeUpMessage = stringResource(id = R.string.time_up)
-
-    // define animation for blinking effect when less than 1 hour remains
-    val blinkAnimation = rememberInfiniteTransition(label = "")
-    val animatedAlpha by blinkAnimation.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = 1000  // Duration of one cycle (1000 ms = 1 second)
-                0.0f at 0 with LinearEasing
-                1.0f at 500 with LinearEasing  // Mid-point at half duration
-            },
-            repeatMode = RepeatMode.Reverse
-        ), label = ""
-    )
-
-    fun getRemainingTime(targetTime: Long, timeUpMessage: String): String {
-        val currentTime = System.currentTimeMillis()
-        val diff = targetTime - currentTime
-        if (diff <= 0) {
-            return timeUpMessage
-        }
-        val seconds = diff / 1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        if (hours < 1) {
-            shouldBlink = true
-            return String.format("%02dmins" +" %02ds", minutes % 60, seconds % 60)
-        } else {
-            shouldBlink = false
-            return String.format("%02dh" +" %02dmins", hours, minutes % 60)
-        }
-    }
-
-    fun parseTimeString(timeString: String): Long {
-        val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
-        val timeFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_A, Locale.getDefault())
-        val date = dateFormat.format(Date()) + " " + timeString
-        return timeFormat.parse(date)?.time ?: 0
-    }
-
-    val targetTime = parseTimeString(timeString)
-
-    DisposableEffect(Unit) {
-        val timer = Timer()
-        val timerTask = timerTask {
-            // Pass 'timeUpMessage' to 'getRemainingTime'
-            remainingTime = getRemainingTime(targetTime, timeUpMessage)
-        }
-        timer.scheduleAtFixedRate(timerTask, 0, 1000)
-
-        onDispose {
-            timer.cancel()
-        }
-    }
-
-    if (remainingTime != timeUpMessage) {
-        Spacer(
-            modifier = Modifier.width(
-                dimensionResource(id = R.dimen.dimension_12dp) + dimensionResource(id = R.dimen.dimension_2dp)
-            )
-        )
-    } else {
-        Spacer(
-            modifier = Modifier.width(
-                dimensionResource(id = R.dimen.dimension_20dp) +
-                    dimensionResource(id = R.dimen.dimension_2dp)
-            )
-        )
-        showTimeUpNotification(context)
-    }
-
-    Text(
-        modifier = Modifier.alpha(if (shouldBlink) animatedAlpha else 1f),
-        text = stringResource(id = R.string.remaining_time) + ": $remainingTime",
-        color = MaterialColorPalette.primaryContainer,
-        style = MaterialTheme.typography.bodyMedium,
-    )
-}
-@Composable
-fun showTimeUpNotification(context: Context) {
-    val channelId = "timer_channel_id"
-    val notificationId = 1
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = "Timer Channel"
-        val descriptionText = "Channel for timer notification"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelId, name, importance).apply {
-            description = descriptionText
-        }
-
-
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
-
-
-    // Create an intent that relaunches the app when tapped
-    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-    val builder = NotificationCompat.Builder(context, channelId)
-        .setSmallIcon(R.drawable.ic_launcher_foreground) // Replace with your app icon
-        .setContentTitle(stringResource(id = R.string.timer_notification_title))
-        .setContentText(stringResource(id = R.string.timer_notification_content))
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setContentIntent(pendingIntent)
-        .setAutoCancel(true)
-
-
-    with(NotificationManagerCompat.from(context)) {
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        notify(notificationId, builder.build())
-    }
-}
-
+//@Composable
+//fun countTimer(timeString: String) {
+//    var remainingTime by remember { mutableStateOf("") }
+//    var shouldBlink by remember { mutableStateOf(false) }
+//    val context = LocalContext.current
+//
+//    val timeUpMessage = stringResource(id = R.string.time_up)
+//
+//    // define animation for blinking effect when less than 1 hour remains
+//    val blinkAnimation = rememberInfiniteTransition(label = "")
+//    val animatedAlpha by blinkAnimation.animateFloat(
+//        initialValue = 0f,
+//        targetValue = 1f,
+//        animationSpec = infiniteRepeatable(
+//            animation = keyframes {
+//                durationMillis = 1000  // Duration of one cycle (1000 ms = 1 second)
+//                0.0f at 0 with LinearEasing
+//                1.0f at 500 with LinearEasing  // Mid-point at half duration
+//            },
+//            repeatMode = RepeatMode.Reverse
+//        ), label = ""
+//    )
+//
+//    fun getRemainingTime(targetTime: Long, timeUpMessage: String): String {
+//        val currentTime = System.currentTimeMillis()
+//        val diff = targetTime - currentTime
+//        if (diff <= 0) {
+//            return timeUpMessage
+//        }
+//        val seconds = diff / 1000
+//        val minutes = seconds / 60
+//        val hours = minutes / 60
+//        if (hours < 1) {
+//            shouldBlink = true
+//            return String.format("%02dmins" +" %02ds", minutes % 60, seconds % 60)
+//        } else {
+//            shouldBlink = false
+//            return String.format("%02dh" +" %02dmins", hours, minutes % 60)
+//        }
+//    }
+//
+//    fun parseTimeString(timeString: String): Long {
+//        val dateFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY, Locale.getDefault())
+//        val timeFormat = SimpleDateFormat(DT_FORMAT_MM_DD_YYYY_HH_MM_A, Locale.getDefault())
+//        val date = dateFormat.format(Date()) + " " + timeString
+//        return timeFormat.parse(date)?.time ?: 0
+//    }
+//
+//    val targetTime = parseTimeString(timeString)
+//
+//    DisposableEffect(Unit) {
+//        val timer = Timer()
+//        val timerTask = timerTask {
+//            // Pass 'timeUpMessage' to 'getRemainingTime'
+//            remainingTime = getRemainingTime(targetTime, timeUpMessage)
+//        }
+//        timer.scheduleAtFixedRate(timerTask, 0, 1000)
+//
+//        onDispose {
+//            timer.cancel()
+//        }
+//    }
+//
+//    if (remainingTime != timeUpMessage) {
+//        Spacer(
+//            modifier = Modifier.width(
+//                dimensionResource(id = R.dimen.dimension_12dp) + dimensionResource(id = R.dimen.dimension_2dp)
+//            )
+//        )
+//    } else {
+//        Spacer(
+//            modifier = Modifier.width(
+//                dimensionResource(id = R.dimen.dimension_20dp) +
+//                    dimensionResource(id = R.dimen.dimension_2dp)
+//            )
+//        )
+//        showTimeUpNotification(context)
+//    }
+//
+//    Text(
+//        modifier = Modifier.alpha(if (shouldBlink) animatedAlpha else 1f),
+//        text = stringResource(id = R.string.remaining_time) + ": $remainingTime",
+//        color = MaterialColorPalette.primaryContainer,
+//        style = MaterialTheme.typography.bodyMedium,
+//    )
+//}
+//@Composable
+//fun showTimeUpNotification(context: Context) {
+//    val title = stringResource(id = R.string.timer_notification_title)
+//    val content = stringResource(id = R.string.timer_notification_content)
+//    NotificationHelper(context).createTimerNotification(
+//        title,
+//        content,
+//        "timer_channel_id",
+//        "Timer Channel",
+//        "Channel for timer notification",
+//        1 // You can use a dynamic ID if needed
+//    )
+//}
 
 @Composable
 private fun InterviewTodayDetails(
