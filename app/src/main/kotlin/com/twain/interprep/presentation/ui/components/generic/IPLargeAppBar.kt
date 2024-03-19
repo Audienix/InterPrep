@@ -370,17 +370,6 @@ fun TodayInterviewCard(
                             interview.time
                         ))
                     }
-                    if (interview.meetingLink.isNotEmpty()) {
-                        IPText(
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .wrapContentWidth(),
-                            text = stringResource(id = R.string.label_join_here),
-                            link = interview.meetingLink,
-                            textColor = MaterialColorPalette.onPrimary,
-                            textStyle = MaterialTheme.typography.bodyLarge,
-                        )
-                    }
                 }
 
                 // second row
