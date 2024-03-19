@@ -139,6 +139,10 @@
     </plurals>
     <string name="label_no_interviews_today">今天没有面试。</string>
     <string name="label_join_here">在此处加入</string>
+    <string name="remaining_time">剩余时间</string>
+    <string name="time_up">时间到</string>
+    <string name="timer_notification_title">时间通知</string>
+    <string name="timer_notification_content">您的面试现在开始了!</string>
 
     <string name="error_no_browser_app">未安装浏览器应用程序</string>
 

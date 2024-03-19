@@ -1,6 +1,7 @@
 package com.twain.interprep.presentation.ui.modules.dashboard
 
 import kotlin.collections.emptyList as emptyList
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,6 +69,7 @@ import com.twain.interprep.utils.getTimeOfDayGreeting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
@@ -79,9 +82,21 @@ fun DashboardScreen(
         dashboardViewModel.getInterviews()
     }
     val interviewListState = rememberLazyListState()
+
+    val directionalLazyListState = rememberDirectionalLazyListState(
+        interviewListState
+    )
     val selectedInterviewList = remember {
         mutableStateOf(emptyList<Interview>())
     }
+
+    val isScrollingUp = remember { mutableStateOf(false) }
+
+    when (directionalLazyListState.scrollDirection) {
+        ScrollDirection.UP -> isScrollingUp.value = true
+        ScrollDirection.DOWN -> isScrollingUp.value = false
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -93,7 +108,9 @@ fun DashboardScreen(
                     subtitle = "${stringResource(R.string.good)} ${getTimeOfDayGreeting()}",
                     todayInterviewList = todayInterviewList,
                     username = getNameInitials(dashboardViewModel.username),
-                    isInterviewDetailsVisible = selectedInterviewList.value.size <=3 ||interviewListState.firstVisibleItemScrollOffset == 0,
+                    isInterviewDetailsVisible = derivedStateOf {
+                        isScrollingUp.value || selectedInterviewList.value.size <= 3
+                    },
                     navController = navController,
                     onAvatarClick = {
                         navController.navigate(AppScreens.MainScreens.Profile.route) {
@@ -114,7 +131,14 @@ fun DashboardScreen(
             }
         },
         content = { padding ->
-            ShowDashboardScreenContent(dashboardViewModel, padding, interviewModel, navController, interviewListState, selectedInterviewList)
+            ShowDashboardScreenContent(
+                dashboardViewModel,
+                padding,
+                interviewModel,
+                navController,
+                interviewListState,
+                selectedInterviewList
+            )
         }
     )
 }
@@ -153,7 +177,9 @@ private fun ShowDashboardScreenContent(
                     1 -> interviews.data.comingNextInterviewList
                     else -> interviews.data.pastInterviewList
                 }
-                selectedInterviewList.value  = interviewList.list
+                
+                selectedInterviewList.value = interviewList.list
+              
                 val interviewType: InterviewType = when (selectedFilterIndex.intValue) {
                     0 -> InterviewType.PRESENT
                     1 -> InterviewType.FUTURE
@@ -161,7 +187,7 @@ private fun ShowDashboardScreenContent(
                 }
                 if (interviewList.list.isNotEmpty()) {
                     LazyColumn(
-                        contentPadding = PaddingValues(dimensionResource(id = R.dimen.dimension_8dp)),
+                        contentPadding = PaddingValues(top = dimensionResource(id = R.dimen.dimension_8dp)),
                         state = interviewListState,
                     ) {
 
@@ -341,5 +367,14 @@ fun InterviewTypeFilterPreview() {
                 InterviewTypeFilter(remember { mutableIntStateOf(0) })
             }
         }
+    }
+}
+
+@Composable
+fun rememberDirectionalLazyListState(
+    lazyListState: LazyListState,
+): DirectionalLazyListState {
+    return remember {
+        DirectionalLazyListState(lazyListState)
     }
 }
