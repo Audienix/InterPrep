@@ -145,6 +145,10 @@
     </plurals>
     <string name="label_no_interviews_today">You have no interview today.</string>
     <string name="label_join_here">Join Here</string>
+    <string name="remaining_time">Remaining</string>
+    <string name="time_up"> time is up</string>
+    <string name="timer_notification_title"> Timer Notification</string>
+    <string name="timer_notification_content">your interview is scheduled to start now!</string>
 
     <string name="error_no_browser_app">No browser app installed</string>
 
