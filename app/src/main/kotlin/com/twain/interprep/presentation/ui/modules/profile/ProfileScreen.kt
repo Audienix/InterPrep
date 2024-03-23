@@ -252,6 +252,19 @@ fun HandleLanguageClick(
 }
 
 @Composable
+fun HandleNotificationCLick(viewModel: ProfileViewModel = hiltViewModel()) {
+    IPMultipleChoiceAlertDialog(
+        titleRes = R.string.label_setting_theme,
+        cancelButtonRes = R.string.button_cancel,
+        confirmButtonRes = R.string.button_confirm,
+        onCancelClick = { viewModel.setAction(ClickAction.NONE) },
+        onConfirmClick = { viewModel.setAppTheme() },
+        options = viewModel.appThemeOptions,
+        onChoiceSelected = viewModel::onAppThemeSelected,
+        selectedIndex = viewModel.getSelectedAppThemeIndex()
+    )
+}
+@Composable
 fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
     IPMultipleChoiceAlertDialog(
         titleRes = R.string.label_setting_theme,
@@ -267,7 +280,7 @@ fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
 
 @Composable
 fun HandleAppReview(
-    viewModel: ProfileViewModel = hiltViewModel(),  // Assuming you're using a similar ViewModel structure
+    viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     viewModel.setAction(ClickAction.NONE)
 
@@ -275,10 +288,10 @@ fun HandleAppReview(
     LaunchedEffect(Unit) {
         val appPackageName = context.packageName
         val intent = try {
-            // Attempt to open the Google Play app directly
+            //  open the Google Play app directly
             Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName"))
         } catch (e: ActivityNotFoundException) {
-            // Fallback to the web browser if Google Play is not installed
+            // fallback to the web browser if Google Play is not installed
             Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName"))
         }
         context.startActivity(intent)
