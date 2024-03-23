@@ -98,12 +98,12 @@ class ProfileViewModel @Inject constructor(
                 clickAction = ClickAction.APP_THEME
             ),
             //TODO Enable this after beta release
-//            ProfileSettingsData.ProfileSettingsItemData(
-//                imageVector = Icons.Filled.Notifications,
-//                title = R.string.label_setting_notification,
-//                label = preferenceItem.notificationReminder,
-//                clickAction = ClickAction.NOTIFICATION_REMINDER
-//            ),
+            ProfileSettingsData.ProfileSettingsItemData(
+                imageVector = Icons.Filled.Notifications,
+                title = R.string.label_setting_notification,
+                label = preferenceItem.notificationReminder,
+                clickAction = ClickAction.NOTIFICATION_REMINDER
+            ),
             ProfileSettingsData.ProfileSettingsItemData(
                 imageVector = Icons.Filled.Star,
                 title = R.string.label_setting_rating,
@@ -141,4 +141,5 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
 }

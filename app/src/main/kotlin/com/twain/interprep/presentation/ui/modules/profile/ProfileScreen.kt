@@ -202,8 +202,8 @@ fun HandleAction(
         ClickAction.NAME -> HandleNameClick()
         ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick()
         ClickAction.APP_THEME -> HandleThemeCLick()
-        ClickAction.NOTIFICATION_REMINDER -> TODO()
-        ClickAction.RATING_FEEDBACK -> HandleAppReview(navController = navController)
+        ClickAction.NOTIFICATION_REMINDER -> HandleNotificationCLick()
+        ClickAction.RATING_FEEDBACK -> HandleAppReview()
         ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(navController = navController)
     }
 }
@@ -268,15 +268,11 @@ fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
 @Composable
 fun HandleAppReview(
     viewModel: ProfileViewModel = hiltViewModel(),  // Assuming you're using a similar ViewModel structure
-    navController: NavHostController
 ) {
-    // This could be an action in your ViewModel that handles click actions
     viewModel.setAction(ClickAction.NONE)
-
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        // Replace 'your.app.package.name' with your actual application's package name
         val appPackageName = context.packageName
         val intent = try {
             // Attempt to open the Google Play app directly
