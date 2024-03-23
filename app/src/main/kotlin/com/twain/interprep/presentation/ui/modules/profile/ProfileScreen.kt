@@ -1,5 +1,8 @@
 package com.twain.interprep.presentation.ui.modules.profile
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -200,7 +203,7 @@ fun HandleAction(
         ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick()
         ClickAction.APP_THEME -> HandleThemeCLick()
         ClickAction.NOTIFICATION_REMINDER -> TODO()
-        ClickAction.RATING_FEEDBACK -> HandleAppReview()
+        ClickAction.RATING_FEEDBACK -> HandleAppReview(navController = navController)
         ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(navController = navController)
     }
 }
@@ -263,8 +266,27 @@ fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun HandleAppReview() {
-    // IPAppReview()
+fun HandleAppReview(
+    viewModel: ProfileViewModel = hiltViewModel(),  // Assuming you're using a similar ViewModel structure
+    navController: NavHostController
+) {
+    // This could be an action in your ViewModel that handles click actions
+    viewModel.setAction(ClickAction.NONE)
+
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        // Replace 'your.app.package.name' with your actual application's package name
+        val appPackageName = context.packageName
+        val intent = try {
+            // Attempt to open the Google Play app directly
+            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName"))
+        } catch (e: ActivityNotFoundException) {
+            // Fallback to the web browser if Google Play is not installed
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName"))
+        }
+        context.startActivity(intent)
+    }
 }
 
 @Composable

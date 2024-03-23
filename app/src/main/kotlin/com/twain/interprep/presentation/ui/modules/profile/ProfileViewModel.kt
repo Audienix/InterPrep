@@ -2,7 +2,9 @@ package com.twain.interprep.presentation.ui.modules.profile
 
 import android.content.Context
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -102,12 +104,12 @@ class ProfileViewModel @Inject constructor(
 //                label = preferenceItem.notificationReminder,
 //                clickAction = ClickAction.NOTIFICATION_REMINDER
 //            ),
-//            ProfileSettingsData.ProfileSettingsItemData(
-//                imageVector = Icons.Filled.Star,
-//                title = R.string.label_setting_rating,
-//                label = context.resources.getString(R.string.label_setting_rating_description),
-//                clickAction = ClickAction.RATING_FEEDBACK
-//            ),
+            ProfileSettingsData.ProfileSettingsItemData(
+                imageVector = Icons.Filled.Star,
+                title = R.string.label_setting_rating,
+                label = context.resources.getString(R.string.label_setting_rating_description),
+                clickAction = ClickAction.RATING_FEEDBACK
+            ),
             ProfileSettingsData.ProfileSettingsItemData(
                 imageRes = R.drawable.ic_privacy_policy,
                 title = R.string.label_setting_privacy_policy,
