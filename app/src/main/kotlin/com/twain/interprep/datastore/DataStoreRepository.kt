@@ -1,5 +1,6 @@
 package com.twain.interprep.datastore
 
+import android.app.Notification
 import com.twain.interprep.data.ui.ProfileSettingsData
 import kotlinx.coroutines.flow.Flow
 
@@ -14,6 +15,9 @@ interface DataStoreRepository {
 
     suspend fun getAppTheme() : Flow<Int>
     suspend fun setAppTheme(appTheme: Int)
+
+    suspend fun getNotification(): Flow<Int>
+    suspend fun setNotification(notification: Int)
 
     suspend fun setLanguage(language: String, langCode: String)
     suspend fun getLanguage(): Flow<String>

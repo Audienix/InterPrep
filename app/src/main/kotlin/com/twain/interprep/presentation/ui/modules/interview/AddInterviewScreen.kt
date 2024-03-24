@@ -3,6 +3,7 @@ package com.twain.interprep.presentation.ui.modules.interview
 import android.Manifest
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -33,14 +36,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.twain.interprep.R
-import com.twain.interprep.constants.NumberConstants.HOUR_IN_MINUTES
+import com.twain.interprep.constants.NumberConstants
+import com.twain.interprep.constants.NumberConstants.MINUTE_IN_SECONDS
+import com.twain.interprep.constants.StringConstants.NOTIFICATION_KEY_MESSAGE
+import com.twain.interprep.constants.StringConstants.NOTIFICATION_KEY_TITLE
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.getInterviewField
 import com.twain.interprep.data.model.isPast
 import com.twain.interprep.data.model.isValid
 import com.twain.interprep.data.ui.InterviewFormData.interviewFormList
+import com.twain.interprep.notification.NotificationReminderWorker
 import com.twain.interprep.presentation.navigation.AppScreens
 import com.twain.interprep.presentation.ui.components.generic.CheckRuntimePermission
 import com.twain.interprep.presentation.ui.components.generic.DeleteIcon
@@ -50,6 +59,8 @@ import com.twain.interprep.presentation.ui.components.generic.IPHeader
 import com.twain.interprep.presentation.ui.components.generic.IPIcon
 import com.twain.interprep.presentation.ui.components.generic.IPTextInput
 import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
+import com.twain.interprep.utils.DateUtils
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun AddInterviewScreen(
@@ -70,13 +81,17 @@ fun AddInterviewScreen(
             viewModel.getInterviewById(interviewId)
         }
     }
+
+    val notification by viewModel.notification.collectAsState()
+    val notificationTime by viewModel.notificationTime.collectAsState()
     BackHandler {
         handleBackPress(
             context,
             viewModel,
             isEditInterview,
             navController,
-            showBackConfirmationAlert
+            showBackConfirmationAlert,
+            notificationTime
         )
     }
     Scaffold(
@@ -95,7 +110,8 @@ fun AddInterviewScreen(
                             viewModel,
                             isEditInterview,
                             navController,
-                            showBackConfirmationAlert
+                            showBackConfirmationAlert,
+                            notificationTime
                         )
                     }
                 },
@@ -123,32 +139,36 @@ fun AddInterviewScreen(
     )
 }
 
-
-private fun handleBackPress(
+fun handleBackPress(
     context: Context,
     viewModel: InterviewViewModel,
     isEditInterview: Boolean,
     navController: NavHostController,
-    showBackConfirmationDialog: MutableState<Boolean>
+    showBackConfirmationDialog: MutableState<Boolean>,
+    minutes: Int,
 ) {
     val interviewData = viewModel.interviewData
     if (interviewData.isValid()) {
-        //Save the interview details in local database
+        // Save the interview details in local database
         viewModel.onSaveInterview(isEditInterview)
-
         // We should only create notification for future interviews
-        if (!viewModel.interviewData.isPast()) {
+        if (!viewModel.interviewData.isPast() && minutes != 0) {
+            val interviewTag = "interview_${interviewData.interviewId}"
+            WorkManager.getInstance(context).cancelAllWorkByTag(interviewTag)
+            Log.d("WorkManager", "Cancelled work with tag: $interviewTag")
             val notificationWorkRequest = viewModel.createInterviewNotification(
                 title = context.resources.getString(R.string.notification_reminder_title),
                 message = context.resources.getString(
                     R.string.notification_reminder_description,
-                    interviewData.company
+                    interviewData.company,
+                    minutes,
                 ),
-                reminderTimeBefore = HOUR_IN_MINUTES
+                reminderTimeBefore = MINUTE_IN_SECONDS * minutes,
+                tag = interviewTag
             )
             WorkManager.getInstance(context).enqueue(notificationWorkRequest)
+            Log.d("WorkManager", "Enqueued work with tag: $interviewTag")
         }
-
         navController.popBackStack()
     } else {
         showBackConfirmationDialog.value = true

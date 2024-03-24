@@ -153,7 +153,7 @@
     <string name="error_no_browser_app">No browser app installed</string>
 
     <string name="notification_reminder_title">Upcoming Interview</string>
-    <string name="notification_reminder_description">%1$s interview is coming up after 1 hour.</string>
+    <string name="notification_reminder_description">%1$s interview is coming up after %2$d minutes.</string>
 
     <string name="time_morning">Morning</string>
     <string name="time_afternoon">Afternoon</string>

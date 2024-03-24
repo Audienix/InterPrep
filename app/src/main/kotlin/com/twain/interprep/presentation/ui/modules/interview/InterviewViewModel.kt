@@ -1,11 +1,14 @@
 package com.twain.interprep.presentation.ui.modules.interview
 
+import android.app.Application
 import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.twain.interprep.R
 import com.twain.interprep.constants.NumberConstants
@@ -13,6 +16,10 @@ import com.twain.interprep.constants.StringConstants.NOTIFICATION_KEY_MESSAGE
 import com.twain.interprep.constants.StringConstants.NOTIFICATION_KEY_TITLE
 import com.twain.interprep.data.model.Interview
 import com.twain.interprep.data.model.InterviewStatus
+import com.twain.interprep.data.model.ViewResult
+import com.twain.interprep.datastore.usecase.DataStoreUseCase
+import com.twain.interprep.datastore.usecase.SetNotificationUseCase
+import com.twain.interprep.domain.repository.InterviewRepository
 import com.twain.interprep.domain.usecase.interview.InterviewUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.notification.NotificationReminderWorker
@@ -22,12 +29,38 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class InterviewViewModel @Inject constructor(
     contextProvider: CoroutineContextDispatcher,
     private val interviewUseCase: InterviewUseCase,
+    private val dataStoreUseCase: DataStoreUseCase,
+    private val repository: InterviewRepository,
 ) : BaseViewModel(contextProvider) {
+
+    private val _notification = MutableStateFlow<ViewResult<Int>>(ViewResult.UnInitialized)
+    val notification: StateFlow<ViewResult<Int>> = _notification
+
+    private val _notificationTime = MutableStateFlow(0)
+    val notificationTime: StateFlow<Int> = _notificationTime
+
+    init {
+        viewModelScope.launch {
+            dataStoreUseCase.getNotificationUseCase().collect {
+                _notification.value = ViewResult.Loaded(it)
+                // Update notificationTime based on the notification
+                _notificationTime.value = when (it) {
+                    0 -> 15
+                    1 -> 30
+                    2 -> 60
+                    else -> 0
+                }
+            }
+        }
+    }
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
 //        val message = ExceptionHandler.parse(exception)
@@ -137,11 +170,11 @@ class InterviewViewModel @Inject constructor(
         }
     }
 
-
     fun createInterviewNotification(
         title: String,
         message: String,
-        reminderTimeBefore: Int
+        reminderTimeBefore: Int,
+        tag: String
     ): OneTimeWorkRequest {
         val delayInSeconds = DateUtils.calculateTimeDifferenceInSeconds(
             interviewData.date,
@@ -152,17 +185,20 @@ class InterviewViewModel @Inject constructor(
         return createNotificationWorkRequest(
             title = title,
             message = message,
-            timeDelayInSeconds = delayInSeconds
+            timeDelayInSeconds = delayInSeconds,
+            tag = tag
         )
     }
 
     private fun createNotificationWorkRequest(
         title: String,
         message: String,
-        timeDelayInSeconds: Long
+        timeDelayInSeconds: Long,
+        tag: String
     ): OneTimeWorkRequest {
         return OneTimeWorkRequestBuilder<NotificationReminderWorker>()
             .setInitialDelay(timeDelayInSeconds, TimeUnit.SECONDS)
+            .addTag(tag)
             .setInputData(
                 workDataOf(
                     NOTIFICATION_KEY_TITLE to title,
@@ -170,5 +206,32 @@ class InterviewViewModel @Inject constructor(
                 )
             )
             .build()
+    }
+
+    fun updateFutureInterviewsNotification(minutes: Int) {
+        viewModelScope.launch {
+            val futureInterviews = repository.getTodayInterviews()
+            // cancel existing notifications for these interviews
+            futureInterviews.collect { interview ->
+                val tag = "interview_${interviewData.interviewId}"
+//                WorkManager.getInstance(Application.appContext).cancelAllWorkByTag(tag)
+            }
+
+            // reschedule new notifications for these interviews
+            futureInterviews.collect { interview ->
+                val newTag = "interview_${interviewData.interviewId}"
+//                val newNotification = createInterviewNotification(
+//                    title = "Interview Reminder",
+//                    message = context.resources.getString(
+//                        R.string.notification_reminder_description,
+//                        interviewData.company,
+//                        minutes,
+//                    ),
+//                    reminderTimeBefore = NumberConstants.MINUTE_IN_SECONDS * minutes,
+//                    tag = newTag
+//                )
+//                WorkManager.getInstance(Application.appContext).enqueue(newNotification)
+            }
+        }
     }
 }

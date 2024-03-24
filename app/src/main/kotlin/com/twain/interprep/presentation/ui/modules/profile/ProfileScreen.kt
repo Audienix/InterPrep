@@ -60,6 +60,7 @@ fun ProfileScreen(
     LaunchedEffect(Unit) {
         viewModel.setProfileSettings()
         viewModel.getAppThemeOptions(context)
+        viewModel.getNotificationOptions(context)
     }
 
     Scaffold(
@@ -252,19 +253,6 @@ fun HandleLanguageClick(
 }
 
 @Composable
-fun HandleNotificationCLick(viewModel: ProfileViewModel = hiltViewModel()) {
-    IPMultipleChoiceAlertDialog(
-        titleRes = R.string.label_setting_theme,
-        cancelButtonRes = R.string.button_cancel,
-        confirmButtonRes = R.string.button_confirm,
-        onCancelClick = { viewModel.setAction(ClickAction.NONE) },
-        onConfirmClick = { viewModel.setAppTheme() },
-        options = viewModel.appThemeOptions,
-        onChoiceSelected = viewModel::onAppThemeSelected,
-        selectedIndex = viewModel.getSelectedAppThemeIndex()
-    )
-}
-@Composable
 fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
     IPMultipleChoiceAlertDialog(
         titleRes = R.string.label_setting_theme,
@@ -277,18 +265,29 @@ fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
         selectedIndex = viewModel.getSelectedAppThemeIndex()
     )
 }
+@Composable
+fun HandleNotificationCLick(viewModel: ProfileViewModel = hiltViewModel()) {
+    IPMultipleChoiceAlertDialog(
+        titleRes = R.string.label_setting_notification,
+        cancelButtonRes = R.string.button_cancel,
+        confirmButtonRes = R.string.button_confirm,
+        onCancelClick = { viewModel.setAction(ClickAction.NONE) },
+        onConfirmClick = { viewModel.setNotification() },
+        options = viewModel.notificationOptions,
+        onChoiceSelected = viewModel::onNotificationSelected,
+        selectedIndex = viewModel.getSelectedNotificationIndex()
+    )
+}
 
 @Composable
-fun HandleAppReview(
-    viewModel: ProfileViewModel = hiltViewModel(),
-) {
+fun HandleAppReview(viewModel: ProfileViewModel = hiltViewModel()) {
     viewModel.setAction(ClickAction.NONE)
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         val appPackageName = context.packageName
         val intent = try {
-            //  open the Google Play app directly
+            // open the Google Play app directly
             Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName"))
         } catch (e: ActivityNotFoundException) {
             // fallback to the web browser if Google Play is not installed

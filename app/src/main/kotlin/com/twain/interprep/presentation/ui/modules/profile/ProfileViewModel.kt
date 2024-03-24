@@ -15,10 +15,11 @@ import com.twain.interprep.data.ui.ProfileSettingsData.PreferenceItem
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
 import com.twain.interprep.helper.CoroutineContextDispatcher
 import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
+import com.twain.interprep.presentation.ui.modules.interview.InterviewViewModel
+import com.twain.interprep.presentation.ui.modules.interview.handleBackPress
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
-
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -33,6 +34,9 @@ class ProfileViewModel @Inject constructor(
     lateinit var appThemeOptions: List<String>
         private set
 
+    lateinit var notificationOptions: List<String>
+        private set
+
     var action: ClickAction? by mutableStateOf(null)
         private set
 
@@ -44,6 +48,9 @@ class ProfileViewModel @Inject constructor(
         appThemeOptions = context.resources.getStringArray(R.array.theme_option).toList()
     }
 
+    fun getNotificationOptions(context: Context) {
+        notificationOptions = context.resources.getStringArray(R.array.notification_reminder_option).toList()
+    }
     fun setProfileSettings() = launchCoroutineIO {
         dataStoreUseCase.getProfileSettingsUseCase().collect {
             preferenceItem = it
@@ -97,11 +104,10 @@ class ProfileViewModel @Inject constructor(
                 label = getAppThemeLabel(preferenceItem.appTheme),
                 clickAction = ClickAction.APP_THEME
             ),
-            //TODO Enable this after beta release
             ProfileSettingsData.ProfileSettingsItemData(
                 imageVector = Icons.Filled.Notifications,
                 title = R.string.label_setting_notification,
-                label = preferenceItem.notificationReminder,
+                label = getNotificationLabel(preferenceItem.notificationReminder),
                 clickAction = ClickAction.NOTIFICATION_REMINDER
             ),
             ProfileSettingsData.ProfileSettingsItemData(
@@ -118,17 +124,27 @@ class ProfileViewModel @Inject constructor(
             )
         )
 
-    fun getAppThemeLabel(index: Int): String {
+    private fun getAppThemeLabel(index: Int): String {
         if (!this::appThemeOptions.isInitialized) return ""
         return appThemeOptions[index]
     }
 
+    private fun getNotificationLabel(index: Int): String {
+        if (!this::notificationOptions.isInitialized) return ""
+        return notificationOptions[index]
+    }
 
     fun onAppThemeSelected(index: Int) {
         currentPopupValue = appThemeOptions[index]
     }
 
+    fun onNotificationSelected(index: Int) {
+        currentPopupValue = notificationOptions[index]
+    }
+
     fun getSelectedAppThemeIndex() = appThemeOptions.indexOf(currentPopupValue)
+
+    fun getSelectedNotificationIndex() = notificationOptions.indexOf(currentPopupValue)
 
     fun setAppTheme() {
         getSelectedAppThemeIndex().run {
@@ -142,4 +158,15 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun setNotification() {
+        getSelectedNotificationIndex().run {
+            if (this == -1) return
+
+            launchCoroutineIO {
+                dataStoreUseCase.setNotificationUseCase(this@run)
+                action = ClickAction.NONE
+                currentPopupValue = ""
+            }
+        }
+    }
 }

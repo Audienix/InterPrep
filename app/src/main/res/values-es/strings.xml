@@ -154,7 +154,7 @@
     <string name="error_no_browser_app">No browser app installed</string>
 
     <string name="notification_reminder_title">Entrevista Próxima</string>
-    <string name="notification_reminder_description">%1$s La entrevista se llevará a cabo en 1 hora.</string>
+    <string name="notification_reminder_description">%1$s La entrevista se llevará a cabo %2$d minutos.</string>
 
     <string name="time_morning">Días</string>
     <string name="time_afternoon">Tardes</string>
