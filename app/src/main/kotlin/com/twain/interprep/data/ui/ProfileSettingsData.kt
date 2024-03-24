@@ -19,7 +19,7 @@ object ProfileSettingsData {
         val userName: String = "",
         val preferredLanguage: String = "",
         val appTheme: Int = 2,
-        val notificationReminder: String = ""
+        val notificationReminder: Int = 3,
     )
 
     enum class ClickAction {

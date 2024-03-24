@@ -12,8 +12,8 @@ object PreferenceKeys {
     val USER_NAME = stringPreferencesKey("USER_NAME")
     val PREFERRED_LANGUAGE = stringPreferencesKey("PREFERRED_LANGUAGE")
     val PREFERRED_LANGUAGE_CODE = stringPreferencesKey("PREFERRED_LANGUAGE_CODE")
-    val NOTIFICATION_REMINDER = stringPreferencesKey("NOTIFICATION_REMINDER")
 
     // Integer Preference keys
     val APP_THEME = intPreferencesKey("APP_THEME")
+    val NOTIFICATION_REMINDER = intPreferencesKey("NOTIFICATION_REMINDER")
 }

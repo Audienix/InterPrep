@@ -6,5 +6,7 @@ data class DataStoreUseCase(
     val usernameUseCase: UsernameUseCase,
     val languageUseCase: PreferredLanguageUseCase,
     val setAppThemeUseCase: SetAppThemeUseCase,
-    val getAppThemeUseCase: GetAppThemeUseCase
+    val getAppThemeUseCase: GetAppThemeUseCase,
+    val setNotificationUseCase: SetNotificationUseCase,
+    val getNotificationUseCase: GetNotificationUseCase
 )

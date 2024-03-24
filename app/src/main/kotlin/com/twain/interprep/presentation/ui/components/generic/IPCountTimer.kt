@@ -58,9 +58,13 @@ fun countTimer(timeString: String) {
         if (hours < 1) {
             shouldBlink = true
             return String.format("%02dmins" + " %02ds", minutes % 60, seconds % 60)
-        } else {
+        }
+        else if (hours > 1){
             shouldBlink = false
             return String.format("%02dh" + " %02dmins", hours, minutes % 60)
+        }
+        else{
+            return ""
         }
     }
 

@@ -1,5 +1,8 @@
 package com.twain.interprep.presentation.ui.modules.profile
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -57,6 +60,7 @@ fun ProfileScreen(
     LaunchedEffect(Unit) {
         viewModel.setProfileSettings()
         viewModel.getAppThemeOptions(context)
+        viewModel.getNotificationOptions(context)
     }
 
     Scaffold(
@@ -199,7 +203,7 @@ fun HandleAction(
         ClickAction.NAME -> HandleNameClick()
         ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick()
         ClickAction.APP_THEME -> HandleThemeCLick()
-        ClickAction.NOTIFICATION_REMINDER -> TODO()
+        ClickAction.NOTIFICATION_REMINDER -> HandleNotificationCLick()
         ClickAction.RATING_FEEDBACK -> HandleAppReview()
         ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(navController = navController)
     }
@@ -261,10 +265,36 @@ fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
         selectedIndex = viewModel.getSelectedAppThemeIndex()
     )
 }
+@Composable
+fun HandleNotificationCLick(viewModel: ProfileViewModel = hiltViewModel()) {
+    IPMultipleChoiceAlertDialog(
+        titleRes = R.string.label_setting_notification,
+        cancelButtonRes = R.string.button_cancel,
+        confirmButtonRes = R.string.button_confirm,
+        onCancelClick = { viewModel.setAction(ClickAction.NONE) },
+        onConfirmClick = { viewModel.setNotification() },
+        options = viewModel.notificationOptions,
+        onChoiceSelected = viewModel::onNotificationSelected,
+        selectedIndex = viewModel.getSelectedNotificationIndex()
+    )
+}
 
 @Composable
-fun HandleAppReview() {
-    // IPAppReview()
+fun HandleAppReview(viewModel: ProfileViewModel = hiltViewModel()) {
+    viewModel.setAction(ClickAction.NONE)
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        val appPackageName = context.packageName
+        val intent = try {
+            // open the Google Play app directly
+            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName"))
+        } catch (e: ActivityNotFoundException) {
+            // fallback to the web browser if Google Play is not installed
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName"))
+        }
+        context.startActivity(intent)
+    }
 }
 
 @Composable

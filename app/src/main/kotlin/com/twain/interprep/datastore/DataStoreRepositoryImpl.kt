@@ -37,8 +37,7 @@ class DataStoreRepositoryImpl(
                 preferredLanguage = preferences[PreferenceKeys.PREFERRED_LANGUAGE]
                     ?: context.resources.getStringArray(R.array.language_option)[0],
                 appTheme = preferences[PreferenceKeys.APP_THEME] ?: 2,
-                notificationReminder = preferences[PreferenceKeys.NOTIFICATION_REMINDER]
-                    ?: context.resources.getStringArray(R.array.notification_reminder_option)[2]
+                notificationReminder = preferences[PreferenceKeys.NOTIFICATION_REMINDER] ?: 3,
             )
         }
 
@@ -59,6 +58,16 @@ class DataStoreRepositoryImpl(
     override suspend fun setAppTheme(appTheme: Int) {
         dataStore.edit { preferences ->
             preferences[PreferenceKeys.APP_THEME] = appTheme
+        }
+    }
+
+    override suspend fun getNotification(): Flow<Int> = dataStore.data.map {
+        it[PreferenceKeys.NOTIFICATION_REMINDER] ?: 2
+    }
+
+    override suspend fun setNotification(notification: Int) {
+        dataStore.edit { preferences ->
+            preferences[PreferenceKeys.NOTIFICATION_REMINDER] = notification
         }
     }
 
