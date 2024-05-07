@@ -203,7 +203,7 @@ fun HandleAction(
         ClickAction.PREFERRED_LANGUAGE -> HandleLanguageClick()
         ClickAction.APP_THEME -> HandleThemeCLick()
         ClickAction.NOTIFICATION_REMINDER -> TODO()
-        ClickAction.RATING_FEEDBACK -> HandleAppReview(navController = navController)
+        ClickAction.RATING_FEEDBACK -> HandleAppReview()
         ClickAction.PRIVACY_POLICY -> HandlePrivacyPolicyClick(navController = navController)
     }
 }
@@ -267,21 +267,18 @@ fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
 
 @Composable
 fun HandleAppReview(
-    viewModel: ProfileViewModel = hiltViewModel(),  // Assuming you're using a similar ViewModel structure
-    navController: NavHostController
+    viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     viewModel.setAction(ClickAction.NONE)
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        // Replace 'your.app.package.name' with your actual application's package name
-        val appPackageName = context.packageName
         val intent = try {
             // Attempt to open the Google Play app directly
-            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName"))
+            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$context.packageName"))
         } catch (e: ActivityNotFoundException) {
             // Fallback to the web browser if Google Play is not installed
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName"))
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$context.packageName"))
         }
         context.startActivity(intent)
     }
