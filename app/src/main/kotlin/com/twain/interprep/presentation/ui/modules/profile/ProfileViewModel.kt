@@ -3,30 +3,26 @@ package com.twain.interprep.presentation.ui.modules.profile
 import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.twain.interprep.R
 import com.twain.interprep.data.ui.ProfileSettingsData
 import com.twain.interprep.data.ui.ProfileSettingsData.ClickAction
 import com.twain.interprep.data.ui.ProfileSettingsData.PreferenceItem
 import com.twain.interprep.datastore.usecase.DataStoreUseCase
-import com.twain.interprep.helper.CoroutineContextDispatcher
-import com.twain.interprep.presentation.ui.modules.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    contextProvider: CoroutineContextDispatcher,
     private val dataStoreUseCase: DataStoreUseCase
-) : BaseViewModel(contextProvider) {
-
-    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-//        val message = ExceptionHandler.parse(exception)
-    }
+) : ViewModel() {
 
     lateinit var appThemeOptions: List<String>
         private set
@@ -42,7 +38,7 @@ class ProfileViewModel @Inject constructor(
         appThemeOptions = context.resources.getStringArray(R.array.theme_option).toList()
     }
 
-    fun setProfileSettings() = launchCoroutineIO {
+    fun setProfileSettings() = viewModelScope.launch(Dispatchers.IO) {
         dataStoreUseCase.getProfileSettingsUseCase().collect {
             preferenceItem = it
         }
@@ -59,7 +55,7 @@ class ProfileViewModel @Inject constructor(
         )
         action = null
 
-        launchCoroutineIO {
+        viewModelScope.launch(Dispatchers.IO) {
             dataStoreUseCase.usernameUseCase.setUsername(name)
         }
     }
@@ -70,7 +66,7 @@ class ProfileViewModel @Inject constructor(
         )
         action = null
 
-        launchCoroutineIO {
+        viewModelScope.launch(Dispatchers.IO) {
             dataStoreUseCase.languageUseCase.setLanguage(language, langCode)
         }
     }
@@ -102,12 +98,12 @@ class ProfileViewModel @Inject constructor(
 //                label = preferenceItem.notificationReminder,
 //                clickAction = ClickAction.NOTIFICATION_REMINDER
 //            ),
-//            ProfileSettingsData.ProfileSettingsItemData(
-//                imageVector = Icons.Filled.Star,
-//                title = R.string.label_setting_rating,
-//                label = context.resources.getString(R.string.label_setting_rating_description),
-//                clickAction = ClickAction.RATING_FEEDBACK
-//            ),
+            ProfileSettingsData.ProfileSettingsItemData(
+                imageVector = Icons.Filled.Star,
+                title = R.string.label_setting_rating,
+                label = context.resources.getString(R.string.label_setting_rating_description),
+                clickAction = ClickAction.RATING_FEEDBACK
+            ),
             ProfileSettingsData.ProfileSettingsItemData(
                 imageRes = R.drawable.ic_privacy_policy,
                 title = R.string.label_setting_privacy_policy,
@@ -132,7 +128,7 @@ class ProfileViewModel @Inject constructor(
         getSelectedAppThemeIndex().run {
             if (this == -1) return
 
-            launchCoroutineIO {
+            viewModelScope.launch(Dispatchers.IO) {
                 dataStoreUseCase.setAppThemeUseCase(this@run)
                 action = ClickAction.NONE
                 currentPopupValue = ""

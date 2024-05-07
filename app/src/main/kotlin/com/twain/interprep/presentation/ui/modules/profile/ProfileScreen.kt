@@ -1,5 +1,8 @@
 package com.twain.interprep.presentation.ui.modules.profile
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -263,8 +266,22 @@ fun HandleThemeCLick(viewModel: ProfileViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun HandleAppReview() {
-    // IPAppReview()
+fun HandleAppReview(
+    viewModel: ProfileViewModel = hiltViewModel(),
+) {
+    viewModel.setAction(ClickAction.NONE)
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        val intent = try {
+            // Attempt to open the Google Play app directly
+            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$context.packageName"))
+        } catch (e: ActivityNotFoundException) {
+            // Fallback to the web browser if Google Play is not installed
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$context.packageName"))
+        }
+        context.startActivity(intent)
+    }
 }
 
 @Composable
