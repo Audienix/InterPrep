@@ -27,7 +27,7 @@ import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_
 import com.twain.interprep.notification.NotificationHelper
 
 @Composable
-fun countTimer(timeString: String) {
+fun CountTimer(timeString: String) {
     var remainingTime by remember { mutableStateOf("") }
     var shouldBlink by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -88,7 +88,7 @@ fun countTimer(timeString: String) {
 
     if(remainingTime== timeUpMessage && !isNotificationShown){
         isNotificationShown = true
-        showTimeUpNotification(context)
+        ShowTimeUpNotification(context)
     }
 
     if (remainingTime != timeUpMessage) {
@@ -114,8 +114,8 @@ fun countTimer(timeString: String) {
 }
 
 @Composable
-fun showTimeUpNotification(context: Context) {
-    val title = stringResource(id = R.string.timer_notification_title)
+fun ShowTimeUpNotification(context: Context) {
+    val title = stringResource(id = R.string.interview_notification_title)
     val content = stringResource(id = R.string.timer_notification_content)
     NotificationHelper(context).createTimerNotification(
         title,
