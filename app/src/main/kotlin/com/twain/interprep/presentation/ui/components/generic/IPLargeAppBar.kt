@@ -1,6 +1,5 @@
 package com.twain.interprep.presentation.ui.components.generic
 
-import android.Manifest
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -8,10 +7,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,13 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -60,38 +53,6 @@ import com.twain.interprep.presentation.ui.theme.MaterialColorPalette
 import com.twain.interprep.presentation.ui.theme.Shapes
 import com.twain.interprep.utils.DateUtils
 import com.twain.interprep.utils.formatRoundNumAndInterviewType
-
-import androidx.compose.ui.unit.sp
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.concurrent.timerTask
-import androidx.compose.runtime.*
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import java.util.*
-import kotlin.concurrent.timerTask
-
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.compose.animation.core.*
-import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.ui.draw.alpha
-import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY
-import com.twain.interprep.constants.StringConstants.DT_FORMAT_MM_DD_YYYY_HH_MM_A
-import com.twain.interprep.notification.NotificationHelper
 
 @Composable
 fun IPLargeAppBar(
@@ -365,7 +326,7 @@ fun TodayInterviewCard(
                             color = MaterialColorPalette.primaryContainer,
                             style = MaterialTheme.typography.bodyMedium
                         )
-                        countTimer(DateUtils.getDisplayedTime(
+                        CountTimer(DateUtils.getDisplayedTime(
                             LocalContext.current,
                             interview.time
                         ))
